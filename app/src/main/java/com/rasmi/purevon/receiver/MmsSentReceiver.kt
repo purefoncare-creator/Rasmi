@@ -89,6 +89,28 @@ class MmsSentReceiver : BroadcastReceiver() {
                                 }
                             }
                         }
+                        
+                        // MMS_ERROR_RETRY: Temporary failure — keep in OUTBOX for system retry
+                        SmsManager.MMS_ERROR_RETRY -> {
+                            Log.w(TAG, "═══════════════════════════════════════")
+                            Log.w(TAG, "🔄 MMS_ERROR_RETRY — Keeping in OUTBOX")
+                            Log.w(TAG, "Message will be retried by system")
+                            Log.w(TAG, "═══════════════════════════════════════")
+                            // Do NOT mark as FAILED — leave in OUTBOX for automatic retry
+                            // Emit event so UI knows it's still pending
+                            messageUriString?.let { uriStr ->
+                                try {
+                                    EventBus.emit(AppEvent.SmsSent(
+                                        phoneNumber = resolveMmsPhoneNumber(context, messageId) ?: "",
+                                        success = false,
+                                        messageUri = uriStr
+                                    ))
+                                } catch (e: Exception) {
+                                    Log.e(TAG, "Error emitting retry event", e)
+                                }
+                            }
+                        }
+                        
                         else -> {
                             // Log all error code constants for debugging
                             Log.e(TAG, "═══════════════════════════════════════")
@@ -170,7 +192,7 @@ class MmsSentReceiver : BroadcastReceiver() {
                 val typeIndex = cursor.getColumnIndex("type")
                 while (cursor.moveToNext()) {
                     val addrType = cursor.getInt(typeIndex)
-                    if (addrType == 151 || addrType == 137) { // PduHeaders.TO or PduHeaders.BCC/CC
+                    if (addrType == 151 || addrType == 137) { // 151=PduHeaders.TO, 137=PduHeaders.FROM
                         return cursor.getString(addressIndex)
                     }
                 }
