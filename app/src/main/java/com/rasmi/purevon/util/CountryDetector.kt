@@ -9,11 +9,11 @@ import java.util.Locale
 /**
  * Detects the user's country for phone number normalization
  * Uses multiple sources in order of priority:
- * 1. SIM card country
- * 2. Network provider country  
- * 3. Device locale
- * 4. User preference (saved in settings)
- * 5. Default fallback (Saudi Arabia)
+ * 1. User preference (saved in settings)
+ * 2. SIM card country
+ * 3. Network provider country  
+ * 4. Device locale
+ * 5. Generic neutral fallback (no country bias)
  */
 object CountryDetector {
     
@@ -56,7 +56,7 @@ object CountryDetector {
             }
         }
         
-        // 5. Fallback to Saudi Arabia
+        // 5. Fallback to generic neutral rule
         return CountryPhoneRules.getDefault()
     }
     

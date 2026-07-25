@@ -376,9 +376,27 @@ object CountryPhoneRules {
     }
     
     /**
-     * Get default country (Saudi Arabia)
+     * Get default country — returns a generic neutral rule (no country bias).
+     * Used when auto-detection fails and user hasn't set a preference.
      */
     fun getDefault(): CountryPhoneRule {
-        return getByCountryCode("SA")!!
+        return GENERIC_RULE
     }
+
+    /**
+     * Generic neutral country rule — no country bias.
+     * Used as fallback when no country can be detected.
+     * Accepts any number format without country-specific validation.
+     */
+    val GENERIC_RULE = CountryPhoneRule(
+        countryCode = "ZZ",
+        countryName = "Unknown",
+        countryNameAr = "غير معروف",
+        dialCode = "",
+        phoneLength = 0,
+        startsWithZero = false,
+        validPrefixes = emptyList(),
+        exampleNumber = "",
+        flagEmoji = "\uD83C\uDF10" // 🌐
+    )
 }
