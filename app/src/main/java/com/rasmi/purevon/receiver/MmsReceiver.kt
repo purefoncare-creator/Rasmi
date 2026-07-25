@@ -1,5 +1,7 @@
 package com.rasmi.purevon.receiver
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -8,6 +10,7 @@ import android.os.Build
 import android.provider.Telephony
 import android.telephony.SmsManager
 import android.util.Log
+import androidx.core.app.NotificationCompat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -37,6 +40,9 @@ class MmsReceiver : BroadcastReceiver() {
         private const val MESSAGE_TYPE_NOTIFICATION_IND = 0x82
         private const val MESSAGE_TYPE_DELIVERY_IND = 0x86
         private const val MESSAGE_TYPE_READ_ORIG_IND = 0x88
+        
+        private const val CHANNEL_ID_MMS_ERROR = "mms_error_channel"
+        private const val NOTIFICATION_ID_MMS_DOWNLOAD_FAILED = 99001
     }
     
     override fun onReceive(context: Context?, intent: Intent?) {
@@ -133,6 +139,7 @@ class MmsReceiver : BroadcastReceiver() {
             if (pushData == null) {
                 Log.e(TAG, "❌ [DOWNLOAD STEP 1] FAILED: No push data! Both 'data' and 'pdu' extras are null")
                 Log.e(TAG, "   Available extras: ${intent.extras?.keySet()?.joinToString()}")
+                showDownloadFailureNotification(context, "No MMS data received")
                 return
             }
             
@@ -188,6 +195,7 @@ class MmsReceiver : BroadcastReceiver() {
             if (contentLocation.isNullOrBlank()) {
                 Log.e(TAG, "❌ [DOWNLOAD STEP 3] FATAL: Could not extract content-location!")
                 Log.e(TAG, "   MMS cannot be downloaded without content-location URL")
+                showDownloadFailureNotification(context, "Could not process MMS notification")
                 return
             }
             
@@ -209,6 +217,7 @@ class MmsReceiver : BroadcastReceiver() {
                 Log.e(TAG, "   Package: ${context.packageName}")
                 Log.e(TAG, "   Authority: ${context.packageName}.fileprovider")
                 Log.e(TAG, "   File: ${downloadFile.absolutePath}")
+                showDownloadFailureNotification(context, "MMS storage error")
                 return
             }
             Log.w(TAG, "📊 [DOWNLOAD STEP 4] Download URI: $downloadUri")
@@ -282,6 +291,7 @@ class MmsReceiver : BroadcastReceiver() {
             Log.e(TAG, "   Exception type: ${e.javaClass.name}")
             Log.e(TAG, "   Message: ${e.message}")
             Log.e(TAG, "   Cause: ${e.cause}")
+            showDownloadFailureNotification(context, "MMS download error: ${e.message?.take(50) ?: "unknown"}")
         }
     }
     
@@ -318,6 +328,56 @@ class MmsReceiver : BroadcastReceiver() {
         } catch (e: Exception) {
             Log.e(TAG, "Error extracting content-location from raw data", e)
             return null
+        }
+    }
+    
+    /**
+     * Show a notification when MMS download fails, so the user is informed
+     * instead of the message being silently lost.
+     */
+    private fun showDownloadFailureNotification(context: Context, reason: String) {
+        try {
+            val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            
+            // Create channel if needed
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val channel = NotificationChannel(
+                    CHANNEL_ID_MMS_ERROR,
+                    "MMS Errors",
+                    NotificationManager.IMPORTANCE_DEFAULT
+                ).apply {
+                    description = "Notifications for MMS download failures"
+                }
+                notificationManager.createNotificationChannel(channel)
+            }
+            
+            // Tap opens the main conversation list
+            val openAppIntent = context.packageManager.getLaunchIntentForPackage(context.packageName)?.apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+            }
+            val pendingIntent = PendingIntent.getActivity(
+                context,
+                0,
+                openAppIntent,
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            )
+            
+            val notification = NotificationCompat.Builder(context, CHANNEL_ID_MMS_ERROR)
+                .setSmallIcon(android.R.drawable.stat_notify_error)
+                .setContentTitle("MMS Download Failed")
+                .setContentText(reason)
+                .setStyle(NotificationCompat.BigTextStyle().bigText(
+                    "Could not download multimedia message.\n$reason"
+                ))
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .build()
+            
+            notificationManager.notify(NOTIFICATION_ID_MMS_DOWNLOAD_FAILED, notification)
+            Log.w(TAG, "📢 Shown MMS download failure notification: $reason")
+        } catch (e: Exception) {
+            Log.e(TAG, "Error showing MMS download failure notification", e)
         }
     }
 }
