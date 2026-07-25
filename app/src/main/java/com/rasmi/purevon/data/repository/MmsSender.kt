@@ -557,14 +557,17 @@ internal class MmsSender(
                         )
                         if (httpResult.accepted) {
                             attemptDirectSuccess = true
+                            // Mark as SENT — HTTP 200 means MMSC accepted the message.
+                            // Previously ambiguous 200s left the message in OUTBOX forever
+                            // because the direct HTTP path has no MmsSentReceiver callback.
+                            val sentValues = ContentValues().apply {
+                                put(Telephony.Mms.MESSAGE_BOX, Telephony.Mms.MESSAGE_BOX_SENT)
+                            }
+                            context.contentResolver.update(messageUri, sentValues, null, null)
                             if (httpResult.confirmed) {
                                 Log.d(TAG, "✅✅✅ DIRECT HTTP: confirmed by MMSC SendConf ✅✅✅")
-                                val sentValues = ContentValues().apply {
-                                    put(Telephony.Mms.MESSAGE_BOX, Telephony.Mms.MESSAGE_BOX_SENT)
-                                }
-                                context.contentResolver.update(messageUri, sentValues, null, null)
                             } else {
-                                Log.w(TAG, "⚠️ DIRECT HTTP: ambiguous 200 — not marking SENT until confirmed")
+                                Log.w(TAG, "⚠️ DIRECT HTTP: ambiguous 200 — marked SENT (no SendConf)")
                             }
                         }
                     } catch (e: Exception) {
@@ -665,26 +668,32 @@ internal class MmsSender(
                 } catch (e: Exception) {
                     Log.e(TAG, "Error syncing after MMS send", e)
                 }
+
+                // Record successful send in rate table (max 100 MMS/hour)
+                try {
+                    com.rasmi.purevon.util.mms.MmsRateController.recordSend(context)
+                } catch (e: Exception) {
+                    Log.w(TAG, "Failed to record MMS send in rate table", e)
+                }
             } else {
                 Log.d(TAG, "⏭️ Skipping onComplete — send failed, no sync needed")
             }
 
-            // Clean up old temp image files after successful send
+            // Clean up old temp image files
             try {
                 imageCompressor.cleanupTempFiles()
             } catch (e: Exception) {
                 Log.w(TAG, "Temp file cleanup failed", e)
             }
 
-            // Record successful send in rate table (max 100 MMS/hour)
-            try {
-                com.rasmi.purevon.util.mms.MmsRateController.recordSend(context)
-            } catch (e: Exception) {
-                Log.w(TAG, "Failed to record MMS send in rate table", e)
-            }
-
             Log.d(TAG, "══════ MMS SEND COMPLETE ══════ messageId=$messageId")
-            MessageResult.Success(messageId)
+            if (retryResult.isSuccess) {
+                MessageResult.Success(messageId)
+            } else {
+                MessageResult.Failure(
+                    MessageError.MmsError(retryResult.exceptionOrNull()?.message ?: "MMS send failed after retries")
+                )
+            }
         } catch (e: SecurityException) {
             Log.e(TAG, "Permission denied for MMS", e)
             // Mark MMS as FAILED so it doesn't stay in OUTBOX forever
