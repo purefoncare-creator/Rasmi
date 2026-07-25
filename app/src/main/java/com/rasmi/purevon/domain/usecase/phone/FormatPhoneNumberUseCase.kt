@@ -108,16 +108,23 @@ class FormatPhoneNumberUseCase @Inject constructor() {
     
     /**
      * Format as E.164 (standard international format)
-     * Example: 0123456789 -> +201234567890
+     * Example: 0123456789 with defaultCountryCode "20" -> +201234567890
+     * If defaultCountryCode is null, returns raw digits without country code prefix.
      */
-    fun toE164(number: String, defaultCountryCode: String = "20"): String {
+    fun toE164(number: String, defaultCountryCode: String? = null): String {
         val digits = getCleanDigits(number)
         
         return when {
             number.startsWith("+") -> number.filter { it.isDigit() || it == '+' }
             number.startsWith("00") -> "+" + digits.substring(2)
-            number.startsWith("0") -> "+$defaultCountryCode${digits.substring(1)}"
-            else -> "+$defaultCountryCode$digits"
+            number.startsWith("0") -> {
+                val code = defaultCountryCode ?: return digits
+                "+$code${digits.substring(1)}"
+            }
+            else -> {
+                val code = defaultCountryCode ?: return digits
+                "+$code$digits"
+            }
         }
     }
 }
