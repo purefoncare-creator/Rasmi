@@ -324,6 +324,227 @@ object CountryPhoneRules {
             validPrefixes = listOf("1"), // Mobile: 1xx
             exampleNumber = "+8613912345678",
             flagEmoji = "🇨🇳"
+        ),
+        
+        // North America
+        CountryPhoneRule(
+            countryCode = "CA",
+            countryName = "Canada",
+            countryNameAr = "كندا",
+            dialCode = "+1",
+            phoneLength = 10,
+            startsWithZero = false,
+            validPrefixes = listOf("2", "3", "4", "5", "6", "7", "8", "9"),
+            exampleNumber = "+14165551234",
+            flagEmoji = "🇨🇦"
+        ),
+        
+        // Europe
+        CountryPhoneRule(
+            countryCode = "IT",
+            countryName = "Italy",
+            countryNameAr = "إيطاليا",
+            dialCode = "+39",
+            phoneLength = 10,
+            startsWithZero = true,
+            validPrefixes = listOf("3"), // Mobile: 3xx
+            exampleNumber = "+393201234567",
+            flagEmoji = "🇮🇹"
+        ),
+        CountryPhoneRule(
+            countryCode = "ES",
+            countryName = "Spain",
+            countryNameAr = "إسبانيا",
+            dialCode = "+34",
+            phoneLength = 9,
+            startsWithZero = false,
+            validPrefixes = listOf("6", "7"), // Mobile: 6xx, 7xx
+            exampleNumber = "+34612345678",
+            flagEmoji = "🇪🇸"
+        ),
+        CountryPhoneRule(
+            countryCode = "NL",
+            countryName = "Netherlands",
+            countryNameAr = "هولندا",
+            dialCode = "+31",
+            phoneLength = 9,
+            startsWithZero = true,
+            validPrefixes = listOf("6"), // Mobile: 06x
+            exampleNumber = "+31612345678",
+            flagEmoji = "🇳🇱"
+        ),
+        CountryPhoneRule(
+            countryCode = "PL",
+            countryName = "Poland",
+            countryNameAr = "بولندا",
+            dialCode = "+48",
+            phoneLength = 9,
+            startsWithZero = false,
+            validPrefixes = listOf("5", "6", "7", "8"), // Mobile
+            exampleNumber = "+48501234567",
+            flagEmoji = "🇵🇱"
+        ),
+        
+        // Asia
+        CountryPhoneRule(
+            countryCode = "JP",
+            countryName = "Japan",
+            countryNameAr = "اليابان",
+            dialCode = "+81",
+            phoneLength = 10,
+            startsWithZero = true,
+            validPrefixes = listOf("7", "8", "9"), // Mobile: 070, 080, 090
+            exampleNumber = "+819012345678",
+            flagEmoji = "🇯🇵"
+        ),
+        CountryPhoneRule(
+            countryCode = "KR",
+            countryName = "South Korea",
+            countryNameAr = "كوريا الجنوبية",
+            dialCode = "+82",
+            phoneLength = 10,
+            startsWithZero = true,
+            validPrefixes = listOf("1"), // Mobile: 010
+            exampleNumber = "+821012345678",
+            flagEmoji = "🇰🇷"
+        ),
+        CountryPhoneRule(
+            countryCode = "ID",
+            countryName = "Indonesia",
+            countryNameAr = "إندونيسيا",
+            dialCode = "+62",
+            phoneLength = 10,
+            startsWithZero = true,
+            validPrefixes = listOf("8"), // Mobile: 08xx
+            exampleNumber = "+628123456789",
+            flagEmoji = "🇮🇩"
+        ),
+        CountryPhoneRule(
+            countryCode = "TH",
+            countryName = "Thailand",
+            countryNameAr = "تايلاند",
+            dialCode = "+66",
+            phoneLength = 9,
+            startsWithZero = true,
+            validPrefixes = listOf("6", "8", "9"), // Mobile: 06x, 08x, 09x
+            exampleNumber = "+66812345678",
+            flagEmoji = "🇹🇭"
+        ),
+        CountryPhoneRule(
+            countryCode = "VN",
+            countryName = "Vietnam",
+            countryNameAr = "فيتنام",
+            dialCode = "+84",
+            phoneLength = 9,
+            startsWithZero = true,
+            validPrefixes = listOf("3", "5", "7", "8", "9"), // Mobile: 03x-09x
+            exampleNumber = "+84912345678",
+            flagEmoji = "🇻🇳"
+        ),
+        CountryPhoneRule(
+            countryCode = "MY",
+            countryName = "Malaysia",
+            countryNameAr = "ماليزيا",
+            dialCode = "+60",
+            phoneLength = 9,
+            startsWithZero = true,
+            validPrefixes = listOf("1"), // Mobile: 01x
+            exampleNumber = "+60123456789",
+            flagEmoji = "🇲🇾"
+        ),
+        CountryPhoneRule(
+            countryCode = "RU",
+            countryName = "Russia",
+            countryNameAr = "روسيا",
+            dialCode = "+7",
+            phoneLength = 10,
+            startsWithZero = false,
+            validPrefixes = listOf("9"), // Mobile: 9xx
+            exampleNumber = "+79123456789",
+            flagEmoji = "🇷🇺"
+        ),
+        
+        // Oceania
+        CountryPhoneRule(
+            countryCode = "AU",
+            countryName = "Australia",
+            countryNameAr = "أستراليا",
+            dialCode = "+61",
+            phoneLength = 9,
+            startsWithZero = true,
+            validPrefixes = listOf("4", "5"), // Mobile: 04xx, 05xx
+            exampleNumber = "+61412345678",
+            flagEmoji = "🇦🇺"
+        ),
+        CountryPhoneRule(
+            countryCode = "NZ",
+            countryName = "New Zealand",
+            countryNameAr = "نيوزيلندا",
+            dialCode = "+64",
+            phoneLength = 8,
+            startsWithZero = false,
+            validPrefixes = listOf("2"), // Mobile: 2xx
+            exampleNumber = "+6421123456",
+            flagEmoji = "🇳🇿"
+        ),
+        
+        // Latin America
+        CountryPhoneRule(
+            countryCode = "BR",
+            countryName = "Brazil",
+            countryNameAr = "البرازيل",
+            dialCode = "+55",
+            phoneLength = 11,
+            startsWithZero = false,
+            validPrefixes = listOf("1", "2", "3", "4", "5", "6", "7", "8", "9"), // Mobile: 9xxxx
+            exampleNumber = "+5511912345678",
+            flagEmoji = "🇧🇷"
+        ),
+        CountryPhoneRule(
+            countryCode = "MX",
+            countryName = "Mexico",
+            countryNameAr = "المكسيك",
+            dialCode = "+52",
+            phoneLength = 10,
+            startsWithZero = false,
+            validPrefixes = listOf("1", "2", "3", "4", "5", "6", "7", "8", "9"),
+            exampleNumber = "+5215512345678",
+            flagEmoji = "🇲🇽"
+        ),
+        CountryPhoneRule(
+            countryCode = "AR",
+            countryName = "Argentina",
+            countryNameAr = "الأرجنتين",
+            dialCode = "+54",
+            phoneLength = 10,
+            startsWithZero = true,
+            validPrefixes = listOf("1", "2", "3"), // Mobile: 011x, 02xx, 03xx
+            exampleNumber = "+5491112345678",
+            flagEmoji = "🇦🇷"
+        ),
+        
+        // Africa
+        CountryPhoneRule(
+            countryCode = "NG",
+            countryName = "Nigeria",
+            countryNameAr = "نيجيريا",
+            dialCode = "+234",
+            phoneLength = 10,
+            startsWithZero = true,
+            validPrefixes = listOf("7", "8", "9"), // Mobile: 070x, 080x, 090x
+            exampleNumber = "+2348012345678",
+            flagEmoji = "🇳🇬"
+        ),
+        CountryPhoneRule(
+            countryCode = "ZA",
+            countryName = "South Africa",
+            countryNameAr = "جنوب أفريقيا",
+            dialCode = "+27",
+            phoneLength = 9,
+            startsWithZero = false,
+            validPrefixes = listOf("6", "7", "8"), // Mobile: 6xx, 7xx, 8xx
+            exampleNumber = "+27812345678",
+            flagEmoji = "🇿🇦"
         )
     )
     
