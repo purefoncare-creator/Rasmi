@@ -119,7 +119,7 @@ class MmsDownloadedReceiver : BroadcastReceiver() {
             if (!downloadFile.exists() || downloadFile.length() == 0L) {
                 Log.e(TAG, "❌ [HANDLE STEP 1] Downloaded file is EMPTY or MISSING!")
                 Log.w(TAG, "   Falling back to processSystemMms()...")
-                processSystemMms(context)
+                processSystemMms(context, transactionId)
                 return
             }
             
@@ -182,19 +182,19 @@ class MmsDownloadedReceiver : BroadcastReceiver() {
                     } else {
                         Log.e(TAG, "❌ [HANDLE STEP 5] persist() returned NULL!")
                         Log.w(TAG, "   Falling back to processSystemMms()...")
-                        processSystemMms(context)
+                        processSystemMms(context, transactionId)
                     }
                 } else {
                     Log.w(TAG, "⚠️ [HANDLE STEP 4] Not a RetrieveConf, type: ${retrieveConf?.javaClass?.simpleName}")
                     Log.w(TAG, "   Falling back to processSystemMms()...")
-                    processSystemMms(context)
+                    processSystemMms(context, transactionId)
                 }
             } catch (e: Exception) {
                 Log.e(TAG, "❌ [HANDLE] EXCEPTION during parse/persist!", e)
                 Log.e(TAG, "   Type: ${e.javaClass.name}")
                 Log.e(TAG, "   Message: ${e.message}")
                 Log.e(TAG, "   Falling back to processSystemMms()...")
-                processSystemMms(context)
+                processSystemMms(context, transactionId)
             }
             
             // Send acknowledgement (M-Acknowledge.ind) to MMSC
@@ -207,10 +207,32 @@ class MmsDownloadedReceiver : BroadcastReceiver() {
     
     /**
      * Process the latest MMS from system database
-     * Used as fallback when PDU parsing fails (system may have already saved it)
+     * Used as fallback when PDU parsing fails (system may have already saved it).
+     * First tries to match by transactionId (most reliable), then falls back
+     * to recency-based lookup with a wider time window.
      */
-    private suspend fun processSystemMms(context: Context) {
+    private suspend fun processSystemMms(context: Context, transactionId: String = "") {
         try {
+            // Strategy 1: Match by transaction ID if available (most reliable)
+            if (transactionId.isNotBlank()) {
+                context.contentResolver.query(
+                    Telephony.Mms.CONTENT_URI,
+                    arrayOf(Telephony.Mms._ID, Telephony.Mms.DATE),
+                    "${Telephony.Mms.TRANSACTION_ID} = ?",
+                    arrayOf(transactionId),
+                    "${Telephony.Mms.DATE} DESC LIMIT 1"
+                )?.use { cursor ->
+                    if (cursor.moveToFirst()) {
+                        val messageId = cursor.getLong(cursor.getColumnIndexOrThrow(Telephony.Mms._ID))
+                        Log.w(TAG, "Found MMS by transaction ID: ID=$messageId, tr_id=$transactionId")
+                        notifyNewMms(context, messageId)
+                        return
+                    }
+                }
+            }
+            
+            // Strategy 2: Fall back to most recent MMS within last 5 minutes
+            // (widened from 2 min to handle slow network delivery)
             context.contentResolver.query(
                 Telephony.Mms.CONTENT_URI,
                 arrayOf(Telephony.Mms._ID, Telephony.Mms.DATE),
@@ -222,11 +244,15 @@ class MmsDownloadedReceiver : BroadcastReceiver() {
                     val messageId = cursor.getLong(cursor.getColumnIndexOrThrow(Telephony.Mms._ID))
                     val date = cursor.getLong(cursor.getColumnIndexOrThrow(Telephony.Mms.DATE))
                     
-                    // Only process if it's recent (within last 2 minutes)
                     val now = System.currentTimeMillis() / 1000
-                    if (now - date < 120) {
-                        Log.w(TAG, "Found recent MMS in system DB: ID=$messageId")
+                    if (now - date < 300) {
+                        Log.w(TAG, "Found recent MMS in system DB: ID=$messageId (${now - date}s ago)")
+                        if (transactionId.isNotBlank()) {
+                            Log.w(TAG, "⚠️ Could not match by transaction ID=$transactionId — using recency fallback")
+                        }
                         notifyNewMms(context, messageId)
+                    } else {
+                        Log.w(TAG, "No recent MMS found (oldest is ${now - date}s ago)")
                     }
                 }
             }
