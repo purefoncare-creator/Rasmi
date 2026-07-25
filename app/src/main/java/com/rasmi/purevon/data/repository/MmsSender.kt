@@ -543,146 +543,137 @@ internal class MmsSender(
             Log.d(TAG, "═══════════════════════════════════════")
 
             // ========================================
-            // STRATEGY 1: Direct HTTP POST to MMSC
-            // Attempted only on MIUI/custom ROMs where the system MMS service is unreliable.
-            // On stock Android (AOSP, Samsung, Pixel) the system path (Strategy 2) is
-            // preferred — it uses the carrier's own APN routing and avoids cleartext issues.
+            // SEND WITH EXPONENTIAL BACKOFF RETRY
+            // Strategy 1 (Direct HTTP) → Strategy 2 (System) → retry with backoff
             // ========================================
             setSendInProgress(true)
             var directSendSuccess = false
             val preferDirectHttp = isLikelyCustomRom()
             Log.d(TAG, "🔍 ROM check: preferDirectHttp=$preferDirectHttp (manufacturer=${android.os.Build.MANUFACTURER})")
-            if (!mmscUrl.isNullOrBlank() && preferDirectHttp) {
-                try {
-                    Log.d(TAG, "🚀 STRATEGY 1: Direct HTTP POST to MMSC: $mmscUrl")
-                    val httpResult = sendMmsViaDirectHttp(
-                        pduBytes = pduBytes,
-                        mmscUrl = mmscUrl,
-                        proxy = apnSettings?.proxy,
-                        port = apnSettings?.port?.toIntOrNull() ?: 80,
-                        messageUri = messageUri,
-                        subscriptionId = subscriptionId
-                    )
-                    if (httpResult.accepted) {
-                        directSendSuccess = true
-                        if (httpResult.confirmed) {
-                            // MMSC returned a valid SendConf with RESPONSE_STATUS_OK → safe to mark SENT
-                            Log.d(TAG, "✅✅✅ DIRECT HTTP: confirmed by MMSC SendConf ✅✅✅")
-                            val sentValues = ContentValues().apply {
-                                put(Telephony.Mms.MESSAGE_BOX, Telephony.Mms.MESSAGE_BOX_SENT)
-                            }
-                            context.contentResolver.update(messageUri, sentValues, null, null)
-                        } else {
-                            // HTTP 200 but no PDU confirmation — message likely accepted but not verified.
-                            // Keep msg_box as OUTBOX; MmsSentReceiver or ContentObserver will update it.
-                            Log.w(TAG, "⚠️ DIRECT HTTP: ambiguous 200 — not marking SENT until confirmed")
-                        }
-                    }
-                } catch (e: Exception) {
-                    Log.e(TAG, "⚠️ Direct HTTP POST failed: ${e.message}", e)
+
+            // Wrap entire send logic in exponential backoff retry scheduler
+            val operationKey = "mms-send-${messageId}"
+            val retryResult = com.rasmi.purevon.util.mms.MmsRetryScheduler.executeWithRetry(
+                operationKey = operationKey,
+                isRetryable = { e ->
+                    // Retry on network/IO errors, but not on permission or invalid number errors
+                    e !is SecurityException &&
+                    !e.message.orEmpty().contains("permission", ignoreCase = true) &&
+                    !e.message.orEmpty().contains("invalid", ignoreCase = true)
                 }
+            ) {
+                // Reset for each attempt
+                var attemptDirectSuccess = false
+
+                // STRATEGY 1: Direct HTTP POST to MMSC (custom ROMs only)
+                if (!mmscUrl.isNullOrBlank() && preferDirectHttp) {
+                    try {
+                        Log.d(TAG, "🚀 STRATEGY 1: Direct HTTP POST to MMSC: $mmscUrl")
+                        val httpResult = sendMmsViaDirectHttp(
+                            pduBytes = pduBytes,
+                            mmscUrl = mmscUrl,
+                            proxy = apnSettings?.proxy,
+                            port = apnSettings?.port?.toIntOrNull() ?: 80,
+                            messageUri = messageUri,
+                            subscriptionId = subscriptionId
+                        )
+                        if (httpResult.accepted) {
+                            attemptDirectSuccess = true
+                            if (httpResult.confirmed) {
+                                Log.d(TAG, "✅✅✅ DIRECT HTTP: confirmed by MMSC SendConf ✅✅✅")
+                                val sentValues = ContentValues().apply {
+                                    put(Telephony.Mms.MESSAGE_BOX, Telephony.Mms.MESSAGE_BOX_SENT)
+                                }
+                                context.contentResolver.update(messageUri, sentValues, null, null)
+                            } else {
+                                Log.w(TAG, "⚠️ DIRECT HTTP: ambiguous 200 — not marking SENT until confirmed")
+                            }
+                        }
+                    } catch (e: Exception) {
+                        Log.e(TAG, "⚠️ Direct HTTP POST failed: ${e.message}", e)
+                        if (!isRetryableException(e)) throw e // Re-throw non-retryable
+                    }
+                }
+
+                // STRATEGY 2: System SmsManager (fallback)
+                if (!attemptDirectSuccess) {
+                    Log.d(TAG, "🔄 STRATEGY 2: System sendMultimediaMessage() fallback...")
+                    val sendFile = java.io.File(context.cacheDir, "send.${System.currentTimeMillis()}.dat")
+                    try {
+                        java.io.FileOutputStream(sendFile).use { it.write(pduBytes) }
+
+                        val fileUri = androidx.core.content.FileProvider.getUriForFile(
+                            context, "${context.packageName}.fileprovider", sendFile
+                        )
+
+                        try {
+                            context.grantUriPermission(
+                                "com.android.mms.service", fileUri,
+                                Intent.FLAG_GRANT_READ_URI_PERMISSION
+                            )
+                            Log.d(TAG, "✅ URI permission granted to com.android.mms.service")
+                        } catch (e: Exception) {
+                            Log.d(TAG, "⚠️ URI permission grant failed (non-fatal): ${e.message}")
+                        }
+
+                        val sentIntent = PendingIntent.getBroadcast(
+                            context,
+                            (messageId and 0x7FFF_FFFFL).toInt(),
+                            Intent(context, com.rasmi.purevon.receiver.MmsSentReceiver::class.java).apply {
+                                putExtra("message_id", messageId)
+                                putExtra("message_uri", messageUri.toString())
+                                putExtra("file_path", sendFile.absolutePath)
+                            },
+                            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+                        )
+
+                        val validSubForSms = subscriptionId.takeIf { it > 0 && it != SubscriptionManager.INVALID_SUBSCRIPTION_ID }
+                        val smsManager = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+                            if (validSubForSms != null) context.getSystemService(SmsManager::class.java).createForSubscriptionId(validSubForSms)
+                            else context.getSystemService(SmsManager::class.java)
+                        } else if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP_MR1 && validSubForSms != null) {
+                            @Suppress("DEPRECATION")
+                            SmsManager.getSmsManagerForSubscriptionId(subscriptionId)
+                        } else {
+                            @Suppress("DEPRECATION")
+                            SmsManager.getDefault()
+                        }
+
+                        Log.d(TAG, "📤 Calling sendMultimediaMessage() with system-default MMSC...")
+                        smsManager.sendMultimediaMessage(
+                            context,
+                            fileUri,
+                            null,
+                            null,
+                            sentIntent
+                        )
+                        Log.d(TAG, "✅ MMS handed to system for sending")
+                        attemptDirectSuccess = true
+                    } catch (e: Exception) {
+                        Log.e(TAG, "❌ sendMultimediaMessage failed: ${e.message}", e)
+                        sendFile.delete()
+                        if (!isRetryableException(e)) throw e // Re-throw non-retryable
+                        throw e // Re-throw for retry scheduler
+                    }
+                }
+
+                if (!attemptDirectSuccess) {
+                    throw Exception("All send strategies failed — will retry with backoff")
+                }
+
+                attemptDirectSuccess
             }
 
-            // ========================================
-            // STRATEGY 2: System SmsManager (fallback)
-            // ========================================
-            if (!directSendSuccess) {
-                Log.d(TAG, "🔄 STRATEGY 2: System sendMultimediaMessage() fallback...")
-                val sendFile = java.io.File(context.cacheDir, "send.${System.currentTimeMillis()}.dat")
-                try {
-                    java.io.FileOutputStream(sendFile).use { it.write(pduBytes) }
-
-                    val fileUri = androidx.core.content.FileProvider.getUriForFile(
-                        context, "${context.packageName}.fileprovider", sendFile
-                    )
-
-                    // ✅ FIX: Grant URI permission to system MMS service explicitly
-                    try {
-                        context.grantUriPermission(
-                            "com.android.mms.service", fileUri,
-                            Intent.FLAG_GRANT_READ_URI_PERMISSION
-                        )
-                        Log.d(TAG, "✅ URI permission granted to com.android.mms.service")
-                    } catch (e: Exception) {
-                        Log.d(TAG, "⚠️ URI permission grant failed (non-fatal): ${e.message}")
-                    }
-
-                    val sentIntent = PendingIntent.getBroadcast(
-                        context,
-                        (messageId and 0x7FFF_FFFFL).toInt(),
-                        Intent(context, com.rasmi.purevon.receiver.MmsSentReceiver::class.java).apply {
-                            putExtra("message_id", messageId)
-                            putExtra("message_uri", messageUri.toString())
-                            putExtra("file_path", sendFile.absolutePath)
-                        },
-                        PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-                    )
-
-                    val validSubForSms = subscriptionId.takeIf { it > 0 && it != SubscriptionManager.INVALID_SUBSCRIPTION_ID }
-                    val smsManager = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
-                        if (validSubForSms != null) context.getSystemService(SmsManager::class.java).createForSubscriptionId(validSubForSms)
-                        else context.getSystemService(SmsManager::class.java)
-                    } else if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP_MR1 && validSubForSms != null) {
-                        @Suppress("DEPRECATION")
-                        SmsManager.getSmsManagerForSubscriptionId(subscriptionId)
-                    } else {
-                        @Suppress("DEPRECATION")
-                        SmsManager.getDefault()
-                    }
-
-                    // ✅ FIX: Pass null for MMSC URL — let the system use its own APN settings
-                    // Passing a custom URL can cause issues on MIUI/Samsung devices
-                    Log.d(TAG, "📤 Calling sendMultimediaMessage() with system-default MMSC...")
-                    smsManager.sendMultimediaMessage(
-                        context,
-                        fileUri,
-                        null, // Let system resolve MMSC from carrier config
-                        null, // Let system use default config
-                        sentIntent
-                    )
-                    Log.d(TAG, "✅ MMS handed to system for sending")
-                } catch (e: Exception) {
-                    Log.e(TAG, "❌ sendMultimediaMessage also failed: ${e.message}", e)
-                    sendFile.delete()
-
-                    // Retry direct HTTP once before giving up
-                    if (!mmscUrl.isNullOrBlank()) {
-                        try {
-                            Log.w(TAG, "🔄 Retrying direct HTTP POST after 3s...")
-                            delay(3000)
-                            val retryResult = sendMmsViaDirectHttp(
-                                pduBytes, mmscUrl, apnSettings?.proxy,
-                                apnSettings?.port?.toIntOrNull() ?: 80,
-                                messageUri, subscriptionId
-                            )
-                            if (retryResult.accepted) {
-                                directSendSuccess = true
-                                Log.d(TAG, "✅ Direct HTTP retry accepted (confirmed=${retryResult.confirmed})")
-                                if (retryResult.confirmed) {
-                                    val sentValues = ContentValues().apply {
-                                        put(Telephony.Mms.MESSAGE_BOX, Telephony.Mms.MESSAGE_BOX_SENT)
-                                    }
-                                    context.contentResolver.update(messageUri, sentValues, null, null)
-                                }
-                            }
-                        } catch (retryEx: Exception) {
-                            Log.e(TAG, "❌ Direct HTTP retry also failed", retryEx)
-                        }
-                    }
-
-                    if (!directSendSuccess) {
-                        // Mark as FAILED only after all retries exhausted
-                        val failValues = ContentValues().apply {
-                            put(Telephony.Mms.MESSAGE_BOX, Telephony.Mms.MESSAGE_BOX_FAILED)
-                        }
-                        context.contentResolver.update(messageUri, failValues, null, null)
-                    }
-                } finally {
-                    // Ensure temp file is cleaned up even if MmsSentReceiver never fires
-                    if (sendFile.exists()) {
-                        sendFile.delete()
-                    }
+            // Handle final result after all retries
+            if (retryResult.isFailure) {
+                directSendSuccess = false
+                Log.e(TAG, "❌ MMS send failed after all retry attempts: ${retryResult.exceptionOrNull()?.message}")
+                val failValues = ContentValues().apply {
+                    put(Telephony.Mms.MESSAGE_BOX, Telephony.Mms.MESSAGE_BOX_FAILED)
                 }
+                context.contentResolver.update(messageUri, failValues, null, null)
+            } else {
+                directSendSuccess = retryResult.getOrDefault(false)
             }
 
             // ✅ FIXED: Removed orphan CoroutineScope for mobile data restore
@@ -752,6 +743,21 @@ internal class MmsSender(
         companion object {
             val REJECTED = DirectHttpResult(accepted = false, confirmed = false)
         }
+    }
+
+    /**
+     * Determines if an exception is retryable (network/IO issues) vs permanent (permission/invalid).
+     * Used by [MmsRetryScheduler] to decide whether to attempt another retry.
+     */
+    private fun isRetryableException(e: Exception): Boolean {
+        val msg = e.message?.lowercase() ?: return true
+        // Non-retryable: permission, invalid number, security
+        if (e is SecurityException) return false
+        if (msg.contains("permission")) return false
+        if (msg.contains("invalid number")) return false
+        if (msg.contains("invalid subscription")) return false
+        // Retryable: network, IO, connection, timeout
+        return true
     }
 
     /**
