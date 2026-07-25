@@ -98,6 +98,17 @@ internal class MmsSender(
             return MessageResult.Failure(networkCheck.errorOrNull() ?: MessageError.NetworkError("No network connection"))
         }
 
+        // Check MMS rate limit (max 100 MMS per hour, tracked in system Rate table)
+        val rateLimitInfo = com.rasmi.purevon.util.mms.MmsRateController.checkRateLimit(context)
+        if (rateLimitInfo != null) {
+            return MessageResult.Failure(
+                MessageError.RateLimitError(
+                    retryAfterSeconds = 60,
+                    message = "${rateLimitInfo.messagesSent}/${rateLimitInfo.limit} MMS sent in last ${rateLimitInfo.windowMinutes} minutes"
+                )
+            )
+        }
+
         return withContext(Dispatchers.IO) { var messageUri: Uri? = null; try {
             val threadId = getOrCreateThreadId(phoneNumber)
 
@@ -690,6 +701,13 @@ internal class MmsSender(
                 imageCompressor.cleanupTempFiles()
             } catch (e: Exception) {
                 Log.w(TAG, "Temp file cleanup failed", e)
+            }
+
+            // Record successful send in rate table (max 100 MMS/hour)
+            try {
+                com.rasmi.purevon.util.mms.MmsRateController.recordSend(context)
+            } catch (e: Exception) {
+                Log.w(TAG, "Failed to record MMS send in rate table", e)
             }
 
             Log.d(TAG, "══════ MMS SEND COMPLETE ══════ messageId=$messageId")
