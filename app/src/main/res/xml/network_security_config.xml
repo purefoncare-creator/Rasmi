@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Network security configuration for Purevon.
+    Cleartext (HTTP) is allowed ONLY for MMS/MMSC traffic.
+    All other traffic must use HTTPS.
+-->
+<network-security-config>
+    <!-- Default: block cleartext traffic -->
+    <base-config cleartextTrafficPermitted="false">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+
+    <!--
+        Allow cleartext (HTTP) for MMS/MMSC traffic only.
+        MMS protocol requires plain HTTP — carriers worldwide use non-TLS MMSC endpoints.
+        IP-based MMSCs (private carrier IPs) are handled by the system MMS service path
+        and do not appear here; only named hosts are listed.
+    -->
+    <domain-config cleartextTrafficPermitted="true">
+
+        <!-- ── Gulf / MENA ── -->
+        <!-- Saudi Arabia -->
+        <domain includeSubdomains="true">mms.net.sa</domain>
+        <domain includeSubdomains="true">mms.mobily.com.sa</domain>
+        <domain includeSubdomains="true">mms.stc.com.sa</domain>
+        <domain includeSubdomains="true">mms.zain.com.sa</domain>
+        <domain includeSubdomains="true">mms.virginmobile.sa</domain>
+        <!-- UAE -->
+        <domain includeSubdomains="true">mms.du.ae</domain>
+        <domain includeSubdomains="true">mms.etisalat.ae</domain>
+        <!-- Kuwait -->
+        <domain includeSubdomains="true">mms.zain.com</domain>
+        <domain includeSubdomains="true">mms.ooredoo.com.kw</domain>
+        <domain includeSubdomains="true">mms.stc.com.kw</domain>
+        <!-- Qatar -->
+        <domain includeSubdomains="true">mms.ooredoo.qa</domain>
+        <domain includeSubdomains="true">mms.vodafone.qa</domain>
+        <!-- Bahrain -->
+        <domain includeSubdomains="true">mms.batelco.com</domain>
+        <domain includeSubdomains="true">mmsc.zain.bh</domain>
+        <!-- Oman -->
+        <domain includeSubdomains="true">mms.omantel.om</domain>
+        <!-- Jordan -->
+        <domain includeSubdomains="true">mmsc.zain.jo</domain>
+        <domain includeSubdomains="true">mms.orange.jo</domain>
+        <!-- Egypt -->
+        <domain includeSubdomains="true">mms.orange.eg</domain>
+        <domain includeSubdomains="true">mms.vodafone.com.eg</domain>
+        <domain includeSubdomains="true">mms.etisalat.com.eg</domain>
+        <domain includeSubdomains="true">mms.etisalat.eg</domain>
+        <domain includeSubdomains="true">mms.we.eg</domain>
+
+        <!-- ── United States ── -->
+        <domain includeSubdomains="true">mmsc.mobile.att.net</domain>
+        <domain includeSubdomains="true">mmsc.cingular.com</domain>
+        <domain includeSubdomains="true">mmsc.vtext.com</domain>
+        <domain includeSubdomains="true">mms.vzwpix.com</domain>
+        <domain includeSubdomains="true">mmsc.t-mobile.com</domain>
+        <domain includeSubdomains="true">mms.msg.eng.t-mobile.com</domain>
+        <domain includeSubdomains="true">mmsc.tracfone.com</domain>
+        <domain includeSubdomains="true">mms.cricketwireless.net</domain>
+        <domain includeSubdomains="true">mmsc.boostmobile.com</domain>
+        <domain includeSubdomains="true">mms.uscc.net</domain>
+        <domain includeSubdomains="true">mmsc.ntelos.net</domain>
+
+        <!-- ── United Kingdom ── -->
+        <domain includeSubdomains="true">mms.vodafone.co.uk</domain>
+        <domain includeSubdomains="true">mms.o2.co.uk</domain>
+        <domain includeSubdomains="true">mms.ee.co.uk</domain>
+        <domain includeSubdomains="true">mms.three.co.uk</domain>
+        <domain includeSubdomains="true">mms.bt.com</domain>
+        <domain includeSubdomains="true">mms.virgin.net</domain>
+
+        <!-- ── Europe ── -->
+        <!-- Germany -->
+        <domain includeSubdomains="true">mms.t-mobile.de</domain>
+        <domain includeSubdomains="true">mms.vodafone.de</domain>
+        <domain includeSubdomains="true">mms.eplus.de</domain>
+        <domain includeSubdomains="true">mms.o2online.de</domain>
+        <!-- France -->
+        <domain includeSubdomains="true">mmsmvno.sfr.fr</domain>
+        <domain includeSubdomains="true">mms.orange.fr</domain>
+        <domain includeSubdomains="true">mmss.bouyguestelecom.fr</domain>
+        <domain includeSubdomains="true">mmsc.free.fr</domain>
+        <!-- Netherlands -->
+        <domain includeSubdomains="true">mms.t-mobile.nl</domain>
+        <domain includeSubdomains="true">mms.kpn.com</domain>
+        <!-- Spain -->
+        <domain includeSubdomains="true">mms.movistar.es</domain>
+        <domain includeSubdomains="true">mms.vodafone.es</domain>
+        <domain includeSubdomains="true">mms.orange.es</domain>
+        <!-- Italy -->
+        <domain includeSubdomains="true">mms.wind.it</domain>
+        <domain includeSubdomains="true">mms.vodafone.it</domain>
+        <domain includeSubdomains="true">mms.tim.it</domain>
+        <!-- Turkey -->
+        <domain includeSubdomains="true">mms.turkcell.com.tr</domain>
+        <domain includeSubdomains="true">mms.vodafone.com.tr</domain>
+        <domain includeSubdomains="true">mms.avea.com.tr</domain>
+        <!-- Poland -->
+        <domain includeSubdomains="true">mms.t-mobile.pl</domain>
+        <domain includeSubdomains="true">mms.orange.pl</domain>
+        <!-- Sweden / Nordic -->
+        <domain includeSubdomains="true">mms.tele2.se</domain>
+        <domain includeSubdomains="true">mms.telenor.se</domain>
+        <domain includeSubdomains="true">mms.telia.se</domain>
+        <!-- Russia -->
+        <domain includeSubdomains="true">mms.mts.ru</domain>
+        <domain includeSubdomains="true">mms.megafon.ru</domain>
+        <domain includeSubdomains="true">mms.beeline.ru</domain>
+
+        <!-- ── Asia-Pacific ── -->
+        <!-- India -->
+        <domain includeSubdomains="true">mmsc.airtel.in</domain>
+        <domain includeSubdomains="true">mms.jio.com</domain>
+        <domain includeSubdomains="true">mmsc.vodafone.in</domain>
+        <domain includeSubdomains="true">mmsc.idea.net.in</domain>
+        <domain includeSubdomains="true">mmsc.bsnl.co.in</domain>
+        <!-- China -->
+        <domain includeSubdomains="true">mmsc.monternet.com</domain>
+        <domain includeSubdomains="true">mmsc.myuni.com.cn</domain>
+        <domain includeSubdomains="true">mmsc.chinatelecom.cn</domain>
+        <!-- Japan -->
+        <domain includeSubdomains="true">mms.softbank.ne.jp</domain>
+        <domain includeSubdomains="true">mms.au.kddi.com</domain>
+        <!-- South Korea -->
+        <domain includeSubdomains="true">mms.skt.com</domain>
+        <domain includeSubdomains="true">mms.lguplus.co.kr</domain>
+        <!-- Indonesia -->
+        <domain includeSubdomains="true">mms.telkomsel.com</domain>
+        <domain includeSubdomains="true">mms.xl.co.id</domain>
+        <!-- Pakistan -->
+        <domain includeSubdomains="true">mms.jazz.com.pk</domain>
+        <domain includeSubdomains="true">mms.telenor.com.pk</domain>
+        <!-- Malaysia -->
+        <domain includeSubdomains="true">mms.maxis.com.my</domain>
+        <domain includeSubdomains="true">mms.celcom.com.my</domain>
+        <!-- Australia -->
+        <domain includeSubdomains="true">mmsc.telstra.com</domain>
+        <domain includeSubdomains="true">mmsc.optus.com.au</domain>
+
+        <!-- ── Africa ── -->
+        <domain includeSubdomains="true">mms.mtn.com</domain>
+        <domain includeSubdomains="true">mms.vodacom.co.za</domain>
+        <domain includeSubdomains="true">mms.safaricom.co.ke</domain>
+        <domain includeSubdomains="true">mms.airtel.com</domain>
+
+        <!-- ── Latin America ── -->
+        <domain includeSubdomains="true">mms.claro.com.br</domain>
+        <domain includeSubdomains="true">mms.tim.com.br</domain>
+        <domain includeSubdomains="true">mms.claro.com.mx</domain>
+        <domain includeSubdomains="true">mms.telcel.com</domain>
+        <domain includeSubdomains="true">mms.movistar.com</domain>
+
+        <!-- ── Generic wildcard patterns covering many carriers ── -->
+        <!-- Most carriers use "mmsc" or "mms" as a subdomain or hostname prefix -->
+        <domain includeSubdomains="true">mmsc</domain>
+        <domain includeSubdomains="true">mms</domain>
+    </domain-config>
+</network-security-config>

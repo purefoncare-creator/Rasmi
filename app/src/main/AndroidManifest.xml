@@ -1,0 +1,496 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Phone and Call Permissions -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_CALL_LOG" />
+    <uses-permission android:name="android.permission.WRITE_CALL_LOG" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.ANSWER_PHONE_CALLS" />
+    <uses-permission android:name="android.permission.READ_PHONE_NUMBERS" />
+    <uses-permission android:name="android.permission.BIND_TELECOM_CONNECTION_SERVICE"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.MANAGE_OWN_CALLS" />
+    <uses-permission android:name="android.permission.CONTROL_INCALL_EXPERIENCE"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    
+    <!-- Contacts Permissions -->
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+    
+    <!-- SMS/MMS Permissions -->
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.WRITE_SMS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_MMS" />
+    <uses-permission android:name="android.permission.RECEIVE_WAP_PUSH" />
+    <uses-permission android:name="android.permission.BROADCAST_SMS" />
+    <uses-permission android:name="android.permission.BROADCAST_WAP_PUSH" />
+    
+    <!-- Internet for sync and updates -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    
+
+    
+    <!-- Notifications -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_PHONE_CALL" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SHORT_SERVICE" />
+    
+    <!-- ✅ Exact Alarms for notifications and reminders (API 33+) -->
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+    
+    <!-- Vibration for feedback -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+    
+    <!-- Location Permissions -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    
+    <!-- Audio Recording -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <!-- Camera -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    
+    <!-- WorkManager for background tasks -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <!-- Display over other apps (required for incoming call screen) -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    
+    <!-- Request ignore battery optimizations -->
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+
+    <!-- Optional hardware — core app is dialer + SMS; camera/mic/location are feature-driven -->
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+    <uses-feature android:name="android.hardware.microphone" android:required="false" />
+    <uses-feature android:name="android.hardware.location" android:required="false" />
+
+    <!-- Package Visibility for WhatsApp and Telegram (Android 11+) -->
+    <queries>
+        <!-- WhatsApp -->
+        <package android:name="com.whatsapp" />
+        <package android:name="com.whatsapp.w4b" />
+        
+        <!-- Telegram -->
+        <package android:name="org.telegram.messenger" />
+        <package android:name="org.thunderdog.challegram" />
+    </queries>
+
+    <!-- MMS cleartext allowed only for MMSC domains via network_security_config -->
+    <application
+        android:name=".PurevonApp"
+        android:allowBackup="false"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:localeConfig="@xml/locales_config"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Purevon"
+        tools:targetApi="31">
+        
+        <!-- ✅ FileProvider for voice recordings & sharing (single unified provider) -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+        
+        <!-- Main Activity -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Purevon"
+            android:windowSoftInputMode="adjustNothing">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            
+            <!-- Default Dialer Intents -->
+            <intent-filter>
+                <action android:name="android.intent.action.DIAL" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            
+            <intent-filter>
+                <action android:name="android.intent.action.DIAL" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="tel" />
+            </intent-filter>
+            
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="tel" />
+            </intent-filter>
+            
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/x-vcard" />
+                <data android:mimeType="text/vcard" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.CALL_BUTTON" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            
+            <!-- Default SMS Intents -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.SENDTO" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="sms" />
+            </intent-filter>
+            
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.SENDTO" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="smsto" />
+            </intent-filter>
+            
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.SENDTO" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="mms" />
+            </intent-filter>
+            
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.SENDTO" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="mmsto" />
+            </intent-filter>
+            
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+            
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="image/*" />
+            </intent-filter>
+            
+            <intent-filter>
+                <action android:name="android.intent.action.SEND_MULTIPLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="image/*" />
+            </intent-filter>
+        </activity>
+        
+        <!-- InCall Activity - Will be shown programmatically based on lock state -->
+        <activity
+            android:name=".presentation.screen.incall.InCallActivity"
+            android:exported="true"
+            android:enabled="true"
+            android:theme="@style/Theme.Purevon"
+            android:launchMode="singleTask"
+            android:excludeFromRecents="true"
+            android:taskAffinity=""
+            android:showWhenLocked="true"
+            android:turnScreenOn="true"
+            android:noHistory="false"
+            android:resizeableActivity="true"
+            android:configChanges="orientation|screenSize|keyboardHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.ANSWER" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- FakeInCallActivity - شاشة الاتصال الوهمي المستقلة -->
+        <activity
+            android:name=".presentation.screen.fakecall.FakeInCallActivity"
+            android:exported="false"
+            android:enabled="true"
+            android:theme="@style/Theme.Purevon"
+            android:launchMode="singleTask"
+            android:excludeFromRecents="true"
+            android:taskAffinity=""
+            android:showWhenLocked="true"
+            android:turnScreenOn="true"
+            android:noHistory="true"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+        
+        <!-- ✅ Callback Reminder Activity - نافذة منبثقة للتذكير بإعادة الاتصال -->
+        <activity
+            android:name=".presentation.screen.callbackreminder.CallbackReminderActivity"
+            android:exported="false"
+            android:enabled="true"
+            android:theme="@style/Theme.Purevon"
+            android:launchMode="singleTask"
+            android:excludeFromRecents="true"
+            android:taskAffinity=""
+            android:showWhenLocked="true"
+            android:turnScreenOn="true"
+            android:noHistory="true"
+            android:configChanges="orientation|screenSize|keyboardHidden" />
+        
+        <!-- BroadcastReceivers -->
+        
+        <!-- Phone State Receiver for monitoring calls -->
+        <receiver
+            android:name=".receiver.PhoneStateReceiver"
+            android:exported="true"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.intent.action.PHONE_STATE" />
+            </intent-filter>
+        </receiver>
+        
+        <!-- Call Action Receiver for notification actions -->
+        <receiver
+            android:name=".receiver.CallActionReceiver"
+            android:exported="false"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="com.rasmi.purevon.ACTION_ANSWER" />
+                <action android:name="com.rasmi.purevon.ACTION_DECLINE" />
+            </intent-filter>
+        </receiver>
+        
+        <!-- ✅ Callback Reminder Receiver - لاستقبال تنبيهات التذكير بإعادة الاتصال -->
+        <receiver
+            android:name=".receiver.CallbackReminderReceiver"
+            android:exported="false"
+            android:enabled="true" />
+        
+        <!-- ✅ Fake Call Receiver - لاستقبال تنبيهات الاتصال الوهمي -->
+        <receiver
+            android:name=".receiver.FakeCallReceiver"
+            android:exported="false"
+            android:enabled="true" />
+        
+        <!-- SMS Receiver for incoming messages (Required for default SMS app) -->
+        <receiver
+            android:name=".receiver.SmsReceiver"
+            android:exported="true"
+            android:enabled="true"
+            android:permission="android.permission.BROADCAST_SMS">
+            <intent-filter android:priority="999">
+                <action android:name="android.provider.Telephony.SMS_DELIVER" />
+            </intent-filter>
+            <!-- ✅ REMOVED: SMS_RECEIVED causes duplicate processing on some devices -->
+        </receiver>
+        
+        <!-- MMS Receiver for incoming MMS (Required for default SMS app) -->
+        <!-- ✅ FIXED: Now properly downloads MMS via SmsManager.downloadMultimediaMessage() -->
+        <!-- ✅ FIX 1.8: Removed WAP_PUSH_RECEIVED to prevent double processing (same fix as SMS) -->
+        <receiver
+            android:name=".receiver.MmsReceiver"
+            android:exported="true"
+            android:enabled="true"
+            android:permission="android.permission.BROADCAST_WAP_PUSH">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.WAP_PUSH_DELIVER" />
+                <data android:mimeType="application/vnd.wap.mms-message" />
+            </intent-filter>
+        </receiver>
+        
+        <!-- ✅ NEW: MMS Downloaded Receiver - handles result of downloadMultimediaMessage() -->
+        <receiver
+            android:name=".receiver.MmsDownloadedReceiver"
+            android:exported="false"
+            android:enabled="true" />
+        
+        <!-- Notification Action Receiver for message notifications (Mark as Read, Reply, Archive) -->
+        <receiver
+            android:name=".receiver.NotificationActionReceiver"
+            android:exported="false"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="action_reply" />
+                <action android:name="action_mark_read" />
+                <action android:name="action_archive" />
+            </intent-filter>
+        </receiver>
+        
+        <!-- SMS Sent Status Receiver (NEW) -->
+        <receiver
+            android:name=".receiver.SentStatusReceiver"
+            android:exported="false"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="com.rasmi.purevon.SMS_SENT_STATUS" />
+            </intent-filter>
+        </receiver>
+        
+        <!-- SMS Delivery Status Receiver (NEW) -->
+        <receiver
+            android:name=".receiver.DeliveryStatusReceiver"
+            android:exported="false"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="com.rasmi.purevon.SMS_DELIVERY_STATUS" />
+            </intent-filter>
+        </receiver>
+        
+        <!-- MMS Sent Status Receiver (must have klinker taskAffinity to receive sendNewMessage callbacks) -->
+        <!-- MMS sent status receiver — called by PendingIntent from sendMultimediaMessage() -->
+        <receiver
+            android:name=".receiver.MmsSentReceiver"
+            android:exported="false"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="com.rasmi.purevon.MMS_SENT_STATUS" />
+            </intent-filter>
+        </receiver>
+
+        <!-- klinker android-smsmms: SMS sent confirmation receiver -->
+        <receiver
+            android:name="com.klinker.android.send_message.SentReceiver"
+            android:exported="false"
+            android:taskAffinity="${applicationId}.SMS_SENT" />
+
+        <!-- klinker android-smsmms: SMS delivery receipt receiver -->
+        <receiver
+            android:name="com.klinker.android.send_message.DeliveredReceiver"
+            android:exported="false"
+            android:taskAffinity="${applicationId}.SMS_DELIVERED" />
+        
+        <!-- Boot Completed Receiver for Rescheduling Messages -->
+        <receiver
+            android:name=".receiver.BootCompletedReceiver"
+            android:exported="true"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+            </intent-filter>
+        </receiver>
+        
+        <!-- Boot Receiver for WorkManager -->
+        <receiver
+            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryNotLowProxy"
+            android:enabled="false"
+            tools:node="replace" />
+        
+        <!-- Services -->
+        
+        <!-- Headless SMS Send Service (Required for default SMS app) -->
+        <service
+            android:name=".service.HeadlessSmsSendService"
+            android:exported="true"
+            android:permission="android.permission.SEND_RESPOND_VIA_MESSAGE">
+            <intent-filter>
+                <action android:name="android.intent.action.RESPOND_VIA_MESSAGE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="sms" />
+                <data android:scheme="smsto" />
+                <data android:scheme="mms" />
+                <data android:scheme="mmsto" />
+            </intent-filter>
+        </service>
+        
+        <!-- Call Screening Service (Android 10+) -->
+        <service
+            android:name=".service.CallScreeningServiceImpl"
+            android:exported="true"
+            android:permission="android.permission.BIND_SCREENING_SERVICE">
+            <intent-filter>
+                <action android:name="android.telecom.CallScreeningService" />
+            </intent-filter>
+        </service>
+        
+        <!-- InCall Service (Android 6+) - Main UI for incoming/outgoing calls -->
+        <service
+            android:name=".service.PurevonInCallService"
+            android:exported="true"
+            android:enabled="true"
+            android:permission="android.permission.BIND_INCALL_SERVICE"
+            android:foregroundServiceType="phoneCall">
+            <intent-filter>
+                <action android:name="android.telecom.InCallService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.telecom.IN_CALL_SERVICE_UI"
+                android:value="true" />
+        </service>
+        
+        <!-- ✅ Floating Call Overlay Service - شريط عائم للمكالمات النشطة -->
+        <service
+            android:name=".service.FloatingCallService"
+            android:exported="false"
+            android:enabled="true"
+            android:foregroundServiceType="phoneCall" />
+            
+        <!-- Support per-app language storage for Android 12 and below -->
+        <service
+            android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"
+            android:enabled="false"
+            android:exported="false"
+            tools:node="merge">
+            <meta-data
+                android:name="autoStoreLocales"
+                android:value="true" />
+        </service>
+        
+        <!-- Connection Service for handling calls (Android 6+) -->
+        <service
+            android:name=".service.PurevonConnectionService"
+            android:exported="true"
+            android:permission="android.permission.BIND_TELECOM_CONNECTION_SERVICE">
+            <intent-filter>
+                <action android:name="android.telecom.ConnectionService" />
+            </intent-filter>
+        </service>
+        
+        <!-- Floating OTP Bubble Service -->
+        <service
+            android:name=".service.FloatingOtpBubbleService"
+            android:exported="false"
+            android:foregroundServiceType="shortService" />
+        
+        <!-- FileProvider for sharing files (vCards, Audio) — uses same provider as above -->
+        <!-- REMOVED duplicate: merged into the single .fileprovider declaration above -->
+
+        
+        <!-- Disable WorkManager auto-initialization -->
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="remove" />
+
+        <!-- Required by klinker android-smsmms for legacy MMS sending path -->
+        <service android:name="com.android.mms.transaction.TransactionService"
+            android:exported="false" />
+
+        <!-- klinker android-smsmms: FileProvider used internally by Transaction.sendNewMessage()
+             to pass the PDU temp file to SmsManager.sendMultimediaMessage().
+             Authority MUST be ${applicationId}.MmsFileProvider — hardcoded inside klinker Transaction. -->
+        <provider
+            android:name="com.klinker.android.send_message.MmsFileProvider"
+            android:authorities="${applicationId}.MmsFileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true" />
+
+    </application>
+
+</manifest>

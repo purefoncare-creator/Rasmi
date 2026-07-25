@@ -1,0 +1,61 @@
+package com.rasmi.purevon.presentation.screen.settings
+
+object LanguageConfig {
+    val SUPPORTED_LANGUAGES = listOf(
+        "en" to "English",
+        "ar" to "العربية (Arabic)",
+        "fr" to "Français (French)",
+        "es" to "Español (Spanish)",
+        "de" to "Deutsch (German)",
+        "pt" to "Português (Portuguese)",
+        "tr" to "Türkçe (Turkish)",
+        "hi" to "हिन्दी (Hindi)",
+        "ur" to "اردو (Urdu)",
+        "fa" to "فارسي (Persian)",
+        "id" to "Bahasa Indonesia (Indonesian)",
+        "ms" to "Bahasa Melayu (Malay)",
+        "ru" to "Русский (Russian)",
+        "ja" to "日本語 (Japanese)",
+        "ko" to "한국어 (Korean)",
+        "zh-CN" to "简体中文 (Chinese Simplified)",
+        "zh-TW" to "繁體中文 (Chinese Traditional)",
+        "it" to "Italiano (Italian)",
+        "nl" to "Nederlands (Dutch)",
+        "pl" to "Polski (Polish)",
+        "uk" to "Українська (Ukrainian)",
+        "bn" to "বাংলা (Bengali)",
+        "sw" to "Kiswahili (Swahili)",
+        "vi" to "Tiếng Việt (Vietnamese)",
+        "th" to "ไทย (Thai)",
+        "fil" to "Tagalog (Filipino)",
+        "el" to "Ελληνικά (Greek)",
+        "he" to "עبرية (Hebrew)",
+        "sv" to "Svenska (Swedish)",
+        "no" to "Norsk (Norwegian)",
+        "da" to "Dansk (Danish)",
+        "fi" to "Suomi (Finnish)",
+        "cs" to "Čeština (Czech)",
+        "hu" to "Magyar (Hungarian)",
+        "ro" to "Română (Romanian)",
+        "sk" to "Slovenčina (Slovak)",
+        "bg" to "Български (Bulgarian)",
+        "hr" to "Hrvatski (Croatian)",
+        "sr" to "Српски (Serbian)",
+        "sl" to "Slovenščina (Slovenian)",
+        "et" to "Eesti (Estonian)",
+        "lv" to "Latviešu (Latvian)",
+        "lt" to "Lietuvių (Lithuanian)",
+        "ca" to "Català (Catalan)",
+        "is" to "Íslenska (Icelandic)",
+        "sq" to "Shqip (Albanian)",
+        "hy" to "Հայերեն (Armenian)",
+        "ka" to "ქართული (Georgian)",
+        "az" to "Azərbaycanca (Azerbaijani)",
+        "kk" to "Қαзақша (Kazakh)",
+        "uz" to "Oʻzbekcha (Uzbek)"
+    )
+
+    fun getDisplayName(code: String): String {
+        return SUPPORTED_LANGUAGES.find { it.first.equals(code, ignoreCase = true) }?.second ?: code
+    }
+}

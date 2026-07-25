@@ -1,0 +1,1153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ======================== -->
+    <!-- APPLICATION INFO         -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- 1. NAVIGATION            -->
+    <!-- ======================== -->
+    <string name="nav_tab_dialer">Dialer</string>
+    <string name="nav_tab_contacts">Contacts</string>
+    <string name="nav_tab_history">History</string>
+    <string name="nav_tab_messages">Messages</string>
+    <string name="nav_tab_settings">Settings</string>
+    
+    <!-- ======================== -->
+    <!-- 2. PERMISSIONS SCREEN    -->
+    <!-- ======================== -->
+    <!-- Headers & Titles -->
+    
+    <!-- Default Apps Section -->
+    
+    <!-- Permission Descriptions -->
+    
+    <!-- Special Permissions Buttons -->
+    
+    <!-- Autostart Permission Card -->
+    
+    <!-- Other Permissions Card -->
+    
+    <!-- Grant Permissions Section -->
+    
+    <!-- Permission Required Component -->
+    
+    <!-- ======================== -->
+    <!-- 3. COMMON ACTIONS        -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- 4. COMMON LABELS         -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- IN CALL NOTES           -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- 5. DIALER SCREEN         -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- 6. IN-CALL SCREEN        -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- 7. CONTACTS SCREEN       -->
+    <!-- ======================== -->
+    
+    <!-- Contact Detail Screen -->
+    
+    <!-- ======================== -->
+    <!-- 8. MESSAGES SCREEN       -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- 9. HISTORY SCREEN        -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- 10. SETTINGS SCREEN      -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- 11. BLOCKED NUMBERS      -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- 12. OTP VERIFICATION     -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- 13. ERRORS & MESSAGES    -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- 14. DIALOGS              -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- 15. TIME & DATE          -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- 16. NOTIFICATIONS        -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- 17. DIALER SCREEN EXTRAS -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- 18. CONTACTS SCREEN      -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- 19. MESSAGES SCREEN      -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- 20. HISTORY SCREEN       -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- 23. OTP SETTINGS SCREEN  -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- 24. ABOUT SCREEN         -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- 25. CONTACT CLEANUP      -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- 26. CONVERSATION SCREEN  -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- 27. NEW CONVERSATION     -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- 29. ADD CONTACT          -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- 30. SPAM HISTORY         -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- 31. SCHEDULED MESSAGES   -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- 32. BACKUP SCREEN        -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- 33. EXPORT SCREEN        -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- 34. STATISTICS SCREEN    -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- 35. IN-CALL SERVICE      -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- 36. FLOATING CALL BAR    -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- 37. FLOATING BUBBLE      -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- 37. QUICK REPLY SERVICE  -->
+    <!-- ======================== -->
+
+    <!-- ======================== -->
+    <!-- 38. ERROR MESSAGES       -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- 40. SUCCESS MESSAGES     -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- 41. CONFIRMATION MESSAGES-->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- 42. MESSAGE BUBBLE       -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- MESSAGE TEMPLATES        -->
+    <!-- ======================== -->
+    <string name="create_template">Create Template</string>
+    <string name="template_title">Template Title</string>
+    <string name="template_content">Template Content</string>
+    <string name="save">Save</string>
+    
+    <!-- ======================== -->
+    <!-- 43. CLEANUP CONTACTS     -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- 44. AI CALL REHEARSAL    -->
+    <!-- ======================== -->
+    <!-- Settings Section -->
+    
+    <!-- Main Screen -->
+    
+    <!-- Scenarios -->
+    
+    <!-- Results Screen -->
+    
+    <!-- Errors -->
+    
+    <!-- ======================== -->
+    <!-- SYSTEM SPECIFIC PERMISSIONS -->
+    <!-- ======================== -->
+    
+    <!-- Important Notice -->
+    
+    <!-- Permission Titles -->
+    
+    <!-- Permission Descriptions -->
+    
+    <!-- Steps -->
+    
+    <!-- Display Over Apps Steps -->
+    
+    <!-- Display on Lock Screen Steps (MIUI) -->
+    
+    <!-- Auto-Start Steps (MIUI) -->
+    
+    <!-- Auto-Start Steps (OPPO/Realme) -->
+    
+    <!-- Auto-Start Steps (Generic) -->
+    
+    <!-- Protected Apps Steps (Huawei) -->
+    
+    <!-- Buttons -->
+    
+    <!-- Manufacturers -->
+    
+    <!-- ======================== -->
+    <!-- LANGUAGE SETTINGS        -->
+    <!-- ======================== -->
+
+    <!-- ======================== -->
+    <!-- FLOATING CALL BAR        -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- APPEARANCE SETTINGS      -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- CONTACTS SETTINGS        -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- BACKUP SETTINGS          -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- CALLS SETTINGS           -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- MESSAGES SETTINGS        -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- OTP SETTINGS             -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- SPAM & SECURITY          -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- NOTIFICATION SETTINGS    -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- CONTACT CLEANUP          -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- BACKUP & RESTORE         -->
+    <!-- ======================== -->
+
+    <!-- ======================== -->
+    <!-- STATISTICS              -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- CACHE SETTINGS           -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- ABOUT SECTION            -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- CONFIRMATION DIALOGS      -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- COMMON UI STRINGS        -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- CONTACT EXPORT           -->
+    <!-- ======================== -->
+    
+    <!-- ======================== -->
+    <!-- CALL BLOCKING SECTION     -->
+    <!-- ======================== -->
+    
+    <!-- Blocked List Dialog -->
+    
+    <!-- Whitelist Dialog -->
+    
+    <!-- ======================== -->
+    <!-- MULTI-CALL ACTIONS        -->
+    <!-- ======================== -->
+    <!-- Conference Call -->
+    
+    <!-- Fake Call / الاتصال الوهمي -->
+    <string name="app_name" translatable="false">Purevon</string>
+    <string name="perm_setup_title">Setup Permissions</string>
+    <string name="perm_welcome_title">Welcome to Purevon</string>
+    <string name="perm_welcome_message">To replace your default Phone and SMS apps, we need the following permissions</string>
+    <string name="perm_header_default_apps">Set as Default Apps</string>
+    <string name="perm_header_special">Special Permissions</string>
+    <string name="perm_header_phone">Phone Permissions</string>
+    <string name="perm_header_contacts">Contacts Permissions</string>
+    <string name="perm_header_sms">SMS Permissions</string>
+    <string name="perm_header_notification">Notification Permission</string>
+    <string name="perm_default_apps_message">Tap each button to set Purevon as your default app</string>
+    <string name="perm_default_dialer">Default Dialer</string>
+    <string name="perm_default_sms">Default SMS</string>
+    <string name="perm_status_active">Active</string>
+    <string name="perm_status_not_set">Not set</string>
+    <string name="perm_button_set">Set</string>
+    <string name="perm_desc_phone">Make and receive calls, view call history</string>
+    <string name="perm_desc_contacts">Access and manage your contacts</string>
+    <string name="perm_desc_sms">Send and receive text messages</string>
+    <string name="perm_desc_notification">Show notifications for calls and messages</string>
+    <string name="perm_desc_special">Required to show call screen over other apps and on lock screen</string>
+    <string name="perm_display_over_apps">Display over other apps</string>
+    <string name="perm_display_over_apps_granted">Display over apps ✓</string>
+    <string name="perm_lock_screen_calls">Show calls on lock screen</string>
+    <string name="perm_lock_screen_calls_granted">Lock screen calls ✓</string>
+    <string name="perm_ignore_battery">Ignore battery optimization</string>
+    <string name="perm_ignore_battery_granted">Battery optimization ✓</string>
+    <string name="perm_autostart_title">Autostart in Background</string>
+    <string name="perm_autostart_message">To ensure the app works in the background and receives calls and messages, you must enable autostart:</string>
+    <string name="perm_autostart_step1">• Search for \"%s\" in the list</string>
+    <string name="perm_autostart_step2">• Look for \"Autostart\" or \"Auto-start\"</string>
+    <string name="perm_autostart_step3">• Enable autostart for Purevon app</string>
+    <string name="perm_autostart_note">Note: The label may vary depending on your device manufacturer</string>
+    <string name="perm_button_open_autostart">Open Autostart Settings</string>
+    <string name="perm_button_grant_runtime">Grant Runtime Permissions</string>
+    <string name="perm_button_granted">Runtime Permissions Granted ✓</string>
+    <string name="perm_progress_granted">%1$d of %2$d permissions granted</string>
+    <string name="action_save">Save</string>
+    <string name="action_add_note">Add note</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="cancel">Cancel</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_block">Block</string>
+    <string name="action_clear">Clear</string>
+    <string name="label_unknown">Unknown</string>
+    <string name="label_yesterday">Yesterday</string>
+    <string name="last_call_no_history">No previous calls</string>
+    <string name="action_whatsapp_error">Failed to open WhatsApp</string>
+    <string name="action_telegram_error">Failed to open Telegram</string>
+    <string name="action_number_copied">Number copied to clipboard</string>
+    <string name="callback_reminder_title">Call Back Reminder</string>
+    <string name="callback_select_duration">Select duration:</string>
+    <string name="callback_minutes">%d minutes</string>
+    <string name="callback_hour">%d hour</string>
+    <string name="callback_set">Set</string>
+    <string name="callback_reminder_alert_title">Call Back Reminder</string>
+    <string name="callback_call_now">Call Now</string>
+    <string name="callback_dismiss">Dismiss</string>
+    <string name="dialer_enter_number">Enter phone number</string>
+    <string name="incall_on_hold">On Hold</string>
+    <string name="incall_end_call">End Call</string>
+    <string name="contacts_search_placeholder">Search</string>
+    <string name="contacts_no_contacts">No contacts</string>
+    <string name="contacts_stat_blocked">Blocked</string>
+    <string name="contacts_selected">%d selected</string>
+    <string name="contacts_select_all">Select All</string>
+    <string name="contacts_deselect_all">Deselect All</string>
+    <string name="contacts_action_favorite">Favorite</string>
+    <string name="contacts_action_unfavorite">Unfavorite</string>
+    <string name="contacts_action_block">Block</string>
+    <string name="contacts_action_unblock">Unblock</string>
+    <string name="contacts_action_delete">Delete</string>
+    <string name="contacts_delete_multiple">Delete %d contacts?</string>
+    <string name="contacts_delete_warning">This action cannot be undone.</string>
+    <string name="contacts_cd_add_contact">Add new contact</string>
+    <string name="contacts_cd_clear_search">Clear search</string>
+    <string name="contacts_cd_exit_selection">Exit selection mode</string>
+    <string name="contacts_cd_select_all">Select all contacts</string>
+    <string name="contacts_cd_deselect_all">Deselect all contacts</string>
+    <string name="contacts_no_results">No results found</string>
+    <string name="contacts_no_results_desc">Try a different search term</string>
+    <string name="contacts_no_favorites">No Favorites</string>
+    <string name="contacts_no_favorites_desc">Add favorites for quick access</string>
+    <string name="contacts_no_blocked">No Blocked Contacts</string>
+    <string name="contacts_no_blocked_desc">Blocked contacts will appear here</string>
+    <string name="contacts_no_contacts_desc">Add contacts to get started</string>
+    <string name="contacts_filter_all">All</string>
+    <string name="contacts_filter_favorites">Favorites</string>
+    <string name="contacts_filter_blocked">Blocked</string>
+    <string name="contact_detail_edit">Edit Contact</string>
+    <string name="contact_detail_save">Save</string>
+    <string name="contact_detail_cancel_editing">Cancel editing</string>
+    <string name="contact_detail_saving">Saving contact</string>
+    <string name="contact_detail_save_changes">Save contact changes</string>
+    <string name="contact_detail_add_favorite">Add to favorites</string>
+    <string name="contact_detail_remove_favorite">Remove from favorites</string>
+    <string name="contact_detail_edit_action">Edit contact</string>
+    <string name="contact_detail_delete_action">Delete contact</string>
+    <string name="contact_detail_phone">Phone</string>
+    <string name="contact_detail_call">Call</string>
+    <string name="contact_detail_message">Message</string>
+    <string name="contact_detail_whatsapp">WhatsApp</string>
+    <string name="contact_detail_telegram">Telegram</string>
+    <string name="contact_detail_email">Email</string>
+    <string name="contact_detail_company">Company</string>
+    <string name="contact_detail_share">Share Contact</string>
+    <string name="contact_detail_block">Block Contact</string>
+    <string name="contact_detail_unblock">Unblock Contact</string>
+    <string name="contact_detail_tab_history">History</string>
+    <string name="contact_detail_tab_notes">Notes</string>
+    <string name="contact_detail_no_history">No call history yet</string>
+    <string name="contact_detail_no_notes">No notes yet</string>
+    <string name="contact_detail_delete_title">Delete Contact</string>
+    <string name="contact_detail_delete_message">Are you sure you want to delete %s?</string>
+    <string name="contact_detail_delete_confirm">Delete</string>
+    <string name="contact_detail_first_name">First name</string>
+    <string name="contact_detail_last_name">Last name</string>
+    <string name="contact_detail_phone_number">Phone number</string>
+    <string name="contact_detail_email_address">Email address</string>
+    <string name="contact_detail_company_name">Company name</string>
+    <string name="contact_detail_action_button">Action button</string>
+    <string name="contact_detail_call_history">Call History</string>
+
+    <!-- Add / Edit Contact Screen -->
+    <string name="add_contact_photo_title">Contact Photo</string>
+    <string name="add_contact_choose_gallery">Choose from gallery</string>
+    <string name="add_contact_take_photo">Take a photo</string>
+    <string name="add_contact_remove_photo">Remove photo</string>
+    <string name="add_contact_select_group">Select Group</string>
+    <string name="add_contact_no_group">No group</string>
+    <string name="add_contact_suggestion">Suggestion: %s</string>
+    <string name="add_contact_use_suggestion">Use</string>
+    <string name="add_contact_full_name">Full name</string>
+    <string name="add_contact_phone_required">Phone number is required</string>
+    <string name="add_contact_invalid_phone">Invalid phone number</string>
+    <string name="add_contact_phone_number">Phone number</string>
+    <string name="add_contact_add_phone">Add phone number</string>
+    <string name="add_contact_invalid_email">Invalid email address</string>
+    <string name="add_contact_email">Email address</string>
+    <string name="add_contact_company">Company name</string>
+    <string name="add_contact_birthday">Birthday</string>
+    <string name="add_contact_group">Group</string>
+    <string name="add_contact_save_changes">Save Changes</string>
+    <string name="add_contact_save">Save Contact</string>
+    <string name="add_contact_saved">✓ Contact saved</string>
+    <string name="add_contact_updated">✓ Contact updated</string>
+    <string name="add_contact_failed">Failed to save. Check permissions.</string>
+    <string name="add_contact_favorite">Favorite</string>
+    <string name="add_contact_type_mobile">Mobile</string>
+    <string name="add_contact_type_home">Home</string>
+    <string name="add_contact_type_work">Work</string>
+    <string name="add_contact_type_other">Other</string>
+    <string name="add_contact_save_to">Save to</string>
+    <string name="add_contact_account_device">Device</string>
+    <string name="add_contact_account_sim">SIM %1$d (%2$s)</string>
+    <string name="add_contact_account_google">Google</string>
+    <string name="add_contact_select_account">Select where to save this contact</string>
+
+    <string name="messages_no_messages">No messages</string>
+    <string name="messages_delete_conversation">Delete Conversation</string>
+    <string name="history_missed">Missed</string>
+    <string name="history_duration">Duration: %s</string>
+    <string name="settings_title">Settings</string>
+    <string name="settings_appearance">Appearance</string>
+    <string name="settings_notifications">Notifications</string>
+    <string name="settings_theme">Theme</string>
+    <string name="settings_theme_dark">Dark</string>
+    <string name="settings_theme_system">System Default</string>
+    <string name="settings_rtl_title">Right-to-Left Layout</string>
+    <string name="settings_rtl_subtitle">Mirror the interface for right-to-left reading</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_language_summary">Change the manual app language</string>
+    <string name="language_system">System Default</string>
+    <string name="language_ar">العربية (Arabic)</string>
+    <string name="language_en">English (English)</string>
+    <string name="dialer_add_to_contacts">Add to contacts</string>
+    <string name="messages_all">All</string>
+    <string name="messages_starred_tab">Starred</string>
+    <string name="messages_start_conversation">Start a conversation</string>
+    <string name="messages_no_starred">No Starred Messages</string>
+    <string name="messages_starred_hint">Long press on any message to add to favorites</string>
+    <string name="messages_archive">Archive</string>
+    <string name="messages_unarchive">Unarchive</string>
+    <string name="messages_mark_as_read">Mark as read</string>
+    <string name="messages_mark_as_unread">Mark as unread</string>
+    <string name="messages_archived_tab">Archived</string>
+    <string name="history_call_will_be_deleted">Call will be deleted</string>
+    <string name="history_number_will_be_blocked">Number will be blocked</string>
+    <string name="history_undo">Undo</string>
+    <string name="history_no_history">No call history yet</string>
+    <string name="history_no_missed_calls">No missed calls</string>
+    <string name="history_no_incoming_calls">No incoming calls</string>
+    <string name="history_no_outgoing_calls">No outgoing calls</string>
+    <string name="history_no_rejected_calls">No rejected calls</string>
+    <string name="history_no_blocked_calls">No blocked calls</string>
+    <string name="history_calls_hint">Your calls will appear here</string>
+    <string name="history_filter_all">All</string>
+    <string name="history_filter_missed">Missed</string>
+    <string name="history_filter_incoming">Incoming</string>
+    <string name="history_filter_outgoing">Outgoing</string>
+    <string name="history_filter_rejected">Rejected</string>
+    <string name="history_filter_blocked">Blocked</string>
+    <string name="history_type_voicemail">Voicemail</string>
+    <string name="history_call_type_incoming">Incoming</string>
+    <string name="history_call_type_outgoing">Outgoing</string>
+    <string name="history_call_type_missed">Missed</string>
+    <string name="history_call_type_rejected">Rejected</string>
+    <string name="history_call_type_blocked">Blocked</string>
+    <string name="history_unknown_number">Unknown number</string>
+    <string name="history_add_action">Add</string>
+    <string name="history_block_number">Block this number</string>
+    <string name="history_delete_from_history">Delete all from history</string>
+    <string name="history_delete_all_calls_title">Delete all calls for this number?</string>
+    <string name="history_delete_all_calls_message">Remove every entry for %s from your call history. This cannot be undone.</string>
+    <string name="history_delete_selected_numbers">Remove history for %d numbers?</string>
+    <string name="history_group_missed_count">%d missed</string>
+    <string name="history_notes_cd_has_note">Has notes</string>
+    <string name="history_delete_call_title">Delete Call?</string>
+    <string name="history_delete_call_message">Are you sure you want to delete this call from your history? This action cannot be undone.</string>
+    <string name="history_block_number_title">Block Number?</string>
+    <string name="history_block_number_message">Are you sure you want to block %s? You won\'t receive calls from this number.</string>
+    <string name="history_search_calls">Search calls</string>
+    <string name="history_clear">Clear</string>
+    <string name="history_today">Today</string>
+    <string name="history_yesterday">Yesterday</string>
+    <string name="history_calls">%d calls</string>
+    <string name="history_total">Total</string>
+    <string name="history_permission_name">READ_CALL_LOG</string>
+    <string name="history_permission_rationale">This app needs access to your call logs to display your call history, track missed calls, and provide call statistics.</string>
+    <string name="history_action_call">Call</string>
+    <string name="history_action_message">Message</string>
+    <string name="history_notes">Notes (%d)</string>
+    <string name="history_more_notes">+%d more notes</string>
+    <string name="history_note_today">Today</string>
+    <string name="history_note_yesterday">Yesterday</string>
+    <string name="note_dialog_title">Notes for %s</string>
+    <string name="note_dialog_count">%d note</string>
+    <string name="note_dialog_empty">No notes</string>
+    <string name="note_delete_cd">Delete note</string>
+    <string name="note_icon_cd">Contact notes</string>
+    <string name="note_dialog_close">Close</string>
+    <string name="history_sim">SIM %d</string>
+    
+    <!-- History Selection Mode -->
+    <string name="history_selected_count">%d selected</string>
+    <string name="history_select_all">Select All</string>
+    <string name="history_deselect_all">Deselect All</string>
+    <string name="history_action_block">Block</string>
+    <string name="history_action_delete">Delete</string>
+    <string name="history_delete_selected">Delete %d calls?</string>
+    <string name="history_delete_selected_warning">This action cannot be undone.</string>
+    
+    <string name="otp_settings_title">OTP Settings</string>
+    <string name="about_title">About</string>
+    <string name="about_build">Build %s</string>
+    <string name="about_tagline">Your Complete Communication Hub</string>
+    <string name="about_description">Purevon is a modern phone and messaging app designed to give you full control over your communications with advanced features like spam filtering, call blocking, OTP management, and more.</string>
+    <string name="about_key_features">Key Features</string>
+    <string name="about_feature_blocking">Smart Call Blocking</string>
+    <string name="about_feature_blocking_desc">Block spam calls and unknown numbers automatically</string>
+    <string name="about_feature_otp">OTP Auto-Copy</string>
+    <string name="about_feature_otp_desc">Automatically detect and copy OTP codes</string>
+    <string name="about_feature_bubble">Floating Bubble</string>
+    <string name="about_feature_bubble_desc">Control calls with floating bubble overlay</string>
+    <string name="about_feature_sim">Dual SIM Support</string>
+    <string name="about_feature_sim_desc">Full support for dual SIM devices</string>
+    <string name="about_feature_backup">Backup &amp; Restore</string>
+    <string name="about_feature_backup_desc">Keep your data safe with automatic backups</string>
+    <string name="about_contact_us">Contact us:</string>
+    <string name="about_copyright">© 2026 Purevon. All rights reserved.</string>
+    
+    <!-- AI Model Settings -->
+    <string name="ai_model_title">AI Features</string>
+    <string name="ai_model_download">Download Gemma 3 (1B)</string>
+    <string name="ai_model_download_desc">Download Gemma 3 1B model (~555 MB) for offline AI chat</string>
+    <string name="ai_model_downloading">Downloading… %1$d%%</string>
+    <string name="ai_model_extracting">Saving model…</string>
+    <string name="ai_model_downloaded">Model downloaded</string>
+    <string name="ai_model_delete">Delete AI Model</string>
+    <string name="ai_model_delete_desc">Remove the downloaded Gemma model to free up space</string>
+    <string name="ai_chat_title">Gemma AI Chat</string>
+    <string name="ai_chat_model_loading">Loading model…</string>
+    <string name="ai_chat_model_error">Model failed to load</string>
+    <string name="ai_chat_model_ready">Ready</string>
+    <string name="ai_chat_hint">Ask Gemma anything…</string>
+    <string name="ai_hf_token_label">HuggingFace Token</string>
+    <string name="ai_hf_token_placeholder">hf_xxxxxxxxxxxxxxxxxxxx</string>
+    <string name="ai_hf_token_desc">Required to download Gemma (free at huggingface.co)</string>
+    <string name="conversation_no_messages">No messages yet</string>
+    <string name="conversation_start_hint">Send a message to start the conversation</string>
+    <string name="conversation_message_hint">Message</string>
+    <string name="conversation_to_label">To:</string>
+    <string name="new_conversation_pick">Pick contact</string>
+    <string name="new_conversation_enter_number">Enter a phone number</string>
+    <string name="scheduled_title">Scheduled Messages</string>
+    <string name="schedule_message_title">Schedule message</string>
+    <string name="schedule_repeat_never">Repeat: Never</string>
+    <string name="schedule_repeat_daily">Repeat: Daily</string>
+    <string name="schedule_repeat_weekly">Repeat: Weekly</string>
+    <string name="schedule_repeat_monthly">Repeat: Monthly</string>
+    <string name="schedule_today">Today</string>
+    <string name="schedule_send_at">Send %1$s at %2$s</string>
+    <string name="service_incoming_call">Incoming Call</string>
+    <string name="service_calling">Calling…</string>
+    <string name="service_ongoing_call">Ongoing Call</string>
+    <string name="service_ongoing_calls_channel">Ongoing Calls</string>
+    <string name="service_status_bar_chip_desc">Shows ongoing call status in status bar</string>
+    <string name="unknown_caller">Unknown</string>
+    <string name="msg_status_failed">Failed</string>
+    <string name="msg_status_sending">Sending</string>
+    <string name="msg_action_retry">Retry</string>
+    <string name="msg_you">You</string>
+    <string name="msg_attachment">Attachment</string>
+    <string name="msg_attachment_camera">Camera</string>
+    <string name="msg_attachment_image">Photo</string>
+    <string name="msg_attachment_video">Video</string>
+    <string name="msg_attachment_file">File</string>
+    <string name="msg_attachment_contact">Contact</string>
+    <string name="msg_attachment_location">Location</string>
+    <string name="msg_attachment_schedule">Schedule</string>
+    <string name="location_fetching">Fetching location…</string>
+    <string name="location_error">Could not determine location</string>
+    <string name="location_permission_denied">Location permission is required to share your location</string>
+    <string name="location_my_current">My current location</string>
+    <string name="location_coordinates">Coordinates</string>
+    <string name="location_view_map">View on map:</string>
+    <string name="msg_cd_attached_image">Attached image</string>
+    <string name="msg_cd_scheduled">Scheduled</string>
+    <string name="msg_cd_failed">Failed</string>
+    <string name="msg_cd_delivered">Delivered</string>
+    <string name="msg_cd_sent">Sent</string>
+    <string name="msg_cd_pending">Pending</string>
+    <string name="msg_cd_attachments">Attachments</string>
+    <string name="msg_cd_schedule">Schedule</string>
+    <string name="msg_cd_templates">Templates</string>
+    <string name="msg_cd_voice_recording">Voice recording</string>
+    <string name="msg_cd_copy">Copy message</string>
+    <string name="msg_cd_favorite">Toggle favorite</string>
+    <string name="msg_cd_forward">Forward message</string>
+    <string name="msg_cd_retry">Retry sending</string>
+    <string name="msg_cd_attachment_type">Attachment type</string>
+    <string name="msg_cd_open_location">Open location on map</string>
+    <string name="msg_cd_playback_speed">Playback speed</string>
+    <string name="msg_cd_play">Play</string>
+    <string name="msg_cd_pause">Pause</string>
+    <string name="msg_cd_send">Send</string>
+    <string name="msg_cd_open_conversation">Open conversation</string>
+    <string name="msg_cd_conversation_options">Conversation options</string>
+    <string name="msg_cd_delete_recording">Delete recording</string>
+    <string name="msg_cd_send_recording">Send recording</string>
+    <string name="msg_fetching_location">Locating…</string>
+    <string name="msg_date_today">Today</string>
+    <string name="msg_date_yesterday">Yesterday</string>
+    <string name="msg_no_results">No results</string>
+    <string name="msg_no_archived_conversations">No archived conversations</string>
+    <string name="msg_search_try_different">Try a different keyword than \"%s\"</string>
+    <string name="msg_archive_hint">Long press on a conversation to archive it</string>
+    <string name="msg_delete_conversations_title">Delete %d conversations?</string>
+    <string name="msg_sim_ask_me">Ask Me</string>
+    <string name="msg_phone_number_missing">Phone number is missing</string>
+    <string name="msg_scheduled_cancelled">Scheduled message cancelled</string>
+    <string name="msg_copied_toast">Copied to clipboard</string>
+    <string name="msg_error_open_contact">Could not open contacts</string>
+    <string name="msg_error_open_map">Could not open map</string>
+    <string name="msg_cd_cancel_recording">Cancel recording</string>
+    <string name="msg_cd_stop_recording">Stop recording</string>
+    <string name="msg_cd_remove_attachment">Remove attachment</string>
+    <string name="msg_voice_message">🎤 Voice message</string>
+    <string name="msg_my_location">📍 My current location</string>
+    <string name="msg_location_permission_required">Location permission is required to share your location</string>
+    <string name="msg_location_service_disabled">Location service is disabled. Please enable GPS from settings.</string>
+    <string name="msg_location_failed">Could not determine location. Make sure GPS is enabled and try again.</string>
+    <string name="msg_location_error">An error occurred while determining the location</string>
+    <string name="msg_schedule_past_error">Cannot schedule in the past</string>
+    <string name="msg_schedule_success">Message scheduled for %1$s at %2$s</string>
+    <string name="msg_template_delete_failed">Failed to delete template</string>
+    <string name="msg_spam">Spam</string>
+    <string name="templates_title">Message Templates</string>
+    <string name="templates_empty">No templates yet</string>
+    <string name="templates_create">Create Template</string>
+    <string name="templates_use_count">Used %d times</string>
+    <string name="templates_delete_title">Delete Template</string>
+    <string name="templates_delete_message">Are you sure you want to delete "%s"?</string>
+    <string name="cleanup_creating_backup">جاري إنشاء نسخة احتياطية...</string>
+    <string name="system_perm_title">Additional Settings</string>
+    <string name="system_perm_device">Your device: %1$s</string>
+    <string name="system_perm_subtitle">Requires additional settings for the app to work properly</string>
+    <string name="system_perm_important">Very Important!</string>
+    <string name="system_perm_warning">Without these settings, the call screen will not appear when the phone is locked</string>
+    <string name="system_perm_display_over">Display on Top</string>
+    <string name="system_perm_display_lock">Display on Lock Screen</string>
+    <string name="system_perm_autostart">Auto-Start</string>
+    <string name="system_perm_protected">Protected Apps</string>
+    <string name="system_perm_display_over_desc">To allow the call screen to appear over other apps</string>
+    <string name="system_perm_display_lock_desc">To show incoming calls when the screen is locked</string>
+    <string name="system_perm_autostart_desc">To allow the app to work in the background and receive calls</string>
+    <string name="system_perm_protected_desc">To protect the app from automatic closure</string>
+    <string name="system_perm_display_over_step1">Tap \'Open Settings\' below</string>
+    <string name="system_perm_display_over_step2">Look for \'Display over other apps\'</string>
+    <string name="system_perm_display_over_step3">Enable the option to allow the app to display over other apps</string>
+    <string name="system_perm_display_lock_step1">Tap \'Open Settings\' below</string>
+    <string name="system_perm_display_lock_step2">Go to \'Other permissions\'</string>
+    <string name="system_perm_display_lock_step3">Enable \'Display on lock screen\'</string>
+    <string name="system_perm_display_lock_step4">Also enable \'Display pop-up windows\'</string>
+    <string name="system_perm_autostart_step1_miui">Tap \'Open Settings\' below</string>
+    <string name="system_perm_autostart_step2_miui">Find the app in the list</string>
+    <string name="system_perm_autostart_step3_miui">Enable auto-start option</string>
+    <string name="system_perm_autostart_step4_miui">If the correct page doesn\'t open, go to: Security > Permissions > Autostart</string>
+    <string name="system_perm_autostart_step1_oppo">Tap \'Open Settings\' below</string>
+    <string name="system_perm_autostart_step2_oppo">Enable \'Auto-launch\' for the app</string>
+    <string name="system_perm_autostart_step3_oppo">If the page doesn\'t open, go to: Settings > App Management > Startup Manager</string>
+    <string name="system_perm_autostart_step1_generic">Tap \'Open Settings\' below</string>
+    <string name="system_perm_autostart_step2_generic">Enable auto-start option for the app</string>
+    <string name="system_perm_protected_step1">Tap \'Open Settings\' below</string>
+    <string name="system_perm_protected_step2">Find the app in the list</string>
+    <string name="system_perm_protected_step3">Enable protection for the app</string>
+    <string name="system_perm_protected_step4">If the page doesn\'t open, go to: Settings > Battery > Protected Apps</string>
+    <string name="system_perm_continue">Activation Complete, Continue</string>
+    <string name="system_perm_skip">Skip for Now (Can activate later)</string>
+    <string name="manufacturer_xiaomi">Xiaomi (MIUI)</string>
+    <string name="manufacturer_samsung">Samsung (One UI)</string>
+    <string name="manufacturer_oppo">OPPO (ColorOS)</string>
+    <string name="manufacturer_realme">Realme (Realme UI)</string>
+    <string name="manufacturer_huawei">Huawei (EMUI)</string>
+    <string name="manufacturer_vivo">Vivo (Funtouch OS)</string>
+    <string name="manufacturer_oneplus">OnePlus (OxygenOS)</string>
+    <string name="manufacturer_stock">Android</string>
+    <string name="appearance_theme_system_follow">Follow system theme</string>
+    <string name="spam_privacy_title">Privacy</string>
+    <string name="otp_settings_desc">Auto copy, notifications, trusted senders</string>
+    <string name="privacy_hide_notifications">Hide Sensitive Notifications</string>
+    <string name="privacy_hide_notifications_desc">Hide message content in notifications</string>
+    <string name="about_version">Version %s</string>
+    <string name="close">Close</string>
+    <string name="remove">Remove</string>
+    <string name="no_contacts_found">No contacts found</string>
+    <string name="no_recent_calls">No recent calls</string>
+    <string name="contacts_label">Contacts</string>
+    <string name="recent_calls_label">Recent</string>
+    <string name="call_blocking_title">Call Blocking</string>
+    <string name="call_blocking_enable">Enable Call Blocking</string>
+    <string name="sim_all">All SIMs</string>
+    <string name="sim_select_for_blocking">Select SIM for call blocking</string>
+    <string name="sim_slot_format">Applied to: %1$s</string>
+    <string name="call_blocking_desc">Block unwanted calls</string>
+    <string name="call_blocking_blocked_list">Blocked Numbers</string>
+    <string name="call_blocking_manage_blocked">Manage blocked numbers list</string>
+    <string name="call_blocking_whitelist">Whitelist</string>
+    <string name="call_blocking_manage_whitelist">Manage whitelist</string>
+    <string name="blocked_list_title">Blocked Numbers</string>
+    <string name="blocked_list_count">Blocked (%d)</string>
+    <string name="blocked_search_hint">Search contacts or recent calls</string>
+    <string name="blocked_tab_contacts">Contacts</string>
+    <string name="blocked_tab_recent">Recent</string>
+    <string name="whitelist_title">Allowed Numbers</string>
+    <string name="whitelist_count">Allowed (%d)</string>
+    <string name="whitelist_search_hint">Search contacts or recent calls</string>
+    <string name="action_accept">Accept</string>
+    <string name="action_decline">Decline</string>
+    <string name="action_swap">Swap</string>
+    <string name="action_merge">Merge</string>
+    <string name="action_end">End</string>
+    <string name="call_status_incoming">Incoming…</string>
+    <string name="call_status_on_hold">On Hold</string>
+    <string name="call_status_calling">Calling…</string>
+    <string name="conference_call_title">Conference Call</string>
+    <string name="conference_label">Conference</string>
+    <string name="conference_participants_count">%d participants</string>
+    <string name="overlay_status_hold">Hold</string>
+    <string name="overlay_status_incoming">Incoming</string>
+    <string name="fake_call_title">Fake Call</string>
+    <string name="fake_call_caller_name">Caller Name</string>
+    <string name="fake_call_caller_name_hint">e.g. Mom, Boss, Doctor</string>
+    <string name="fake_call_delay_label">Call after</string>
+    <string name="fake_call_delay_30s">30 sec</string>
+    <string name="fake_call_delay_1m">1 min</string>
+    <string name="fake_call_delay_2m">2 min</string>
+    <string name="fake_call_delay_5m">5 min</string>
+    <string name="fake_call_delay_10m">10 min</string>
+    <string name="fake_call_delay_30m">30 min</string>
+    <string name="fake_call_start">Start</string>
+    <string name="fake_call_close">Close</string>
+    <string name="fake_call_incoming">Incoming call…</string>
+    <string name="fake_call_answer">Answer</string>
+    <string name="fake_call_decline">Decline</string>
+    <string name="fake_call_end">End Call</string>
+    <string name="fake_call_name_required">Please enter caller name</string>
+    <string name="fake_call_delay_required">Please select call timing</string>
+    <string name="fake_call_scheduled">Fake call scheduled after %s</string>
+    <string name="fake_call_schedule_error">Failed to schedule fake call</string>
+    <string name="fake_call_manage_title">Scheduled Fake Calls</string>
+    <string name="fake_call_active_count">%d call(s) scheduled</string>
+    <string name="fake_call_no_scheduled">No scheduled fake calls</string>
+    <string name="fake_call_cancel_all">Cancel All</string>
+    <string name="fake_call_cancel_call">Cancel call</string>
+    <string name="fake_call_inexact_alarm_warning">Note: The call may not arrive at the exact time. Grant "Alarms &amp; reminders" permission in settings for better accuracy.</string>
+    <string name="refresh">Refresh</string>
+    <string name="callback_reminders_manage_title">Scheduled Call Back Reminders</string>
+    <string name="callback_reminder_active_count">%d reminder(s) scheduled</string>
+    <string name="callback_reminder_no_scheduled">No scheduled reminders</string>
+    <string name="callback_reminder_cancel_all">Cancel All</string>
+    <string name="callback_reminder_cancel_item">Cancel reminder</string>
+    <string name="scheduled_message_failures">Scheduled Message Failures</string>
+    <string name="scheduled_message_failed">Scheduled Message Failed</string>
+    <string name="scheduled_message_failed_body">To %1$s: %2$s</string>
+    <string name="scheduled_message_cancel">Cancel</string>
+    <string name="scheduled_message_edit">Edit</string>
+    <string name="scheduled_message_cancelled">Scheduled message cancelled</string>
+    <string name="scheduled_status_pending">Pending</string>
+    <string name="scheduled_status_sent">Sent</string>
+    <string name="scheduled_status_failed">Failed</string>
+    <string name="scheduled_status_cancelled">Cancelled</string>
+    
+    <!-- Message Notification Strings -->
+    <string name="msg_send_failure_title">Message Send Failed</string>
+    <string name="msg_send_failure_text">To %1$s: %2$s</string>
+
+    <!-- Search -->
+    <string name="search_messages_hint">Search messages</string>
+    <string name="search_clear">Clear</string>
+
+    <!-- Call State Strings -->
+    <string name="call_state_calling">Calling…</string>
+    <string name="call_state_ringing">Ringing…</string>
+    <string name="call_state_selecting_sim">Selecting SIM…</string>
+    <string name="call_state_connected">Connected</string>
+    <string name="call_state_on_hold">On Hold</string>
+    <string name="call_state_ended">Call Ended</string>
+    <string name="call_state_ending">Ending…</string>
+    <string name="call_state_unknown">Unknown</string>
+    <string name="call_state_incoming">Incoming Call</string>
+    <string name="call_state_outgoing">Outgoing Call</string>
+    <string name="call_state_missed">Missed Call</string>
+    <string name="notification_missed_call_title">Missed call</string>
+    <string name="notification_missed_call_title_named">Missed call from %1$s</string>
+    <string name="notification_missed_call_subtext">Tap to view call history</string>
+    <string name="notification_missed_call_action_callback">Call back</string>
+    <string name="call_state_rejected">Rejected Call</string>
+
+    <!-- InCall Bottom Card Buttons -->
+    <string name="incall_btn_decline">Decline</string>
+    <string name="incall_btn_accept">Accept</string>
+    <string name="incall_btn_silence">Silence</string>
+    <string name="incall_btn_silenced">Silenced</string>
+    <string name="incall_btn_reply">Reply</string>
+    <string name="incall_btn_speaker">Speaker</string>
+
+    <!-- Audio Route Labels -->
+    <string name="audio_route_bluetooth">Bluetooth</string>
+    <string name="audio_route_wired_headset">Wired Headset</string>
+    <string name="audio_route_earpiece">Phone</string>
+    <string name="audio_route_speaker">Speaker</string>
+
+    <!-- InCall Statistics -->
+    <!-- (icons only, labels removed) -->
+
+    <!-- Quick Reply -->
+    <string name="quick_reply_title">Quick Reply</string>
+    <string name="quick_reply_call_back">I\'ll call you back</string>
+    <string name="quick_reply_in_meeting">I\'m in a meeting</string>
+    <string name="quick_reply_cant_talk">Can\'t talk right now</string>
+    <string name="quick_reply_on_my_way">On my way</string>
+    <string name="quick_reply_give_me_5">Give me 5 minutes</string>
+    <string name="quick_reply_custom">Write custom message</string>
+    <string name="quick_reply_type_hint">Type your message…</string>
+    <string name="quick_reply_send">Send</string>
+    <string name="quick_reply_back">Back</string>
+
+    <!-- CONTACT SHARING -->
+    <string name="contact_share_title">Share Contact</string>
+    <string name="contact_share_preview_title">Share this contact?</string>
+    <string name="contact_share_send">Share</string>
+    <string name="contact_share_cancel">Cancel</string>
+    <string name="contact_share_error">Failed to attach contact</string>
+    <string name="contact_open_error">Cannot open contact file</string>
+    <string name="contact_picker_search">Search contacts</string>
+    <string name="contact_picker_search_or_number">Search contacts or enter number</string>
+    <string name="contact_picker_no_results">No contacts found</string>
+    <string name="contact_picker_loading">Loading contacts…</string>
+    <string name="action_add_contact">Add to Contacts</string>
+
+    <!-- Notification Channels -->
+    <string name="notification_channel_sms">SMS Messages</string>
+    <string name="notification_channel_sms_desc">Notifications for incoming text messages</string>
+    <string name="notification_channel_important">Important Messages</string>
+    <string name="notification_channel_important_desc">Notifications for important and urgent messages</string>
+    <string name="notification_channel_calls">Calls</string>
+    <string name="notification_channel_calls_desc">Notifications for missed calls and call alerts</string>
+    <string name="notification_channel_messages">Messages</string>
+    <string name="notification_channel_messages_desc">Notifications for new SMS and MMS messages</string>
+    <string name="notification_channel_spam">Spam Alerts</string>
+    <string name="notification_channel_spam_desc">Notifications for spam calls and messages</string>
+    <string name="notification_channel_general">General</string>
+    <string name="notification_channel_general_desc">General app notifications</string>
+    <string name="notification_channel_call_overlay">Ongoing Call Overlay</string>
+    <string name="notification_channel_call_overlay_desc">Keeps the call overlay active</string>
+    <string name="notification_channel_failures">Message Failures</string>
+    <string name="notification_channel_failures_desc">Notifications for failed message sends</string>
+    <string name="notification_channel_fake_call">Fake Calls</string>
+    <string name="notification_channel_fake_call_desc">Notifications for scheduled fake incoming calls</string>
+    <string name="notification_fake_call_incoming">Incoming call</string>
+    <string name="notification_channel_incoming_calls">Incoming Calls</string>
+    <string name="notification_channel_incoming_calls_desc">Incoming call notifications - shows on lock screen</string>
+    <string name="notification_channel_incoming_call_unlocked">Incoming Call (Unlocked)</string>
+    <string name="notification_channel_incoming_call_unlocked_desc">Silent foreground service notification when screen is on and call activity is shown directly</string>
+    <string name="risk_high">High Risk</string>
+    <string name="risk_medium">Medium Risk</string>
+    <string name="risk_low">Low Risk</string>
+    <string name="notification_spam_call_title">⚠️ Spam Call Detected</string>
+    <string name="notification_spam_call_text">%1$s - %2$s</string>
+
+    <!-- Notification Actions -->
+    <string name="notification_action_quick_reply">Quick Reply</string>
+    <string name="notification_action_mark_read">Mark as Read</string>
+    <string name="notification_action_archive">Archive</string>
+
+    <!-- Notification Content -->
+    <string name="notification_active_call_title">Active Call Overlay</string>
+    <string name="notification_active_call_text">Tap to return to call</string>
+    <string name="notification_send_failed_title">Message send failed</string>
+    <string name="notification_send_failed_text">To %1$s: %2$s</string>
+
+    <!-- SIM Picker -->
+    <string name="sim_picker_call_title">Choose SIM for call</string>
+
+    <!-- Error Messages -->
+    <string name="msg_unexpected_error">Unexpected error: %1$s</string>
+    <string name="msg_suggestion_prefix">Suggestion: %1$s</string>
+    <string name="msg_send_attachments_lost">Send failed. Your attachments are preserved — tap the failed message to retry.</string>
+    <string name="msg_retry_unexpected_error">Unexpected error: %1$s</string>
+    <string name="msg_forward_partial_success">Sent to %1$d of %2$d recipients. %3$d failed.</string>
+    <string name="msg_scheduled_load_error">Failed to load scheduled messages</string>
+
+    <!-- MessageError User Messages -->
+    <string name="msg_error_network_wifi">📶 MMS requires Wi-Fi or mobile data. Please check your connection.</string>
+    <string name="msg_error_network">📶 No internet connection. Please check your network settings.</string>
+    <string name="msg_error_permission">🔒 Permission required: %1$s. Please grant in settings.</string>
+    <string name="msg_error_balance">💳 Insufficient SMS balance. Please recharge your SIM card.</string>
+    <string name="msg_error_invalid_number">📱 Invalid phone number. Please check and try again.</string>
+    <string name="msg_error_storage_full">💾 Storage full. Please free up some space.</string>
+    <string name="msg_error_rate_limit">⏱️ Too many messages sent. Please wait %1$d seconds.</string>
+    <string name="msg_error_mms">📎 MMS error: %1$s. Please try again.</string>
+    <string name="msg_error_too_large">📏 Message too large. Maximum size is %1$dKB.</string>
+    <string name="msg_error_attachment">📎 Cannot attach %1$s: %2$s</string>
+    <string name="msg_error_sim">📱 SIM card error. Please check your SIM card.</string>
+    <string name="msg_error_thread_not_found">💬 Conversation not found. It may have been deleted.</string>
+    <string name="msg_error_delivery_failed">❌ Message delivery failed: %1$s</string>
+    <string name="msg_error_database">💾 Database error. Please try again.</string>
+    <string name="msg_error_unknown">⚠️ An error occurred: %1$s</string>
+    <string name="msg_error_empty_body">✍️ Message body is empty. Please type a message.</string>
+
+    <!-- MessageError Suggested Actions -->
+    <string name="msg_action_check_network">Check your internet connection and try again</string>
+    <string name="msg_action_grant_permission">Go to Settings → Apps → Purevon → Permissions</string>
+    <string name="msg_action_recharge">Recharge your SIM card balance</string>
+    <string name="msg_action_verify_number">Verify the phone number format</string>
+    <string name="msg_action_free_space">Delete some files to free up space</string>
+    <string name="msg_action_wait">Wait a moment before sending more messages</string>
+    <string name="msg_action_send_as_sms">Try sending as SMS without attachments</string>
+    <string name="msg_action_compress">Remove some attachments or compress them</string>
+    <string name="msg_action_check_sim">Check SIM card is properly inserted</string>
+    <string name="msg_action_type_message">Type a message or attach a file</string>
+
+    <!-- Attachment Warnings -->
+    <string name="msg_max_attachments">Maximum 10 attachments</string>
+    <string name="msg_video_too_large">Video is large (%1$dMB). It will be compressed and may be trimmed to 30 seconds.</string>
+    <string name="msg_attachments_too_large">Attachments are large (%1$dKB). Images will be compressed automatically for best possible quality.</string>
+    <string name="msg_video_will_compress">Video will be compressed automatically for MMS. May be trimmed to 30 seconds.</string>
+    <string name="msg_shared_location">📍 Shared location</string>
+
+    <!-- SMS Send Status -->
+    <string name="sms_generic_send_failure">Generic send failure</string>
+    <string name="sms_no_service">No service</string>
+    <string name="sms_parts_send_failure">Failed to send %1$d of %2$d parts</string>
+    <string name="sms_error_null_pdu">Data error (Null PDU)</string>
+    <string name="sms_error_radio_off">Airplane mode enabled (Radio off)</string>
+    <string name="sms_error_limit_exceeded">Sending limit exceeded</string>
+    <string name="sms_error_unknown">Unknown error</string>
+
+    <!-- OTP Bubble Service -->
+    <string name="otp_copied_toast">Verification code copied: %1$s ✓</string>
+    <string name="otp_copied_generic">Verification code copied ✓</string>
+    <string name="otp_missed_notification_title">Verification code received</string>
+    <string name="otp_missed_notification_text">New message from %1$s — open inbox to view</string>
+    <string name="otp_bubble_channel_name">Floating verification codes</string>
+    <string name="otp_bubble_channel_desc">Notifications for floating verification code bubbles</string>
+    <string name="otp_bubble_notification_title">Verification code</string>
+    <string name="otp_bubble_notification_text">Tap the floating bubble to copy the verification code</string>
+
+    <!-- Incoming Call Banner -->
+    <string name="settings_incoming_call_banner">Incoming call banner</string>
+    <string name="settings_incoming_call_banner_desc">Show a floating banner instead of full screen for incoming calls</string>
+
+    <!-- Notification Summary -->
+    <string name="notification_summary_title">Messages</string>
+    <string name="notification_summary_2_messages">2 new messages</string>
+    <string name="notification_summary_n_messages">%1$d new messages</string>
+    <string name="notification_summary_many_messages">9+ new messages</string>
+    <string name="notification_action_reply">Reply</string>
+    <string name="notification_action_mark_read_short">Mark read</string>
+
+    <!-- Settings -->
+    <string name="sim_ask_every_time">Ask every time</string>
+    <string name="sim_no_sim">No SIM</string>
+
+    <!-- User-facing error/success messages -->
+    <string name="error_failed_cancel_scheduled">Failed to cancel: %1$s</string>
+    <string name="error_failed_edit_scheduled">Failed to edit: %1$s</string>
+    <string name="success_scheduled_updated">Scheduled message updated</string>
+    <string name="error_failed_clear_messages">Failed to clear messages: %1$s</string>
+    <string name="error_failed_update_contact">Failed to update contact: %1$s</string>
+    <string name="success_contact_updated">Contact updated successfully</string>
+    <string name="error_failed_delete_contacts">Failed to delete contacts</string>
+    <string name="error_failed_block_contacts">Failed to block contacts</string>
+    <string name="error_failed_add_favorites">Failed to add to favorites</string>
+    <string name="error_failed_update_favorite">Failed to update favorite status</string>
+    <string name="error_failed_delete_contact">Failed to delete contact: %1$s</string>
+    <string name="success_contact_deleted">Contact deleted</string>
+    <string name="success_contacts_blocked">%1$d contacts blocked</string>
+    <string name="success_contacts_added_favorites">%1$d contacts added to favorites</string>
+    <string name="success_added_to_favorites">Added to favorites</string>
+    <string name="success_removed_from_favorites">Removed from favorites</string>
+    <string name="msg_contact_will_be_deleted">\"%1$s\" will be deleted</string>
+
+    <!-- Backup Encryption -->
+    <string name="backup_encrypt_dialog_title">Encrypt Backup</string>
+    <string name="backup_encrypt_dialog_desc">Enter a password to encrypt the backup, or leave empty to save as plain JSON.</string>
+    <string name="backup_encrypt_password_hint">Password (optional)</string>
+    <string name="backup_encrypt_confirm">Export</string>
+    <string name="restore_decrypt_dialog_title">Encrypted Backup</string>
+    <string name="restore_decrypt_dialog_desc">This backup is encrypted. Enter the password used when it was created.</string>
+    <string name="restore_decrypt_password_hint">Password</string>
+    <string name="restore_decrypt_confirm">Restore</string>
+    <string name="backup_wrong_password">Wrong password — could not decrypt backup.</string>
+    <string name="backup_encrypted_badge">🔒 Encrypted</string>
+
+    <!-- Backup & Restore -->
+    <string name="backup_created_success">Backup created successfully</string>
+    <string name="backup_created_failure">Failed to create backup</string>
+    <string name="backup_saved_success">✅ Backup saved successfully</string>
+    <string name="backup_saved_failure">❌ Save failed: %1$s</string>
+    <string name="restore_success">✅ Data restored successfully</string>
+    <string name="restore_failure">Restore failed</string>
+    <string name="restore_error">Restore error: %1$s</string>
+    <string name="backup_restore_success">✅ Backup restored successfully</string>
+    <string name="backup_restore_failure">❌ Restore failed: %1$s</string>
+    <string name="generic_error">Error: %1$s</string>
+
+    <!-- Export & Import -->
+    <string name="export_calls_success">✅ Calls exported: %1$s</string>
+    <string name="export_messages_success">✅ Messages exported: %1$s</string>
+    <string name="export_all_success">✅ All data exported: %1$s</string>
+    <string name="export_failure">❌ Export failed</string>
+    <string name="import_success">✅ Data imported successfully</string>
+    <string name="import_failure">Import failed</string>
+    <string name="import_error">Import error: %1$s</string>
+    <string name="import_restore_failure">❌ Import failed: %1$s</string>
+
+    <!-- ======================== -->
+    <!-- 25. DATA DISCLOSURE      -->
+    <!-- ======================== -->
+    <string name="disclosure_title">Your Privacy</string>
+    <string name="disclosure_subtitle">Please review before continuing</string>
+    <string name="disclosure_intro">Purevon replaces your default Phone dialer and your default SMS/MMS messaging app. To provide calling, SMS/MMS, spam protection, and related features, it needs the permissions explained below. Optional items (camera, microphone, location) are used only when you choose those actions (for example attaching a photo or sharing your location). Data stays on your device unless you explicitly use a network feature such as MMS or loading a web link preview.</string>
+    <string name="disclosure_phone_title">Phone numbers</string>
+    <string name="disclosure_phone_body">Purevon reads your phone numbers and SIM information to make calls, send messages, and identify which line is being used. This information stays on your device.</string>
+    <string name="disclosure_contacts_title">Contacts</string>
+    <string name="disclosure_contacts_body">Purevon reads and writes your contacts to display names and photos in calls and messages, and to let you save new contacts. Contacts are not transmitted off the device.</string>
+    <string name="disclosure_sms_title">SMS &amp; MMS messages</string>
+    <string name="disclosure_sms_body">As your default messaging app, Purevon reads, sends, and receives SMS and MMS messages. Message content is processed locally to detect OTP codes and spam.</string>
+    <string name="disclosure_calllog_title">Call log</string>
+    <string name="disclosure_calllog_body">Purevon reads and writes your call log to show your call history, return missed calls, and identify blocked numbers.</string>
+    <string name="disclosure_location_title">Location (when you share it)</string>
+    <string name="disclosure_location_body">If you tap share location in a conversation or during a call, Purevon accesses device location only to attach or send that location. It is not used for advertising and is not collected in the background for tracking.</string>
+    <string name="disclosure_camera_title">Camera</string>
+    <string name="disclosure_camera_body">Used when you take a photo to attach to a message or to add a contact photo. The camera is not used unless you start that action.</string>
+    <string name="disclosure_mic_title">Microphone</string>
+    <string name="disclosure_mic_body">Used when you record a voice note or place a call that requires microphone access. Recording does not run unless you start it.</string>
+    <string name="disclosure_storage_title">Photos, media &amp; files (older Android versions)</string>
+    <string name="disclosure_storage_body">On Android 12 and below only, storage access may be used so you can attach voice recordings or media files you choose. On newer Android versions the system picker is used where possible.</string>
+    <string name="disclosure_overlay_title">Incoming calls on lock screen &amp; display over other apps</string>
+    <string name="disclosure_overlay_body">Purevon may ask for permission to draw over other apps and to show full-screen incoming call UI so you can answer or decline calls reliably, including when the screen is locked.</string>
+    <string name="disclosure_notifications_title">Notifications &amp; alarms</string>
+    <string name="disclosure_notifications_body">Notifications alert you to new messages and calls. Exact alarms and boot completion are used only for scheduled messages and reminders you set; battery-optimization exemption may be requested so those alerts are delivered reliably.</string>
+    <string name="disclosure_no_upload">Your messages, call log, contacts, and phone identifiers are processed on your device for dialer and messaging features. Purevon does not sell this personal data. Network access may be used for MMS, optional link previews, or app updates — not to upload your SMS or call history to our servers.</string>
+    <string name="disclosure_consent_checkbox">I have read and agree to these data practices, including core dialer/SMS access and optional camera, microphone, and location when I use those features.</string>
+    <string name="disclosure_accept_button">Agree and continue</string>
+
+    <string name="perm_manual_special_intro">Use the special permissions section below when you are ready. Purevon does not open those system screens automatically, so you can read each explanation before continuing.</string>
+
+    <string name="incall_error_contact_not_found">Contact not found</string>
+    <string name="incall_error_favorite_update_failed">Failed to update favorite</string>
+    <string name="incall_error_block_update_failed">Failed to update block status</string>
+    <string name="incall_error_mute_toggle_failed">Failed to change microphone state</string>
+    <string name="incall_error_speaker_toggle_failed">Failed to change speaker state</string>
+    <string name="incall_error_swap_failed">Failed to swap calls</string>
+    <string name="incall_error_no_waiting_call">No waiting call</string>
+    <string name="incall_error_answer_waiting_failed">Failed to answer waiting call</string>
+    <string name="incall_error_reject_failed">Failed to reject call</string>
+    <string name="incall_error_merge_not_supported">Cannot merge calls - not supported</string>
+    <string name="incall_error_merge_failed">Failed to merge calls</string>
+    <string name="incall_error_add_call_unavailable">Cannot add call right now</string>
+    <string name="incall_error_sim_unknown">Could not determine SIM</string>
+    <string name="incall_error_no_call_permission">No permission to make calls</string>
+    <string name="incall_error_add_call_failed">Failed to add call: %1$s</string>
+    <string name="incall_error_note_save_invalid_number">Failed to save note - invalid number</string>
+    <string name="incall_error_note_save_failed">Failed to save note</string>
+    <string name="incall_error_reminder_invalid_number">Failed to set reminder - invalid number</string>
+    <string name="incall_error_reminder_failed">Failed to set reminder</string>
+    <string name="incall_status_answering">Answering…</string>
+    <string name="incall_msg_number_unblocked">Number unblocked</string>
+    <string name="incall_msg_number_blocked">Number blocked</string>
+    <string name="incall_msg_note_saved">✅ Saved</string>
+    <string name="incall_msg_reminder_set_hours">✅ Reminder set after %1$d hour(s)</string>
+    <string name="incall_msg_reminder_set_minutes">✅ Reminder set after %1$d minute(s)</string>
+    <string name="incall_msg_reminder_approximate_warning"> (Note: approximate timing)</string>
+    <string name="incall_msg_location_coming_soon">Location sending coming soon</string>
+    <string name="incall_msg_image_sharing_coming_soon">Image sharing coming soon</string>
+    <string name="incall_block_reason_incall">Blocked via InCall Screen</string>
+    <string name="shortcut_new_message">New Message</string>
+    <string name="shortcut_create_new_message">Create new message</string>
+
+    <!-- AI Settings -->
+    <string name="btn_ai_scan">Scan with AI</string>
+
+</resources>
