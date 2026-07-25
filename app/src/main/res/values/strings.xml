@@ -636,6 +636,8 @@
     <string name="msg_status_failed">Failed</string>
     <string name="msg_status_sending">Sending</string>
     <string name="msg_action_retry">Retry</string>
+    <string name="msg_send_cancelled">Message send cancelled</string>
+    <string name="msg_action_cancel">Cancel</string>
     <string name="msg_you">You</string>
     <string name="msg_attachment">Attachment</string>
     <string name="msg_attachment_camera">Camera</string>

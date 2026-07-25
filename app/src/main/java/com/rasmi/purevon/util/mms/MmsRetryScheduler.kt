@@ -1,7 +1,9 @@
 package com.rasmi.purevon.util.mms
 
 import android.util.Log
+import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 
 /**
  * Exponential backoff retry scheduler for MMS send operations.
@@ -60,6 +62,12 @@ object MmsRetryScheduler {
 
         for (attempt in startCount until MAX_RETRIES) {
             if (attempt > 0) {
+                // Check for cancellation before sleeping
+                if (!currentCoroutineContext().isActive) {
+                    Log.d(TAG, "🚫 Coroutine cancelled before retry attempt $attempt for '$operationKey'")
+                    resetRetryCount(operationKey)
+                    return Result.failure(kotlinx.coroutines.CancellationException("MMS send cancelled"))
+                }
                 val delayMs = getDelayForAttempt(attempt)
                 Log.d(TAG, "⏳ Retry attempt $attempt/$MAX_RETRIES for '$operationKey' — waiting ${delayMs / 1000}s...")
                 delay(delayMs)

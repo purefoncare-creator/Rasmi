@@ -500,6 +500,10 @@ class ConversationViewModel @Inject constructor(
                 messageSendingDelegate.sendMessage()
             }
             
+            is ConversationUiEvent.CancelSend -> {
+                messageSendingDelegate.cancelSend()
+            }
+            
             is ConversationUiEvent.AttachFile -> {
                 attachmentDelegate.attachFile(event.attachment)
             }

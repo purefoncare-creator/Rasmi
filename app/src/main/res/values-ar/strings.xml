@@ -311,6 +311,8 @@
     <string name="msg_status_failed">فشل</string>
     <string name="msg_status_sending">جارٍ الإرسال</string>
     <string name="msg_action_retry">إعادة المحاولة</string>
+    <string name="msg_send_cancelled">تم إلغاء إرسال الرسالة</string>
+    <string name="msg_action_cancel">إلغاء</string>
     <string name="msg_you">أنت</string>
     <string name="msg_attachment">مرفق</string>
     <string name="msg_attachment_camera">الكاميرا</string>

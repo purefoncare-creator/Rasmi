@@ -71,6 +71,7 @@ fun MessageBubble(
     modifier: Modifier = Modifier,
     onFavoriteClick: ((Message) -> Unit)? = null,
     onRetry: () -> Unit = {},
+    onCancel: (() -> Unit)? = null, // ✅ Cancel ongoing send
     onForward: ((Message) -> Unit)? = null, // ✅ P2: Forward callback
     onImageClick: ((List<String>, Int) -> Unit)? = null, // ✅ Image viewer callback
     onCancelScheduled: ((Long) -> Unit)? = null, // ✅ Cancel scheduled message
@@ -126,7 +127,8 @@ fun MessageBubble(
                 onForward = onForward,
                 onImageClick = onImageClick,
                 onCancelScheduled = onCancelScheduled,
-                onEditScheduled = onEditScheduled
+                onEditScheduled = onEditScheduled,
+                onCancel = onCancel
             )
         }
 
@@ -172,7 +174,8 @@ private fun CardMessageBody(
     onForward: ((Message) -> Unit)?,
     onImageClick: ((List<String>, Int) -> Unit)? = null,
     onCancelScheduled: ((Long) -> Unit)? = null,
-    onEditScheduled: ((Message) -> Unit)? = null
+    onEditScheduled: ((Message) -> Unit)? = null,
+    onCancel: (() -> Unit)? = null
 ) {
     val context = LocalContext.current
     Column(
@@ -616,6 +619,16 @@ private fun CardMessageBody(
                                                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
                                                     fontSize = 9.sp
                                                 )
+                                                if (onCancel != null) {
+                                                    Icon(
+                                                        Icons.Default.Close,
+                                                        contentDescription = stringResource(R.string.msg_action_cancel),
+                                                        modifier = Modifier
+                                                            .size(12.dp)
+                                                            .clickable { onCancel() },
+                                                        tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
+                                                    )
+                                                }
                                             }
                                         }
                                         // حالة تم الإرسال (SENT)

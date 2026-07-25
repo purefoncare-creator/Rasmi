@@ -15,6 +15,7 @@ import com.rasmi.purevon.presentation.util.getLocalizedSuggestion
 import com.rasmi.purevon.util.message.MessageRetryManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
@@ -44,6 +45,9 @@ internal class MessageSendingDelegate(
     companion object {
         private const val TAG = "ConversationViewModel"
     }
+
+    /** Active send job — stored so it can be cancelled by the user */
+    private var sendJob: Job? = null
 
     fun sendMessage(simSlotOverride: Int? = null) {
         val currentState = _uiState.value
@@ -122,7 +126,7 @@ internal class MessageSendingDelegate(
 
         Log.w(TAG, "✅ Optimistic update: Added temp message ${tempMessage.id}")
 
-        viewModelScope.launch {
+        sendJob = viewModelScope.launch {
             try {
                 val defaultSimSlot = simSlotOverride ?: settingsDataStore.defaultSmsSimSubscriptionId.first()
                     .takeIf { it > 0 && it != Int.MAX_VALUE }
@@ -173,7 +177,7 @@ internal class MessageSendingDelegate(
                             loadConversation(sentThreadId)
                         } else {
                             // Fallback: query the content provider (should rarely happen)
-                            viewModelScope.launch {
+        sendJob = viewModelScope.launch {
                                 try {
                                     val threadId = getOrCreateThreadIdUseCase(validatedPhone)
                                     if (threadId > 0) {
@@ -290,6 +294,35 @@ internal class MessageSendingDelegate(
                         isSending = false
                     )
                 }
+            }
+        }
+    }
+
+    /**
+     * Cancel the current MMS send operation.
+     * Cancels the coroutine which also cancels any in-progress retry delays.
+     */
+    fun cancelSend() {
+        val job = sendJob
+        if (job != null && job.isActive) {
+            Log.w(TAG, "🚫 Cancelling MMS send operation")
+            job.cancel()
+            sendJob = null
+            _uiState.update { state ->
+                state.copy(
+                    messages = state.messages.map { msg ->
+                        if (msg.type == com.rasmi.purevon.data.local.entity.MessageType.OUTBOX.value &&
+                            msg.status == com.rasmi.purevon.domain.model.MessageStatus.SENDING) {
+                            msg.copy(
+                                type = com.rasmi.purevon.data.local.entity.MessageType.FAILED.value,
+                                status = com.rasmi.purevon.domain.model.MessageStatus.FAILED
+                            )
+                        } else msg
+                    },
+                    isSending = false,
+                    isCompressingAttachments = false,
+                    error = context.getString(R.string.msg_send_cancelled)
+                )
             }
         }
     }

@@ -838,6 +838,9 @@ fun ConversationScreen(
                                         onRetry = {
                                             viewModel.onEvent(ConversationUiEvent.RetryMessage(message.id))
                                         },
+                                        onCancel = {
+                                            viewModel.onEvent(ConversationUiEvent.CancelSend)
+                                        },
                                         onForward = { msg ->
                                             viewModel.onEvent(ConversationUiEvent.ShowForwardDialog(msg))
                                         },

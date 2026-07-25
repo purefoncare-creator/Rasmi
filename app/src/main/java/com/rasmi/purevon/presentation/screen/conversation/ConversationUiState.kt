@@ -132,6 +132,7 @@ sealed class ConversationUiEvent {
     data class SetPhoneNumber(val phoneNumber: String) : ConversationUiEvent() // ✅ جديد: للمحادثات الجديدة
     data class MessageTextChanged(val text: String) : ConversationUiEvent()
     data object SendMessage : ConversationUiEvent()
+    data object CancelSend : ConversationUiEvent() // ✅ Cancel ongoing MMS send
     
     // Attachments
     data class AttachFile(val attachment: AttachmentData) : ConversationUiEvent()
