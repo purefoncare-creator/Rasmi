@@ -289,11 +289,10 @@ internal class MmsSender(
                 partIndex++
             }
 
-            // Track SMIL parts
-            data class SmilPart(val filename: String, val mimeType: String)
-            val smilParts = mutableListOf<SmilPart>()
+            // Track SMIL parts — uses SmilBuilder.SmilPart for smart slide grouping
+            val smilParts = mutableListOf<com.rasmi.purevon.util.mms.SmilBuilder.SmilPart>()
             if (!message.isNullOrBlank()) {
-                smilParts.add(SmilPart("text_0.txt", "text/plain"))
+                smilParts.add(com.rasmi.purevon.util.mms.SmilBuilder.SmilPart("text_0.txt", "text/plain"))
             }
 
             // Process attachments
@@ -412,7 +411,7 @@ internal class MmsSender(
                                 val bytesCopied = inputStream.copyTo(output)
                                 Log.d(TAG, "     ✅ Copied $bytesCopied bytes to part")
                             }
-                            smilParts.add(SmilPart(filename, mimeType))
+                            smilParts.add(com.rasmi.purevon.util.mms.SmilBuilder.SmilPart(filename, mimeType))
                             partIndex++
                         } else {
                             Log.e(TAG, "     ❌ Failed to insert part")
@@ -423,30 +422,9 @@ internal class MmsSender(
                 }
             }
 
-            // Add SMIL presentation
+            // Add SMIL presentation — uses SmilBuilder for smart slide grouping
             try {
-                val smilBody = StringBuilder()
-                smilParts.forEach { part ->
-                    // ✅ FIX #39: Escape filenames to prevent XML injection
-                    val safeName = android.text.TextUtils.htmlEncode(part.filename)
-                    smilBody.append("<par dur=\"5000ms\">")
-                    when {
-                        // ✅ FIX: vCard (text/x-vcard, text/vcard) should NOT be treated as text
-                        part.mimeType.contains("vcard", ignoreCase = true) -> smilBody.append("<ref src=\"$safeName\"/>")
-                        part.mimeType.startsWith("text/") -> smilBody.append("<text src=\"$safeName\" region=\"Text\"/>")
-                        part.mimeType.startsWith("image/") -> smilBody.append("<img src=\"$safeName\" region=\"Image\"/>")
-                        part.mimeType.startsWith("video/") -> smilBody.append("<video src=\"$safeName\" region=\"Video\"/>")
-                        part.mimeType.startsWith("audio/") -> smilBody.append("<audio src=\"$safeName\"/>")
-                        else -> smilBody.append("<ref src=\"$safeName\"/>")
-                    }
-                    smilBody.append("</par>")
-                }
-                val smilContent = "<smil><head><layout>" +
-                    "<root-layout width=\"480px\" height=\"640px\"/>" +
-                    "<region id=\"Image\" left=\"0\" top=\"0\" width=\"480px\" height=\"480px\" fit=\"meet\"/>" +
-                    "<region id=\"Video\" left=\"0\" top=\"0\" width=\"480px\" height=\"480px\" fit=\"meet\"/>" +
-                    "<region id=\"Text\" left=\"0\" top=\"480px\" width=\"480px\" height=\"160px\"/>" +
-                    "</layout></head><body>${smilBody}</body></smil>"
+                val smilContent = com.rasmi.purevon.util.mms.SmilBuilder.buildSmil(smilParts)
                 Log.d(TAG, "📋 SMIL: $smilContent")
                 val smilPartValues = ContentValues().apply {
                     put(Telephony.Mms.Part.CONTENT_TYPE, "application/smil")
