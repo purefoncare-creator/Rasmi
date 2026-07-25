@@ -129,7 +129,6 @@ internal class MessageSendingDelegate(
 
                 val result = if (currentState.attachments.isNotEmpty()) {
                     Log.w(TAG, "Sending MMS with ${currentState.attachments.size} attachments")
-                    _uiState.update { it.copy(isCompressingAttachments = false) }
                     sendMmsMessageUseCase(
                         phoneNumber = validatedPhone,
                         message = currentState.messageText.takeIf { it.isNotBlank() },
@@ -158,6 +157,7 @@ internal class MessageSendingDelegate(
                         state.copy(
                             messages = state.messages.filter { it.id != tempMessage.id },
                             isSending = false,
+                            isCompressingAttachments = false,
                             attachments = emptyList(),
                             attachmentsTotalSize = 0L,
                             error = null
