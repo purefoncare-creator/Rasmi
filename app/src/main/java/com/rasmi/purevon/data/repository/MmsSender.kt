@@ -658,11 +658,15 @@ internal class MmsSender(
             // (mobile data toggle was removed entirely — see above)
 
             // ✅ FIXED: Use withContext instead of orphan CoroutineScope
-            try {
-                onComplete(threadId)
-                Log.d(TAG, "✅ Synced after MMS send for thread $threadId")
-            } catch (e: Exception) {
-                Log.e(TAG, "Error syncing after MMS send", e)
+            if (retryResult.isSuccess) {
+                try {
+                    onComplete(threadId)
+                    Log.d(TAG, "✅ Synced after MMS send for thread $threadId")
+                } catch (e: Exception) {
+                    Log.e(TAG, "Error syncing after MMS send", e)
+                }
+            } else {
+                Log.d(TAG, "⏭️ Skipping onComplete — send failed, no sync needed")
             }
 
             // Clean up old temp image files after successful send
