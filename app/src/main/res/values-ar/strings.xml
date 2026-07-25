@@ -752,4 +752,13 @@
     <string name="shortcut_new_message">رسالة جديدة</string>
     <string name="shortcut_create_new_message">إنشاء رسالة جديدة</string>
     <string name="btn_ai_scan">المسح باستخدام الذكاء الاصطناعي</string>
+
+    <!-- MMS Foreground Service -->
+    <string name="mms_fg_channel_name">عمليات MMS</string>
+    <string name="mms_fg_channel_desc">يظهر أثناء إرسال أو تحميل رسائل MMS</string>
+    <string name="mms_fg_sending">إرسال MMS</string>
+    <string name="mms_fg_downloading">تحميل MMS</string>
+    <string name="mms_fg_processing">معالجة MMS</string>
+    <string name="mms_fg_in_progress">جاري معالجة MMS…</string>
+    <string name="mms_fg_to">إلى %s</string>
 </resources>

@@ -143,8 +143,11 @@ internal class MmsSender(
             Log.d(TAG, "  - SIM Slot: $simSlot")
             Log.d(TAG, "  - Subscription ID: $subscriptionId")
 
-            // Suppress content observer only during network send phase, not during compression
-            // ✅ FIX M11: Moved from before DB insert to before network send to reduce suppression window
+            // ✅ FIX #9: Start foreground service to keep process alive during MMS send
+            val maskedPhone = DebugLogger.maskPhoneNumber(phoneNumber)
+            com.rasmi.purevon.service.MmsForegroundService.startMmsService(
+                context, "send", maskedPhone
+            )
 
             // Insert MMS message into system database
             val timestamp = System.currentTimeMillis()
@@ -721,6 +724,12 @@ internal class MmsSender(
         } finally {
             // ✅ FIX #19: Single finally block guarantees flag reset on all paths
             setSendInProgress(false)
+            // ✅ FIX #9: Stop foreground service when MMS operation completes
+            try {
+                com.rasmi.purevon.service.MmsForegroundService.stopMmsService(context)
+            } catch (e: Exception) {
+                Log.w(TAG, "Failed to stop MMS foreground service", e)
+            }
         } }
     }
 

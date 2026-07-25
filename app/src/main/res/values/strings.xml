@@ -1152,4 +1152,13 @@
     <!-- AI Settings -->
     <string name="btn_ai_scan">Scan with AI</string>
 
+    <!-- MMS Foreground Service -->
+    <string name="mms_fg_channel_name">MMS Operations</string>
+    <string name="mms_fg_channel_desc">Shows when MMS messages are being sent or downloaded</string>
+    <string name="mms_fg_sending">Sending MMS</string>
+    <string name="mms_fg_downloading">Downloading MMS</string>
+    <string name="mms_fg_processing">Processing MMS</string>
+    <string name="mms_fg_in_progress">MMS operation in progress…</string>
+    <string name="mms_fg_to">To %s</string>
+
 </resources>

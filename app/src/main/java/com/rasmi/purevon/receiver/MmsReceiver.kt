@@ -268,6 +268,9 @@ class MmsReceiver : BroadcastReceiver() {
             Log.w(TAG, "╔═══════════════════════════════════════════════════════╗")
             Log.w(TAG, "║  🚀 [DOWNLOAD STEP 6] CALLING downloadMultimediaMessage()  ║")
             Log.w(TAG, "╚═══════════════════════════════════════════════════════╝")
+
+            // ✅ FIX #9: Start foreground service to keep process alive during download
+            com.rasmi.purevon.service.MmsForegroundService.startMmsService(context, "download")
             Log.w(TAG, "   Content-Location: $contentLocation")
             Log.w(TAG, "   Download URI: $downloadUri")
             Log.w(TAG, "   Subscription: $subId")

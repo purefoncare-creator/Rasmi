@@ -88,6 +88,12 @@ class MmsDownloadedReceiver : BroadcastReceiver() {
                 Log.e(TAG, "   Type: ${e.javaClass.name}")
                 Log.e(TAG, "   Message: ${e.message}")
             } finally {
+                // ✅ FIX #9: Stop foreground service when MMS download completes
+                try {
+                    com.rasmi.purevon.service.MmsForegroundService.stopMmsService(context)
+                } catch (e: Exception) {
+                    android.util.Log.w(TAG, "Failed to stop MMS foreground service", e)
+                }
                 cleanupTempFile(filePath)
                 job.cancel()
                 pendingResult.finish()

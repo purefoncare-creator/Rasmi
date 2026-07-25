@@ -43,6 +43,7 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_PHONE_CALL" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SHORT_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
     
     <!-- ✅ Exact Alarms for notifications and reminders (API 33+) -->
     <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
@@ -466,6 +467,12 @@
             android:name=".service.FloatingOtpBubbleService"
             android:exported="false"
             android:foregroundServiceType="shortService" />
+
+        <!-- MMS Foreground Service — keeps process alive during long send/download operations -->
+        <service
+            android:name=".service.MmsForegroundService"
+            android:exported="false"
+            android:foregroundServiceType="dataSync" />
         
         <!-- FileProvider for sharing files (vCards, Audio) — uses same provider as above -->
         <!-- REMOVED duplicate: merged into the single .fileprovider declaration above -->
