@@ -4,7 +4,7 @@ import javax.inject.Inject
 
 /**
  * Use case for formatting phone numbers for display
- * Handles different formats (local, international, etc.)
+ * Uses generic, country-agnostic formatting for all numbers
  */
 class FormatPhoneNumberUseCase @Inject constructor() {
     
@@ -25,78 +25,73 @@ class FormatPhoneNumberUseCase @Inject constructor() {
         
         return when {
             // International format with +
-            cleaned.startsWith("+") -> formatInternational(cleaned)
+            cleaned.startsWith("+") -> formatGenericInternational(cleaned)
             
             // International format with 00
-            cleaned.startsWith("00") -> formatInternational("+" + cleaned.substring(2))
+            cleaned.startsWith("00") -> formatGenericInternational("+" + cleaned.substring(2))
             
-            // Local format (10 digits) - Egyptian format
-            cleaned.length == 10 -> formatEgyptian(cleaned)
+            // Local format (10 digits) — generic grouping
+            cleaned.length == 10 -> formatGenericLocal(cleaned)
             
-            // Local format (11 digits with 0)
-            cleaned.length == 11 && cleaned.startsWith("0") -> formatEgyptian(cleaned)
+            // Local format (11 digits with leading 0) — generic grouping
+            cleaned.length == 11 && cleaned.startsWith("0") -> formatGenericLocal(cleaned)
             
             // International without prefix
-            cleaned.length > 11 -> formatInternational("+" + cleaned)
+            cleaned.length > 11 -> formatGenericInternational("+" + cleaned)
             
-            // Unknown format - return as is
+            // Short codes (3-5 digits) — return as is
             else -> number
         }
     }
     
     /**
-     * Format Egyptian phone number
-     * Example: 0123456789 -> 012 345 6789
+     * Format local number with generic grouping: XX XXX XXXX
+     * Works for any country's local format.
      */
-    private fun formatEgyptian(digits: String): String {
-        val hasLeadingZero = digits.startsWith("0")
+    private fun formatGenericLocal(digits: String): String {
         val clean = digits.removePrefix("0")
-        return when (clean.length) {
-            10 -> "0${clean.substring(0, 2)} ${clean.substring(2, 5)} ${clean.substring(5)}"
-            9 -> "0${clean.substring(0, 2)} ${clean.substring(2, 5)} ${clean.substring(5)}"
+        return when {
+            clean.length >= 10 -> "0${clean.substring(0, 2)} ${clean.substring(2, 5)} ${clean.substring(5, 10)}"
+            clean.length >= 9 -> "0${clean.substring(0, 2)} ${clean.substring(2, 5)} ${clean.substring(5)}"
             else -> digits
         }
     }
     
     /**
-     * Format international number
-     * Example: +201234567890 -> +20 123 456 7890
+     * Format international number with generic grouping.
+     * Detects 1-3 digit country code, then groups the local part in 3s.
+     * Examples:
+     *   +201234567890  -> +20 123 456 7890
+     *   +966501234567  -> +966 501 234 567
+     *   +12125551234   -> +1 212 555 1234
+     *   +447123456789  -> +44 712 345 6789
+     *   +8613912345678 -> +86 139 1234 5678
      */
-    private fun formatInternational(number: String): String {
+    private fun formatGenericInternational(number: String): String {
         if (!number.startsWith("+")) return number
         
         val digits = number.substring(1)
+        if (digits.length <= 3) return number
         
-        return when {
-            // Egypt +20
-            digits.startsWith("20") && digits.length == 12 -> {
-                "+20 ${digits.substring(2, 5)} ${digits.substring(5, 8)} ${digits.substring(8)}"
+        // Heuristic: country codes are 1-3 digits; local numbers are 6-11 digits.
+        // Try 1, 2, then 3 digit country code and pick the best fit.
+        for (codeLen in 1..3) {
+            if (codeLen >= digits.length) break
+            val localPart = digits.substring(codeLen)
+            if (localPart.length in 6..11) {
+                val countryCode = digits.substring(0, codeLen)
+                val grouped = localPart.chunked(3).joinToString(" ")
+                return "+$countryCode $grouped"
             }
-            
-            // Saudi Arabia +966
-            digits.startsWith("966") && digits.length == 12 -> {
-                "+966 ${digits.substring(3, 5)} ${digits.substring(5, 8)} ${digits.substring(8)}"
-            }
-            
-            // UAE +971
-            digits.startsWith("971") && digits.length == 12 -> {
-                "+971 ${digits.substring(3, 5)} ${digits.substring(5, 8)} ${digits.substring(8)}"
-            }
-            
-            // USA/Canada +1
-            digits.startsWith("1") && digits.length == 11 -> {
-                "+1 (${digits.substring(1, 4)}) ${digits.substring(4, 7)}-${digits.substring(7)}"
-            }
-            
-            // Generic international
-            digits.length > 10 -> {
-                val countryCode = digits.substring(0, digits.length - 10)
-                val rest = digits.substring(digits.length - 10)
-                "+$countryCode ${rest.substring(0, 3)} ${rest.substring(3, 6)} ${rest.substring(6)}"
-            }
-            
-            else -> number
         }
+        
+        // Fallback: treat first 1-3 digits as country code, group rest
+        val countryCode = digits.substring(0, minOf(3, digits.length))
+        val localPart = digits.substring(countryCode.length)
+        if (localPart.isNotEmpty()) {
+            return "+$countryCode ${localPart.chunked(3).joinToString(" ")}"
+        }
+        return "+$digits"
     }
     
     /**
