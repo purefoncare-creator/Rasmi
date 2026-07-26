@@ -5,11 +5,9 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.Location
+import android.location.LocationManager
+import android.os.Looper
 import androidx.core.content.ContextCompat
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.location.Priority
-import com.google.android.gms.tasks.CancellationTokenSource
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -20,34 +18,33 @@ import javax.inject.Singleton
 import kotlin.coroutines.resume
 
 /**
- * Manager for getting call location
+ * Manager for getting call location.
+ * Uses Android's built-in LocationManager (no Google Play Services required).
  */
 @Singleton
 class CallLocationManager @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
-    
-    private val fusedLocationClient: FusedLocationProviderClient =
-        LocationServices.getFusedLocationProviderClient(context)
-    
+
+    private val locationManager =
+        context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+
     private val geocoder = Geocoder(context, Locale.getDefault())
-    
+
     /**
      * Get current location
      */
     suspend fun getCurrentLocation(): Result<CallLocation> = withContext(Dispatchers.IO) {
         try {
-            // Check permission
             if (!hasLocationPermission()) {
                 return@withContext Result.failure(SecurityException("Location permission not granted"))
             }
-            
+
             val location = getCurrentLocationInternal()
                 ?: return@withContext Result.failure(Exception("Unable to get location"))
-            
-            // Get address
+
             val address = getAddressFromLocation(location)
-            
+
             Result.success(
                 CallLocation(
                     latitude = location.latitude,
@@ -60,37 +57,62 @@ class CallLocationManager @Inject constructor(
             Result.failure(e)
         }
     }
-    
+
     /**
-     * Get current location internal
+     * Get current location using Android LocationManager.
+     * Tries GPS first, then falls back to network provider.
      */
     private suspend fun getCurrentLocationInternal(): Location? =
         suspendCancellableCoroutine { continuation ->
-            try {
-                if (!hasLocationPermission()) {
+            if (!hasLocationPermission()) {
+                continuation.resume(null)
+                return@suspendCancellableCoroutine
+            }
+
+            val provider = when {
+                locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ->
+                    LocationManager.GPS_PROVIDER
+                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER) ->
+                    LocationManager.NETWORK_PROVIDER
+                else -> {
                     continuation.resume(null)
                     return@suspendCancellableCoroutine
                 }
-                
-                val cancellationTokenSource = CancellationTokenSource()
-                
-                fusedLocationClient.getCurrentLocation(
-                    Priority.PRIORITY_HIGH_ACCURACY,
-                    cancellationTokenSource.token
-                ).addOnSuccessListener { location ->
-                    continuation.resume(location)
-                }.addOnFailureListener {
-                    continuation.resume(null)
+            }
+
+            var resumed = false
+            val callback = object : android.location.LocationListener {
+                override fun onLocationChanged(location: Location) {
+                    if (!resumed) {
+                        resumed = true
+                        locationManager.removeUpdates(this)
+                        continuation.resume(location)
+                    }
                 }
-                
-                continuation.invokeOnCancellation {
-                    cancellationTokenSource.cancel()
+                @Deprecated("Deprecated in API")
+                override fun onStatusChanged(provider: String?, status: Int, extras: android.os.Bundle?) {}
+                override fun onProviderEnabled(provider: String) {}
+                override fun onProviderDisabled(provider: String) {
+                    if (!resumed) {
+                        resumed = true
+                        continuation.resume(null)
+                    }
                 }
-            } catch (e: SecurityException) {
-                continuation.resume(null)
+            }
+
+            locationManager.requestLocationUpdates(
+                provider,
+                0L,
+                0f,
+                callback,
+                Looper.getMainLooper()
+            )
+
+            continuation.invokeOnCancellation {
+                locationManager.removeUpdates(callback)
             }
         }
-    
+
     /**
      * Get address from location coordinates
      */
@@ -99,7 +121,7 @@ class CallLocationManager @Inject constructor(
             try {
                 @Suppress("DEPRECATION")
                 val addresses = geocoder.getFromLocation(location.latitude, location.longitude, 1)
-                
+
                 if (!addresses.isNullOrEmpty()) {
                     val address = addresses[0]
                     buildString {
@@ -114,7 +136,7 @@ class CallLocationManager @Inject constructor(
                 null
             }
         }
-    
+
     /**
      * Check if location permission is granted
      */
@@ -128,7 +150,7 @@ class CallLocationManager @Inject constructor(
                     Manifest.permission.ACCESS_COARSE_LOCATION
                 ) == PackageManager.PERMISSION_GRANTED
     }
-    
+
     /**
      * Format location for display
      */

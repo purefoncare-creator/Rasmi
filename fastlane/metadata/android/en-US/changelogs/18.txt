@@ -1,0 +1,11 @@
+Purefon v1.1.8
+
+MMS pipeline fixes:
+- Cancel button for stuck MMS sends
+- Fixed Direct HTTP path marking messages as sent
+- MMS rate recording only on success
+- Foreground service for long MMS operations
+
+F-Droid compatibility:
+- Removed Google Play Services dependencies
+- Uses Android built-in LocationManager

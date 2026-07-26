@@ -222,7 +222,6 @@ dependencies {
     // Coroutines
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.coroutines.core)
-    implementation(libs.kotlinx.coroutines.play.services)
 
     // Paging
     implementation(libs.androidx.paging.runtime)
@@ -243,11 +242,6 @@ dependencies {
     // Security
     implementation(libs.androidx.biometric)
     implementation(libs.androidx.security.crypto)
-
-    // Google Play Services
-    implementation(libs.play.services.location)
-    implementation(libs.play.review)
-    implementation(libs.play.review.ktx)
 
     // Media3 (ExoPlayer) for video playback
     implementation(libs.androidx.media3.exoplayer)

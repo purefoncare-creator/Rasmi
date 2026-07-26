@@ -1,0 +1,18 @@
+Purefon is a free and open-source phone app for Android that combines a powerful dialer, SMS, and MMS messaging into one clean, fast experience.
+
+Features:
+• Dialer with call history, favorites, and contact search
+• SMS and MMS messaging with image, video, and audio support
+• Dual SIM support
+• Scheduled messages
+• Conversation templates
+• Message scheduling and reminders
+• Call screening and blocking
+• Spam detection
+• Contact management with avatars
+• Location sharing
+• Audio messages
+• Dark mode
+• English and Arabic languages
+
+Purefon uses Android's built-in location services and does not require Google Play Services.

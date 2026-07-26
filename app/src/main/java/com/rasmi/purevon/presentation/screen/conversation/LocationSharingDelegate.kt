@@ -2,23 +2,25 @@ package com.rasmi.purevon.presentation.screen.conversation
 
 import android.content.Context
 import android.location.Geocoder
+import android.location.Location
+import android.location.LocationListener
 import android.location.LocationManager
+import android.os.Looper
 import android.util.Log
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.location.Priority
-import com.google.android.gms.tasks.CancellationTokenSource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeoutOrNull
 import java.util.Locale
+import kotlin.coroutines.resume
 
 /**
  * Handles location fetching and formatting for location sharing.
+ * Uses Android's built-in LocationManager (no Google Play Services required).
  * Extracted from ConversationViewModel to reduce class size.
  */
 internal class LocationSharingDelegate(
@@ -30,8 +32,8 @@ internal class LocationSharingDelegate(
         private const val TAG = "ConversationViewModel"
     }
 
-    private val fusedLocationClient by lazy {
-        LocationServices.getFusedLocationProviderClient(context)
+    private val locationManager by lazy {
+        context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
     }
 
     fun handleShareLocation(hasPermission: Boolean) {
@@ -40,15 +42,12 @@ internal class LocationSharingDelegate(
             return
         }
 
-        // Prevent duplicate requests
         if (_uiState.value.isFetchingLocation) return
 
         viewModelScope.launch {
             _uiState.update { it.copy(isFetchingLocation = true, error = null) }
 
             try {
-                // 1. Check if GPS/Location Services are enabled
-                val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
                 val isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
                 val isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
 
@@ -60,20 +59,12 @@ internal class LocationSharingDelegate(
                     return@launch
                 }
 
-                // 2. Get current location with 15s timeout
-                val cancellationTokenSource = CancellationTokenSource()
-
-                // Permission is guaranteed by the hasPermission check at the top of handleShareLocation()
                 @Suppress("MissingPermission")
                 val location = withTimeoutOrNull(15_000L) {
-                    fusedLocationClient.getCurrentLocation(
-                        Priority.PRIORITY_HIGH_ACCURACY,
-                        cancellationTokenSource.token
-                    ).await()
+                    getCurrentLocationFromManager()
                 }
 
                 if (location == null) {
-                    cancellationTokenSource.cancel()
                     _uiState.update { it.copy(
                         isFetchingLocation = false,
                         error = context.getString(com.rasmi.purevon.R.string.msg_location_failed)
@@ -85,12 +76,10 @@ internal class LocationSharingDelegate(
                 val longitude = location.longitude
                 val accuracy = if (location.hasAccuracy()) " (±${location.accuracy.toInt()}m)" else ""
 
-                // 3. Reverse geocode to get address
                 val address = withContext(Dispatchers.IO) {
                     try {
                         val geocoder = Geocoder(context, Locale.getDefault())
                         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
-                            // Use callback API on Android 13+
                             kotlinx.coroutines.suspendCancellableCoroutine<String?> { cont ->
                                 geocoder.getFromLocation(latitude, longitude, 1) { addresses ->
                                     if (addresses.isNotEmpty()) {
@@ -116,7 +105,7 @@ internal class LocationSharingDelegate(
                                     addr.thoroughfare?.let { append(it) }
                                     addr.subLocality?.let { if (isNotEmpty()) append("، "); append(it) }
                                     addr.locality?.let { if (isNotEmpty()) append("، "); append(it) }
-                                    addr.adminArea?.let { if (isNotEmpty()) append("، "); append(it) }
+                                    addr.adminArea?.let { if (isNotEmpty()) append("؛ "); append(it) }
                                 }.takeIf { it.isNotBlank() }
                             } else null
                         }
@@ -126,7 +115,6 @@ internal class LocationSharingDelegate(
                     }
                 }
 
-                // 4. Format location message with geo: URI for mini-map detection
                 val locationText = buildString {
                     if (address != null) {
                         append("📍 $address$accuracy\n")
@@ -138,7 +126,6 @@ internal class LocationSharingDelegate(
                     append("https://maps.google.com/?q=$latitude,$longitude")
                 }
 
-                // 5. Insert into message text
                 val currentText = _uiState.value.messageText
                 val newText = if (currentText.isBlank()) locationText
                               else "$currentText\n\n$locationText"
@@ -156,6 +143,49 @@ internal class LocationSharingDelegate(
                     isFetchingLocation = false,
                     error = context.getString(com.rasmi.purevon.R.string.msg_location_error)
                 ) }
+            }
+        }
+    }
+
+    /**
+     * Get current location using Android LocationManager (no Play Services).
+     * Tries GPS first, falls back to network provider.
+     */
+    @Suppress("MissingPermission")
+    private suspend fun getCurrentLocationFromManager(): Location? {
+        val provider = when {
+            locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ->
+                LocationManager.GPS_PROVIDER
+            locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER) ->
+                LocationManager.NETWORK_PROVIDER
+            else -> return null
+        }
+
+        return suspendCancellableCoroutine { cont ->
+            var resumed = false
+            val listener = object : LocationListener {
+                override fun onLocationChanged(location: Location) {
+                    if (!resumed) {
+                        resumed = true
+                        locationManager.removeUpdates(this)
+                        cont.resume(location)
+                    }
+                }
+                @Deprecated("Deprecated in API")
+                override fun onStatusChanged(provider: String?, status: Int, extras: android.os.Bundle?) {}
+                override fun onProviderEnabled(provider: String) {}
+                override fun onProviderDisabled(provider: String) {
+                    if (!resumed) {
+                        resumed = true
+                        cont.resume(null)
+                    }
+                }
+            }
+
+            locationManager.requestLocationUpdates(provider, 0L, 0f, listener, Looper.getMainLooper())
+
+            cont.invokeOnCancellation {
+                locationManager.removeUpdates(listener)
             }
         }
     }
