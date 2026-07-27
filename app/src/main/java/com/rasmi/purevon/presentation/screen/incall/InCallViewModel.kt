@@ -55,20 +55,20 @@ import javax.inject.Inject
 @RequiresApi(Build.VERSION_CODES.M)
 @HiltViewModel
 class InCallViewModel @Inject constructor(
-    @ApplicationContext private val context: Context,
-    private val callAudioManager: CallAudioManager,
-    private val contactRepository: ContactRepository,
-    private val contactNoteDao: com.rasmi.purevon.data.local.dao.ContactNoteDao,
-    private val callLogRepository: CallLogRepository,
+    @ApplicationContext internal val context: Context,
+    internal val callAudioManager: CallAudioManager,
+    internal val contactRepository: ContactRepository,
+    internal val contactNoteDao: com.rasmi.purevon.data.local.dao.ContactNoteDao,
+    internal val callLogRepository: CallLogRepository,
     private val blockNumberUseCase: BlockNumberUseCase,
     private val unblockNumberUseCase: UnblockNumberUseCase,
     private val toggleFavoriteUseCase: ToggleFavoriteUseCase,
-    private val inCallBridge: InCallServiceBridge,
+    internal val inCallBridge: InCallServiceBridge,
     private val simCallRouter: SimCallRouter
 ) : ViewModel() {
     
     // ✅ ContactResolver for system contact lookups (moved from direct ContentResolver)
-    private val contactResolver = com.rasmi.purevon.data.repository.ContactResolver(context)
+    internal val contactResolver = com.rasmi.purevon.data.repository.ContactResolver(context)
     
     companion object {
         private const val TAG = "InCallViewModel"
@@ -80,6 +80,10 @@ class InCallViewModel @Inject constructor(
     // ✅ UI Events for feedback and error handling
     private val _uiEventFlow = MutableSharedFlow<UiEvent>()
     val uiEventFlow: SharedFlow<UiEvent> = _uiEventFlow.asSharedFlow()
+    
+    // Internal access for extension functions
+    internal val uiStateUpdater get() = _uiState
+    internal val uiEventEmitter get() = _uiEventFlow
     
     private val callStartTime = AtomicLong(0L)
     private var timerJob: Job? = null // ✅ Track timer job for proper cancellation
@@ -815,7 +819,7 @@ class InCallViewModel @Inject constructor(
         }
     }
     
-    private fun endCall() {
+    internal fun endCall() {
         Log.d(TAG, "Ending call")
         
         // ✅ Fix #1: تعطيل الأزرار فوراً لمنع النقر المتكرر
@@ -953,248 +957,52 @@ class InCallViewModel @Inject constructor(
         addCallToNumber(contact.phoneNumber)
     }
     
-    /**
-     * Silence the incoming call:
-     * 1. Mute the ringtone for THIS CALL ONLY (not the whole phone)
-     * 2. Close the InCall screen (go to background)
-     * 3. Call continues ringing silently - caller keeps waiting
-     */
     private fun silenceCall() {
-        Log.d(TAG, "Silencing call - muting THIS call only and going to background")
-        try {
-            // 1. Silence THIS call only using TelecomManager API
-            // This does NOT change the phone's ringer mode - only silences current call
-            val telecomManager = context.getSystemService(Context.TELECOM_SERVICE) as TelecomManager
-            telecomManager.silenceRinger()
-            Log.d(TAG, "Call silenced using TelecomManager.silenceRinger() - phone ringer mode unchanged")
-            
-            // ✅ Fix #11: تتبع حالة الإسكات لتعطيل زر الإسكات عند العودة
-            _uiState.update { it.copy(isSilenced = true) }
-            
-            // 2. Move activity to background (don't finish it - call keeps ringing silently)
-            viewModelScope.launch { _uiEventFlow.emit(UiEvent.MoveToBackground) }
-            Log.d(TAG, "Activity moved to background - caller still waiting")
-            
-        } catch (e: Exception) {
-            Log.e(TAG, "Error silencing call", e)
-            // Fallback: try to move to background anyway
-            viewModelScope.launch { _uiEventFlow.emit(UiEvent.MoveToBackground) }
-        }
+        silenceCallImpl()
     }
     
     private fun sendQuickMessage(message: String) {
-        Log.d(TAG, "Quick message sent: $message")
-        viewModelScope.launch {
-            delay(500)
-            endCall()
-        }
+        sendQuickMessageImpl(message)
     }
     
-    // ✅ دوال الميزات الجديدة
     private fun updateCallNotes(notes: String) {
-        Log.d(TAG, "Updating call notes: $notes")
-        _uiState.update { it.copy(callNotes = notes) }
+        updateCallNotesImpl(notes)
     }
     
     private fun saveCallNote() {
-        val notes = _uiState.value.callNotes.trim()
-        if (notes.isEmpty()) {
-            Log.d(TAG, "Note is empty, not saving")
-            return
-        }
-        
-        val phoneNumber = _uiState.value.phoneNumber
-        if (phoneNumber.isEmpty() || phoneNumber == "Unknown") {
-            Log.w(TAG, "Invalid phone number, cannot save note")
-            viewModelScope.launch {
-                _uiEventFlow.emit(UiEvent.ShowSnackbar(context.getString(R.string.incall_error_note_save_invalid_number)))
-            }
-            return
-        }
-        
-        viewModelScope.launch {
-            try {
-                // ✅ FIX: Normalize phone number to digits-only (last 10) for consistent matching
-                val normalizedPhone = phoneNumber.replace(Regex("[^0-9]"), "").takeLast(10)
-                val note = com.rasmi.purevon.data.local.entity.ContactNoteEntity(
-                    phoneNumber = normalizedPhone,
-                    note = notes,
-                    callDuration = _uiState.value.callDuration,
-                    isIncoming = !_uiState.value.isOutgoing,
-                    createdAt = System.currentTimeMillis()
-                )
-                
-                contactNoteDao.insertNote(note)
-                Log.d(TAG, "Note saved successfully for ${DebugLogger.maskPhoneNumber(phoneNumber)}")
-
-                // إعادة تحميل الملاحظات وإخفاء حقل الإدخال
-                val updatedNotes = contactNoteDao.getNotesByPhoneNumberSync(normalizedPhone)
-                _uiState.update {
-                    it.copy(
-                        callNotes = "",
-                        existingNotes = updatedNotes,
-                        showNewNoteInput = false
-                    )
-                }
-                _uiEventFlow.emit(UiEvent.ShowSnackbar(context.getString(R.string.incall_msg_note_saved)))
-            } catch (e: Exception) {
-                Log.e(TAG, "Error saving note", e)
-                _uiEventFlow.emit(UiEvent.ShowSnackbar(context.getString(R.string.incall_error_note_save_failed)))
-            }
-        }
+        saveCallNoteImpl()
     }
     
     private fun setCallbackReminder(minutes: Int) {
-        Log.d(TAG, "Setting callback reminder for $minutes minutes")
-        
-        // ✅ إغلاق الحوار فوراً بشكل مباشر (false ثابتة ليس toggle)
-        _uiState.update { it.copy(showCallbackReminder = false) }
-        
-        val phoneNumber = _uiState.value.phoneNumber
-        val contactName = _uiState.value.contactName
-        
-        if (phoneNumber.isEmpty() || phoneNumber == "Unknown") {
-            viewModelScope.launch {
-                _uiEventFlow.emit(UiEvent.ShowSnackbar(context.getString(R.string.incall_error_reminder_invalid_number)))
-            }
-            return
-        }
-        
-        try {
-            val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-            // ✅ requestCode فريد بناءً على الوقت لدعم تذكيرات متعددة لنفس الرقم
-            val requestCode = (System.currentTimeMillis() % Int.MAX_VALUE).toInt()
-            val triggerTime = System.currentTimeMillis() + (minutes * 60 * 1000L)
-            
-            val intent = Intent(context, CallbackReminderReceiver::class.java).apply {
-                putExtra(CallbackReminderReceiver.EXTRA_PHONE_NUMBER, phoneNumber)
-                putExtra(CallbackReminderReceiver.EXTRA_CONTACT_NAME, contactName ?: "Unknown")
-                putExtra(CallbackReminderReceiver.EXTRA_REQUEST_CODE, requestCode)
-            }
-            
-            val pendingIntent = PendingIntent.getBroadcast(
-                context,
-                requestCode,
-                intent,
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-            )
-            
-            var isExact = true
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                if (alarmManager.canScheduleExactAlarms()) {
-                    alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent)
-                } else {
-                    alarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent)
-                    isExact = false
-                }
-            } else {
-                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent)
-            }
-            
-            // ✅ حفظ في سجل الجدولة
-            CallbackReminderScheduleManager.add(
-                context, requestCode, phoneNumber,
-                contactName ?: "Unknown", triggerTime
-            )
-            
-            Log.d(TAG, "Callback reminder scheduled: code=$requestCode, exact=$isExact, trigger=$triggerTime")
-            
-            viewModelScope.launch {
-                delay(200)
-                val label = if (minutes >= 60) context.getString(R.string.incall_msg_reminder_set_hours, minutes / 60)
-                             else context.getString(R.string.incall_msg_reminder_set_minutes, minutes)
-                val warning = if (!isExact) context.getString(R.string.incall_msg_reminder_approximate_warning) else ""
-                _uiEventFlow.emit(UiEvent.ShowSnackbar(label + warning))
-            }
-        } catch (e: Exception) {
-            Log.e(TAG, "Error scheduling callback reminder", e)
-            viewModelScope.launch {
-                _uiEventFlow.emit(UiEvent.ShowSnackbar(context.getString(R.string.incall_error_reminder_failed)))
-            }
-        }
+        setCallbackReminderImpl(minutes)
     }
     
     private fun showCallbackReminderDialog() {
-        _uiState.update { it.copy(showCallbackReminder = true) }
+        showCallbackReminderDialogImpl()
     }
     
     private fun changeMiddleCardTab(tab: Int) {
-        _uiState.update { it.copy(middleCardTab = tab) }
+        changeMiddleCardTabImpl(tab)
     }
     
     private fun sendLocation() {
-        Log.d(TAG, "Sending location")
-        viewModelScope.launch {
-            try {
-                // ✅ هنا يمكنك إضافة منطق مشاركة الموقع
-                _uiEventFlow.emit(UiEvent.ShowError(context.getString(R.string.incall_msg_location_coming_soon)))
-            } catch (e: Exception) {
-                Log.e(TAG, "Error sending location", e)
-            }
-        }
+        sendLocationImpl()
     }
     
     private fun shareImage() {
-        Log.d(TAG, "Sharing image")
-        viewModelScope.launch {
-            try {
-                // ✅ هنا يمكنك إضافة منطق مشاركة الصور
-                _uiEventFlow.emit(UiEvent.ShowError(context.getString(R.string.incall_msg_image_sharing_coming_soon)))
-            } catch (e: Exception) {
-                Log.e(TAG, "Error sharing image", e)
-            }
-        }
+        shareImageImpl()
     }
     
     private fun showQuickSmsDialog() {
-        // ✅ هنا يمكنك فتح حوار رسالة سريعة
-        Log.d(TAG, "Opening quick SMS dialog")
+        showQuickSmsDialogImpl()
     }
     
     private fun loadExistingNotes(phoneNumber: String) {
-        if (phoneNumber.isEmpty() || phoneNumber == "Unknown") return
-        viewModelScope.launch {
-            try {
-                val normalized = phoneNumber.replace(Regex("[^0-9]"), "").takeLast(10)
-                val notes = contactNoteDao.getNotesByPhoneNumberSync(normalized)
-                _uiState.update {
-                    it.copy(
-                        existingNotes = notes,
-                        showNewNoteInput = notes.isEmpty()
-                    )
-                }
-            } catch (e: Exception) {
-                Log.e(TAG, "Error loading existing notes", e)
-            }
-        }
+        loadExistingNotesImpl(phoneNumber)
     }
-
-    // ✅ تحميل آخر مكالمة من هذا الرقم - يُستدعى من updateCallState عند اكتشاف رقم جديد
+    
     private fun loadLastCallStatus(phoneNumber: String) {
-        if (phoneNumber.isEmpty() || phoneNumber == "Unknown") return
-        viewModelScope.launch {
-            try {
-                val lastCall = callLogRepository.getLastSystemCallForNumber(phoneNumber)
-                if (lastCall != null) {
-                    val statusText = when (lastCall.type) {
-                        android.provider.CallLog.Calls.INCOMING_TYPE -> context.getString(R.string.call_state_incoming)
-                        android.provider.CallLog.Calls.OUTGOING_TYPE -> context.getString(R.string.call_state_outgoing)
-                        android.provider.CallLog.Calls.MISSED_TYPE -> context.getString(R.string.call_state_missed)
-                        android.provider.CallLog.Calls.REJECTED_TYPE -> context.getString(R.string.call_state_rejected)
-                        else -> context.getString(R.string.call_state_calling)
-                    }
-                    _uiState.update {
-                        it.copy(
-                            lastCallStatus = statusText,
-                            lastCallType = lastCall.type,
-                            lastCallTime = lastCall.timestamp
-                        )
-                    }
-                }
-            } catch (e: Exception) {
-                Log.e(TAG, "Error loading last call status", e)
-            }
-        }
+        loadLastCallStatusImpl(phoneNumber)
     }
     
     override fun onCleared() {
@@ -1221,151 +1029,4 @@ class InCallViewModel @Inject constructor(
     }
 }
 
-/**
- * UI State for InCall Screen
- */
-data class InCallUiState(
-    val phoneNumber: String = "",
-    val contactName: String? = null,
-    val contactPhotoUri: String? = null,
-    val callState: String = "",
-    val isRinging: Boolean = false,
-    val callDuration: Long = 0, // مدة المكالمة بالثواني
-    val callStartTime: Long = 0L, // ✅ وقت بدء المكالمة
-    val isActive: Boolean = false,
-    val isOutgoing: Boolean = false, // هل المكالمة صادرة
-    val isMuted: Boolean = false,
-    val isSpeakerOn: Boolean = false,
-    // ✅ Audio route picker state
-    val currentAudioRoute: Int = android.telecom.CallAudioState.ROUTE_EARPIECE,
-    val availableAudioRoutes: Int = android.telecom.CallAudioState.ROUTE_EARPIECE,
-    val showAudioRoutePicker: Boolean = false,
-    val isOnHold: Boolean = false,
-    // ✅ دعم المكالمات المتعددة
-    val heldCall: String? = null, // رقم المكالمة المحتجزة
-    val heldCallName: String? = null, // اسم المكالمة المحتجزة
-    val hasMultipleCalls: Boolean = false, // هل هناك أكثر من مكالمة
-    // ✅ دعم المكالمة المنتظرة (الواردة أثناء مكالمة)
-    val waitingCall: String? = null, // رقم المكالمة المنتظرة
-    val waitingCallName: String? = null, // اسم المكالمة المنتظرة
-    val hasWaitingCall: Boolean = false, // هل هناك مكالمة منتظرة
-    // ✅ دعم المؤتمر (Conference Call)
-    val isConference: Boolean = false, // هل المكالمة مؤتمر
-    val conferenceParticipants: List<String> = emptyList(), // أرقام المشاركين
-    val conferenceParticipantNames: List<String?> = emptyList(), // أسماء المشاركين
-    // ✅ Re-enabled for In-Call Dialpad
-    val showKeypad: Boolean = false,
-    val showAddCallDialog: Boolean = false,
-    val showContactsDialog: Boolean = false,
-    val contacts: List<Contact> = emptyList(),
-    // ✅ ميزات البطاقة الوسطى
-    val callNotes: String = "", // الملاحظات السريعة
-    val existingNotes: List<com.rasmi.purevon.data.local.entity.ContactNoteEntity> = emptyList(),
-    val showNewNoteInput: Boolean = false, // عرض حقل إضافة ملاحظة جديدة
-    val lastCallStatus: String? = null,
-    val lastCallType: Int? = null,
-    val lastCallTime: Long? = null,
-    val showCallbackReminder: Boolean = false, // إظهار حوار التذكير
-    val middleCardTab: Int = 0, // 0=Notes, 1=LastCall, 2=Actions
-    
-    // ✅ Call Statistics & Contact Status
-    val callStatistics: CallStatistics? = null,
-    val isBlocked: Boolean = false,
-    val isFavorite: Boolean = false,
-    val isFavoriteLoading: Boolean = false,
-    val isBlockLoading: Boolean = false,
-    // ✅ Fix #1: حالة إنهاء المكالمة - لمنع النقر المتكرر على الأزرار
-    val isEndingCall: Boolean = false,
-    // ✅ Fix #11: تتبع حالة الإسكات
-    val isSilenced: Boolean = false,
-    // SIM picker for Add Call
-    val showSimPickerForAddCall: Boolean = false,
-    val pendingAddCallNumber: String = "",
-    val availableSimsForAddCall: List<SimInfo> = emptyList(),
-)
 
-/**
- * Call statistics for a contact (duplicated from ContactDetail for independence)
- */
-data class CallStatistics(
-    val incomingCalls: Int = 0,
-    val outgoingCalls: Int = 0,
-    val missedCalls: Int = 0,
-    val totalCalls: Int = 0,
-    val totalDurationSeconds: Long = 0,
-    val lastCallTimestamp: Long? = null
-) {
-    /**
-     * Format total duration as readable string
-     */
-    fun getFormattedDuration(): String {
-        val hours = totalDurationSeconds / 3600
-        val minutes = (totalDurationSeconds % 3600) / 60
-        val seconds = totalDurationSeconds % 60
-        
-        return when {
-            hours > 0 -> "${hours}h ${minutes}m"
-            minutes > 0 -> "${minutes}m ${seconds}s"
-            else -> "${seconds}s"
-        }
-    }
-}
-
-/**
- * UI Events for InCall Screen
- */
-sealed class InCallUiEvent {
-    data object AnswerCall : InCallUiEvent()
-    data object ToggleMute : InCallUiEvent()
-    data object ToggleSpeaker : InCallUiEvent()
-    data object ShowAudioRoutePicker : InCallUiEvent()
-    data object HideAudioRoutePicker : InCallUiEvent()
-    data class SelectAudioRoute(val route: Int) : InCallUiEvent()
-    data object ToggleHold : InCallUiEvent()
-    data object SwapCalls : InCallUiEvent() // ✅ التبديل بين المكالمات
-    data object AnswerAndHold : InCallUiEvent() // ✅ الرد على المكالمة المنتظرة واحتجاز الحالية
-    data object RejectWaitingCall : InCallUiEvent() // ✅ رفض المكالمة المنتظرة
-    data object MergeCalls : InCallUiEvent() // ✅ دمج المكالمات في مؤتمر
-    data object EndCall : InCallUiEvent()
-    data object EndHeldCall : InCallUiEvent() // ✅ إنهاء المكالمة المحتجزة مباشرةً
-    // ✅ Re-enabled Keypad Toggle
-    data object ToggleKeypad : InCallUiEvent()
-    data class SendDtmfTone(val digit: Char) : InCallUiEvent()
-    data object ShowAddCall : InCallUiEvent()
-    data object ShowContacts : InCallUiEvent()
-    data class AddCallToNumber(val phoneNumber: String) : InCallUiEvent()
-    data class AddCallToContact(val contact: Contact) : InCallUiEvent()
-    data object SilenceCall : InCallUiEvent()
-    data class SendQuickMessage(val message: String) : InCallUiEvent()
-    // ✅ أحداث الميزات الجديدة
-    data class UpdateCallNotes(val notes: String) : InCallUiEvent()
-    data object SaveCallNote : InCallUiEvent()
-    data object ShowNewNoteInput : InCallUiEvent()
-    data object HideNewNoteInput : InCallUiEvent()
-    data class SetCallbackReminder(val minutes: Int) : InCallUiEvent()
-    data object ShowCallbackReminderDialog : InCallUiEvent()
-    data object HideCallbackReminderDialog : InCallUiEvent()
-    data class ChangeMiddleCardTab(val tab: Int) : InCallUiEvent()
-    data object SendLocation : InCallUiEvent()
-    data object ShareImage : InCallUiEvent()
-    data object SendQuickSms : InCallUiEvent()
-    
-    // ✅ New Actions
-    data object ToggleFavorite : InCallUiEvent()
-    data object ToggleBlock : InCallUiEvent()
-    // SIM selection for Add Call
-    data class SimSelectedForAddCall(val phoneNumber: String, val subscriptionId: Int?) : InCallUiEvent()
-    data object DismissSimPickerForAddCall : InCallUiEvent()
-    data object DismissAddCallDialog : InCallUiEvent()
-}
-
-/**
- * ✅ UI Events for user feedback
- */
-sealed class UiEvent {
-    data class ShowSnackbar(val message: String) : UiEvent()
-    data class ShowError(val message: String) : UiEvent()
-    data class ShowToast(val message: String) : UiEvent()
-    data object FinishActivity : UiEvent()
-    data object MoveToBackground : UiEvent()
-}

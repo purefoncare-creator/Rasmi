@@ -192,7 +192,7 @@ class InCallServiceBridgeImpl @Inject constructor() : InCallServiceBridge {
     override fun unholdCall(): Boolean = serviceInstance?.unholdCall() ?: false
 
     // ── Interface: Utility ────────────────────────────────────────────────────
-    override fun getStateName(state: Int): String = PurevonInCallService.getStateName(state)
+    override fun getStateName(state: Int): String = InCallServiceConstants.getStateName(state)
 
     // ── Cleanup ───────────────────────────────────────────────────────────────
     /** Reset every mutable field — called from PurevonInCallService.onDestroy(). */
