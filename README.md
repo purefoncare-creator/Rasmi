@@ -2,6 +2,12 @@
 
 A full-featured, privacy-focused Android dialer and messaging app built with modern Android architecture. Purefon replaces your default phone app with a powerful, encrypted alternative that supports SMS, MMS, calls, call screening, and more.
 
+## Download
+
+<a href="https://play.google.com/store/apps/details?id=com.rasmi.purevon&pcampaignid=web_share">
+  <img alt="Get it on Google Play" src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" width="200"/>
+</a>
+
 ## Features
 
 ### Calls
