@@ -1,20 +1,17 @@
 package com.rasmi.purevon.service
 
 import android.net.Uri
-import android.os.Build
 import android.telecom.Connection
 import android.telecom.ConnectionRequest
 import android.telecom.ConnectionService
 import android.telecom.PhoneAccountHandle
 import android.telecom.TelecomManager
 import android.util.Log
-import androidx.annotation.RequiresApi
 
 /**
  * ConnectionService for handling outgoing and incoming calls
  * This is required for the app to actually place and receive calls
  */
-@RequiresApi(Build.VERSION_CODES.M)
 class PurevonConnectionService : ConnectionService() {
 
     companion object {

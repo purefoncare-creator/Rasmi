@@ -49,6 +49,7 @@ class DuplicateMessageFilter @Inject constructor() {
      * @param timestamp Message timestamp
      * @return true if duplicate, false if unique
      */
+    @Synchronized
     fun isDuplicate(address: String, body: String, timestamp: Long): Boolean {
         // Clean up old entries periodically
         if (messageCache.size > MAX_CACHE_SIZE) {
@@ -86,6 +87,7 @@ class DuplicateMessageFilter @Inject constructor() {
     /**
      * Check if duplicate with body hash (for long messages)
      */
+    @Synchronized
     fun isDuplicateByHash(address: String, bodyHash: Int, timestamp: Long): Boolean {
         val normalizedAddress = address.replace(Regex("[\\s-]"), "")
         val key = "$normalizedAddress:$bodyHash"
@@ -105,6 +107,7 @@ class DuplicateMessageFilter @Inject constructor() {
     /**
      * Mark a message as processed to prevent duplicates
      */
+    @Synchronized
     fun markAsProcessed(address: String, body: String, timestamp: Long) {
         val key = createKey(address, body)
         messageCache[key] = MessageInfo(timestamp)

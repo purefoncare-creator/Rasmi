@@ -85,7 +85,7 @@ object MmsUtils {
             } else {
                 context.getSystemService(SmsManager::class.java)
             }
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1 && subId >= 0) {
+        } else if (subId >= 0) {
             @Suppress("DEPRECATION")
             SmsManager.getSmsManagerForSubscriptionId(subId)
         } else {

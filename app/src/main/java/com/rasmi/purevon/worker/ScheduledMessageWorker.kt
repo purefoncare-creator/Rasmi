@@ -6,7 +6,6 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import com.rasmi.purevon.MainActivity
-import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.hilt.work.HiltWorker
@@ -25,6 +24,8 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 
 @HiltWorker
 class ScheduledMessageWorker @AssistedInject constructor(
@@ -34,8 +35,8 @@ class ScheduledMessageWorker @AssistedInject constructor(
     private val messageRepository: MessageRepository
 ) : CoroutineWorker(context, params) {
 
-    override suspend fun doWork(): Result {
-        return try {
+    override suspend fun doWork(): Result = sendMutex.withLock {
+        try {
             val scheduleId = inputData.getLong(KEY_SCHEDULE_ID, -1L)
             if (scheduleId == -1L) {
                 return Result.failure()
@@ -166,14 +167,12 @@ class ScheduledMessageWorker @AssistedInject constructor(
         val notificationManager =
             applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(
-                CHANNEL_SCHEDULED_FAILURES,
-                applicationContext.getString(R.string.scheduled_message_failures),
-                NotificationManager.IMPORTANCE_HIGH
-            )
-            notificationManager.createNotificationChannel(channel)
-        }
+        val channel = NotificationChannel(
+            CHANNEL_SCHEDULED_FAILURES,
+            applicationContext.getString(R.string.scheduled_message_failures),
+            NotificationManager.IMPORTANCE_HIGH
+        )
+        notificationManager.createNotificationChannel(channel)
 
         val openIntent = Intent(applicationContext, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP
@@ -206,6 +205,9 @@ class ScheduledMessageWorker @AssistedInject constructor(
     }
 
     companion object {
+        // WorkManager may run multiple scheduled workers in the same process.
+        // Serialize the read -> send -> status transition to avoid duplicate sends.
+        private val sendMutex = Mutex()
         private const val TAG = "ScheduledMessageWorker"
         const val KEY_SCHEDULE_ID = "schedule_id"
         const val WORK_NAME_PREFIX = "scheduled_message_"

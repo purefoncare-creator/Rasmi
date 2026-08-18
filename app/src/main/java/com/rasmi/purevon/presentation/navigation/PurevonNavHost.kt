@@ -1,7 +1,6 @@
 package com.rasmi.purevon.presentation.navigation
 
 import android.Manifest
-import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -20,6 +19,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.material.icons.automirrored.filled.Message
 import androidx.compose.material.icons.automirrored.outlined.Message
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Call
+import androidx.compose.material.icons.filled.Contacts
+import androidx.compose.material.icons.filled.History
+import androidx.compose.material.icons.filled.Message
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.outlined.Call
+import androidx.compose.material.icons.outlined.Contacts
+import androidx.compose.material.icons.outlined.History
+import androidx.compose.material.icons.outlined.Message
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -36,17 +46,6 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Call
-import androidx.compose.material.icons.filled.Contacts
-import androidx.compose.material.icons.filled.History
-import androidx.compose.material.icons.filled.Message
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.outlined.Call
-import androidx.compose.material.icons.outlined.Contacts
-import androidx.compose.material.icons.outlined.History
-import androidx.compose.material.icons.outlined.Message
-import androidx.compose.material.icons.outlined.Settings
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -339,9 +338,7 @@ fun PurevonNavHost(
             
             // InCall screen
             composable<Screen.InCall> {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    InCallScreen()
-                }
+                InCallScreen()
             }
 
             // ✅ Fix #5: Scheduled Messages screen
@@ -536,7 +533,7 @@ private fun ContactDetailScreenWrapper(
     }
     
     // ✅ حوار اختيار الشريحة (وضع ASK)
-    if (showSimPickerDialog && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP_MR1) {
+    if (showSimPickerDialog) {
         com.rasmi.purevon.presentation.component.SimSelectorDialog(
             availableSims = simPickerSims,
             selectedSimId = null,

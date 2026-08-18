@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -53,7 +54,7 @@ internal fun HistorySelectionTopBar(
                 )
             }
             Text(
-                text = stringResource(R.string.history_selected_count, selectedCount),
+                text = pluralStringResource(R.plurals.history_selected_count, selectedCount, selectedCount),
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.SemiBold,
                 modifier = Modifier
@@ -122,7 +123,7 @@ internal fun HistorySelectionBottomBar(
                 )
             },
             title = {
-                Text(stringResource(R.string.history_delete_selected_numbers, selectedCount))
+                Text(pluralStringResource(R.plurals.history_delete_selected_numbers, selectedCount, selectedCount))
             },
             text = {
                 Text(stringResource(R.string.history_delete_selected_warning))

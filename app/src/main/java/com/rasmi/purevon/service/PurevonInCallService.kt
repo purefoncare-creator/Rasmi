@@ -1,5 +1,6 @@
 package com.rasmi.purevon.service
 
+import android.annotation.SuppressLint
 import android.app.Service
 import android.content.Intent
 import android.content.pm.ServiceInfo
@@ -7,7 +8,6 @@ import android.os.Build
 import android.telecom.Call
 import android.telecom.InCallService
 import android.util.Log
-import androidx.annotation.RequiresApi
 import com.rasmi.purevon.util.DebugLogger
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -26,7 +26,6 @@ import javax.inject.Inject
  * [InCallNotificationManager], [InCallCallActions], and [InCallServiceHelpers].
  */
 @AndroidEntryPoint
-@RequiresApi(Build.VERSION_CODES.M)
 class PurevonInCallService : InCallService() {
 
     private companion object {
@@ -45,16 +44,18 @@ class PurevonInCallService : InCallService() {
     internal var incomingCallBannerOnly: Boolean = false
 
     private val callback = object : Call.Callback() {
+        @SuppressLint("MissingPermission")
         override fun onStateChanged(call: Call, state: Int) {
             super.onStateChanged(call, state)
             val phoneNumber = call.details?.handle?.schemeSpecificPart ?: "Unknown"
+            val currentCallState = getCallStateCompat(call)
 
             bridge.setCallState(state)
 
             Log.d(TAG, "========================================")
             Log.d(TAG, "[CALL] STATE CHANGED")
             Log.d(TAG, "Number: ${DebugLogger.maskPhoneNumber(phoneNumber)}")
-            Log.d(TAG, "Old State -> New State: ${InCallServiceConstants.getStateName(call.details?.state ?: Call.STATE_NEW)} -> ${InCallServiceConstants.getStateName(state)}")
+            Log.d(TAG, "Old State -> New State: ${InCallServiceConstants.getStateName(currentCallState)} -> ${InCallServiceConstants.getStateName(state)}")
             Log.d(TAG, "========================================")
 
             val postLock = mutableListOf<() -> Unit>()
@@ -371,10 +372,10 @@ class PurevonInCallService : InCallService() {
         android.util.Log.d(TAG, "========================================")
 
         val phoneNumber = call.details?.handle?.schemeSpecificPart
-        val callState = call.details?.state ?: Call.STATE_NEW
+        val callState = getCallStateCompat(call)
 
         val isLikelyIncoming = callState == Call.STATE_RINGING ||
-            (callState == Call.STATE_NEW && call.details?.callDirection != android.telecom.Call.Details.DIRECTION_OUTGOING)
+            (callState == Call.STATE_NEW && !isOutgoingCallCompat(call))
 
         var triggerHaptic = false
         var notifyCall: Call? = null
@@ -396,7 +397,7 @@ class PurevonInCallService : InCallService() {
                 Log.d(TAG, "[WAITING] Waiting call set: ${DebugLogger.maskPhoneNumber(phoneNumber ?: "")} - ViewModel notified")
             } else if (bridge.currentCall != null &&
                 (callState == Call.STATE_DIALING || callState == Call.STATE_CONNECTING || callState == Call.STATE_SELECT_PHONE_ACCOUNT ||
-                 (callState == Call.STATE_NEW && call.details?.callDirection == android.telecom.Call.Details.DIRECTION_OUTGOING))) {
+                 (callState == Call.STATE_NEW && isOutgoingCallCompat(call)))) {
                 Log.d(TAG, "[ADD_CALL] New outgoing call added while another is active - tracking as new current")
                 bridge.heldCall = bridge.heldCall ?: bridge.currentCall
                 bridge.currentCall = call
@@ -541,12 +542,31 @@ class PurevonInCallService : InCallService() {
         Log.d(TAG, "onCallAudioStateChanged: route=$route, muted=$isMuted, speaker=$isSpeaker")
     }
 
+    private fun getCallStateCompat(call: Call): Int {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            call.details?.state ?: Call.STATE_NEW
+        } else {
+            @Suppress("DEPRECATION")
+            call.state
+        }
+    }
+
+    private fun isOutgoingCallCompat(call: Call): Boolean {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            return call.details?.callDirection == Call.Details.DIRECTION_OUTGOING
+        }
+        return when (call.state) {
+            Call.STATE_DIALING, Call.STATE_CONNECTING, Call.STATE_SELECT_PHONE_ACCOUNT -> true
+            else -> false
+        }
+    }
+
     private fun updateNotification(call: Call, useHighPriority: Boolean = false) {
         notifManager.buildAndPostNotification(
             call = call,
             useHighPriority = useHighPriority,
             startForeground = { id, notification ->
-                @Suppress("DEPRECATION")
+                @Suppress("DEPRECATION", "ObsoleteSdkInt")
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                     startForeground(id, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_PHONE_CALL)
                 } else {

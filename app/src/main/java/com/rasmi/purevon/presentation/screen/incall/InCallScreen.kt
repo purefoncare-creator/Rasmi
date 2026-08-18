@@ -7,10 +7,8 @@ import android.content.Context
 import android.content.Intent
 import android.media.AudioManager
 import android.net.Uri
-import android.os.Build
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
-import androidx.annotation.RequiresApi
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.BorderStroke
@@ -30,9 +28,9 @@ import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.CallReceived
 import androidx.compose.material.icons.automirrored.filled.CallMade
 import androidx.compose.material.icons.automirrored.filled.CallMissed
+import androidx.compose.material.icons.filled.*
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
-import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -76,7 +74,6 @@ import com.rasmi.purevon.presentation.component.SimSelectorDialog
 /**
  * InCall Screen - Shows active call UI with controls
  */
-@RequiresApi(Build.VERSION_CODES.M)
 @Composable
 fun InCallScreen(
     viewModel: InCallViewModel = hiltViewModel()
@@ -217,9 +214,7 @@ fun InCallScreen(
         }
         
         // SIM picker for Add Call (ASK mode)
-        if (uiState.showSimPickerForAddCall &&
-            android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP_MR1
-        ) {
+        if (uiState.showSimPickerForAddCall) {
             SimSelectorDialog(
                 availableSims = uiState.availableSimsForAddCall,
                 selectedSimId = null,

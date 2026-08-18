@@ -1,7 +1,6 @@
 package com.rasmi.purevon.presentation.screen.conversation
 
 import android.content.Context
-import android.os.Build
 import android.util.Log
 import android.net.Uri
 import androidx.core.content.FileProvider
@@ -766,7 +765,6 @@ class ConversationViewModel @Inject constructor(
     // ═══════════════════════════════════════════════════════════════════════
     
     private fun observeSmsSim() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1) return
         val sims = simManager.getAvailableSims()
         if (sims.isEmpty()) return
         viewModelScope.launch {

@@ -727,7 +727,6 @@ fun ConversationScreen(
 
             // ✅ SIM Picker Dialog for ASK mode (shown before sending a message)
             if (uiState.showSmsSimPickerForSend &&
-                android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP_MR1 &&
                 uiState.availableSims.isNotEmpty()
             ) {
                 SimSelectorDialog(

@@ -22,9 +22,11 @@ import com.rasmi.purevon.presentation.theme.outgoingCallColor
 import com.rasmi.purevon.presentation.theme.rejectedCallColor
 import com.rasmi.purevon.presentation.theme.warningColor
 import com.rasmi.purevon.R
+import java.text.SimpleDateFormat
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
+import java.util.Date
 
 internal fun groupContactCallsByDay(
     groups: List<GroupedContactCalls>
@@ -116,8 +118,7 @@ internal fun formatCallDurationHistory(seconds: Long): String {
 internal fun formatHistoryClockTime(timestamp: Long): String {
     return try {
         val instant = Instant.ofEpochMilli(timestamp)
-        val localTime = java.time.LocalTime.ofInstant(instant, ZoneId.systemDefault())
-        localTime.format(java.time.format.DateTimeFormatter.ofPattern("hh:mm a", java.util.Locale.getDefault()))
+        SimpleDateFormat("hh:mm a", java.util.Locale.getDefault()).format(Date(timestamp))
     } catch (_: Exception) {
         "--:--"
     }

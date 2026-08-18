@@ -1,5 +1,6 @@
 package com.rasmi.purevon.receiver
 
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -117,6 +118,7 @@ class BootCompletedReceiver : BroadcastReceiver() {
      * ✅ إعادة جدولة الاتصالات الوهمية المعلقة بعد إعادة تشغيل الجهاز
      * AlarmManager يفقد كل التنبيهات بعد الإطفاء، لذا نعيد جدولتها من SharedPreferences
      */
+    @SuppressLint("MissingPermission")
     private fun rescheduleFakeCalls(context: Context) {
         try {
             val fakeCalls = com.rasmi.purevon.util.FakeCallScheduleManager.getAll(context)
@@ -179,14 +181,12 @@ class BootCompletedReceiver : BroadcastReceiver() {
         val notificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(
-                "scheduled_failures",
-                context.getString(R.string.scheduled_message_failures),
-                NotificationManager.IMPORTANCE_HIGH
-            )
-            notificationManager.createNotificationChannel(channel)
-        }
+        val channel = NotificationChannel(
+            "scheduled_failures",
+            context.getString(R.string.scheduled_message_failures),
+            NotificationManager.IMPORTANCE_HIGH
+        )
+        notificationManager.createNotificationChannel(channel)
 
         val openIntent = Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP

@@ -2,7 +2,6 @@ package com.rasmi.purevon.util
 
 import android.app.ActivityManager
 import android.content.Context
-import android.os.Build
 import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -37,11 +36,7 @@ class ResourceManager(private val context: Context) {
                 val memoryInfo = ActivityManager.MemoryInfo()
                 activityManager.getMemoryInfo(memoryInfo)
                 
-                val totalMemory = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                    memoryInfo.totalMem
-                } else {
-                    Runtime.getRuntime().totalMemory()
-                }
+                val totalMemory = memoryInfo.totalMem
                 
                 val availableMemory = memoryInfo.availMem
                 val usedMemory = totalMemory - availableMemory

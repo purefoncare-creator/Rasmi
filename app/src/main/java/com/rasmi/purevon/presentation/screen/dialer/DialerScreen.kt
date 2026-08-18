@@ -267,7 +267,7 @@ fun DialerScreen(
     }
     
     // ✅ حوار اختيار الشريحة (ASK mode)
-    if (showSimPickerDialog && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP_MR1) {
+    if (showSimPickerDialog) {
         SimSelectorDialog(
             availableSims = uiState.availableSims,
             selectedSimId = null,
@@ -295,9 +295,9 @@ private fun DialerNumberDisplay(
     dialedNumber: String,
     selectedContactName: String?,
     onNumberChanged: (String) -> Unit,
+    modifier: Modifier = Modifier,
     showAddToContacts: Boolean = false,
-    onAddToContacts: (() -> Unit)? = null,
-    modifier: Modifier = Modifier
+    onAddToContacts: (() -> Unit)? = null
 ) {
     var textFieldValue by remember { mutableStateOf(TextFieldValue(dialedNumber, selection = TextRange(dialedNumber.length))) }
     

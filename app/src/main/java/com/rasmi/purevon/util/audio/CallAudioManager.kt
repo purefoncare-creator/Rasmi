@@ -3,7 +3,6 @@ package com.rasmi.purevon.util.audio
 import android.content.Context
 import android.media.AudioDeviceInfo
 import android.media.AudioManager
-import android.os.Build
 import android.util.Log
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.delay
@@ -207,14 +206,9 @@ class CallAudioManager @Inject constructor(
      */
     fun hasBluetoothDevice(): Boolean {
         return try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                val devices = audioManager.getDevices(AudioManager.GET_DEVICES_OUTPUTS)
-                devices.any { it.type == AudioDeviceInfo.TYPE_BLUETOOTH_SCO || 
-                             it.type == AudioDeviceInfo.TYPE_BLUETOOTH_A2DP }
-            } else {
-                @Suppress("DEPRECATION")
-                audioManager.isBluetoothA2dpOn || audioManager.isBluetoothScoOn
-            }
+            val devices = audioManager.getDevices(AudioManager.GET_DEVICES_OUTPUTS)
+            devices.any { it.type == AudioDeviceInfo.TYPE_BLUETOOTH_SCO ||
+                         it.type == AudioDeviceInfo.TYPE_BLUETOOTH_A2DP }
         } catch (e: Exception) {
             Log.e(TAG, "Error checking Bluetooth", e)
             false
@@ -226,17 +220,12 @@ class CallAudioManager @Inject constructor(
      */
     fun hasWiredHeadset(): Boolean {
         return try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                val devices = audioManager.getDevices(AudioManager.GET_DEVICES_OUTPUTS)
-                devices.any {
-                    it.type == AudioDeviceInfo.TYPE_WIRED_HEADSET ||
-                    it.type == AudioDeviceInfo.TYPE_WIRED_HEADPHONES ||
-                    it.type == AudioDeviceInfo.TYPE_USB_HEADSET ||
-                    it.type == AudioDeviceInfo.TYPE_USB_DEVICE
-                }
-            } else {
-                @Suppress("DEPRECATION")
-                audioManager.isWiredHeadsetOn
+            val devices = audioManager.getDevices(AudioManager.GET_DEVICES_OUTPUTS)
+            devices.any {
+                it.type == AudioDeviceInfo.TYPE_WIRED_HEADSET ||
+                it.type == AudioDeviceInfo.TYPE_WIRED_HEADPHONES ||
+                it.type == AudioDeviceInfo.TYPE_USB_HEADSET ||
+                it.type == AudioDeviceInfo.TYPE_USB_DEVICE
             }
         } catch (e: Exception) {
             Log.e(TAG, "Error checking wired headset", e)

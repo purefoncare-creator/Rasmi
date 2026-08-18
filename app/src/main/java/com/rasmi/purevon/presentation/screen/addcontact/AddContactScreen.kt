@@ -53,11 +53,11 @@ import java.util.Calendar
 fun AddContactScreen(
     onNavigateBack: () -> Unit,
     onContactSaved: () -> Unit,
+    modifier: Modifier = Modifier,
     initialPhoneNumber: String? = null,
     initialName: String? = null,
     initialEmail: String? = null,
     contactId: Long? = null,
-    modifier: Modifier = Modifier,
     viewModel: AddContactViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
@@ -84,7 +84,10 @@ fun AddContactScreen(
     }
 
     val uiState by viewModel.uiState.collectAsState()
-    val isValid by remember { derivedStateOf { viewModel.isValid } }
+    // Re-evaluate validation whenever uiState changes; a one-time derivedStateOf
+    // would keep the initial disabled value because the ViewModel property is not
+    // itself Compose state.
+    val isValid = viewModel.isValid
 
     BackHandler { keyboardController?.hide(); onNavigateBack() }
 
@@ -526,13 +529,13 @@ private fun CompactTextField(
     value: String,
     onValueChange: (String) -> Unit,
     placeholder: String,
+    modifier: Modifier = Modifier,
     isRequired: Boolean = false,
     isError: Boolean = false,
     errorMessage: String? = null,
     onClear: (() -> Unit)? = null,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-    keyboardActions: KeyboardActions = KeyboardActions.Default,
-    modifier: Modifier = Modifier
+    keyboardActions: KeyboardActions = KeyboardActions.Default
 ) {
     Column(modifier = modifier.fillMaxWidth()) {
         TextField(

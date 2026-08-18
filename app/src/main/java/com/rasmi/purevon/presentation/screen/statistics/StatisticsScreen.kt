@@ -5,6 +5,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -153,7 +154,7 @@ fun StatisticsScreen(
                             value = uiState.receivedMessages.toString()
                         )
                         StatRow(
-                            icon = Icons.Filled.Send,
+                            icon = Icons.AutoMirrored.Filled.Send,
                             label = "Sent",
                             value = uiState.sentMessages.toString()
                         )
@@ -234,8 +235,8 @@ private fun formatDuration(seconds: Long): String {
     val secs = seconds % 60
     
     return when {
-        hours > 0 -> String.format("%d:%02d:%02d", hours, minutes, secs)
-        minutes > 0 -> String.format("%d:%02d", minutes, secs)
+        hours > 0 -> String.format(java.util.Locale.getDefault(), "%d:%02d:%02d", hours, minutes, secs)
+        minutes > 0 -> String.format(java.util.Locale.getDefault(), "%d:%02d", minutes, secs)
         else -> "${secs}s"
     }
 }

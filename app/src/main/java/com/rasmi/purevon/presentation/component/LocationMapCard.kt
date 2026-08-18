@@ -201,7 +201,7 @@ internal fun LocationMapCard(
                 )
             }
             Text(
-                text = String.format("%.5f, %.5f", latitude, longitude),
+                text = String.format(java.util.Locale.getDefault(), "%.5f, %.5f", latitude, longitude),
                 style = MaterialTheme.typography.labelSmall,
                 color = (if (isOutgoing) MaterialTheme.colorScheme.onSurfaceVariant
                         else MaterialTheme.colorScheme.onSurface).copy(alpha = 0.6f),

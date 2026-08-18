@@ -38,10 +38,9 @@ import com.rasmi.purevon.data.local.entity.CallType
 import com.rasmi.purevon.domain.model.CallLog
 import com.rasmi.purevon.presentation.theme.*
 import com.rasmi.purevon.util.PhoneUtil
-import java.time.Instant
-import java.time.LocalTime
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import kotlin.math.roundToInt
 
 /**
@@ -292,9 +291,7 @@ private fun formatCallDuration(seconds: Long): String {
 private fun formatCallTime(timestamp: Long): String {
     // Format time to HH:mm
     return try {
-        val instant = Instant.ofEpochMilli(timestamp)
-        val localTime = LocalTime.ofInstant(instant, ZoneId.systemDefault())
-        localTime.format(DateTimeFormatter.ofPattern("HH:mm"))
+        SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date(timestamp))
     } catch (e: Exception) {
         "--:--"
     }

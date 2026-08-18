@@ -22,6 +22,7 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.LayoutDirection
@@ -258,7 +259,7 @@ internal fun UnknownNumberBottomSheet(
 
                     if (notes.size > 3) {
                         Text(
-                            text = stringResource(R.string.history_more_notes, notes.size - 3),
+                            text = pluralStringResource(R.plurals.history_more_notes, notes.size - 3, notes.size - 3),
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.primary,
                             modifier = Modifier.padding(top = 4.dp, start = 4.dp)
@@ -384,8 +385,8 @@ private fun formatDuration(seconds: Long): String {
     val secs = seconds % 60
 
     return when {
-        hours > 0 -> String.format("%dh %02dm", hours, minutes)
-        minutes > 0 -> String.format("%dm %02ds", minutes, secs)
-        else -> String.format("%ds", secs)
+        hours > 0 -> String.format(java.util.Locale.getDefault(), "%dh %02dm", hours, minutes)
+        minutes > 0 -> String.format(java.util.Locale.getDefault(), "%dm %02ds", minutes, secs)
+        else -> String.format(java.util.Locale.getDefault(), "%ds", secs)
     }
 }

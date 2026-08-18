@@ -8,7 +8,9 @@ import android.os.Looper
 import android.provider.ContactsContract
 import android.provider.Telephony
 import android.util.Log
+import com.rasmi.purevon.data.local.entity.CachedMessageEntity
 import com.rasmi.purevon.data.mapper.toEntity
+import com.rasmi.purevon.domain.model.MessageCategory
 import com.rasmi.purevon.util.DebugLogger
 import com.rasmi.purevon.util.sim.SimManager
 import kotlinx.coroutines.CoroutineScope
@@ -48,6 +50,41 @@ internal class MessageSyncDelegate(
     companion object {
         private const val TAG = "MessageRepository"
         private const val MIN_SYNC_INTERVAL_MS = 2000L
+
+        internal fun buildSmsEntity(
+            id: Long,
+            threadId: Long,
+            address: String,
+            contactName: String?,
+            body: String?,
+            date: Long,
+            type: Int,
+            isRead: Boolean,
+            simSlot: Int?,
+            existing: CachedMessageEntity?
+        ): CachedMessageEntity = CachedMessageEntity(
+            id = id,
+            threadId = threadId,
+            phoneNumber = address,
+            contactName = contactName,
+            body = body,
+            timestamp = date,
+            type = type,
+            category = existing?.category ?: MessageCategory.PERSONAL,
+            isRead = isRead,
+            isSent = type == Telephony.Sms.MESSAGE_TYPE_SENT,
+            isDelivered = existing?.isDelivered ?: true,
+            simSlot = simSlot,
+            isSpam = existing?.isSpam ?: false,
+            spamScore = existing?.spamScore ?: 0f,
+            isMms = existing?.isMms ?: false,
+            attachmentUris = existing?.attachmentUris ?: emptyList(),
+            attachmentTypes = existing?.attachmentTypes ?: emptyList(),
+            status = existing?.status,
+            isScheduled = existing?.isScheduled ?: false,
+            scheduledTime = existing?.scheduledTime,
+            scheduleId = existing?.scheduleId
+        )
     }
 
     // ============================================
@@ -326,21 +363,19 @@ internal class MessageSyncDelegate(
                 val startTime = System.currentTimeMillis()
                 DebugLogger.d(TAG, "🔄 [BULK] Syncing ALL messages in one shot (Quik style)...")
                 val allMessages = systemQueryHelper.queryAllSystemMessages()
-                if (allMessages.isNotEmpty()) {
-                    val entities = allMessages.map { it.toEntity() }
-                    val freshIds = entities.map { it.id }.toHashSet()
-                    entities.chunked(500).forEach { batch ->
-                        cachedMessageDao.insertAll(batch)
+                val entities = allMessages.map { it.toEntity() }
+                val freshIds = entities.map { it.id }.toHashSet()
+                entities.chunked(500).forEach { batch ->
+                    cachedMessageDao.insertAll(batch)
+                }
+                // Remove ghost messages that no longer exist in system SMS DB
+                val cachedIds = cachedMessageDao.getAllIds()
+                val staleIds = cachedIds.filter { it !in freshIds }
+                if (staleIds.isNotEmpty()) {
+                    staleIds.chunked(500).forEach { batch ->
+                        cachedMessageDao.deleteByIds(batch)
                     }
-                    // Remove ghost messages that no longer exist in system SMS DB
-                    val cachedIds = cachedMessageDao.getAllIds()
-                    val staleIds = cachedIds.filter { it !in freshIds }
-                    if (staleIds.isNotEmpty()) {
-                        staleIds.chunked(500).forEach { batch ->
-                            cachedMessageDao.deleteByIds(batch)
-                        }
-                        DebugLogger.d(TAG, "🗑️ [BULK] Removed ${staleIds.size} ghost messages")
-                    }
+                    DebugLogger.d(TAG, "🗑️ [BULK] Removed ${staleIds.size} ghost messages")
                 }
                 val duration = System.currentTimeMillis() - startTime
                 DebugLogger.d(TAG, "✅ [BULK] Synced ${allMessages.size} messages in ${duration}ms")
@@ -424,28 +459,18 @@ internal class MessageSyncDelegate(
                     val subId       = if (subIdCol != -1 && !cursor.isNull(subIdCol)) cursor.getInt(subIdCol) else null
                     val simSlot     = subId?.let { simManager.getSlotForSubscriptionId(it) }
                     val contactName = contactResolver.resolveContactName(address)
-                    val entity = com.rasmi.purevon.data.local.entity.CachedMessageEntity(
-                        id            = id,
-                        threadId      = threadId,
-                        phoneNumber   = address,
-                        contactName   = contactName,
-                        body          = body,
-                        timestamp     = date,
-                        type          = type,
-                        category      = com.rasmi.purevon.data.local.entity.MessageCategory.PERSONAL,
-                        isRead        = read == 1,
-                        isSent        = type == Telephony.Sms.MESSAGE_TYPE_SENT,
-                        isDelivered   = true,
-                        simSlot       = simSlot,
-                        isSpam        = false,
-                        spamScore     = 0f,
-                        isMms         = false,
-                        attachmentUris  = emptyList(),
-                        attachmentTypes = emptyList(),
-                        status          = null,
-                        isScheduled     = false,
-                        scheduledTime   = null,
-                        scheduleId      = null
+                    val existing = cachedMessageDao.getMessageById(id)
+                    val entity = buildSmsEntity(
+                        id = id,
+                        threadId = threadId,
+                        address = address,
+                        contactName = contactName,
+                        body = body,
+                        date = date,
+                        type = type,
+                        isRead = read == 1,
+                        simSlot = simSlot,
+                        existing = existing
                     )
                     cachedMessageDao.upsertMessage(entity)
                     // Also refresh conversation row (snippet + date)
@@ -503,7 +528,8 @@ internal class MessageSyncDelegate(
     fun invalidateAllCaches() {
         repositoryScope.launch {
             cachedConversationDao.clearAll()
-            DebugLogger.d(TAG, "🗑️ Invalidated conversation cache in Room")
+            cachedMessageDao.clearAll()
+            DebugLogger.d(TAG, "🗑️ Invalidated all caches in Room")
         }
     }
 }

@@ -9,7 +9,6 @@
     <string name="template_title">Maltittel</string>
     <string name="template_content">Malinnhold</string>
     <string name="save">Spare</string>
-    <string name="app_name" translatable="false">Purevon</string>
     <string name="perm_setup_title">Oppsetttillatelser</string>
     <string name="perm_welcome_title">Velkommen til Purevon</string>
     <string name="perm_welcome_message">For å erstatte standard telefon- og SMS-apper trenger vi følgende tillatelser</string>
@@ -60,8 +59,14 @@
     <string name="action_number_copied">Nummer kopiert til utklippstavlen</string>
     <string name="callback_reminder_title">Ring tilbake påminnelse</string>
     <string name="callback_select_duration">Velg varighet:</string>
-    <string name="callback_minutes">%dminutter</string>
-    <string name="callback_hour">%dtime</string>
+    <plurals name="callback_minutes">
+        <item quantity="one">%dminutter</item>
+        <item quantity="other">%dminutter</item>
+    </plurals>
+    <plurals name="callback_hour">
+        <item quantity="one">%dtime</item>
+        <item quantity="other">%dtime</item>
+    </plurals>
     <string name="callback_set">Sett</string>
     <string name="callback_reminder_alert_title">Ring tilbake påminnelse</string>
     <string name="callback_call_now">Ring nå</string>
@@ -71,8 +76,10 @@
     <string name="incall_end_call">Avslutt samtale</string>
     <string name="contacts_search_placeholder">Søk</string>
     <string name="contacts_no_contacts">Ingen kontakter</string>
-    <string name="contacts_stat_blocked">Blokkert</string>
-    <string name="contacts_selected">%dvalgt</string>
+    <plurals name="contacts_selected">
+        <item quantity="one">%1$dvalgt</item>
+        <item quantity="other">%1$dvalgt</item>
+    </plurals>
     <string name="contacts_select_all">Velg alle</string>
     <string name="contacts_deselect_all">Fjern merket for Alle</string>
     <string name="contacts_action_favorite">Favoritt</string>
@@ -80,7 +87,10 @@
     <string name="contacts_action_block">Blokkere</string>
     <string name="contacts_action_unblock">Fjern blokkering</string>
     <string name="contacts_action_delete">Slett</string>
-    <string name="contacts_delete_multiple">Vil du slette%dkontakter?</string>
+    <plurals name="contacts_delete_multiple">
+        <item quantity="one">Vil du slette%1$dkontakter?</item>
+        <item quantity="other">Vil du slette%1$dkontakter?</item>
+    </plurals>
     <string name="contacts_delete_warning">Denne handlingen kan ikke angres.</string>
     <string name="contacts_cd_add_contact">Legg til ny kontakt</string>
     <string name="contacts_cd_clear_search">Tøm søk</string>
@@ -121,7 +131,7 @@
     <string name="contact_detail_no_history">Ingen anropshistorikk ennå</string>
     <string name="contact_detail_no_notes">Ingen notater ennå</string>
     <string name="contact_detail_delete_title">Slett kontakt</string>
-    <string name="contact_detail_delete_message">Er du sikker på at du vil slette%s?</string>
+    <string name="contact_detail_delete_message">Er du sikker på at du vil slette%1$s?</string>
     <string name="contact_detail_delete_confirm">Slett</string>
     <string name="contact_detail_first_name">Fornavn</string>
     <string name="contact_detail_last_name">Etternavn</string>
@@ -150,8 +160,6 @@
     <string name="add_contact_group">Gruppe</string>
     <string name="add_contact_save_changes">Lagre endringer</string>
     <string name="add_contact_save">Lagre kontakt</string>
-    <string name="add_contact_saved">✓ Kontakt lagret</string>
-    <string name="add_contact_updated">✓ Kontakt oppdatert</string>
     <string name="add_contact_failed">Kunne ikke lagre. Sjekk tillatelser.</string>
     <string name="add_contact_favorite">Favoritt</string>
     <string name="add_contact_type_mobile">Mobil</string>
@@ -160,26 +168,17 @@
     <string name="add_contact_type_other">Annen</string>
     <string name="add_contact_save_to">Lagre til</string>
     <string name="add_contact_account_device">Enhet</string>
-    <string name="add_contact_account_sim">SIM%1$d(%2$s)</string>
     <string name="add_contact_account_google">Google</string>
     <string name="add_contact_select_account">Velg hvor denne kontakten skal lagres</string>
     <string name="messages_no_messages">Ingen meldinger</string>
     <string name="messages_delete_conversation">Slett samtale</string>
     <string name="history_missed">Savnet</string>
     <string name="history_duration">Varighet:%s</string>
-    <string name="settings_title">Innstillinger</string>
     <string name="settings_appearance">Utseende</string>
-    <string name="settings_notifications">Varsler</string>
-    <string name="settings_theme">Tema</string>
     <string name="settings_theme_dark">Mørk</string>
     <string name="settings_theme_system">Systemstandard</string>
-    <string name="settings_rtl_title">Høyre-til-venstre-oppsett</string>
-    <string name="settings_rtl_subtitle">Speil grensesnittet for lesing fra høyre til venstre</string>
     <string name="settings_language">Språk</string>
-    <string name="settings_language_summary">Endre det manuelle appspråket</string>
     <string name="language_system">Systemstandard</string>
-    <string name="language_ar">العربية (arabisk)</string>
-    <string name="language_en">engelsk (engelsk)</string>
     <string name="dialer_add_to_contacts">Legg til i kontakter</string>
     <string name="messages_all">Alle</string>
     <string name="messages_starred_tab">Stjernemerket</string>
@@ -187,11 +186,8 @@
     <string name="messages_no_starred">Ingen stjernemerkede meldinger</string>
     <string name="messages_starred_hint">Trykk lenge på en melding for å legge til favoritter</string>
     <string name="messages_archive">Arkiv</string>
-    <string name="messages_unarchive">Avarkiver</string>
     <string name="messages_mark_as_read">Merk som lest</string>
-    <string name="messages_mark_as_unread">Merk som ulest</string>
     <string name="messages_archived_tab">Arkivert</string>
-    <string name="history_call_will_be_deleted">Samtalen vil bli slettet</string>
     <string name="history_number_will_be_blocked">Nummeret vil bli blokkert</string>
     <string name="history_undo">Angre</string>
     <string name="history_no_history">Ingen anropshistorikk ennå</string>
@@ -219,40 +215,50 @@
     <string name="history_delete_from_history">Slett alt fra loggen</string>
     <string name="history_delete_all_calls_title">Vil du slette alle anrop for dette nummeret?</string>
     <string name="history_delete_all_calls_message">Fjern hver oppføring for%sfra anropsloggen din. Dette kan ikke angres.</string>
-    <string name="history_delete_selected_numbers">Vil du fjerne loggen for%d-numre?</string>
-    <string name="history_group_missed_count">%dsavnet</string>
+    <plurals name="history_delete_selected_numbers">
+        <item quantity="one">Vil du fjerne loggen for%d-numre?</item>
+        <item quantity="other">Vil du fjerne loggen for%d-numre?</item>
+    </plurals>
     <string name="history_notes_cd_has_note">Har notater</string>
-    <string name="history_delete_call_title">Vil du slette anropet?</string>
-    <string name="history_delete_call_message">Er du sikker på at du vil slette dette anropet fra loggen din? Denne handlingen kan ikke angres.</string>
     <string name="history_block_number_title">Blokkere nummer?</string>
     <string name="history_block_number_message">Er du sikker på at du vil blokkere%s? Du vil\'ikke motta anrop fra dette nummeret.</string>
     <string name="history_search_calls">Søk etter samtaler</string>
     <string name="history_clear">Klar</string>
     <string name="history_today">I dag</string>
     <string name="history_yesterday">I går</string>
-    <string name="history_calls">%danrop</string>
+    <plurals name="history_calls">
+        <item quantity="one">%danrop</item>
+        <item quantity="other">%danrop</item>
+    </plurals>
     <string name="history_total">Total</string>
     <string name="history_permission_name">READ_CALL_LOG</string>
     <string name="history_permission_rationale">Denne appen trenger tilgang til anropsloggene dine for å vise anropsloggen din, spore tapte anrop og gi anropsstatistikk.</string>
     <string name="history_action_call">Ringe</string>
     <string name="history_action_message">Beskjed</string>
     <string name="history_notes">Merknader (%d)</string>
-    <string name="history_more_notes">+%dflere notater</string>
+    <plurals name="history_more_notes">
+        <item quantity="one">+%dflere notater</item>
+        <item quantity="other">+%dflere notater</item>
+    </plurals>
     <string name="history_note_today">I dag</string>
     <string name="history_note_yesterday">I går</string>
     <string name="note_dialog_title">Merknader for%s</string>
-    <string name="note_dialog_count">%dnotat</string>
+    <plurals name="note_dialog_count">
+        <item quantity="one">%dnotat</item>
+        <item quantity="other">%dnotat</item>
+    </plurals>
     <string name="note_dialog_empty">Ingen notater</string>
     <string name="note_delete_cd">Slett notat</string>
-    <string name="note_icon_cd">Kontaktnotater</string>
     <string name="note_dialog_close">Lukke</string>
     <string name="history_sim">SIM%d</string>
-    <string name="history_selected_count">%dvalgt</string>
+    <plurals name="history_selected_count">
+        <item quantity="one">%dvalgt</item>
+        <item quantity="other">%dvalgt</item>
+    </plurals>
     <string name="history_select_all">Velg alle</string>
     <string name="history_deselect_all">Fjern merket for Alle</string>
     <string name="history_action_block">Blokkere</string>
     <string name="history_action_delete">Slett</string>
-    <string name="history_delete_selected">Vil du slette%danrop?</string>
     <string name="history_delete_selected_warning">Denne handlingen kan ikke angres.</string>
     <string name="otp_settings_title">OTP-innstillinger</string>
     <string name="about_title">Om</string>
@@ -268,26 +274,8 @@
     <string name="about_feature_bubble_desc">Kontroller samtaler med flytende bobleoverlegg</string>
     <string name="about_feature_sim">Støtte for dobbel SIM</string>
     <string name="about_feature_sim_desc">Full støtte for doble SIM-enheter</string>
-    <string name="about_feature_backup">Sikkerhetskopiering og gjenoppretting</string>
-    <string name="about_feature_backup_desc">Hold dataene dine trygge med automatiske sikkerhetskopier</string>
     <string name="about_contact_us">Kontakt oss:</string>
     <string name="about_copyright">© 2026 Purevon. Alle rettigheter forbeholdt.</string>
-    <string name="ai_model_title">AI-funksjoner</string>
-    <string name="ai_model_download">Last ned Gemma 3 (1B)</string>
-    <string name="ai_model_download_desc">Last ned Gemma 3 1B-modell (~555 MB) for offline AI-chat</string>
-    <string name="ai_model_downloading">Laster ned …%1$d%%</string>
-    <string name="ai_model_extracting">Lagrer modell …</string>
-    <string name="ai_model_downloaded">Modell lastet ned</string>
-    <string name="ai_model_delete">Slett AI-modell</string>
-    <string name="ai_model_delete_desc">Fjern den nedlastede Gemma-modellen for å frigjøre plass</string>
-    <string name="ai_chat_title">Gemma AI Chat</string>
-    <string name="ai_chat_model_loading">Laster inn modell …</string>
-    <string name="ai_chat_model_error">Modellen kunne ikke lastes inn</string>
-    <string name="ai_chat_model_ready">Ferdig</string>
-    <string name="ai_chat_hint">Spør Gemma hva som helst...</string>
-    <string name="ai_hf_token_label">HuggingFace Token</string>
-    <string name="ai_hf_token_placeholder">hf_xxxxxxxxxxxxxxxxxxxx</string>
-    <string name="ai_hf_token_desc">Nødvendig for å laste ned Gemma (gratis på huggingface.co)</string>
     <string name="conversation_no_messages">Ingen meldinger ennå</string>
     <string name="conversation_start_hint">Send en melding for å starte samtalen</string>
     <string name="conversation_message_hint">Beskjed</string>
@@ -319,12 +307,7 @@
     <string name="msg_attachment_file">Fil</string>
     <string name="msg_attachment_contact">Kontakt</string>
     <string name="msg_attachment_location">Sted</string>
-    <string name="msg_attachment_schedule">Rute</string>
-    <string name="location_fetching">Henter plassering …</string>
-    <string name="location_error">Kunne ikke bestemme plassering</string>
     <string name="location_permission_denied">Posisjonstillatelse kreves for å dele posisjonen din</string>
-    <string name="location_my_current">Min nåværende plassering</string>
-    <string name="location_coordinates">Koordinater</string>
     <string name="location_view_map">Se på kart:</string>
     <string name="msg_cd_attached_image">Vedlagt bilde</string>
     <string name="msg_cd_scheduled">Planlagt</string>
@@ -342,7 +325,6 @@
     <string name="msg_cd_retry">Prøv å sende på nytt</string>
     <string name="msg_cd_attachment_type">Type vedlegg</string>
     <string name="msg_cd_open_location">Åpne plassering på kartet</string>
-    <string name="msg_cd_playback_speed">Avspillingshastighet</string>
     <string name="msg_cd_play">Spille</string>
     <string name="msg_cd_pause">Pause</string>
     <string name="msg_cd_send">Sende</string>
@@ -350,14 +332,16 @@
     <string name="msg_cd_conversation_options">Samtalealternativer</string>
     <string name="msg_cd_delete_recording">Slett opptaket</string>
     <string name="msg_cd_send_recording">Send opptak</string>
-    <string name="msg_fetching_location">Finner …</string>
     <string name="msg_date_today">I dag</string>
     <string name="msg_date_yesterday">I går</string>
     <string name="msg_no_results">Ingen resultater</string>
     <string name="msg_no_archived_conversations">Ingen arkiverte samtaler</string>
     <string name="msg_search_try_different">Prøv et annet søkeord enn\"%s\"</string>
     <string name="msg_archive_hint">Trykk lenge på en samtale for å arkivere den</string>
-    <string name="msg_delete_conversations_title">Vil du slette%dsamtaler?</string>
+    <plurals name="msg_delete_conversations_title">
+        <item quantity="one">Vil du slette%dsamtaler?</item>
+        <item quantity="other">Vil du slette%dsamtaler?</item>
+    </plurals>
     <string name="msg_sim_ask_me">Spør meg</string>
     <string name="msg_phone_number_missing">Telefonnummer mangler</string>
     <string name="msg_scheduled_cancelled">Planlagt melding kansellert</string>
@@ -380,10 +364,12 @@
     <string name="templates_title">Meldingsmaler</string>
     <string name="templates_empty">Ingen maler ennå</string>
     <string name="templates_create">Lag mal</string>
-    <string name="templates_use_count">Brukt%dganger</string>
+    <plurals name="templates_use_count">
+        <item quantity="one">Brukt%dganger</item>
+        <item quantity="other">Brukt%dganger</item>
+    </plurals>
     <string name="templates_delete_title">Slett mal</string>
     <string name="templates_delete_message">Er du sikker på at du vil slette \"%s\"?</string>
-    <string name="cleanup_creating_backup">جاري إنشاء نسخة احتياطية...</string>
     <string name="system_perm_title">Ytterligere innstillinger</string>
     <string name="system_perm_device">Din enhet:%1$s</string>
     <string name="system_perm_subtitle">Krever ytterligere innstillinger for at appen skal fungere skikkelig</string>
@@ -427,11 +413,8 @@
     <string name="manufacturer_vivo">Vivo (Funtouch OS)</string>
     <string name="manufacturer_oneplus">OnePlus (OxygenOS)</string>
     <string name="manufacturer_stock">Android</string>
-    <string name="appearance_theme_system_follow">Følg systemtemaet</string>
     <string name="spam_privacy_title">Privatliv</string>
-    <string name="otp_settings_desc">Autokopiering, varsler, pålitelige avsendere</string>
     <string name="privacy_hide_notifications">Skjul sensitive varsler</string>
-    <string name="privacy_hide_notifications_desc">Skjul meldingsinnhold i varsler</string>
     <string name="about_version">Versjon%s</string>
     <string name="close">Lukke</string>
     <string name="remove">Fjerne</string>
@@ -444,11 +427,8 @@
     <string name="sim_all">Alle SIM-er</string>
     <string name="sim_select_for_blocking">Velg SIM for anropsblokkering</string>
     <string name="sim_slot_format">Brukt på:%1$s</string>
-    <string name="call_blocking_desc">Blokker uønskede anrop</string>
     <string name="call_blocking_blocked_list">Blokkerte numre</string>
-    <string name="call_blocking_manage_blocked">Administrer liste over blokkerte numre</string>
     <string name="call_blocking_whitelist">Hviteliste</string>
-    <string name="call_blocking_manage_whitelist">Administrer hviteliste</string>
     <string name="blocked_list_title">Blokkerte numre</string>
     <string name="blocked_list_count">Blokkert (%d)</string>
     <string name="blocked_search_hint">Søk etter kontakter eller nylige anrop</string>
@@ -467,7 +447,10 @@
     <string name="call_status_calling">Ringer …</string>
     <string name="conference_call_title">Konferansesamtale</string>
     <string name="conference_label">Konferanse</string>
-    <string name="conference_participants_count">%ddeltakere</string>
+    <plurals name="conference_participants_count">
+        <item quantity="one">%ddeltakere</item>
+        <item quantity="other">%ddeltakere</item>
+    </plurals>
     <string name="overlay_status_hold">Holde</string>
     <string name="overlay_status_incoming">Innkommende</string>
     <string name="fake_call_title">Falsk samtale</string>
@@ -485,20 +468,25 @@
     <string name="fake_call_incoming">Innkommende anrop …</string>
     <string name="fake_call_answer">Svare</string>
     <string name="fake_call_decline">Avslå</string>
-    <string name="fake_call_end">Avslutt samtale</string>
     <string name="fake_call_name_required">Vennligst skriv inn navnet på den som ringer</string>
     <string name="fake_call_delay_required">Velg samtaletidspunkt</string>
-    <string name="fake_call_scheduled">Falsk samtale planlagt etter%s</string>
+    <string name="fake_call_scheduled">Falsk samtale planlagt etter%1$s</string>
     <string name="fake_call_schedule_error">Kunne ikke planlegge falsk samtale</string>
     <string name="fake_call_manage_title">Planlagte falske anrop</string>
-    <string name="fake_call_active_count">%danrop(er) planlagt</string>
+    <plurals name="fake_call_active_count">
+        <item quantity="one">%danrop(er) planlagt</item>
+        <item quantity="other">%danrop(er) planlagt</item>
+    </plurals>
     <string name="fake_call_no_scheduled">Ingen planlagte falske anrop</string>
     <string name="fake_call_cancel_all">Avbryt alle</string>
     <string name="fake_call_cancel_call">Avbryt samtalen</string>
     <string name="fake_call_inexact_alarm_warning">Merk: Det kan hende at samtalen ikke kommer på nøyaktig tidspunkt. Gi tillatelse til \"Alarmer og påminnelser\" i innstillingene for bedre nøyaktighet.</string>
     <string name="refresh">Forfriske</string>
     <string name="callback_reminders_manage_title">Planlagte tilbakeringingspåminnelser</string>
-    <string name="callback_reminder_active_count">%dpåminnelse(r) planlagt</string>
+    <plurals name="callback_reminder_active_count">
+        <item quantity="one">%dpåminnelse(r) planlagt</item>
+        <item quantity="other">%dpåminnelse(r) planlagt</item>
+    </plurals>
     <string name="callback_reminder_no_scheduled">Ingen planlagte påminnelser</string>
     <string name="callback_reminder_cancel_all">Avbryt alle</string>
     <string name="callback_reminder_cancel_item">Avbryt påminnelsen</string>
@@ -507,13 +495,10 @@
     <string name="scheduled_message_failed_body">Til%1$s:%2$s</string>
     <string name="scheduled_message_cancel">Kansellere</string>
     <string name="scheduled_message_edit">Redigere</string>
-    <string name="scheduled_message_cancelled">Planlagt melding kansellert</string>
     <string name="scheduled_status_pending">I påvente av</string>
     <string name="scheduled_status_sent">Sendt</string>
     <string name="scheduled_status_failed">Mislyktes</string>
     <string name="scheduled_status_cancelled">Kansellert</string>
-    <string name="msg_send_failure_title">Sending av melding mislyktes</string>
-    <string name="msg_send_failure_text">Til%1$s:%2$s</string>
     <string name="search_messages_hint">Søk etter meldinger</string>
     <string name="search_clear">Klar</string>
     <string name="call_state_calling">Ringer …</string>
@@ -549,7 +534,7 @@
     <string name="quick_reply_on_my_way">På vei</string>
     <string name="quick_reply_give_me_5">Gi meg 5 minutter</string>
     <string name="quick_reply_custom">Skriv egendefinert melding</string>
-    <string name="quick_reply_type_hint">Skriv inn meldingen din...</string>
+    <string name="quick_reply_type_hint">Skriv inn meldingen din…</string>
     <string name="quick_reply_send">Sende</string>
     <string name="quick_reply_back">Tilbake</string>
     <string name="contact_share_title">Del kontakt</string>
@@ -589,17 +574,18 @@
     <string name="sim_picker_call_title">Velg SIM for samtale</string>
     <string name="msg_unexpected_error">Uventet feil:%1$s</string>
     <string name="msg_suggestion_prefix">Forslag:%1$s</string>
-    <string name="msg_send_attachments_lost">Sendingen mislyktes. Vedleggene dine er bevart – trykk på den mislykkede meldingen for å prøve på nytt.</string>
     <string name="msg_retry_unexpected_error">Uventet feil:%1$s</string>
     <string name="msg_forward_partial_success">Sendt til%1$dav%2$dmottakere.%3$dmislyktes.</string>
-    <string name="msg_scheduled_load_error">Kunne ikke laste inn planlagte meldinger</string>
     <string name="msg_error_network_wifi">📶 MMS krever Wi-Fi eller mobildata. Vennligst sjekk tilkoblingen din.</string>
     <string name="msg_error_network">📶 Ingen internettforbindelse. Vennligst sjekk nettverksinnstillingene.</string>
     <string name="msg_error_permission">🔒 Tillatelse kreves:%1$s. Vennligst gi i innstillingene.</string>
     <string name="msg_error_balance">💳 Utilstrekkelig SMS-saldo. Lad opp SIM-kortet.</string>
     <string name="msg_error_invalid_number">📱 Ugyldig telefonnummer. Vennligst sjekk og prøv igjen.</string>
     <string name="msg_error_storage_full">💾 Lagring fullt. Vennligst frigjør litt plass.</string>
-    <string name="msg_error_rate_limit">⏱️ For mange meldinger sendt. Vennligst vent%1$dsekunder.</string>
+    <plurals name="msg_error_rate_limit">
+        <item quantity="one">⏱️ For mange meldinger sendt. Vennligst vent%1$dsekunder.</item>
+        <item quantity="other">⏱️ For mange meldinger sendt. Vennligst vent%1$dsekunder.</item>
+    </plurals>
     <string name="msg_error_mms">📎 MMS-feil:%1$s. Vennligst prøv igjen.</string>
     <string name="msg_error_too_large">📏 Meldingen er for stor. Maksimal størrelse er%1$dKB.</string>
     <string name="msg_error_attachment">📎 Kan ikke legge ved%1$s:%2$s</string>
@@ -631,7 +617,6 @@
     <string name="sms_error_radio_off">Flymodus aktivert (radio av)</string>
     <string name="sms_error_limit_exceeded">Sendingsgrensen er overskredet</string>
     <string name="sms_error_unknown">Ukjent feil</string>
-    <string name="otp_copied_toast">Verifikasjonskode kopiert:%1$s✓</string>
     <string name="otp_bubble_channel_name">Flytende bekreftelseskoder</string>
     <string name="otp_bubble_channel_desc">Varsler for flytende bekreftelseskodebobler</string>
     <string name="otp_bubble_notification_title">Bekreftelseskode</string>
@@ -640,7 +625,10 @@
     <string name="settings_incoming_call_banner_desc">Vis et flytende banner i stedet for fullskjerm for innkommende anrop</string>
     <string name="notification_summary_title">Meldinger</string>
     <string name="notification_summary_2_messages">2 nye meldinger</string>
-    <string name="notification_summary_n_messages">%1$dnye meldinger</string>
+    <plurals name="notification_summary_n_messages">
+        <item quantity="one">%1$dnye meldinger</item>
+        <item quantity="other">%1$dnye meldinger</item>
+    </plurals>
     <string name="notification_summary_many_messages">9+ nye meldinger</string>
     <string name="notification_action_reply">Svar</string>
     <string name="notification_action_mark_read_short">Merk lest</string>
@@ -658,39 +646,17 @@
     <string name="error_failed_update_favorite">Kunne ikke oppdatere favorittstatusen</string>
     <string name="error_failed_delete_contact">Kunne ikke slette kontakten:%1$s</string>
     <string name="success_contact_deleted">Kontakt slettet</string>
-    <string name="success_contacts_blocked">%1$dkontakter blokkert</string>
-    <string name="success_contacts_added_favorites">%1$dkontakter lagt til i favoritter</string>
+    <plurals name="success_contacts_blocked">
+        <item quantity="one">%1$dkontakter blokkert</item>
+        <item quantity="other">%1$dkontakter blokkert</item>
+    </plurals>
+    <plurals name="success_contacts_added_favorites">
+        <item quantity="one">%1$dkontakter lagt til i favoritter</item>
+        <item quantity="other">%1$dkontakter lagt til i favoritter</item>
+    </plurals>
     <string name="success_added_to_favorites">Lagt til i favoritter</string>
     <string name="success_removed_from_favorites">Fjernet fra favoritter</string>
     <string name="msg_contact_will_be_deleted">\"%1$s\"vil bli slettet</string>
-    <string name="backup_encrypt_dialog_title">Krypter sikkerhetskopi</string>
-    <string name="backup_encrypt_dialog_desc">Skriv inn et passord for å kryptere sikkerhetskopien, eller la det stå tomt for å lagre som vanlig JSON.</string>
-    <string name="backup_encrypt_password_hint">Passord (valgfritt)</string>
-    <string name="backup_encrypt_confirm">Eksport</string>
-    <string name="restore_decrypt_dialog_title">Kryptert sikkerhetskopi</string>
-    <string name="restore_decrypt_dialog_desc">Denne sikkerhetskopien er kryptert. Skriv inn passordet som ble brukt da det ble opprettet.</string>
-    <string name="restore_decrypt_password_hint">Passord</string>
-    <string name="restore_decrypt_confirm">Restaurere</string>
-    <string name="backup_wrong_password">Feil passord – kunne ikke dekryptere sikkerhetskopien.</string>
-    <string name="backup_encrypted_badge">🔒 Kryptert</string>
-    <string name="backup_created_success">Sikkerhetskopien er opprettet</string>
-    <string name="backup_created_failure">Kunne ikke opprette sikkerhetskopi</string>
-    <string name="backup_saved_success">✅ Sikkerhetskopiering ble lagret</string>
-    <string name="backup_saved_failure">❌ Lagring mislyktes:%1$s</string>
-    <string name="restore_success">✅ Data gjenopprettet vellykket</string>
-    <string name="restore_failure">Gjenoppretting mislyktes</string>
-    <string name="restore_error">Gjenopprettingsfeil:%1$s</string>
-    <string name="backup_restore_success">✅ Sikkerhetskopiering gjenopprettet</string>
-    <string name="backup_restore_failure">❌ Gjenoppretting mislyktes:%1$s</string>
-    <string name="generic_error">Feil:%1$s</string>
-    <string name="export_calls_success">✅ Anrop eksportert:%1$s</string>
-    <string name="export_messages_success">✅ Meldinger eksportert:%1$s</string>
-    <string name="export_all_success">✅ Alle data eksportert:%1$s</string>
-    <string name="export_failure">❌ Eksporten mislyktes</string>
-    <string name="import_success">✅ Data importert vellykket</string>
-    <string name="import_failure">Import mislyktes</string>
-    <string name="import_error">Importfeil:%1$s</string>
-    <string name="import_restore_failure">❌ Import mislyktes:%1$s</string>
     <string name="disclosure_title">Ditt personvern</string>
     <string name="disclosure_subtitle">Se gjennom før du fortsetter</string>
     <string name="disclosure_intro">Purevon erstatter standard telefonoppringer og standard SMS/MMS meldingsapp. For å gi anrop, SMS/MMS, spambeskyttelse og relaterte funksjoner, trenger den tillatelsene som er forklart nedenfor. Valgfrie elementer (kamera, mikrofon, posisjon) brukes bare når du velger disse handlingene (for eksempel ved å legge ved et bilde eller dele posisjonen din). Data forblir på enheten din med mindre du eksplisitt bruker en nettverksfunksjon som MMS eller laster inn en forhåndsvisning av nettlenker.</string>
@@ -729,8 +695,6 @@
     <string name="incall_error_reject_failed">Kunne ikke avvise anropet</string>
     <string name="incall_error_merge_not_supported">Kan ikke slå sammen anrop - støttes ikke</string>
     <string name="incall_error_merge_failed">Kunne ikke slå sammen anrop</string>
-    <string name="incall_error_add_call_unavailable">Kan ikke legge til anrop akkurat nå</string>
-    <string name="incall_error_sim_unknown">Kunne ikke fastslå SIM</string>
     <string name="incall_error_no_call_permission">Ingen tillatelse til å ringe</string>
     <string name="incall_error_add_call_failed">Kunne ikke legge til anrop:%1$s</string>
     <string name="incall_error_note_save_invalid_number">Kunne ikke lagre notatet – ugyldig nummer</string>
@@ -741,13 +705,54 @@
     <string name="incall_msg_number_unblocked">Nummeret er opphevet</string>
     <string name="incall_msg_number_blocked">Nummer blokkert</string>
     <string name="incall_msg_note_saved">✅ Lagret</string>
-    <string name="incall_msg_reminder_set_hours">✅ Påminnelse satt etter%1$dtime(r)</string>
-    <string name="incall_msg_reminder_set_minutes">✅ Påminnelse satt etter%1$dminutt(er)</string>
+    <plurals name="incall_msg_reminder_set_hours">
+        <item quantity="one">✅ Påminnelse satt etter%1$dtime(r)</item>
+        <item quantity="other">✅ Påminnelse satt etter%1$dtime(r)</item>
+    </plurals>
+    <plurals name="incall_msg_reminder_set_minutes">
+        <item quantity="one">✅ Påminnelse satt etter%1$dminutt(er)</item>
+        <item quantity="other">✅ Påminnelse satt etter%1$dminutt(er)</item>
+    </plurals>
     <string name="incall_msg_reminder_approximate_warning">(Merk: omtrentlig tidspunkt)</string>
     <string name="incall_msg_location_coming_soon">Posisjonssending kommer snart</string>
     <string name="incall_msg_image_sharing_coming_soon">Bildedeling kommer snart</string>
     <string name="incall_block_reason_incall">Blokkert via InCall-skjermen</string>
     <string name="shortcut_new_message">Ny melding</string>
     <string name="shortcut_create_new_message">Opprett ny melding</string>
-    <string name="btn_ai_scan">Skann med AI</string>
+
+    <string name="action_add_note">Add note</string>
+    <string name="action_view">View</string>
+    <string name="blocked_call_bubble_call">اتصال</string>
+    <string name="blocked_call_bubble_channel_desc">إشعارات حظر المكالمات</string>
+    <string name="blocked_call_bubble_channel_name">قناة حظر المكالمات</string>
+    <string name="blocked_call_bubble_content_title">مكالمة محظورة</string>
+    <string name="blocked_call_bubble_dismiss">إلغاء</string>
+    <string name="blocked_call_bubble_notification_text">تم حظر مكالمة واردة من رقم مشبوه</string>
+    <string name="blocked_call_bubble_notification_title">تم حظر مكالمة</string>
+    <string name="blocked_call_bubble_whitelist">إضافة لقائمة السماح</string>
+    <string name="blocked_call_bubble_whitelisted">تمت الإضافة إلى قائمة السماح</string>
+    <string name="mms_fg_channel_desc">Shows when MMS messages are being sent or downloaded</string>
+    <string name="mms_fg_channel_name">MMS Operations</string>
+    <string name="mms_fg_downloading">Downloading MMS</string>
+    <string name="mms_fg_in_progress">MMS operation in progress…</string>
+    <string name="mms_fg_processing">Processing MMS</string>
+    <string name="mms_fg_sending">Sending MMS</string>
+    <string name="mms_fg_to">To %1$s</string>
+    <string name="msg_action_cancel">Cancel</string>
+    <string name="msg_send_cancelled">Message send cancelled</string>
+    <string name="notification_channel_fake_call">Fake Calls</string>
+    <string name="notification_channel_fake_call_desc">Notifications for scheduled fake incoming calls</string>
+    <string name="notification_channel_incoming_calls">Incoming Calls</string>
+    <string name="notification_channel_incoming_calls_desc">Incoming call notifications - shows on lock screen</string>
+    <string name="notification_channel_incoming_call_unlocked">Incoming Call (Unlocked)</string>
+    <string name="notification_channel_incoming_call_unlocked_desc">Silent foreground service notification when screen is on and call activity is shown directly</string>
+    <string name="notification_fake_call_incoming">Incoming call</string>
+    <string name="notification_spam_call_text">%1$s - %2$s</string>
+    <string name="notification_spam_call_title">⚠️ Spam Call Detected</string>
+    <string name="otp_copied_generic">Verification code copied ✓</string>
+    <string name="otp_missed_notification_text">New message from %1$s — open inbox to view</string>
+    <string name="otp_missed_notification_title">Verification code received</string>
+    <string name="risk_high">High Risk</string>
+    <string name="risk_low">Low Risk</string>
+    <string name="risk_medium">Medium Risk</string>
 </resources>

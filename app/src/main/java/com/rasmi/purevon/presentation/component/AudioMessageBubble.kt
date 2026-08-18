@@ -49,7 +49,7 @@ fun AudioMessageBubble(
     
     var isPlaying by remember { mutableStateOf(false) }
     var progress by remember { mutableFloatStateOf(0f) }
-    var currentPositionMs by remember { mutableStateOf(0L) }
+    var currentPositionMs by remember { mutableLongStateOf(0L) }
     var waveform by remember { mutableStateOf(waveformSamples) }
     
     // Generate waveform if not provided
@@ -272,5 +272,5 @@ private fun formatDuration(millis: Long): String {
     val seconds = (millis / 1000).toInt()
     val minutes = seconds / 60
     val secs = seconds % 60
-    return String.format("%d:%02d", minutes, secs)
+    return String.format(java.util.Locale.getDefault(), "%d:%02d", minutes, secs)
 }

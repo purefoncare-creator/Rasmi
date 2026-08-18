@@ -81,6 +81,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -371,7 +372,7 @@ private fun MessagesSelectionTopBar(
                 Icon(Icons.Default.Close, contentDescription = "Close selection", modifier = Modifier.size(20.dp))
             }
             Text(
-                text = context.getString(R.string.contacts_selected, selectedCount),
+                text = context.resources.getQuantityString(R.plurals.contacts_selected, selectedCount, selectedCount),
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.SemiBold,
                 modifier = Modifier
@@ -445,7 +446,7 @@ private fun MessagesSelectionBottomBar(
         AlertDialog(
             onDismissRequest = { showDeleteDialog = false },
             icon = { Icon(Icons.Outlined.Delete, null, tint = MaterialTheme.colorScheme.error) },
-            title = { Text(stringResource(R.string.msg_delete_conversations_title, selectedCount)) },
+            title = { Text(pluralStringResource(R.plurals.msg_delete_conversations_title, selectedCount, selectedCount)) },
             text = { Text(stringResource(R.string.messages_delete_conversation)) },
             confirmButton = {
                 TextButton(onClick = { showDeleteDialog = false; onDelete() }) {
@@ -647,8 +648,8 @@ private fun MessagesSearchBarWithMenu(
     selectedTab: MessageTab,
     onTabSelected: (MessageTab) -> Unit,
     unreadCount: Int,
-    onScheduledMessagesClick: () -> Unit = {},
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onScheduledMessagesClick: () -> Unit = {}
 ) {
     var menuExpanded by remember { mutableStateOf(false) }
     

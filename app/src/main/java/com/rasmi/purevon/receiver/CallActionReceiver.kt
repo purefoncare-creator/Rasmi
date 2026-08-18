@@ -5,8 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.telecom.Call
+import android.telecom.VideoProfile
 import android.util.Log
-import androidx.annotation.RequiresApi
 import com.rasmi.purevon.domain.call.InCallServiceBridge
 import com.rasmi.purevon.util.DebugLogger
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,7 +28,6 @@ class CallActionReceiver : BroadcastReceiver() {
         private const val TAG = "CallActionReceiver"
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     override fun onReceive(context: Context, intent: Intent) {
         Log.d(TAG, "Received action: ${intent.action}")
         
@@ -65,7 +64,7 @@ class CallActionReceiver : BroadcastReceiver() {
             ACTION_ANSWER -> {
                 Log.d(TAG, "Answering call: ${DebugLogger.maskPhoneNumber(call.details?.handle?.schemeSpecificPart ?: "")}")
                 if (callState == Call.STATE_RINGING) {
-                    call.answer(0) // 0 = VideoProfile.STATE_AUDIO_ONLY
+                    call.answer(VideoProfile.STATE_AUDIO_ONLY)
                     Log.d(TAG, "✅ Call answered")
                 } else {
                     Log.w(TAG, "⚠️ Cannot answer call in state: $callState")

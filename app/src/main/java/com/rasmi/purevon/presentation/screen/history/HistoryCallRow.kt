@@ -21,6 +21,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.LayoutDirection
@@ -37,15 +38,15 @@ import com.rasmi.purevon.util.PhoneUtil
 internal fun CompactGroupedCallRow(
     group: GroupedContactCalls,
     resolvedContactName: String?,
+    onCallBack: () -> Unit,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
     isSelectionMode: Boolean = false,
     isSelected: Boolean = false,
     hasNote: Boolean = false,
     useShortTimeSubtitle: Boolean = false,
     showBottomDivider: Boolean = true,
-    onCallBack: () -> Unit,
-    onClick: () -> Unit,
-    onLongClick: () -> Unit = {},
-    modifier: Modifier = Modifier
+    onLongClick: () -> Unit = {}
 ) {
     val context = LocalContext.current
     val metaScroll = rememberScrollState()
@@ -175,7 +176,7 @@ internal fun CompactGroupedCallRow(
                             fontSize = 11.sp
                         )
                         Text(
-                            text = stringResource(R.string.history_calls, group.callCount),
+                            text = pluralStringResource(R.plurals.history_calls, group.callCount, group.callCount),
                             style = MaterialTheme.typography.labelSmall,
                             color = if (log.callType == CallType.MISSED) missedCallColor()
                             else MaterialTheme.colorScheme.onSurfaceVariant,

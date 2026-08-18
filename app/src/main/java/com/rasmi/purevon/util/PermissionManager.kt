@@ -50,24 +50,16 @@ object PermissionManager {
      * Check if system alert window permission is granted
      */
     fun hasOverlayPermission(context: Context): Boolean {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            android.provider.Settings.canDrawOverlays(context)
-        } else {
-            true
-        }
+        return android.provider.Settings.canDrawOverlays(context)
     }
 
     /**
      * Check if battery optimizations are ignored
      */
     fun isIgnoringBatteryOptimizations(context: Context): Boolean {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            // ✅ FIX #27: Use safe cast to avoid ClassCastException
-            val powerManager = context.getSystemService(Context.POWER_SERVICE) as? android.os.PowerManager
-            powerManager?.isIgnoringBatteryOptimizations(context.packageName) ?: false
-        } else {
-            true
-        }
+        // ✅ FIX #27: Use safe cast to avoid ClassCastException
+        val powerManager = context.getSystemService(Context.POWER_SERVICE) as? android.os.PowerManager
+        return powerManager?.isIgnoringBatteryOptimizations(context.packageName) ?: false
     }
     
     /**

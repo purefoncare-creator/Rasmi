@@ -1,5 +1,6 @@
 package com.rasmi.purevon.util.security
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
@@ -60,7 +61,8 @@ object DatabasePassphraseManager {
         val encrypted = cipher.doFinal(passphrase)
         val iv = cipher.iv
 
-        // ✅ FIX #8: Use commit() instead of apply() for security-critical write
+        // Synchronous persistence is required before the encrypted database opens.
+        @SuppressLint("ApplySharedPref")
         prefs.edit()
             .putString(PREF_ENCRYPTED_PASSPHRASE, android.util.Base64.encodeToString(encrypted, android.util.Base64.NO_WRAP))
             .putString(PREF_IV, android.util.Base64.encodeToString(iv, android.util.Base64.NO_WRAP))

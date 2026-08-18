@@ -21,6 +21,9 @@ interface CachedMessageDao {
     @Query("SELECT * FROM cached_messages WHERE threadId = :threadId ORDER BY timestamp ASC")
     suspend fun getMessagesByThreadSync(threadId: Long): List<CachedMessageEntity>
 
+    @Query("SELECT * FROM cached_messages WHERE id = :messageId LIMIT 1")
+    suspend fun getMessageById(messageId: Long): CachedMessageEntity?
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(messages: List<CachedMessageEntity>)
 

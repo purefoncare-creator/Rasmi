@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.provider.Telephony
 import android.util.Log
 import com.rasmi.purevon.util.DebugLogger
@@ -38,7 +37,7 @@ class MmsDownloadedReceiver : BroadcastReceiver() {
     
     override fun onReceive(context: Context?, intent: Intent?) {
         if (context == null || intent == null) {
-            Log.w(TAG, "❌ onReceive with null context=$context intent=$intent")
+            DebugLogger.diagnostic(TAG, "❌ onReceive with null context=$context intent=$intent")
             return
         }
         
@@ -48,20 +47,20 @@ class MmsDownloadedReceiver : BroadcastReceiver() {
         val subscriptionId = intent.getIntExtra("subscription_id", -1)
         val filePath = intent.getStringExtra("file_path") ?: ""
         
-        Log.w(TAG, "╔═══════════════════════════════════════════════════════╗")
-        Log.w(TAG, "║  📥 MmsDownloadedReceiver.onReceive() TRIGGERED      ║")
-        Log.w(TAG, "╚═══════════════════════════════════════════════════════╝")
-        Log.w(TAG, "🕐 Time: ${java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", java.util.Locale.US).format(java.util.Date())}")
-        Log.w(TAG, "📊 Result Code: $resultCode (RESULT_OK=${Activity.RESULT_OK})")
-        Log.w(TAG, "📊 Content-Location: $contentLocation")
-        Log.w(TAG, "📊 Transaction-ID: $transactionId")
-        Log.w(TAG, "📊 Subscription ID: $subscriptionId")
-        Log.w(TAG, "📊 File Path: $filePath")
+        DebugLogger.diagnostic(TAG, "╔═══════════════════════════════════════════════════════╗")
+        DebugLogger.diagnostic(TAG, "║  📥 MmsDownloadedReceiver.onReceive() TRIGGERED      ║")
+        DebugLogger.diagnostic(TAG, "╚═══════════════════════════════════════════════════════╝")
+        DebugLogger.diagnostic(TAG, "🕐 Time: ${java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", java.util.Locale.US).format(java.util.Date())}")
+        DebugLogger.diagnostic(TAG, "📊 Result Code: $resultCode (RESULT_OK=${Activity.RESULT_OK})")
+        DebugLogger.diagnostic(TAG, "📊 Content-Location: $contentLocation")
+        DebugLogger.diagnostic(TAG, "📊 Transaction-ID: $transactionId")
+        DebugLogger.diagnostic(TAG, "📊 Subscription ID: $subscriptionId")
+        DebugLogger.diagnostic(TAG, "📊 File Path: $filePath")
         
         // Check if file exists and its size
         val downloadFile = java.io.File(filePath)
-        Log.w(TAG, "📊 File exists: ${downloadFile.exists()}")
-        Log.w(TAG, "📊 File size: ${if (downloadFile.exists()) "${downloadFile.length()} bytes" else "N/A"}")
+        DebugLogger.diagnostic(TAG, "📊 File exists: ${downloadFile.exists()}")
+        DebugLogger.diagnostic(TAG, "📊 File size: ${if (downloadFile.exists()) "${downloadFile.length()} bytes" else "N/A"}")
         
         val pendingResult = goAsync()
         val job = SupervisorJob()
@@ -71,28 +70,28 @@ class MmsDownloadedReceiver : BroadcastReceiver() {
                 withTimeout(25_000L) {
                     when (resultCode) {
                         Activity.RESULT_OK -> {
-                            Log.w(TAG, "✅ [RESULT] Download SUCCESS! Proceeding to handleSuccessfulDownload...")
+                            DebugLogger.diagnostic(TAG, "✅ [RESULT] Download SUCCESS! Proceeding to handleSuccessfulDownload...")
                             handleSuccessfulDownload(context, filePath, transactionId, subscriptionId)
                         }
                         else -> {
                             val errorMessage = MmsUtils.getMmsErrorMessage(resultCode)
-                            Log.e(TAG, "❌ [RESULT] Download FAILED!")
-                            Log.e(TAG, "   Error: $errorMessage")
-                            Log.e(TAG, "   Result code: $resultCode")
-                            Log.e(TAG, "   This means the system could not download the MMS from MMSC")
+                            DebugLogger.diagnostic(TAG, "❌ [RESULT] Download FAILED!")
+                            DebugLogger.diagnostic(TAG, "   Error: $errorMessage")
+                            DebugLogger.diagnostic(TAG, "   Result code: $resultCode")
+                            DebugLogger.diagnostic(TAG, "   This means the system could not download the MMS from MMSC")
                         }
                     }
                 } // withTimeout
             } catch (e: Exception) {
-                Log.e(TAG, "❌ EXCEPTION processing download result!", e)
-                Log.e(TAG, "   Type: ${e.javaClass.name}")
-                Log.e(TAG, "   Message: ${e.message}")
+                DebugLogger.diagnostic(TAG, "❌ EXCEPTION processing download result!", e)
+                DebugLogger.diagnostic(TAG, "   Type: ${e.javaClass.name}")
+                DebugLogger.diagnostic(TAG, "   Message: ${e.message}")
             } finally {
                 // ✅ FIX #9: Stop foreground service when MMS download completes
                 try {
                     com.rasmi.purevon.service.MmsForegroundService.stopMmsService(context)
                 } catch (e: Exception) {
-                    android.util.Log.w(TAG, "Failed to stop MMS foreground service", e)
+                    DebugLogger.diagnostic(TAG, "Failed to stop MMS foreground service", e)
                 }
                 cleanupTempFile(filePath)
                 job.cancel()
@@ -110,52 +109,60 @@ class MmsDownloadedReceiver : BroadcastReceiver() {
         transactionId: String,
         subscriptionId: Int
     ) {
-        Log.w(TAG, "╔═══════════════════════════════════════════════════════╗")
-        Log.w(TAG, "║  📥 handleSuccessfulDownload() START                 ║")
-        Log.w(TAG, "╚═══════════════════════════════════════════════════════╝")
+        DebugLogger.diagnostic(TAG, "╔═══════════════════════════════════════════════════════╗")
+        DebugLogger.diagnostic(TAG, "║  📥 handleSuccessfulDownload() START                 ║")
+        DebugLogger.diagnostic(TAG, "╚═══════════════════════════════════════════════════════╝")
         try {
+            if (transactionId.isNotBlank()) {
+                findMmsByTransactionId(context, transactionId)?.let { existingId ->
+                    DebugLogger.diagnostic(TAG, "MMS transaction already persisted: $transactionId")
+                    notifyNewMms(context, existingId)
+                    return
+                }
+            }
+
             val downloadFile = java.io.File(filePath)
             
-            Log.w(TAG, "📊 [HANDLE STEP 1] File check:")
-            Log.w(TAG, "   Path: $filePath")
-            Log.w(TAG, "   Exists: ${downloadFile.exists()}")
-            Log.w(TAG, "   Size: ${if (downloadFile.exists()) "${downloadFile.length()} bytes" else "N/A"}")
-            Log.w(TAG, "   Readable: ${downloadFile.canRead()}")
+            DebugLogger.diagnostic(TAG, "📊 [HANDLE STEP 1] File check:")
+            DebugLogger.diagnostic(TAG, "   Path: $filePath")
+            DebugLogger.diagnostic(TAG, "   Exists: ${downloadFile.exists()}")
+            DebugLogger.diagnostic(TAG, "   Size: ${if (downloadFile.exists()) "${downloadFile.length()} bytes" else "N/A"}")
+            DebugLogger.diagnostic(TAG, "   Readable: ${downloadFile.canRead()}")
             
             if (!downloadFile.exists() || downloadFile.length() == 0L) {
-                Log.e(TAG, "❌ [HANDLE STEP 1] Downloaded file is EMPTY or MISSING!")
-                Log.w(TAG, "   Falling back to processSystemMms()...")
+                DebugLogger.diagnostic(TAG, "❌ [HANDLE STEP 1] Downloaded file is EMPTY or MISSING!")
+                DebugLogger.diagnostic(TAG, "   Falling back to processSystemMms()...")
                 processSystemMms(context, transactionId)
                 return
             }
             
             // Read the downloaded PDU
             val pduData = downloadFile.readBytes()
-            Log.w(TAG, "📊 [HANDLE STEP 2] Read ${pduData.size} bytes from file")
-            Log.w(TAG, "   First 20 bytes hex: ${pduData.take(20).joinToString(" ") { "%02X".format(it) }}")
+            DebugLogger.diagnostic(TAG, "📊 [HANDLE STEP 2] Read ${pduData.size} bytes from file")
+            DebugLogger.diagnostic(TAG, "   First 20 bytes hex: ${pduData.take(20).joinToString(" ") { "%02X".format(it) }}")
             
             // Parse the downloaded PDU
             try {
-                Log.w(TAG, "📊 [HANDLE STEP 3] Getting PduPersister...")
+                DebugLogger.diagnostic(TAG, "📊 [HANDLE STEP 3] Getting PduPersister...")
                 val pduPersister = com.google.android.mms.pdu_alt.PduPersister.getPduPersister(context)
                 
-                Log.w(TAG, "📊 [HANDLE STEP 4] Parsing PDU with PduParser...")
+                DebugLogger.diagnostic(TAG, "📊 [HANDLE STEP 4] Parsing PDU with PduParser...")
                 val parser = com.google.android.mms.pdu_alt.PduParser(pduData, true)
                 val retrieveConf = parser.parse()
                 
-                Log.w(TAG, "📊 [HANDLE STEP 4] Parse result: ${retrieveConf?.javaClass?.simpleName ?: "NULL"}")
-                Log.w(TAG, "   Is RetrieveConf? ${retrieveConf is com.google.android.mms.pdu_alt.RetrieveConf}")
+                DebugLogger.diagnostic(TAG, "📊 [HANDLE STEP 4] Parse result: ${retrieveConf?.javaClass?.simpleName ?: "NULL"}")
+                DebugLogger.diagnostic(TAG, "   Is RetrieveConf? ${retrieveConf is com.google.android.mms.pdu_alt.RetrieveConf}")
                 
                 if (retrieveConf != null && retrieveConf is com.google.android.mms.pdu_alt.RetrieveConf) {
-                    Log.w(TAG, "✅ [HANDLE STEP 4] Parsed RetrieveConf successfully!")
-                    Log.w(TAG, "   Subject: ${retrieveConf.subject}")
-                    Log.w(TAG, "   From: ${retrieveConf.from}")
-                    Log.w(TAG, "   Body parts: ${retrieveConf.body?.partsNum ?: 0}")
+                    DebugLogger.diagnostic(TAG, "✅ [HANDLE STEP 4] Parsed RetrieveConf successfully!")
+                    if (com.rasmi.purevon.BuildConfig.ENABLE_LOGGING) {
+                        DebugLogger.diagnostic(TAG, "   Body parts: ${retrieveConf.body?.partsNum ?: 0}")
+                    }
                     
                     // Persist to system MMS database
-                    Log.w(TAG, "📊 [HANDLE STEP 5] Persisting to system DB...")
-                    Log.w(TAG, "   Target URI: ${Telephony.Mms.Inbox.CONTENT_URI}")
-                    Log.w(TAG, "   Subscription: $subscriptionId")
+                    DebugLogger.diagnostic(TAG, "📊 [HANDLE STEP 5] Persisting to system DB...")
+                    DebugLogger.diagnostic(TAG, "   Target URI: ${Telephony.Mms.Inbox.CONTENT_URI}")
+                    DebugLogger.diagnostic(TAG, "   Subscription: $subscriptionId")
                     
                     val messageUri = pduPersister.persist(
                         retrieveConf,
@@ -167,39 +174,39 @@ class MmsDownloadedReceiver : BroadcastReceiver() {
                     )
                     
                     if (messageUri != null) {
-                        Log.w(TAG, "✅ [HANDLE STEP 5] MMS persisted! URI: $messageUri")
+                        DebugLogger.diagnostic(TAG, "✅ [HANDLE STEP 5] MMS persisted! URI: $messageUri")
                         
                         // Mark as read = false (new message)
                         val values = android.content.ContentValues().apply {
                             put(Telephony.Mms.READ, 0)
                             put(Telephony.Mms.SEEN, 0)
                             put(Telephony.Mms.DATE, System.currentTimeMillis() / 1000)
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1 && subscriptionId >= 0) {
+                            if (subscriptionId >= 0) {
                                 put(Telephony.Mms.SUBSCRIPTION_ID, subscriptionId)
                             }
                         }
                         context.contentResolver.update(messageUri, values, null, null)
-                        Log.w(TAG, "📊 [HANDLE STEP 6] Updated READ=0, SEEN=0")
+                        DebugLogger.diagnostic(TAG, "📊 [HANDLE STEP 6] Updated READ=0, SEEN=0")
                         
                         // Extract MMS info for notification
                         val messageId = messageUri.lastPathSegment?.toLongOrNull() ?: 0L
-                        Log.w(TAG, "📊 [HANDLE STEP 7] Notifying UI, messageId=$messageId")
+                        DebugLogger.diagnostic(TAG, "📊 [HANDLE STEP 7] Notifying UI, messageId=$messageId")
                         notifyNewMms(context, messageId)
                     } else {
-                        Log.e(TAG, "❌ [HANDLE STEP 5] persist() returned NULL!")
-                        Log.w(TAG, "   Falling back to processSystemMms()...")
+                        DebugLogger.diagnostic(TAG, "❌ [HANDLE STEP 5] persist() returned NULL!")
+                        DebugLogger.diagnostic(TAG, "   Falling back to processSystemMms()...")
                         processSystemMms(context, transactionId)
                     }
                 } else {
-                    Log.w(TAG, "⚠️ [HANDLE STEP 4] Not a RetrieveConf, type: ${retrieveConf?.javaClass?.simpleName}")
-                    Log.w(TAG, "   Falling back to processSystemMms()...")
+                    DebugLogger.diagnostic(TAG, "⚠️ [HANDLE STEP 4] Not a RetrieveConf, type: ${retrieveConf?.javaClass?.simpleName}")
+                    DebugLogger.diagnostic(TAG, "   Falling back to processSystemMms()...")
                     processSystemMms(context, transactionId)
                 }
             } catch (e: Exception) {
-                Log.e(TAG, "❌ [HANDLE] EXCEPTION during parse/persist!", e)
-                Log.e(TAG, "   Type: ${e.javaClass.name}")
-                Log.e(TAG, "   Message: ${e.message}")
-                Log.e(TAG, "   Falling back to processSystemMms()...")
+                DebugLogger.diagnostic(TAG, "❌ [HANDLE] EXCEPTION during parse/persist!", e)
+                DebugLogger.diagnostic(TAG, "   Type: ${e.javaClass.name}")
+                DebugLogger.diagnostic(TAG, "   Message: ${e.message}")
+                DebugLogger.diagnostic(TAG, "   Falling back to processSystemMms()...")
                 processSystemMms(context, transactionId)
             }
             
@@ -207,7 +214,7 @@ class MmsDownloadedReceiver : BroadcastReceiver() {
             sendAcknowledgement(context, transactionId, subscriptionId)
             
         } catch (e: Exception) {
-            Log.e(TAG, "Error handling downloaded MMS", e)
+            DebugLogger.diagnostic(TAG, "Error handling downloaded MMS", e)
         }
     }
     
@@ -217,6 +224,22 @@ class MmsDownloadedReceiver : BroadcastReceiver() {
      * First tries to match by transactionId (most reliable), then falls back
      * to recency-based lookup with a wider time window.
      */
+    private fun findMmsByTransactionId(context: Context, transactionId: String): Long? {
+        return context.contentResolver.query(
+            Telephony.Mms.CONTENT_URI,
+            arrayOf(Telephony.Mms._ID),
+            "${Telephony.Mms.TRANSACTION_ID} = ?",
+            arrayOf(transactionId),
+            "${Telephony.Mms.DATE} DESC LIMIT 1"
+        )?.use { cursor ->
+            if (cursor.moveToFirst()) {
+                cursor.getLong(cursor.getColumnIndexOrThrow(Telephony.Mms._ID))
+            } else {
+                null
+            }
+        }
+    }
+
     private suspend fun processSystemMms(context: Context, transactionId: String = "") {
         try {
             // Strategy 1: Match by transaction ID if available (most reliable)
@@ -230,7 +253,7 @@ class MmsDownloadedReceiver : BroadcastReceiver() {
                 )?.use { cursor ->
                     if (cursor.moveToFirst()) {
                         val messageId = cursor.getLong(cursor.getColumnIndexOrThrow(Telephony.Mms._ID))
-                        Log.w(TAG, "Found MMS by transaction ID: ID=$messageId, tr_id=$transactionId")
+                        DebugLogger.diagnostic(TAG, "Found MMS by transaction ID: ID=$messageId, tr_id=$transactionId")
                         notifyNewMms(context, messageId)
                         return
                     }
@@ -252,18 +275,18 @@ class MmsDownloadedReceiver : BroadcastReceiver() {
                     
                     val now = System.currentTimeMillis() / 1000
                     if (now - date < 300) {
-                        Log.w(TAG, "Found recent MMS in system DB: ID=$messageId (${now - date}s ago)")
+                        DebugLogger.diagnostic(TAG, "Found recent MMS in system DB: ID=$messageId (${now - date}s ago)")
                         if (transactionId.isNotBlank()) {
-                            Log.w(TAG, "⚠️ Could not match by transaction ID=$transactionId — using recency fallback")
+                            DebugLogger.diagnostic(TAG, "⚠️ Could not match by transaction ID=$transactionId — using recency fallback")
                         }
                         notifyNewMms(context, messageId)
                     } else {
-                        Log.w(TAG, "No recent MMS found (oldest is ${now - date}s ago)")
+                        DebugLogger.diagnostic(TAG, "No recent MMS found (oldest is ${now - date}s ago)")
                     }
                 }
             }
         } catch (e: Exception) {
-            Log.e(TAG, "Error processing system MMS", e)
+            DebugLogger.diagnostic(TAG, "Error processing system MMS", e)
         }
     }
     
@@ -298,7 +321,7 @@ class MmsDownloadedReceiver : BroadcastReceiver() {
                 }
             }
             
-            Log.w(TAG, "✅ New MMS from: ${DebugLogger.maskPhoneNumber(phoneNumber)}, thread: $threadId, body: [${displayBody.length} chars]")
+            DebugLogger.diagnostic(TAG, "✅ New MMS from: ${DebugLogger.maskPhoneNumber(phoneNumber)}, thread: $threadId, body: [${displayBody.length} chars]")
             
             // Emit event to update UI
             EventBus.tryEmit(
@@ -314,7 +337,7 @@ class MmsDownloadedReceiver : BroadcastReceiver() {
             showMmsNotification(context, phoneNumber, displayBody, threadId)
             
         } catch (e: Exception) {
-            Log.e(TAG, "Error notifying new MMS", e)
+            DebugLogger.diagnostic(TAG, "Error notifying new MMS", e)
         }
     }
     
@@ -324,7 +347,7 @@ class MmsDownloadedReceiver : BroadcastReceiver() {
     private fun sendAcknowledgement(context: Context, transactionId: String, subscriptionId: Int) {
         try {
             if (transactionId.isBlank()) {
-                Log.w(TAG, "No transaction ID for acknowledgement")
+                DebugLogger.diagnostic(TAG, "No transaction ID for acknowledgement")
                 return
             }
             
@@ -364,7 +387,7 @@ class MmsDownloadedReceiver : BroadcastReceiver() {
                     null // No need to track ack result
                 )
                 
-                Log.w(TAG, "✅ MMS acknowledgement sent (transaction: $transactionId)")
+                DebugLogger.diagnostic(TAG, "✅ MMS acknowledgement sent (transaction: $transactionId)")
                 
                 // Clean up ack file after a short delay to allow sendMultimediaMessage to read it.
                 // Intentionally uses an independent scope: the cleanup needs to outlive the
@@ -377,10 +400,10 @@ class MmsDownloadedReceiver : BroadcastReceiver() {
                     } catch (_: Exception) {}
                 }
             } else {
-                Log.w(TAG, "Failed to compose acknowledgement PDU")
+                DebugLogger.diagnostic(TAG, "Failed to compose acknowledgement PDU")
             }
         } catch (e: Exception) {
-            Log.e(TAG, "Error sending MMS acknowledgement (non-critical)", e)
+            DebugLogger.diagnostic(TAG, "Error sending MMS acknowledgement (non-critical)", e)
             // Ack failure is non-critical - MMS is already received
         }
     }
@@ -406,7 +429,7 @@ class MmsDownloadedReceiver : BroadcastReceiver() {
                 count
             } ?: 0
         } catch (e: Exception) {
-            Log.e(TAG, "Error counting MMS attachments", e)
+            DebugLogger.diagnostic(TAG, "Error counting MMS attachments", e)
             0
         }
     }
@@ -417,11 +440,11 @@ class MmsDownloadedReceiver : BroadcastReceiver() {
                 val file = java.io.File(filePath)
                 if (file.exists()) {
                     file.delete()
-                    Log.w(TAG, "Temp file cleaned up: $filePath")
+                    DebugLogger.diagnostic(TAG, "Temp file cleaned up: $filePath")
                 }
             }
         } catch (e: Exception) {
-            Log.e(TAG, "Error cleaning up temp file", e)
+            DebugLogger.diagnostic(TAG, "Error cleaning up temp file", e)
         }
     }
     
@@ -471,7 +494,7 @@ class MmsDownloadedReceiver : BroadcastReceiver() {
                     }
                 } else null
             } catch (e: Exception) {
-                Log.e(TAG, "Error loading MMS contact photo", e)
+                DebugLogger.diagnostic(TAG, "Error loading MMS contact photo", e)
                 null
             }
 
@@ -513,9 +536,9 @@ class MmsDownloadedReceiver : BroadcastReceiver() {
                 isGroup = isGroup
             )
             
-            Log.w(TAG, "✅ MMS notification shown for: ${contactName ?: phoneNumber}")
+            DebugLogger.diagnostic(TAG, "✅ MMS notification shown for: ${contactName ?: phoneNumber}")
         } catch (e: Exception) {
-            Log.e(TAG, "Error showing MMS notification", e)
+            DebugLogger.diagnostic(TAG, "Error showing MMS notification", e)
         }
     }
 }

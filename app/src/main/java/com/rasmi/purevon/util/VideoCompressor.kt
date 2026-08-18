@@ -1,5 +1,6 @@
 package com.rasmi.purevon.util
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.media.MediaCodecInfo
 import android.media.MediaCodecList
@@ -22,6 +23,7 @@ import javax.inject.Singleton
  * يستخدم MediaCodec لإعادة ترميز الفيديو بحجم أصغر
  */
 @Singleton
+@SuppressLint("WrongConstant")
 class VideoCompressor @Inject constructor(
     private val context: Context
 ) {

@@ -12,6 +12,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -54,9 +55,9 @@ internal fun CallbackReminderDialog(
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
                             text = if (minutes >= 60) 
-                                stringResource(R.string.callback_hour, minutes/60)
-                            else 
-                                stringResource(R.string.callback_minutes, minutes),
+                                pluralStringResource(R.plurals.callback_hour, minutes/60, minutes/60)
+                            else
+                                pluralStringResource(R.plurals.callback_minutes, minutes, minutes),
                             style = MaterialTheme.typography.bodyMedium
                         )
                     }

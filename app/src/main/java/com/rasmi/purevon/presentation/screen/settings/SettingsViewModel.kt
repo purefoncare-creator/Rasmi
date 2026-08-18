@@ -4,7 +4,6 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.appcompat.app.AppCompatDelegate
@@ -68,10 +67,8 @@ class SettingsViewModel @Inject constructor(
      * Load available SIM cards from system
      */
     private fun loadAvailableSims() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-            val sims = simManager.getAvailableSims()
-            _uiState.update { it.copy(availableSims = sims) }
-        }
+        val sims = simManager.getAvailableSims()
+        _uiState.update { it.copy(availableSims = sims) }
     }
     
     /**
@@ -135,11 +132,7 @@ class SettingsViewModel @Inject constructor(
             ) { pair, features ->
                 AllSettings(pair.first, pair.second, features)
             }.collect { allSettings ->
-                val sims = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-                    simManager.getAvailableSims()
-                } else {
-                    emptyList()
-                }
+                val sims = simManager.getAvailableSims()
                 
                 _uiState.update { current ->
                     current.copy(

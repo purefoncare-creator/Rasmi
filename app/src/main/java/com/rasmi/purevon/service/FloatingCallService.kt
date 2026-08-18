@@ -1,5 +1,6 @@
 package com.rasmi.purevon.service
 
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
@@ -18,6 +19,8 @@ import android.view.Gravity
 import android.view.WindowManager
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.ComposeView
@@ -95,11 +98,7 @@ class FloatingCallService : Service(), LifecycleOwner, ViewModelStoreOwner, Save
                 putExtra(EXTRA_CONTACT_NAME, contactName)
                 putExtra(EXTRA_PHONE_NUMBER, phoneNumber)
             }
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                context.startForegroundService(intent)
-            } else {
-                context.startService(intent)
-            }
+            context.startForegroundService(intent)
         }
         
         fun update(
@@ -138,11 +137,7 @@ class FloatingCallService : Service(), LifecycleOwner, ViewModelStoreOwner, Save
                 return
             }
             try {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    context.startForegroundService(intent)
-                } else {
-                    context.startService(intent)
-                }
+                context.startForegroundService(intent)
             } catch (e: Exception) {
                 Log.e(TAG, "Failed to update overlay service", e)
             }
@@ -153,11 +148,7 @@ class FloatingCallService : Service(), LifecycleOwner, ViewModelStoreOwner, Save
                 action = ACTION_HIDE
             }
             try {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    context.startForegroundService(intent)
-                } else {
-                    context.startService(intent)
-                }
+                context.startForegroundService(intent)
             } catch (_: Exception) {}
         }
         
@@ -166,11 +157,7 @@ class FloatingCallService : Service(), LifecycleOwner, ViewModelStoreOwner, Save
                 action = ACTION_SHOW
             }
             try {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    context.startForegroundService(intent)
-                } else {
-                    context.startService(intent)
-                }
+                context.startForegroundService(intent)
             } catch (_: Exception) {}
         }
         
@@ -179,11 +166,7 @@ class FloatingCallService : Service(), LifecycleOwner, ViewModelStoreOwner, Save
                 action = ACTION_STOP
             }
             try {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    context.startForegroundService(intent)
-                } else {
-                    context.startService(intent)
-                }
+                context.startForegroundService(intent)
             } catch (_: Exception) {}
         }
     }
@@ -200,10 +183,10 @@ class FloatingCallService : Service(), LifecycleOwner, ViewModelStoreOwner, Save
     // State
     private var contactName by mutableStateOf<String?>(null)
     private var phoneNumber by mutableStateOf("")
-    private var callStartTime by mutableStateOf(0L)
+    private var callStartTime by mutableLongStateOf(0L)
     private var isMuted by mutableStateOf(false)
     private var isSpeakerOn by mutableStateOf(false)
-    private var currentAudioRoute by mutableStateOf(0) // CallAudioState.ROUTE_*
+    private var currentAudioRoute by mutableIntStateOf(0) // CallAudioState.ROUTE_*
     private var isRinging by mutableStateOf(false)
     private var isDialing by mutableStateOf(false)
     private var isVisible by mutableStateOf(true)
@@ -217,9 +200,10 @@ class FloatingCallService : Service(), LifecycleOwner, ViewModelStoreOwner, Save
     
     private val scope = CoroutineScope(Dispatchers.Main + Job())
     
-    private val statusBarHeight: Int by lazy {
+    @SuppressLint("InternalInsetResource", "DiscouragedApi")
+    private fun getStatusBarHeight(): Int {
         val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
-        if (resourceId > 0) resources.getDimensionPixelSize(resourceId) else 0
+        return if (resourceId > 0) resources.getDimensionPixelSize(resourceId) else 0
     }
     
     override val lifecycle: Lifecycle get() = lifecycleRegistry
@@ -249,18 +233,16 @@ class FloatingCallService : Service(), LifecycleOwner, ViewModelStoreOwner, Save
     }
     
     private fun startForegroundSelf() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(
-                CHANNEL_ID,
-                getString(com.rasmi.purevon.R.string.notification_channel_call_overlay),
-                NotificationManager.IMPORTANCE_LOW
-            ).apply {
-                description = getString(com.rasmi.purevon.R.string.notification_channel_call_overlay_desc)
-                setSound(null, null)
-            }
-            val manager = getSystemService(NotificationManager::class.java)
-            manager.createNotificationChannel(channel)
+        val channel = NotificationChannel(
+            CHANNEL_ID,
+            getString(com.rasmi.purevon.R.string.notification_channel_call_overlay),
+            NotificationManager.IMPORTANCE_LOW
+        ).apply {
+            description = getString(com.rasmi.purevon.R.string.notification_channel_call_overlay_desc)
+            setSound(null, null)
         }
+        val manager = getSystemService(NotificationManager::class.java)
+        manager.createNotificationChannel(channel)
         
         val notification = NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle(getString(com.rasmi.purevon.R.string.notification_active_call_title))
@@ -387,12 +369,7 @@ class FloatingCallService : Service(), LifecycleOwner, ViewModelStoreOwner, Save
         try {
             windowManager = getSystemService(WINDOW_SERVICE) as WindowManager
             
-            val layoutType = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
-            } else {
-                @Suppress("DEPRECATION")
-                WindowManager.LayoutParams.TYPE_PHONE
-            }
+            val layoutType = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
             
             val params = WindowManager.LayoutParams(
                 WindowManager.LayoutParams.MATCH_PARENT,
@@ -403,7 +380,7 @@ class FloatingCallService : Service(), LifecycleOwner, ViewModelStoreOwner, Save
                 PixelFormat.TRANSLUCENT
             ).apply {
                 gravity = Gravity.TOP or Gravity.CENTER_HORIZONTAL
-                y = statusBarHeight
+                y = getStatusBarHeight()
             }
             
             currentParams = params
@@ -495,14 +472,14 @@ class FloatingCallService : Service(), LifecycleOwner, ViewModelStoreOwner, Save
                 params.gravity = Gravity.TOP or Gravity.END
                 // الموقع الأولي: أعلى يمين الشاشة
                 params.x = 0
-                params.y = statusBarHeight
+                params.y = getStatusBarHeight()
             } else {
                 // ✅ وضع الشريط: MATCH_PARENT + مركز أفقي
                 params.width = WindowManager.LayoutParams.MATCH_PARENT
                 params.height = WindowManager.LayoutParams.WRAP_CONTENT
                 params.gravity = Gravity.TOP or Gravity.CENTER_HORIZONTAL
                 params.x = 0
-                params.y = statusBarHeight
+                params.y = getStatusBarHeight()
             }
             
             windowManager?.updateViewLayout(view, params)
@@ -625,10 +602,16 @@ class FloatingCallService : Service(), LifecycleOwner, ViewModelStoreOwner, Save
         Log.d(TAG, "Call rejected - overlay hidden immediately")
     }
     
+    @SuppressLint("MissingPermission")
     private fun silenceCall() {
-        val telecomManager = getSystemService(Context.TELECOM_SERVICE) as? TelecomManager
-        telecomManager?.silenceRinger()
-        Log.d(TAG, "Call silenced")
+        try {
+            val telecomManager = getSystemService(Context.TELECOM_SERVICE) as? TelecomManager
+            telecomManager?.silenceRinger()
+            Log.d(TAG, "Call silenced")
+        } catch (e: SecurityException) {
+            // silenceRinger requires a privileged Telecom permission on some devices.
+            Log.w(TAG, "Call silencing is unavailable on this device", e)
+        }
     }
     
     private fun endCall() {
@@ -679,4 +662,3 @@ class FloatingCallService : Service(), LifecycleOwner, ViewModelStoreOwner, Save
         return com.rasmi.purevon.presentation.screen.incall.InCallActivity.isInForeground
     }
 }
-

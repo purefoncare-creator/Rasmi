@@ -15,6 +15,7 @@ import androidx.compose.material.icons.automirrored.filled.Message
 import androidx.compose.material.icons.automirrored.filled.VolumeOff
 import androidx.compose.material.icons.automirrored.filled.VolumeUp
 import androidx.compose.material.icons.automirrored.filled.VolumeDown
+import androidx.compose.material.icons.automirrored.filled.PhoneForwarded
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -27,6 +28,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
@@ -192,7 +194,7 @@ internal fun IncomingCallButtons(
         ) {
             // زر الإسكات - ذهبي باهت
             IncomingUnifiedButton(
-                icon = if (isSilenced) Icons.Filled.VolumeOff else Icons.AutoMirrored.Filled.VolumeOff,
+                icon = Icons.AutoMirrored.Filled.VolumeOff,
                 label = if (isSilenced) stringResource(R.string.incall_btn_silenced) else stringResource(R.string.incall_btn_silence),
                 backgroundColor = if (isSilenced) MaterialGrey500 else AmberLight,
                 onClick = onSilence,
@@ -322,7 +324,7 @@ internal fun CallInfoRow(
         isActive -> Icons.Default.Phone
         isWaiting -> Icons.Default.PhoneInTalk
         isHeld -> Icons.Default.Pause
-        else -> Icons.Default.PhoneForwarded
+        else -> Icons.AutoMirrored.Filled.PhoneForwarded
     }
 
     Row(
@@ -442,7 +444,7 @@ internal fun ConferenceCallView(
                         color = MaterialTheme.colorScheme.onSurface
                     )
                     Text(
-                        text = stringResource(R.string.conference_participants_count, participants.size),
+                        text = pluralStringResource(R.plurals.conference_participants_count, participants.size, participants.size),
                         style = MaterialTheme.typography.labelSmall,
                         color = conferenceColor
                     )
@@ -633,9 +635,9 @@ internal fun formatDuration(seconds: Long): String {
     val secs = seconds % 60
     
     return if (hours > 0) {
-        String.format("%02d:%02d:%02d", hours, minutes, secs)
+        String.format(java.util.Locale.getDefault(), "%02d:%02d:%02d", hours, minutes, secs)
     } else {
-        String.format("%02d:%02d", minutes, secs)
+        String.format(java.util.Locale.getDefault(), "%02d:%02d", minutes, secs)
     }
 }
 

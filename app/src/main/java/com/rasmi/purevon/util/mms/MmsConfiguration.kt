@@ -1,11 +1,10 @@
 package com.rasmi.purevon.util.mms
 
+import android.annotation.SuppressLint
 import android.content.Context
-import android.os.Build
 import android.telephony.CarrierConfigManager
 import android.telephony.SmsManager
 import android.util.Log
-import androidx.annotation.RequiresApi
 
 /**
  * MMS Configuration Helper
@@ -35,12 +34,7 @@ object MmsConfiguration {
     fun getMmsConfig(context: Context, subscriptionId: Int = SmsManager.getDefaultSmsSubscriptionId()): MmsConfig {
         return try {
             // ✅ Use CarrierConfigManager to get accurate carrier settings
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                getCarrierConfig(context, subscriptionId)
-            } else {
-                // Fallback for older Android versions
-                getDefaultMmsConfig()
-            }
+            getCarrierConfig(context, subscriptionId)
         } catch (e: Exception) {
             Log.e(TAG, "Error getting MMS config", e)
             getDefaultMmsConfig()
@@ -51,7 +45,7 @@ object MmsConfiguration {
      * ✅ NEW: Get MMS config from CarrierConfigManager
      * This provides accurate carrier-specific settings like quik-master
      */
-    @RequiresApi(Build.VERSION_CODES.M)
+    @SuppressLint("MissingPermission")
     private fun getCarrierConfig(context: Context, subscriptionId: Int): MmsConfig {
         return try {
             val carrierConfigManager = context.getSystemService(Context.CARRIER_CONFIG_SERVICE) as? CarrierConfigManager

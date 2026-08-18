@@ -9,7 +9,6 @@
     <string name="template_title">Titlul șablonului</string>
     <string name="template_content">Conținutul șablonului</string>
     <string name="save">Salva</string>
-    <string name="app_name" translatable="false">Purevon</string>
     <string name="perm_setup_title">Permisiuni de configurare</string>
     <string name="perm_welcome_title">Bun venit la Purevon</string>
     <string name="perm_welcome_message">Pentru a înlocui aplicațiile implicite Telefon și SMS, avem nevoie de următoarele permisiuni</string>
@@ -60,8 +59,18 @@
     <string name="action_number_copied">Numărul a fost copiat în clipboard</string>
     <string name="callback_reminder_title">Memento de apel invers</string>
     <string name="callback_select_duration">Selectați durata:</string>
-    <string name="callback_minutes">%dminute</string>
-    <string name="callback_hour">%doră</string>
+    <plurals name="callback_minutes">
+        <item quantity="one">%dminute</item>
+        <item quantity="other">%dminute</item>
+    
+        <item quantity="few">%dminute</item>
+    </plurals>
+    <plurals name="callback_hour">
+        <item quantity="one">%doră</item>
+        <item quantity="other">%doră</item>
+    
+        <item quantity="few">%doră</item>
+    </plurals>
     <string name="callback_set">Set</string>
     <string name="callback_reminder_alert_title">Memento de apel invers</string>
     <string name="callback_call_now">Sună acum</string>
@@ -71,8 +80,12 @@
     <string name="incall_end_call">Terminați apelul</string>
     <string name="contacts_search_placeholder">Căutare</string>
     <string name="contacts_no_contacts">Fără contacte</string>
-    <string name="contacts_stat_blocked">Blocat</string>
-    <string name="contacts_selected">%dselectat</string>
+    <plurals name="contacts_selected">
+        <item quantity="one">%1$dselectat</item>
+        <item quantity="other">%1$dselectat</item>
+    
+        <item quantity="few">%1$dselectat</item>
+    </plurals>
     <string name="contacts_select_all">Selectați Toate</string>
     <string name="contacts_deselect_all">Deselectați Toate</string>
     <string name="contacts_action_favorite">Favorit</string>
@@ -80,7 +93,12 @@
     <string name="contacts_action_block">Bloc</string>
     <string name="contacts_action_unblock">Deblocați</string>
     <string name="contacts_action_delete">Şterge</string>
-    <string name="contacts_delete_multiple">Ștergeți%dpersoane de contact?</string>
+    <plurals name="contacts_delete_multiple">
+        <item quantity="one">Ștergeți%1$dpersoane de contact?</item>
+        <item quantity="other">Ștergeți%1$dpersoane de contact?</item>
+    
+        <item quantity="few">Ștergeți%1$dpersoane de contact?</item>
+    </plurals>
     <string name="contacts_delete_warning">Această acțiune nu poate fi anulată.</string>
     <string name="contacts_cd_add_contact">Adăugați contact nou</string>
     <string name="contacts_cd_clear_search">Ștergeți căutarea</string>
@@ -121,7 +139,7 @@
     <string name="contact_detail_no_history">Încă nu există istoric de apeluri</string>
     <string name="contact_detail_no_notes">Încă nu există note</string>
     <string name="contact_detail_delete_title">Ștergeți contactul</string>
-    <string name="contact_detail_delete_message">Sigur doriți să ștergeți%s?</string>
+    <string name="contact_detail_delete_message">Sigur doriți să ștergeți%1$s?</string>
     <string name="contact_detail_delete_confirm">Şterge</string>
     <string name="contact_detail_first_name">Prenume</string>
     <string name="contact_detail_last_name">Nume</string>
@@ -150,8 +168,6 @@
     <string name="add_contact_group">Grup</string>
     <string name="add_contact_save_changes">Salvați modificările</string>
     <string name="add_contact_save">Salvați contactul</string>
-    <string name="add_contact_saved">✓ Contact salvat</string>
-    <string name="add_contact_updated">✓ Contact actualizat</string>
     <string name="add_contact_failed">Salvare eșuată. Verificați permisiunile.</string>
     <string name="add_contact_favorite">Favorit</string>
     <string name="add_contact_type_mobile">Mobil</string>
@@ -160,26 +176,17 @@
     <string name="add_contact_type_other">Alte</string>
     <string name="add_contact_save_to">Salvați în</string>
     <string name="add_contact_account_device">Dispozitiv</string>
-    <string name="add_contact_account_sim">SIM%1$d(%2$s)</string>
     <string name="add_contact_account_google">Google</string>
     <string name="add_contact_select_account">Selectați unde să salvați acest contact</string>
     <string name="messages_no_messages">Fără mesaje</string>
     <string name="messages_delete_conversation">Șterge conversația</string>
     <string name="history_missed">ratat</string>
     <string name="history_duration">Durata:%s</string>
-    <string name="settings_title">Setări</string>
     <string name="settings_appearance">Aspect</string>
-    <string name="settings_notifications">Notificări</string>
-    <string name="settings_theme">Temă</string>
     <string name="settings_theme_dark">Întuneric</string>
     <string name="settings_theme_system">Implicit sistem</string>
-    <string name="settings_rtl_title">Aspect de la dreapta la stânga</string>
-    <string name="settings_rtl_subtitle">Oglindiți interfața pentru citire de la dreapta la stânga</string>
     <string name="settings_language">Limbă</string>
-    <string name="settings_language_summary">Schimbați limba aplicației manuale</string>
     <string name="language_system">Implicit sistem</string>
-    <string name="language_ar">العربية (araba)</string>
-    <string name="language_en">engleză (engleză)</string>
     <string name="dialer_add_to_contacts">Adăugați la contacte</string>
     <string name="messages_all">Toate</string>
     <string name="messages_starred_tab">Cu stea</string>
@@ -187,11 +194,8 @@
     <string name="messages_no_starred">Fără mesaje marcate cu stea</string>
     <string name="messages_starred_hint">Apăsați lung pe orice mesaj pentru a adăuga la favorite</string>
     <string name="messages_archive">Arhivă</string>
-    <string name="messages_unarchive">Dezarhivați</string>
     <string name="messages_mark_as_read">Marcați ca citit</string>
-    <string name="messages_mark_as_unread">Marcați ca necitit</string>
     <string name="messages_archived_tab">Arhivat</string>
-    <string name="history_call_will_be_deleted">Apelul va fi șters</string>
     <string name="history_number_will_be_blocked">Numărul va fi blocat</string>
     <string name="history_undo">Anula</string>
     <string name="history_no_history">Încă nu există istoric de apeluri</string>
@@ -219,40 +223,60 @@
     <string name="history_delete_from_history">Ștergeți totul din istoric</string>
     <string name="history_delete_all_calls_title">Ștergeți toate apelurile pentru acest număr?</string>
     <string name="history_delete_all_calls_message">Eliminați fiecare intrare pentru%sdin istoricul apelurilor. Acest lucru nu poate fi anulat.</string>
-    <string name="history_delete_selected_numbers">Eliminați istoricul pentru%dnumere?</string>
-    <string name="history_group_missed_count">%dratat</string>
+    <plurals name="history_delete_selected_numbers">
+        <item quantity="one">Eliminați istoricul pentru%dnumere?</item>
+        <item quantity="other">Eliminați istoricul pentru%dnumere?</item>
+    
+        <item quantity="few">Eliminați istoricul pentru%dnumere?</item>
+    </plurals>
     <string name="history_notes_cd_has_note">Are note</string>
-    <string name="history_delete_call_title">Ștergeți apelul?</string>
-    <string name="history_delete_call_message">Sigur doriți să ștergeți acest apel din istoricul dvs.? Această acțiune nu poate fi anulată.</string>
     <string name="history_block_number_title">Numărul blocului?</string>
     <string name="history_block_number_message">Sigur doriți să blocați%s? Nu veți\'primi apeluri de la acest număr.</string>
     <string name="history_search_calls">Căutați apeluri</string>
     <string name="history_clear">Clar</string>
     <string name="history_today">Astăzi</string>
     <string name="history_yesterday">Ieri</string>
-    <string name="history_calls">%dapeluri</string>
+    <plurals name="history_calls">
+        <item quantity="one">%dapeluri</item>
+        <item quantity="other">%dapeluri</item>
+    
+        <item quantity="few">%dapeluri</item>
+    </plurals>
     <string name="history_total">Total</string>
     <string name="history_permission_name">READ_CALL_LOG</string>
     <string name="history_permission_rationale">Această aplicație are nevoie de acces la jurnalele dvs. de apeluri pentru a afișa istoricul apelurilor, a urmări apelurile pierdute și a furniza statistici privind apelurile.</string>
     <string name="history_action_call">Apel</string>
     <string name="history_action_message">Mesaj</string>
     <string name="history_notes">Note (%d)</string>
-    <string name="history_more_notes">+%dalte note</string>
+    <plurals name="history_more_notes">
+        <item quantity="one">+%dalte note</item>
+        <item quantity="other">+%dalte note</item>
+    
+        <item quantity="few">+%dalte note</item>
+    </plurals>
     <string name="history_note_today">Astăzi</string>
     <string name="history_note_yesterday">Ieri</string>
     <string name="note_dialog_title">Note pentru%s</string>
-    <string name="note_dialog_count">%dnotă</string>
+    <plurals name="note_dialog_count">
+        <item quantity="one">%dnotă</item>
+        <item quantity="other">%dnotă</item>
+    
+        <item quantity="few">%dnotă</item>
+    </plurals>
     <string name="note_dialog_empty">Fără note</string>
     <string name="note_delete_cd">Ștergeți nota</string>
-    <string name="note_icon_cd">Note de contact</string>
     <string name="note_dialog_close">Aproape</string>
     <string name="history_sim">SIM%d</string>
-    <string name="history_selected_count">%dselectat</string>
+    <plurals name="history_selected_count">
+        <item quantity="one">%dselectat</item>
+        <item quantity="other">%dselectat</item>
+    
+        <item quantity="few">%dselectat</item>
+    </plurals>
     <string name="history_select_all">Selectați Toate</string>
     <string name="history_deselect_all">Deselectați Toate</string>
     <string name="history_action_block">Bloc</string>
     <string name="history_action_delete">Şterge</string>
-    <string name="history_delete_selected">Ștergeți%dapeluri?</string>
     <string name="history_delete_selected_warning">Această acțiune nu poate fi anulată.</string>
     <string name="otp_settings_title">Setări OTP</string>
     <string name="about_title">Despre</string>
@@ -268,26 +292,8 @@
     <string name="about_feature_bubble_desc">Controlați apelurile cu suprapunere cu bule plutitoare</string>
     <string name="about_feature_sim">Suport dual SIM</string>
     <string name="about_feature_sim_desc">Suport complet pentru dispozitivele dual SIM</string>
-    <string name="about_feature_backup">Backup și restaurare</string>
-    <string name="about_feature_backup_desc">Păstrați-vă datele în siguranță cu backup-uri automate</string>
     <string name="about_contact_us">Contactaţi-ne:</string>
     <string name="about_copyright">© 2026 Purevon. Toate drepturile rezervate.</string>
-    <string name="ai_model_title">Caracteristici AI</string>
-    <string name="ai_model_download">Descărcați Gemma 3 (1B)</string>
-    <string name="ai_model_download_desc">Descărcați modelul Gemma 3 1B (~555 MB) pentru chat offline AI</string>
-    <string name="ai_model_downloading">Se descarcă...%1$d%%</string>
-    <string name="ai_model_extracting">Se salvează modelul…</string>
-    <string name="ai_model_downloaded">Model descărcat</string>
-    <string name="ai_model_delete">Ștergeți modelul AI</string>
-    <string name="ai_model_delete_desc">Eliminați modelul Gemma descărcat pentru a elibera spațiu</string>
-    <string name="ai_chat_title">Gemma AI Chat</string>
-    <string name="ai_chat_model_loading">Se încarcă modelul...</string>
-    <string name="ai_chat_model_error">Modelul nu s-a încărcat</string>
-    <string name="ai_chat_model_ready">Gata</string>
-    <string name="ai_chat_hint">Întrebați-o pe Gemma orice...</string>
-    <string name="ai_hf_token_label">Token HuggingFace</string>
-    <string name="ai_hf_token_placeholder">hf_xxxxxxxxxxxxxxxxxxxxx</string>
-    <string name="ai_hf_token_desc">Necesar pentru a descărca Gemma (gratuit la huggingface.co)</string>
     <string name="conversation_no_messages">Niciun mesaj încă</string>
     <string name="conversation_start_hint">Trimiteți un mesaj pentru a începe conversația</string>
     <string name="conversation_message_hint">Mesaj</string>
@@ -319,12 +325,7 @@
     <string name="msg_attachment_file">Fişier</string>
     <string name="msg_attachment_contact">Contact</string>
     <string name="msg_attachment_location">Locaţie</string>
-    <string name="msg_attachment_schedule">Programa</string>
-    <string name="location_fetching">Se preia locația…</string>
-    <string name="location_error">Nu s-a putut determina locația</string>
     <string name="location_permission_denied">Este necesară permisiunea de locație pentru a vă partaja locația</string>
-    <string name="location_my_current">Locația mea actuală</string>
-    <string name="location_coordinates">Coordonatele</string>
     <string name="location_view_map">Vezi pe hartă:</string>
     <string name="msg_cd_attached_image">Imagine atașată</string>
     <string name="msg_cd_scheduled">Programat</string>
@@ -342,7 +343,6 @@
     <string name="msg_cd_retry">Reîncercați să trimiteți</string>
     <string name="msg_cd_attachment_type">Tip de atașament</string>
     <string name="msg_cd_open_location">Deschideți locația pe hartă</string>
-    <string name="msg_cd_playback_speed">Viteza de redare</string>
     <string name="msg_cd_play">Juca</string>
     <string name="msg_cd_pause">Pauză</string>
     <string name="msg_cd_send">Trimite</string>
@@ -350,14 +350,18 @@
     <string name="msg_cd_conversation_options">Opțiuni de conversație</string>
     <string name="msg_cd_delete_recording">Ștergeți înregistrarea</string>
     <string name="msg_cd_send_recording">Trimiteți înregistrarea</string>
-    <string name="msg_fetching_location">Se localizează…</string>
     <string name="msg_date_today">Astăzi</string>
     <string name="msg_date_yesterday">Ieri</string>
     <string name="msg_no_results">Niciun rezultat</string>
     <string name="msg_no_archived_conversations">Nicio conversație arhivată</string>
     <string name="msg_search_try_different">Încercați un alt cuvânt cheie decât\"%s\"</string>
     <string name="msg_archive_hint">Apăsați lung pe o conversație pentru a o arhiva</string>
-    <string name="msg_delete_conversations_title">Ștergeți%dconversații?</string>
+    <plurals name="msg_delete_conversations_title">
+        <item quantity="one">Ștergeți%dconversații?</item>
+        <item quantity="other">Ștergeți%dconversații?</item>
+    
+        <item quantity="few">Ștergeți%dconversații?</item>
+    </plurals>
     <string name="msg_sim_ask_me">Întreabă-mă</string>
     <string name="msg_phone_number_missing">Numărul de telefon lipsește</string>
     <string name="msg_scheduled_cancelled">Mesajul programat a fost anulat</string>
@@ -380,10 +384,14 @@
     <string name="templates_title">Șabloane de mesaje</string>
     <string name="templates_empty">Încă nu există șabloane</string>
     <string name="templates_create">Creați șablon</string>
-    <string name="templates_use_count">Folosit de%dori</string>
+    <plurals name="templates_use_count">
+        <item quantity="one">Folosit de%dori</item>
+        <item quantity="other">Folosit de%dori</item>
+    
+        <item quantity="few">Folosit de%dori</item>
+    </plurals>
     <string name="templates_delete_title">Ștergeți șablonul</string>
     <string name="templates_delete_message">Sigur doriți să ștergeți „%s”?</string>
-    <string name="cleanup_creating_backup">جاري إنشاء نسخة احتياطية...</string>
     <string name="system_perm_title">Setări suplimentare</string>
     <string name="system_perm_device">Dispozitivul dvs.:%1$s</string>
     <string name="system_perm_subtitle">Necesită setări suplimentare pentru ca aplicația să funcționeze corect</string>
@@ -427,11 +435,8 @@
     <string name="manufacturer_vivo">Vivo (OS Funtouch)</string>
     <string name="manufacturer_oneplus">OnePlus (OxygenOS)</string>
     <string name="manufacturer_stock">Android</string>
-    <string name="appearance_theme_system_follow">Urmăriți tema sistemului</string>
     <string name="spam_privacy_title">Confidențialitate</string>
-    <string name="otp_settings_desc">Copiere automată, notificări, expeditori de încredere</string>
     <string name="privacy_hide_notifications">Ascundeți notificările sensibile</string>
-    <string name="privacy_hide_notifications_desc">Ascundeți conținutul mesajului în notificări</string>
     <string name="about_version">Versiunea%s</string>
     <string name="close">Aproape</string>
     <string name="remove">Elimina</string>
@@ -444,11 +449,8 @@
     <string name="sim_all">Toate SIM-urile</string>
     <string name="sim_select_for_blocking">Selectați SIM pentru blocarea apelurilor</string>
     <string name="sim_slot_format">Aplicat la:%1$s</string>
-    <string name="call_blocking_desc">Blocați apelurile nedorite</string>
     <string name="call_blocking_blocked_list">Numere blocate</string>
-    <string name="call_blocking_manage_blocked">Gestionați lista de numere blocate</string>
     <string name="call_blocking_whitelist">Lista albă</string>
-    <string name="call_blocking_manage_whitelist">Gestionați lista albă</string>
     <string name="blocked_list_title">Numere blocate</string>
     <string name="blocked_list_count">Blocat (%d)</string>
     <string name="blocked_search_hint">Căutați contacte sau apeluri recente</string>
@@ -462,12 +464,17 @@
     <string name="action_swap">Schimbați</string>
     <string name="action_merge">Îmbinați</string>
     <string name="action_end">Sfârşit</string>
-    <string name="call_status_incoming">Sosire...</string>
+    <string name="call_status_incoming">Sosire…</string>
     <string name="call_status_on_hold">În așteptare</string>
     <string name="call_status_calling">Apelând…</string>
     <string name="conference_call_title">Apel conferință</string>
     <string name="conference_label">Conferinţă</string>
-    <string name="conference_participants_count">%dparticipanți</string>
+    <plurals name="conference_participants_count">
+        <item quantity="one">%dparticipanți</item>
+        <item quantity="other">%dparticipanți</item>
+    
+        <item quantity="few">%dparticipanți</item>
+    </plurals>
     <string name="overlay_status_hold">Ține</string>
     <string name="overlay_status_incoming">Sosire</string>
     <string name="fake_call_title">Apel fals</string>
@@ -482,23 +489,32 @@
     <string name="fake_call_delay_30m">30 min</string>
     <string name="fake_call_start">Început</string>
     <string name="fake_call_close">Aproape</string>
-    <string name="fake_call_incoming">Apel primit...</string>
+    <string name="fake_call_incoming">Apel primit…</string>
     <string name="fake_call_answer">Răspuns</string>
     <string name="fake_call_decline">Declin</string>
-    <string name="fake_call_end">Terminați apelul</string>
     <string name="fake_call_name_required">Vă rugăm să introduceți numele apelantului</string>
     <string name="fake_call_delay_required">Vă rugăm să selectați ora apelului</string>
-    <string name="fake_call_scheduled">Apel fals programat după%s</string>
+    <string name="fake_call_scheduled">Apel fals programat după%1$s</string>
     <string name="fake_call_schedule_error">Nu s-a programat un apel fals</string>
     <string name="fake_call_manage_title">Apeluri false programate</string>
-    <string name="fake_call_active_count">%dapel(e) programat(e).</string>
+    <plurals name="fake_call_active_count">
+        <item quantity="one">%dapel(e) programat(e).</item>
+        <item quantity="other">%dapel(e) programat(e).</item>
+    
+        <item quantity="few">%dapel(e) programat(e).</item>
+    </plurals>
     <string name="fake_call_no_scheduled">Fără apeluri false programate</string>
     <string name="fake_call_cancel_all">Anulează tot</string>
     <string name="fake_call_cancel_call">Anulează apelul</string>
     <string name="fake_call_inexact_alarm_warning">Notă: este posibil ca apelul să nu sosească la ora exactă. Acordați permisiunea „Alarme și mementouri” în setări pentru o mai bună acuratețe.</string>
     <string name="refresh">Reîmprospăta</string>
     <string name="callback_reminders_manage_title">Mementouri de apel invers programate</string>
-    <string name="callback_reminder_active_count">%dmemento(e) programat(e).</string>
+    <plurals name="callback_reminder_active_count">
+        <item quantity="one">%dmemento(e) programat(e).</item>
+        <item quantity="other">%dmemento(e) programat(e).</item>
+    
+        <item quantity="few">%dmemento(e) programat(e).</item>
+    </plurals>
     <string name="callback_reminder_no_scheduled">Nu există mementouri programate</string>
     <string name="callback_reminder_cancel_all">Anulează tot</string>
     <string name="callback_reminder_cancel_item">Anulează mementoul</string>
@@ -507,18 +523,15 @@
     <string name="scheduled_message_failed_body">Către%1$s:%2$s</string>
     <string name="scheduled_message_cancel">Anula</string>
     <string name="scheduled_message_edit">Edita</string>
-    <string name="scheduled_message_cancelled">Mesajul programat a fost anulat</string>
     <string name="scheduled_status_pending">În așteptare</string>
     <string name="scheduled_status_sent">Trimis</string>
     <string name="scheduled_status_failed">A eșuat</string>
     <string name="scheduled_status_cancelled">Anulat</string>
-    <string name="msg_send_failure_title">Trimiterea mesajului a eșuat</string>
-    <string name="msg_send_failure_text">Către%1$s:%2$s</string>
     <string name="search_messages_hint">Căutați mesaje</string>
     <string name="search_clear">Clar</string>
     <string name="call_state_calling">Apelând…</string>
     <string name="call_state_ringing">Sună…</string>
-    <string name="call_state_selecting_sim">Se selectează SIM...</string>
+    <string name="call_state_selecting_sim">Se selectează SIM…</string>
     <string name="call_state_connected">Conectat</string>
     <string name="call_state_on_hold">În așteptare</string>
     <string name="call_state_ended">Apel terminat</string>
@@ -549,7 +562,7 @@
     <string name="quick_reply_on_my_way">Pe drum</string>
     <string name="quick_reply_give_me_5">Dă-mi 5 minute</string>
     <string name="quick_reply_custom">Scrieți un mesaj personalizat</string>
-    <string name="quick_reply_type_hint">Introduceți mesajul dvs....</string>
+    <string name="quick_reply_type_hint">Introduceți mesajul dvs….</string>
     <string name="quick_reply_send">Trimite</string>
     <string name="quick_reply_back">Spate</string>
     <string name="contact_share_title">Distribuie Contact</string>
@@ -561,7 +574,7 @@
     <string name="contact_picker_search">Căutați contacte</string>
     <string name="contact_picker_search_or_number">Căutați contacte sau introduceți numărul</string>
     <string name="contact_picker_no_results">Nu s-au găsit persoane de contact</string>
-    <string name="contact_picker_loading">Se încarcă contactele...</string>
+    <string name="contact_picker_loading">Se încarcă contactele…</string>
     <string name="action_add_contact">Adăugați la Contacte</string>
     <string name="notification_channel_sms">Mesaje SMS</string>
     <string name="notification_channel_sms_desc">Notificări pentru mesajele text primite</string>
@@ -589,17 +602,20 @@
     <string name="sim_picker_call_title">Alegeți SIM pentru apel</string>
     <string name="msg_unexpected_error">Eroare neașteptată:%1$s</string>
     <string name="msg_suggestion_prefix">Sugestie:%1$s</string>
-    <string name="msg_send_attachments_lost">Trimiterea a eșuat. Atașamentele dvs. sunt păstrate - atingeți mesajul eșuat pentru a reîncerca.</string>
     <string name="msg_retry_unexpected_error">Eroare neașteptată:%1$s</string>
     <string name="msg_forward_partial_success">Trimis către%1$ddin%2$ddestinatari.%3$da eșuat.</string>
-    <string name="msg_scheduled_load_error">Nu s-au încărcat mesajele programate</string>
     <string name="msg_error_network_wifi">📶 MMS necesită Wi-Fi sau date mobile. Vă rugăm să vă verificați conexiunea.</string>
     <string name="msg_error_network">📶 Fără conexiune la internet. Vă rugăm să verificați setările de rețea.</string>
     <string name="msg_error_permission">🔒 Permisiune necesară:%1$s. Vă rugăm să acordați în setări.</string>
     <string name="msg_error_balance">💳 Sold SMS insuficient. Vă rugăm să reîncărcați cartela SIM.</string>
     <string name="msg_error_invalid_number">📱 Număr de telefon nevalid. Vă rugăm să verificați și să încercați din nou.</string>
     <string name="msg_error_storage_full">💾 Depozit plin. Vă rugăm să eliberați spațiu.</string>
-    <string name="msg_error_rate_limit">⏱️ Prea multe mesaje trimise. Vă rugăm să așteptați%1$dsecunde.</string>
+    <plurals name="msg_error_rate_limit">
+        <item quantity="one">⏱️ Prea multe mesaje trimise. Vă rugăm să așteptați%1$dsecunde.</item>
+        <item quantity="other">⏱️ Prea multe mesaje trimise. Vă rugăm să așteptați%1$dsecunde.</item>
+    
+        <item quantity="few">⏱️ Prea multe mesaje trimise. Vă rugăm să așteptați%1$dsecunde.</item>
+    </plurals>
     <string name="msg_error_mms">📎 Eroare MMS:%1$s. Vă rugăm să încercați din nou.</string>
     <string name="msg_error_too_large">📏 Mesaj prea mare. Dimensiunea maximă este de%1$dKB.</string>
     <string name="msg_error_attachment">📎 Nu se poate atașa%1$s:%2$s</string>
@@ -631,7 +647,6 @@
     <string name="sms_error_radio_off">Modul Avion activat (Radio oprit)</string>
     <string name="sms_error_limit_exceeded">Limita de trimitere a fost depășită</string>
     <string name="sms_error_unknown">Eroare necunoscută</string>
-    <string name="otp_copied_toast">Cod de verificare copiat:%1$s✓</string>
     <string name="otp_bubble_channel_name">Coduri de verificare flotante</string>
     <string name="otp_bubble_channel_desc">Notificări pentru bule de cod de verificare plutitoare</string>
     <string name="otp_bubble_notification_title">Cod de verificare</string>
@@ -640,7 +655,12 @@
     <string name="settings_incoming_call_banner_desc">Afișați un banner plutitor în loc de ecran complet pentru apelurile primite</string>
     <string name="notification_summary_title">Mesaje</string>
     <string name="notification_summary_2_messages">2 mesaje noi</string>
-    <string name="notification_summary_n_messages">%1$dmesaje noi</string>
+    <plurals name="notification_summary_n_messages">
+        <item quantity="one">%1$dmesaje noi</item>
+        <item quantity="other">%1$dmesaje noi</item>
+    
+        <item quantity="few">%1$dmesaje noi</item>
+    </plurals>
     <string name="notification_summary_many_messages">Peste 9 mesaje noi</string>
     <string name="notification_action_reply">Răspuns</string>
     <string name="notification_action_mark_read_short">Mark a citit</string>
@@ -658,39 +678,21 @@
     <string name="error_failed_update_favorite">Nu s-a putut actualiza starea preferată</string>
     <string name="error_failed_delete_contact">Nu s-a șters persoana de contact:%1$s</string>
     <string name="success_contact_deleted">Contact șters</string>
-    <string name="success_contacts_blocked">%1$dpersoane de contact blocate</string>
-    <string name="success_contacts_added_favorites">%1$dpersoane de contact adăugate la favorite</string>
+    <plurals name="success_contacts_blocked">
+        <item quantity="one">%1$dpersoane de contact blocate</item>
+        <item quantity="other">%1$dpersoane de contact blocate</item>
+    
+        <item quantity="few">%1$dpersoane de contact blocate</item>
+    </plurals>
+    <plurals name="success_contacts_added_favorites">
+        <item quantity="one">%1$dpersoane de contact adăugate la favorite</item>
+        <item quantity="other">%1$dpersoane de contact adăugate la favorite</item>
+    
+        <item quantity="few">%1$dpersoane de contact adăugate la favorite</item>
+    </plurals>
     <string name="success_added_to_favorites">Adăugat la favorite</string>
     <string name="success_removed_from_favorites">Eliminat din favorite</string>
     <string name="msg_contact_will_be_deleted">\"%1$s\"va fi șters</string>
-    <string name="backup_encrypt_dialog_title">Criptează Backup</string>
-    <string name="backup_encrypt_dialog_desc">Introduceți o parolă pentru a cripta backup-ul sau lăsați necompletat pentru a salva ca JSON simplu.</string>
-    <string name="backup_encrypt_password_hint">Parolă (opțional)</string>
-    <string name="backup_encrypt_confirm">Export</string>
-    <string name="restore_decrypt_dialog_title">Backup criptat</string>
-    <string name="restore_decrypt_dialog_desc">Această copie de rezervă este criptată. Introduceți parola folosită când a fost creată.</string>
-    <string name="restore_decrypt_password_hint">Parolă</string>
-    <string name="restore_decrypt_confirm">Restabili</string>
-    <string name="backup_wrong_password">Parolă greșită — nu s-a putut decripta backupul.</string>
-    <string name="backup_encrypted_badge">🔒 Criptat</string>
-    <string name="backup_created_success">Backup creat cu succes</string>
-    <string name="backup_created_failure">Nu s-a putut crea backup</string>
-    <string name="backup_saved_success">✅ Backup salvat cu succes</string>
-    <string name="backup_saved_failure">❌ Salvarea eșuată:%1$s</string>
-    <string name="restore_success">✅ Datele au fost restaurate cu succes</string>
-    <string name="restore_failure">Restaurarea a eșuat</string>
-    <string name="restore_error">Eroare de restaurare:%1$s</string>
-    <string name="backup_restore_success">✅ Backup restaurat cu succes</string>
-    <string name="backup_restore_failure">❌ Restaurarea eșuată:%1$s</string>
-    <string name="generic_error">Eroare:%1$s</string>
-    <string name="export_calls_success">✅ Apeluri exportate:%1$s</string>
-    <string name="export_messages_success">✅ Mesaje exportate:%1$s</string>
-    <string name="export_all_success">✅ Toate datele exportate:%1$s</string>
-    <string name="export_failure">❌ Exportul nu a reușit</string>
-    <string name="import_success">✅ Date importate cu succes</string>
-    <string name="import_failure">Importul nu a reușit</string>
-    <string name="import_error">Eroare de import:%1$s</string>
-    <string name="import_restore_failure">❌ Import eșuat:%1$s</string>
     <string name="disclosure_title">Confidențialitatea ta</string>
     <string name="disclosure_subtitle">Vă rugăm să examinați înainte de a continua</string>
     <string name="disclosure_intro">Purevon înlocuiește aplicația implicită de apelare telefonică și aplicația implicită de mesagerie SMS/MMS. Pentru a oferi apeluri, SMS/MMS, protecție împotriva spamului și funcții conexe, are nevoie de permisiunile explicate mai jos. Elementele opționale (cameră, microfon, locație) sunt utilizate numai atunci când alegeți acele acțiuni (de exemplu, atașarea unei fotografii sau partajarea locației). Datele rămân pe dispozitiv, cu excepția cazului în care utilizați în mod explicit o funcție de rețea, cum ar fi MMS sau încărcarea unei previzualizări a link-ului web.</string>
@@ -729,8 +731,6 @@
     <string name="incall_error_reject_failed">Apelul nu a fost respins</string>
     <string name="incall_error_merge_not_supported">Nu se pot îmbina apelurile - nu este acceptat</string>
     <string name="incall_error_merge_failed">Nu s-au putut îmbina apelurile</string>
-    <string name="incall_error_add_call_unavailable">Nu se poate adăuga apelul acum</string>
-    <string name="incall_error_sim_unknown">Nu s-a putut determina SIM</string>
     <string name="incall_error_no_call_permission">Fără permisiunea de a efectua apeluri</string>
     <string name="incall_error_add_call_failed">Nu s-a putut adăuga apelul:%1$s</string>
     <string name="incall_error_note_save_invalid_number">Nu s-a salvat nota - număr nevalid</string>
@@ -741,13 +741,58 @@
     <string name="incall_msg_number_unblocked">Număr deblocat</string>
     <string name="incall_msg_number_blocked">Număr blocat</string>
     <string name="incall_msg_note_saved">✅ Salvat</string>
-    <string name="incall_msg_reminder_set_hours">✅ Memento setat după%1$doră(e)</string>
-    <string name="incall_msg_reminder_set_minutes">✅ Memento setat după%1$dminut(e)</string>
+    <plurals name="incall_msg_reminder_set_hours">
+        <item quantity="one">✅ Memento setat după%1$doră(e)</item>
+        <item quantity="other">✅ Memento setat după%1$doră(e)</item>
+    
+        <item quantity="few">✅ Memento setat după%1$doră(e)</item>
+    </plurals>
+    <plurals name="incall_msg_reminder_set_minutes">
+        <item quantity="one">✅ Memento setat după%1$dminut(e)</item>
+        <item quantity="other">✅ Memento setat după%1$dminut(e)</item>
+    
+        <item quantity="few">✅ Memento setat după%1$dminut(e)</item>
+    </plurals>
     <string name="incall_msg_reminder_approximate_warning">(Notă: calendarul aproximativ)</string>
     <string name="incall_msg_location_coming_soon">Trimiterea locației în curând</string>
     <string name="incall_msg_image_sharing_coming_soon">Partajarea imaginilor va fi în curând</string>
     <string name="incall_block_reason_incall">Blocat prin ecranul InCall</string>
     <string name="shortcut_new_message">Mesaj nou</string>
     <string name="shortcut_create_new_message">Creați un mesaj nou</string>
-    <string name="btn_ai_scan">Scanează cu AI</string>
+
+    <string name="action_add_note">Add note</string>
+    <string name="action_view">View</string>
+    <string name="blocked_call_bubble_call">اتصال</string>
+    <string name="blocked_call_bubble_channel_desc">إشعارات حظر المكالمات</string>
+    <string name="blocked_call_bubble_channel_name">قناة حظر المكالمات</string>
+    <string name="blocked_call_bubble_content_title">مكالمة محظورة</string>
+    <string name="blocked_call_bubble_dismiss">إلغاء</string>
+    <string name="blocked_call_bubble_notification_text">تم حظر مكالمة واردة من رقم مشبوه</string>
+    <string name="blocked_call_bubble_notification_title">تم حظر مكالمة</string>
+    <string name="blocked_call_bubble_whitelist">إضافة لقائمة السماح</string>
+    <string name="blocked_call_bubble_whitelisted">تمت الإضافة إلى قائمة السماح</string>
+    <string name="mms_fg_channel_desc">Shows when MMS messages are being sent or downloaded</string>
+    <string name="mms_fg_channel_name">MMS Operations</string>
+    <string name="mms_fg_downloading">Downloading MMS</string>
+    <string name="mms_fg_in_progress">MMS operation in progress…</string>
+    <string name="mms_fg_processing">Processing MMS</string>
+    <string name="mms_fg_sending">Sending MMS</string>
+    <string name="mms_fg_to">To %1$s</string>
+    <string name="msg_action_cancel">Cancel</string>
+    <string name="msg_send_cancelled">Message send cancelled</string>
+    <string name="notification_channel_fake_call">Fake Calls</string>
+    <string name="notification_channel_fake_call_desc">Notifications for scheduled fake incoming calls</string>
+    <string name="notification_channel_incoming_calls">Incoming Calls</string>
+    <string name="notification_channel_incoming_calls_desc">Incoming call notifications - shows on lock screen</string>
+    <string name="notification_channel_incoming_call_unlocked">Incoming Call (Unlocked)</string>
+    <string name="notification_channel_incoming_call_unlocked_desc">Silent foreground service notification when screen is on and call activity is shown directly</string>
+    <string name="notification_fake_call_incoming">Incoming call</string>
+    <string name="notification_spam_call_text">%1$s - %2$s</string>
+    <string name="notification_spam_call_title">⚠️ Spam Call Detected</string>
+    <string name="otp_copied_generic">Verification code copied ✓</string>
+    <string name="otp_missed_notification_text">New message from %1$s — open inbox to view</string>
+    <string name="otp_missed_notification_title">Verification code received</string>
+    <string name="risk_high">High Risk</string>
+    <string name="risk_low">Low Risk</string>
+    <string name="risk_medium">Medium Risk</string>
 </resources>

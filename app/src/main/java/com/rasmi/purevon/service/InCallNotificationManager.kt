@@ -31,57 +31,55 @@ class InCallNotificationManager(
     }
 
     fun createNotificationChannels() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val incomingChannel = NotificationChannel(
-                CHANNEL_ID_INCOMING,
-                context.getString(R.string.notification_channel_incoming_calls),
-                NotificationManager.IMPORTANCE_HIGH
-            ).apply {
-                description = context.getString(R.string.notification_channel_incoming_calls_desc)
-                setSound(null, null)
-                setShowBadge(true)
-                lockscreenVisibility = Notification.VISIBILITY_PUBLIC
-                setBypassDnd(true)
-                enableVibration(false)
-                enableLights(true)
-            }
-            notificationManager.createNotificationChannel(incomingChannel)
-            Log.d(TAG, "Created incoming calls notification channel with IMPORTANCE_HIGH")
-
-            runCatching {
-                notificationManager.deleteNotificationChannel("purevon_ongoing_calls_v3")
-            }
-
-            val ongoingChannel = NotificationChannel(
-                CHANNEL_ID_ONGOING,
-                context.getString(R.string.service_ongoing_calls_channel),
-                NotificationManager.IMPORTANCE_LOW
-            ).apply {
-                description = context.getString(R.string.service_status_bar_chip_desc)
-                setSound(null, null)
-                setShowBadge(true)
-                lockscreenVisibility = Notification.VISIBILITY_PUBLIC
-                setBypassDnd(false)
-                enableVibration(false)
-                enableLights(false)
-            }
-            notificationManager.createNotificationChannel(ongoingChannel)
-            Log.d(TAG, "Created ongoing calls notification channel with IMPORTANCE_LOW to prevent heads-up banners")
-
-            val incomingSilentChannel = NotificationChannel(
-                CHANNEL_ID_INCOMING_SILENT,
-                context.getString(R.string.notification_channel_incoming_call_unlocked),
-                NotificationManager.IMPORTANCE_MIN
-            ).apply {
-                description = context.getString(R.string.notification_channel_incoming_call_unlocked_desc)
-                setSound(null, null)
-                setShowBadge(false)
-                enableVibration(false)
-                enableLights(false)
-            }
-            notificationManager.createNotificationChannel(incomingSilentChannel)
-            Log.d(TAG, "Created silent incoming channel with IMPORTANCE_MIN")
+        val incomingChannel = NotificationChannel(
+            CHANNEL_ID_INCOMING,
+            context.getString(R.string.notification_channel_incoming_calls),
+            NotificationManager.IMPORTANCE_HIGH
+        ).apply {
+            description = context.getString(R.string.notification_channel_incoming_calls_desc)
+            setSound(null, null)
+            setShowBadge(true)
+            lockscreenVisibility = Notification.VISIBILITY_PUBLIC
+            setBypassDnd(true)
+            enableVibration(false)
+            enableLights(true)
         }
+        notificationManager.createNotificationChannel(incomingChannel)
+        Log.d(TAG, "Created incoming calls notification channel with IMPORTANCE_HIGH")
+
+        runCatching {
+            notificationManager.deleteNotificationChannel("purevon_ongoing_calls_v3")
+        }
+
+        val ongoingChannel = NotificationChannel(
+            CHANNEL_ID_ONGOING,
+            context.getString(R.string.service_ongoing_calls_channel),
+            NotificationManager.IMPORTANCE_LOW
+        ).apply {
+            description = context.getString(R.string.service_status_bar_chip_desc)
+            setSound(null, null)
+            setShowBadge(true)
+            lockscreenVisibility = Notification.VISIBILITY_PUBLIC
+            setBypassDnd(false)
+            enableVibration(false)
+            enableLights(false)
+        }
+        notificationManager.createNotificationChannel(ongoingChannel)
+        Log.d(TAG, "Created ongoing calls notification channel with IMPORTANCE_LOW to prevent heads-up banners")
+
+        val incomingSilentChannel = NotificationChannel(
+            CHANNEL_ID_INCOMING_SILENT,
+            context.getString(R.string.notification_channel_incoming_call_unlocked),
+            NotificationManager.IMPORTANCE_MIN
+        ).apply {
+            description = context.getString(R.string.notification_channel_incoming_call_unlocked_desc)
+            setSound(null, null)
+            setShowBadge(false)
+            enableVibration(false)
+            enableLights(false)
+        }
+        notificationManager.createNotificationChannel(incomingSilentChannel)
+        Log.d(TAG, "Created silent incoming channel with IMPORTANCE_MIN")
     }
 
     @Suppress("DEPRECATION")
@@ -91,7 +89,12 @@ class InCallNotificationManager(
         startForeground: (Int, Notification) -> Unit,
         stopForeground: (Int) -> Unit
     ) {
-        val callState = call.details?.state ?: Call.STATE_NEW
+        val callState = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            call.details?.state ?: Call.STATE_NEW
+        } else {
+            @Suppress("DEPRECATION")
+            call.state
+        }
         val phoneNumber = call.details?.handle?.schemeSpecificPart ?: bridge.currentPhoneNumber ?: ""
         val displayName = bridge.currentContactName?.takeIf { it.isNotBlank() } ?: phoneNumber
 

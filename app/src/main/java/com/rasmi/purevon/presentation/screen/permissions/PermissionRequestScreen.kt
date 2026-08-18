@@ -64,9 +64,7 @@ fun PermissionRequestScreen(
             add(Manifest.permission.READ_CALL_LOG)
             add(Manifest.permission.WRITE_CALL_LOG)
             add(Manifest.permission.CALL_PHONE)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                add(Manifest.permission.ANSWER_PHONE_CALLS)
-            }
+            add(Manifest.permission.ANSWER_PHONE_CALLS)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 add(Manifest.permission.READ_PHONE_NUMBERS)
             }

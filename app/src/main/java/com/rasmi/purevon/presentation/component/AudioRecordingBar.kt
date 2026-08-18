@@ -191,7 +191,7 @@ private fun formatRecordingTime(millis: Long): String {
     val seconds = (millis / 1000).toInt()
     val minutes = seconds / 60
     val secs = seconds % 60
-    return String.format("%d:%02d", minutes, secs)
+    return String.format(java.util.Locale.getDefault(), "%d:%02d", minutes, secs)
 }
 
 /**

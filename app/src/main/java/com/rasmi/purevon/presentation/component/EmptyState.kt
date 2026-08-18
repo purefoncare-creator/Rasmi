@@ -20,9 +20,9 @@ import com.rasmi.purevon.presentation.theme.Spacing
 fun EmptyState(
     icon: ImageVector,
     title: String,
+    modifier: Modifier = Modifier,
     description: String? = null,
-    actionButton: (@Composable () -> Unit)? = null,
-    modifier: Modifier = Modifier
+    actionButton: (@Composable () -> Unit)? = null
 ) {
     Column(
         modifier = modifier
@@ -71,8 +71,8 @@ object EmptyStates {
     
     @Composable
     fun NoContacts(
-        onAddContact: (() -> Unit)? = null,
-        modifier: Modifier = Modifier
+        modifier: Modifier = Modifier,
+        onAddContact: (() -> Unit)? = null
     ) {
         EmptyState(
             icon = Icons.Default.ContactPhone,
@@ -91,8 +91,8 @@ object EmptyStates {
     
     @Composable
     fun NoMessages(
-        onNewMessage: (() -> Unit)? = null,
-        modifier: Modifier = Modifier
+        modifier: Modifier = Modifier,
+        onNewMessage: (() -> Unit)? = null
     ) {
         EmptyState(
             icon = Icons.Default.Message,
@@ -137,8 +137,8 @@ object EmptyStates {
     @Composable
     fun Error(
         errorMessage: String,
-        onRetry: (() -> Unit)? = null,
-        modifier: Modifier = Modifier
+        modifier: Modifier = Modifier,
+        onRetry: (() -> Unit)? = null
     ) {
         EmptyState(
             icon = Icons.Default.ErrorOutline,
@@ -180,8 +180,8 @@ object EmptyStates {
  */
 @Composable
 fun LoadingState(
-    message: String = "Loading...",
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    message: String = "Loading..."
 ) {
     Column(
         modifier = modifier

@@ -49,10 +49,10 @@ import kotlinx.coroutines.launch
 @Composable
 fun VideoMessageBubble(
     videoUri: String,
-    thumbnailBitmap: Bitmap? = null,
-    durationMs: Long = 0,
     isOutgoing: Boolean,
     modifier: Modifier = Modifier,
+    thumbnailBitmap: Bitmap? = null,
+    durationMs: Long = 0,
     onFullscreenClick: (() -> Unit)? = null
 ) {
     val context = LocalContext.current
@@ -63,8 +63,8 @@ fun VideoMessageBubble(
     var isPlaying by remember { mutableStateOf(false) }
     var showControls by remember { mutableStateOf(true) }
     var thumbnail by remember { mutableStateOf(thumbnailBitmap) }
-    var duration by remember { mutableStateOf(durationMs) }
-    var currentPosition by remember { mutableStateOf(0L) }
+    var duration by remember { mutableLongStateOf(durationMs) }
+    var currentPosition by remember { mutableLongStateOf(0L) }
     var progress by remember { mutableFloatStateOf(0f) }
     var hasError by remember { mutableStateOf(false) }
     
@@ -136,13 +136,6 @@ fun VideoMessageBubble(
             val dur = exoPlayer.duration
             progress = if (dur > 0) currentPosition.toFloat() / dur.toFloat() else 0f
             delay(100)
-        }
-    }
-    
-    // Cleanup ExoPlayer on dispose
-    DisposableEffect(Unit) {
-        onDispose {
-            exoPlayer.release()
         }
     }
     

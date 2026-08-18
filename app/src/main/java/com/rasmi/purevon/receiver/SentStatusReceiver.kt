@@ -275,23 +275,21 @@ class SentStatusReceiver : BroadcastReceiver() {
             val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as android.app.NotificationManager
             val soundUri = android.net.Uri.parse("android.resource://" + context.packageName + "/" + com.rasmi.purevon.R.raw.recieve)
             
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                // Use a dedicated channel for failures (or share the messages one)
-                val channel = android.app.NotificationChannel(
-                    "message_failure_channel",
-                    context.getString(com.rasmi.purevon.R.string.notification_channel_failures),
-                    android.app.NotificationManager.IMPORTANCE_HIGH
-                ).apply {
-                    description = context.getString(com.rasmi.purevon.R.string.notification_channel_failures_desc)
-                    enableLights(true)
-                    enableVibration(true)
-                    setSound(soundUri, android.media.AudioAttributes.Builder()
-                        .setUsage(android.media.AudioAttributes.USAGE_NOTIFICATION)
-                        .setContentType(android.media.AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                        .build())
-                }
-                notificationManager.createNotificationChannel(channel)
+            // Use a dedicated channel for failures (or share the messages one)
+            val channel = android.app.NotificationChannel(
+                "message_failure_channel",
+                context.getString(com.rasmi.purevon.R.string.notification_channel_failures),
+                android.app.NotificationManager.IMPORTANCE_HIGH
+            ).apply {
+                description = context.getString(com.rasmi.purevon.R.string.notification_channel_failures_desc)
+                enableLights(true)
+                enableVibration(true)
+                setSound(soundUri, android.media.AudioAttributes.Builder()
+                    .setUsage(android.media.AudioAttributes.USAGE_NOTIFICATION)
+                    .setContentType(android.media.AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                    .build())
             }
+            notificationManager.createNotificationChannel(channel)
             
             // PendingIntent to retry or open thread (just opens app for now)
             val intent = Intent(context, com.rasmi.purevon.MainActivity::class.java).apply {

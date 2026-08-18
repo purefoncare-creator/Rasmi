@@ -1,5 +1,6 @@
 package com.rasmi.purevon.presentation.screen.incall
 
+import android.annotation.SuppressLint
 import android.app.KeyguardManager
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -15,7 +16,6 @@ import androidx.core.os.ConfigurationCompat
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
@@ -39,7 +39,6 @@ import javax.inject.Inject
  * Separate Activity for In-Call UI
  * This ensures the call screen is always shown properly over lock screen
  */
-@RequiresApi(Build.VERSION_CODES.M)
 @AndroidEntryPoint
 class InCallActivity : AppCompatActivity() {
     
@@ -79,6 +78,7 @@ class InCallActivity : AppCompatActivity() {
         super.attachBaseContext(newBase)
     }
 
+    @SuppressLint("UnspecifiedRegisterReceiverFlag")
     override fun onCreate(savedInstanceState: Bundle?) {
         // Configure window BEFORE super.onCreate() and setContent()
         // This is critical for proper lock screen behavior
@@ -93,7 +93,12 @@ class InCallActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             registerReceiver(closeReceiver, filter, Context.RECEIVER_NOT_EXPORTED)
         } else {
-            registerReceiver(closeReceiver, filter)
+            registerReceiver(
+                closeReceiver,
+                filter,
+                "com.rasmi.purevon.permission.INTERNAL_BROADCAST",
+                null
+            )
         }
         android.util.Log.d(TAG, "Close receiver registered")
         
@@ -184,22 +189,20 @@ class InCallActivity : AppCompatActivity() {
      * Request keyguard dismissal - call after onCreate
      */
     private fun requestKeyguardDismissal() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val keyguardManager = getSystemService(KeyguardManager::class.java)
-            keyguardManager?.requestDismissKeyguard(this, object : KeyguardManager.KeyguardDismissCallback() {
-                override fun onDismissSucceeded() {
-                    android.util.Log.d(TAG, "Keyguard dismissed successfully")
-                }
-                
-                override fun onDismissError() {
-                    android.util.Log.e(TAG, "Keyguard dismiss error")
-                }
-                
-                override fun onDismissCancelled() {
-                    android.util.Log.d(TAG, "Keyguard dismiss cancelled")
-                }
-            })
-        }
+        val keyguardManager = getSystemService(KeyguardManager::class.java)
+        keyguardManager?.requestDismissKeyguard(this, object : KeyguardManager.KeyguardDismissCallback() {
+            override fun onDismissSucceeded() {
+                android.util.Log.d(TAG, "Keyguard dismissed successfully")
+            }
+            
+            override fun onDismissError() {
+                android.util.Log.e(TAG, "Keyguard dismiss error")
+            }
+            
+            override fun onDismissCancelled() {
+                android.util.Log.d(TAG, "Keyguard dismiss cancelled")
+            }
+        })
     }
     
     /**
@@ -212,11 +215,10 @@ class InCallActivity : AppCompatActivity() {
             if (!powerManager.isInteractive) {
                 android.util.Log.d(TAG, "Screen is off - waking up")
                 
-                // Use PARTIAL_WAKE_LOCK + ACQUIRE_CAUSES_WAKEUP instead of deprecated FULL_WAKE_LOCK
-                // FLAG_KEEP_SCREEN_ON is already set on the window, so we only need to wake up
+                // The activity's turnScreenOn/showWhenLocked window flags wake the display.
+                // Keep only a short partial lock so the launch is not interrupted.
                 val wakeLock = powerManager.newWakeLock(
-                    android.os.PowerManager.PARTIAL_WAKE_LOCK or
-                    android.os.PowerManager.ACQUIRE_CAUSES_WAKEUP,
+                    android.os.PowerManager.PARTIAL_WAKE_LOCK,
                     "Purevon:InCallWakeLock"
                 )
                 wakeLock.acquire(10000L) // 10 seconds max

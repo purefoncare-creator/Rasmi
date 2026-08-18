@@ -1,9 +1,7 @@
 package com.rasmi.purevon.presentation.screen.incall
 
-import android.os.Build
 import android.telecom.Call
 import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -22,7 +20,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 
-@RequiresApi(Build.VERSION_CODES.M)
 @Composable
 fun DialpadDialog(
     onDismiss: () -> Unit,

@@ -9,7 +9,6 @@
     <string name="template_title">Mallin otsikko</string>
     <string name="template_content">Mallin sisältö</string>
     <string name="save">Tallentaa</string>
-    <string name="app_name" translatable="false">Purevon</string>
     <string name="perm_setup_title">Asennusoikeudet</string>
     <string name="perm_welcome_title">Tervetuloa Purevoniin</string>
     <string name="perm_welcome_message">Tarvitsemme seuraavat luvat korvataksemme oletuspuhelin- ja tekstiviestisovelluksesi</string>
@@ -60,8 +59,14 @@
     <string name="action_number_copied">Numero kopioitu leikepöydälle</string>
     <string name="callback_reminder_title">Takaisinsoittomuistutus</string>
     <string name="callback_select_duration">Valitse kesto:</string>
-    <string name="callback_minutes">%dminuuttia</string>
-    <string name="callback_hour">%dtunti</string>
+    <plurals name="callback_minutes">
+        <item quantity="one">%dminuuttia</item>
+        <item quantity="other">%dminuuttia</item>
+    </plurals>
+    <plurals name="callback_hour">
+        <item quantity="one">%dtunti</item>
+        <item quantity="other">%dtunti</item>
+    </plurals>
     <string name="callback_set">Sarja</string>
     <string name="callback_reminder_alert_title">Takaisinsoittomuistutus</string>
     <string name="callback_call_now">Soita nyt</string>
@@ -71,8 +76,10 @@
     <string name="incall_end_call">Lopeta puhelu</string>
     <string name="contacts_search_placeholder">Haku</string>
     <string name="contacts_no_contacts">Ei kontakteja</string>
-    <string name="contacts_stat_blocked">Estetty</string>
-    <string name="contacts_selected">%dvalittu</string>
+    <plurals name="contacts_selected">
+        <item quantity="one">%1$dvalittu</item>
+        <item quantity="other">%1$dvalittu</item>
+    </plurals>
     <string name="contacts_select_all">Valitse Kaikki</string>
     <string name="contacts_deselect_all">Poista kaikki valinta</string>
     <string name="contacts_action_favorite">Suosikki</string>
@@ -80,7 +87,10 @@
     <string name="contacts_action_block">Lohko</string>
     <string name="contacts_action_unblock">Kumoa esto</string>
     <string name="contacts_action_delete">Poistaa</string>
-    <string name="contacts_delete_multiple">Poistetaanko%dyhteystietoa?</string>
+    <plurals name="contacts_delete_multiple">
+        <item quantity="one">Poistetaanko%1$dyhteystietoa?</item>
+        <item quantity="other">Poistetaanko%1$dyhteystietoa?</item>
+    </plurals>
     <string name="contacts_delete_warning">Tätä toimintoa ei voi kumota.</string>
     <string name="contacts_cd_add_contact">Lisää uusi yhteystieto</string>
     <string name="contacts_cd_clear_search">Tyhjennä haku</string>
@@ -121,7 +131,7 @@
     <string name="contact_detail_no_history">Ei vielä soittohistoriaa</string>
     <string name="contact_detail_no_notes">Ei muistiinpanoja vielä</string>
     <string name="contact_detail_delete_title">Poista yhteystieto</string>
-    <string name="contact_detail_delete_message">Haluatko varmasti poistaa kohteen%s?</string>
+    <string name="contact_detail_delete_message">Haluatko varmasti poistaa kohteen%1$s?</string>
     <string name="contact_detail_delete_confirm">Poistaa</string>
     <string name="contact_detail_first_name">Etunimi</string>
     <string name="contact_detail_last_name">Sukunimi</string>
@@ -150,8 +160,6 @@
     <string name="add_contact_group">ryhmä</string>
     <string name="add_contact_save_changes">Tallenna muutokset</string>
     <string name="add_contact_save">Tallenna yhteystieto</string>
-    <string name="add_contact_saved">✓ Yhteystiedot tallennettu</string>
-    <string name="add_contact_updated">✓ Yhteystiedot päivitetty</string>
     <string name="add_contact_failed">Tallentaminen epäonnistui. Tarkista käyttöoikeudet.</string>
     <string name="add_contact_favorite">Suosikki</string>
     <string name="add_contact_type_mobile">mobiili</string>
@@ -160,26 +168,17 @@
     <string name="add_contact_type_other">muu</string>
     <string name="add_contact_save_to">Tallenna kohteeseen</string>
     <string name="add_contact_account_device">Laite</string>
-    <string name="add_contact_account_sim">SIM%1$d(%2$s)</string>
     <string name="add_contact_account_google">Google</string>
     <string name="add_contact_select_account">Valitse, mihin tämä yhteystieto tallennetaan</string>
     <string name="messages_no_messages">Ei viestejä</string>
     <string name="messages_delete_conversation">Poista keskustelu</string>
     <string name="history_missed">Jäi väliin</string>
     <string name="history_duration">Kesto:%s</string>
-    <string name="settings_title">Asetukset</string>
     <string name="settings_appearance">Ulkonäkö</string>
-    <string name="settings_notifications">Ilmoitukset</string>
-    <string name="settings_theme">Teema</string>
     <string name="settings_theme_dark">Tumma</string>
     <string name="settings_theme_system">Järjestelmän oletusarvo</string>
-    <string name="settings_rtl_title">Oikealta vasemmalle -asettelu</string>
-    <string name="settings_rtl_subtitle">Peilaa käyttöliittymä oikealta vasemmalle lukemista varten</string>
     <string name="settings_language">Kieli</string>
-    <string name="settings_language_summary">Vaihda manuaalisen sovelluksen kieli</string>
     <string name="language_system">Järjestelmän oletusarvo</string>
-    <string name="language_ar">العربية (arabia)</string>
-    <string name="language_en">englanti (englanti)</string>
     <string name="dialer_add_to_contacts">Lisää yhteystietoihin</string>
     <string name="messages_all">Kaikki</string>
     <string name="messages_starred_tab">tähdellä merkitty</string>
@@ -187,11 +186,8 @@
     <string name="messages_no_starred">Ei tähdellä merkittyjä viestejä</string>
     <string name="messages_starred_hint">Paina pitkään mitä tahansa viestiä lisätäksesi suosikkeihin</string>
     <string name="messages_archive">Arkisto</string>
-    <string name="messages_unarchive">Poista arkistosta</string>
     <string name="messages_mark_as_read">Merkitse luetuksi</string>
-    <string name="messages_mark_as_unread">Merkitse lukemattomaksi</string>
     <string name="messages_archived_tab">Arkistoitu</string>
-    <string name="history_call_will_be_deleted">Puhelu poistetaan</string>
     <string name="history_number_will_be_blocked">Numero estetään</string>
     <string name="history_undo">Kumoa</string>
     <string name="history_no_history">Ei vielä soittohistoriaa</string>
@@ -219,40 +215,50 @@
     <string name="history_delete_from_history">Poista kaikki historiasta</string>
     <string name="history_delete_all_calls_title">Poistetaanko kaikki puhelut tähän numeroon?</string>
     <string name="history_delete_all_calls_message">Poista kaikki numeron%smerkinnät puheluhistoriastasi. Tätä ei voi kumota.</string>
-    <string name="history_delete_selected_numbers">Poistetaanko%dnumeron historia?</string>
-    <string name="history_group_missed_count">%djäi väliin</string>
+    <plurals name="history_delete_selected_numbers">
+        <item quantity="one">Poistetaanko%dnumeron historia?</item>
+        <item quantity="other">Poistetaanko%dnumeron historia?</item>
+    </plurals>
     <string name="history_notes_cd_has_note">Sisältää muistiinpanoja</string>
-    <string name="history_delete_call_title">Poistetaanko puhelu?</string>
-    <string name="history_delete_call_message">Haluatko varmasti poistaa tämän puhelun historiastasi? Tätä toimintoa ei voi kumota.</string>
     <string name="history_block_number_title">Estä numero?</string>
     <string name="history_block_number_message">Haluatko varmasti estää%s? Et saa\'puheluita tästä numerosta.</string>
     <string name="history_search_calls">Hae puheluita</string>
     <string name="history_clear">Selkeä</string>
     <string name="history_today">Tänään</string>
     <string name="history_yesterday">Eilen</string>
-    <string name="history_calls">%dpuhelua</string>
+    <plurals name="history_calls">
+        <item quantity="one">%dpuhelua</item>
+        <item quantity="other">%dpuhelua</item>
+    </plurals>
     <string name="history_total">Kokonais</string>
     <string name="history_permission_name">READ_CALL_LOG</string>
     <string name="history_permission_rationale">Tämä sovellus tarvitsee pääsyn puhelulokiisi näyttääkseen puheluhistoriasi, seuratakseen vastaamattomia puheluita ja tarjotakseen puhelutilastoja.</string>
     <string name="history_action_call">Soittaa</string>
     <string name="history_action_message">Viesti</string>
     <string name="history_notes">Muistiinpanot (%d)</string>
-    <string name="history_more_notes">+%dlisää muistiinpanoja</string>
+    <plurals name="history_more_notes">
+        <item quantity="one">+%dlisää muistiinpanoja</item>
+        <item quantity="other">+%dlisää muistiinpanoja</item>
+    </plurals>
     <string name="history_note_today">Tänään</string>
     <string name="history_note_yesterday">Eilen</string>
     <string name="note_dialog_title">Muistiinpanot kohteelle%s</string>
-    <string name="note_dialog_count">%dhuomautus</string>
+    <plurals name="note_dialog_count">
+        <item quantity="one">%dhuomautus</item>
+        <item quantity="other">%dhuomautus</item>
+    </plurals>
     <string name="note_dialog_empty">Ei muistiinpanoja</string>
     <string name="note_delete_cd">Poista muistiinpano</string>
-    <string name="note_icon_cd">Yhteystiedot</string>
     <string name="note_dialog_close">Lähellä</string>
     <string name="history_sim">SIM%d</string>
-    <string name="history_selected_count">%dvalittu</string>
+    <plurals name="history_selected_count">
+        <item quantity="one">%dvalittu</item>
+        <item quantity="other">%dvalittu</item>
+    </plurals>
     <string name="history_select_all">Valitse Kaikki</string>
     <string name="history_deselect_all">Poista kaikki valinta</string>
     <string name="history_action_block">Lohko</string>
     <string name="history_action_delete">Poistaa</string>
-    <string name="history_delete_selected">Poistetaanko%dpuhelua?</string>
     <string name="history_delete_selected_warning">Tätä toimintoa ei voi kumota.</string>
     <string name="otp_settings_title">OTP-asetukset</string>
     <string name="about_title">Noin</string>
@@ -268,26 +274,8 @@
     <string name="about_feature_bubble_desc">Hallitse puheluita kelluvalla kuplapeittokuvalla</string>
     <string name="about_feature_sim">Kahden SIM-kortin tuki</string>
     <string name="about_feature_sim_desc">Täysi tuki kahden SIM-laitteille</string>
-    <string name="about_feature_backup">Varmuuskopiointi ja palautus</string>
-    <string name="about_feature_backup_desc">Pidä tietosi turvassa automaattisten varmuuskopiointien avulla</string>
     <string name="about_contact_us">Ota yhteyttä:</string>
     <string name="about_copyright">© 2026 Purevon. Kaikki oikeudet pidätetään.</string>
-    <string name="ai_model_title">AI-ominaisuudet</string>
-    <string name="ai_model_download">Lataa Gemma 3 (1B)</string>
-    <string name="ai_model_download_desc">Lataa Gemma 3 1B -malli (~555 Mt) offline-AI-keskusteluja varten</string>
-    <string name="ai_model_downloading">Ladataan…%1$d%%</string>
-    <string name="ai_model_extracting">Tallennetaan mallia…</string>
-    <string name="ai_model_downloaded">Malli ladattu</string>
-    <string name="ai_model_delete">Poista AI-malli</string>
-    <string name="ai_model_delete_desc">Vapauta tilaa poistamalla ladattu Gemma-malli</string>
-    <string name="ai_chat_title">Gemma AI Chat</string>
-    <string name="ai_chat_model_loading">Ladataan mallia…</string>
-    <string name="ai_chat_model_error">Mallin lataaminen epäonnistui</string>
-    <string name="ai_chat_model_ready">Valmis</string>
-    <string name="ai_chat_hint">Kysy Gemmalta mitä tahansa...</string>
-    <string name="ai_hf_token_label">HuggingFace Token</string>
-    <string name="ai_hf_token_placeholder">hf_xxxxxxxxxxxxxxxxxxxxxx</string>
-    <string name="ai_hf_token_desc">Pakollinen Gemman lataamiseen (ilmainen osoitteessa huggingface.co)</string>
     <string name="conversation_no_messages">Ei viestejä vielä</string>
     <string name="conversation_start_hint">Aloita keskustelu lähettämällä viesti</string>
     <string name="conversation_message_hint">Viesti</string>
@@ -319,12 +307,7 @@
     <string name="msg_attachment_file">Tiedosto</string>
     <string name="msg_attachment_contact">Ota yhteyttä</string>
     <string name="msg_attachment_location">Sijainti</string>
-    <string name="msg_attachment_schedule">Ajoittaa</string>
-    <string name="location_fetching">Haetaan sijaintia…</string>
-    <string name="location_error">Sijaintia ei voitu määrittää</string>
     <string name="location_permission_denied">Sijaintisi jakamiseen tarvitaan sijaintilupa</string>
-    <string name="location_my_current">Nykyinen sijaintini</string>
-    <string name="location_coordinates">Koordinaatit</string>
     <string name="location_view_map">Näytä kartalla:</string>
     <string name="msg_cd_attached_image">Liitteenä kuva</string>
     <string name="msg_cd_scheduled">Aikataulutettu</string>
@@ -342,7 +325,6 @@
     <string name="msg_cd_retry">Yritä lähettää uudelleen</string>
     <string name="msg_cd_attachment_type">Kiinnitystyyppi</string>
     <string name="msg_cd_open_location">Avaa sijainti kartalla</string>
-    <string name="msg_cd_playback_speed">Toistonopeus</string>
     <string name="msg_cd_play">Pelata</string>
     <string name="msg_cd_pause">Tauko</string>
     <string name="msg_cd_send">Lähetä</string>
@@ -350,14 +332,16 @@
     <string name="msg_cd_conversation_options">Keskusteluvaihtoehdot</string>
     <string name="msg_cd_delete_recording">Poista tallenne</string>
     <string name="msg_cd_send_recording">Lähetä tallenne</string>
-    <string name="msg_fetching_location">Haetaan…</string>
     <string name="msg_date_today">Tänään</string>
     <string name="msg_date_yesterday">Eilen</string>
     <string name="msg_no_results">Ei tuloksia</string>
     <string name="msg_no_archived_conversations">Ei arkistoituja keskusteluja</string>
     <string name="msg_search_try_different">Kokeile toista avainsanaa kuin\"%s\"</string>
     <string name="msg_archive_hint">Paina pitkään keskustelua arkistoidaksesi sen</string>
-    <string name="msg_delete_conversations_title">Poistetaanko%dkeskustelua?</string>
+    <plurals name="msg_delete_conversations_title">
+        <item quantity="one">Poistetaanko%dkeskustelua?</item>
+        <item quantity="other">Poistetaanko%dkeskustelua?</item>
+    </plurals>
     <string name="msg_sim_ask_me">Kysy minulta</string>
     <string name="msg_phone_number_missing">Puhelinnumero puuttuu</string>
     <string name="msg_scheduled_cancelled">Aikataulutettu viesti peruttu</string>
@@ -380,10 +364,12 @@
     <string name="templates_title">Viestimallit</string>
     <string name="templates_empty">Ei vielä malleja</string>
     <string name="templates_create">Luo malli</string>
-    <string name="templates_use_count">Käytetty%dkertaa</string>
+    <plurals name="templates_use_count">
+        <item quantity="one">Käytetty%dkertaa</item>
+        <item quantity="other">Käytetty%dkertaa</item>
+    </plurals>
     <string name="templates_delete_title">Poista malli</string>
     <string name="templates_delete_message">Haluatko varmasti poistaa kohteen \"%s\"?</string>
-    <string name="cleanup_creating_backup">جاري إنشاء نسخة احتياطية...</string>
     <string name="system_perm_title">Lisäasetukset</string>
     <string name="system_perm_device">Laitteesi:%1$s</string>
     <string name="system_perm_subtitle">Vaatii lisäasetuksia, jotta sovellus toimii oikein</string>
@@ -427,11 +413,8 @@
     <string name="manufacturer_vivo">Vivo (Funtouch OS)</string>
     <string name="manufacturer_oneplus">OnePlus (OxygenOS)</string>
     <string name="manufacturer_stock">Android</string>
-    <string name="appearance_theme_system_follow">Seuraa järjestelmän teemaa</string>
     <string name="spam_privacy_title">Yksityisyys</string>
-    <string name="otp_settings_desc">Automaattinen kopiointi, ilmoitukset, luotettavat lähettäjät</string>
     <string name="privacy_hide_notifications">Piilota arkaluonteiset ilmoitukset</string>
-    <string name="privacy_hide_notifications_desc">Piilota viestin sisältö ilmoituksissa</string>
     <string name="about_version">Versio%s</string>
     <string name="close">Lähellä</string>
     <string name="remove">Poistaa</string>
@@ -444,11 +427,8 @@
     <string name="sim_all">Kaikki SIM-kortit</string>
     <string name="sim_select_for_blocking">Valitse SIM puhelun estoa varten</string>
     <string name="sim_slot_format">Sovellettu:%1$s</string>
-    <string name="call_blocking_desc">Estä ei-toivotut puhelut</string>
     <string name="call_blocking_blocked_list">Estetyt numerot</string>
-    <string name="call_blocking_manage_blocked">Hallitse estettyjen numeroiden luetteloa</string>
     <string name="call_blocking_whitelist">Valkoinen lista</string>
-    <string name="call_blocking_manage_whitelist">Hallinnoi sallittujen luetteloa</string>
     <string name="blocked_list_title">Estetyt numerot</string>
     <string name="blocked_list_count">Estetty (%d)</string>
     <string name="blocked_search_hint">Hae yhteystietoja tai viimeaikaisia ​​puheluita</string>
@@ -467,7 +447,10 @@
     <string name="call_status_calling">Soitetaan…</string>
     <string name="conference_call_title">Neuvottelupuhelu</string>
     <string name="conference_label">Konferenssi</string>
-    <string name="conference_participants_count">%dosallistujaa</string>
+    <plurals name="conference_participants_count">
+        <item quantity="one">%dosallistujaa</item>
+        <item quantity="other">%dosallistujaa</item>
+    </plurals>
     <string name="overlay_status_hold">Pidä</string>
     <string name="overlay_status_incoming">Saapuva</string>
     <string name="fake_call_title">Väärä puhelu</string>
@@ -485,20 +468,25 @@
     <string name="fake_call_incoming">Saapuva puhelu…</string>
     <string name="fake_call_answer">Vastaus</string>
     <string name="fake_call_decline">Hylkää</string>
-    <string name="fake_call_end">Lopeta puhelu</string>
     <string name="fake_call_name_required">Anna soittajan nimi</string>
     <string name="fake_call_delay_required">Valitse puhelun aika</string>
-    <string name="fake_call_scheduled">Valepuhelu ajoitettu%själkeen</string>
+    <string name="fake_call_scheduled">Valepuhelu ajoitettu%1$själkeen</string>
     <string name="fake_call_schedule_error">Väärennetyn puhelun ajoittaminen epäonnistui</string>
     <string name="fake_call_manage_title">Aikataulutetut valepuhelut</string>
-    <string name="fake_call_active_count">%dpuhelu(a) ajoitettu</string>
+    <plurals name="fake_call_active_count">
+        <item quantity="one">%dpuhelu(a) ajoitettu</item>
+        <item quantity="other">%dpuhelu(a) ajoitettu</item>
+    </plurals>
     <string name="fake_call_no_scheduled">Ei ajoitettuja valepuheluita</string>
     <string name="fake_call_cancel_all">Peruuta kaikki</string>
     <string name="fake_call_cancel_call">Peruuta puhelu</string>
     <string name="fake_call_inexact_alarm_warning">Huomautus: Puhelu ei välttämättä saapu oikeaan aikaan. Lisää \"Hälytykset ja muistutukset\" -lupa asetuksissa tarkkuuden parantamiseksi.</string>
     <string name="refresh">Päivitä</string>
     <string name="callback_reminders_manage_title">Aikataulutetut takaisinsoittomuistutukset</string>
-    <string name="callback_reminder_active_count">%dmuistutusta ajoitettu</string>
+    <plurals name="callback_reminder_active_count">
+        <item quantity="one">%dmuistutusta ajoitettu</item>
+        <item quantity="other">%dmuistutusta ajoitettu</item>
+    </plurals>
     <string name="callback_reminder_no_scheduled">Ei ajoitettuja muistutuksia</string>
     <string name="callback_reminder_cancel_all">Peruuta kaikki</string>
     <string name="callback_reminder_cancel_item">Peruuta muistutus</string>
@@ -507,13 +495,10 @@
     <string name="scheduled_message_failed_body">Vastaanottaja%1$s:%2$s</string>
     <string name="scheduled_message_cancel">Peruuttaa</string>
     <string name="scheduled_message_edit">Muokata</string>
-    <string name="scheduled_message_cancelled">Aikataulutettu viesti peruttu</string>
     <string name="scheduled_status_pending">Odottaa</string>
     <string name="scheduled_status_sent">Lähetetty</string>
     <string name="scheduled_status_failed">Epäonnistui</string>
     <string name="scheduled_status_cancelled">Peruutettu</string>
-    <string name="msg_send_failure_title">Viestin lähetys epäonnistui</string>
-    <string name="msg_send_failure_text">Vastaanottaja%1$s:%2$s</string>
     <string name="search_messages_hint">Hae viestejä</string>
     <string name="search_clear">Selkeä</string>
     <string name="call_state_calling">Soitetaan…</string>
@@ -589,17 +574,18 @@
     <string name="sim_picker_call_title">Valitse SIM-kortti puhelua varten</string>
     <string name="msg_unexpected_error">Odottamaton virhe:%1$s</string>
     <string name="msg_suggestion_prefix">Ehdotus:%1$s</string>
-    <string name="msg_send_attachments_lost">Lähetys epäonnistui. Liitteet säilytetään – napauta epäonnistunutta viestiä yrittääksesi uudelleen.</string>
     <string name="msg_retry_unexpected_error">Odottamaton virhe:%1$s</string>
     <string name="msg_forward_partial_success">Lähetetty%1$d/%2$dvastaanottajasta.%3$depäonnistui.</string>
-    <string name="msg_scheduled_load_error">Ajoitettujen viestien lataaminen epäonnistui</string>
     <string name="msg_error_network_wifi">📶 MMS vaatii Wi-Fi- tai mobiilidataa. Tarkista yhteys.</string>
     <string name="msg_error_network">📶 Ei internetyhteyttä. Tarkista verkkoasetukset.</string>
     <string name="msg_error_permission">🔒 Lupa vaaditaan:%1$s. Hyväksy asetuksissa.</string>
     <string name="msg_error_balance">💳 Riittämätön tekstiviestisaldo. Lataa SIM-korttisi uudelleen.</string>
     <string name="msg_error_invalid_number">📱 Virheellinen puhelinnumero. Tarkista ja yritä uudelleen.</string>
     <string name="msg_error_storage_full">💾 Varasto täynnä. Vapauta tilaa.</string>
-    <string name="msg_error_rate_limit">⏱️ Liian monta viestiä lähetetty. Odota%1$dsekuntia.</string>
+    <plurals name="msg_error_rate_limit">
+        <item quantity="one">⏱️ Liian monta viestiä lähetetty. Odota%1$dsekuntia.</item>
+        <item quantity="other">⏱️ Liian monta viestiä lähetetty. Odota%1$dsekuntia.</item>
+    </plurals>
     <string name="msg_error_mms">📎 MMS-virhe:%1$s. Yritä uudelleen.</string>
     <string name="msg_error_too_large">📏 Viesti liian suuri. Suurin koko on%1$dKB.</string>
     <string name="msg_error_attachment">📎 Ei voi liittää%1$s:%2$s</string>
@@ -631,7 +617,6 @@
     <string name="sms_error_radio_off">Lentokonetila käytössä (radio pois päältä)</string>
     <string name="sms_error_limit_exceeded">Lähetysraja ylitetty</string>
     <string name="sms_error_unknown">Tuntematon virhe</string>
-    <string name="otp_copied_toast">Vahvistuskoodi kopioitu:%1$s✓</string>
     <string name="otp_bubble_channel_name">Kelluvat vahvistuskoodit</string>
     <string name="otp_bubble_channel_desc">Ilmoitukset kelluvista vahvistuskoodikupista</string>
     <string name="otp_bubble_notification_title">Vahvistuskoodi</string>
@@ -640,7 +625,10 @@
     <string name="settings_incoming_call_banner_desc">Näytä kelluva banneri koko näytön sijaan saapuville puheluille</string>
     <string name="notification_summary_title">Viestit</string>
     <string name="notification_summary_2_messages">2 uutta viestiä</string>
-    <string name="notification_summary_n_messages">%1$duutta viestiä</string>
+    <plurals name="notification_summary_n_messages">
+        <item quantity="one">%1$duutta viestiä</item>
+        <item quantity="other">%1$duutta viestiä</item>
+    </plurals>
     <string name="notification_summary_many_messages">9+ uutta viestiä</string>
     <string name="notification_action_reply">Vastata</string>
     <string name="notification_action_mark_read_short">Merkitse luetuksi</string>
@@ -658,39 +646,17 @@
     <string name="error_failed_update_favorite">Suosikkitilan päivittäminen epäonnistui</string>
     <string name="error_failed_delete_contact">Yhteystiedon poistaminen epäonnistui:%1$s</string>
     <string name="success_contact_deleted">Yhteystieto poistettu</string>
-    <string name="success_contacts_blocked">%1$dyhteystietoa estetty</string>
-    <string name="success_contacts_added_favorites">%1$dyhteystiedot lisätty suosikkeihin</string>
+    <plurals name="success_contacts_blocked">
+        <item quantity="one">%1$dyhteystietoa estetty</item>
+        <item quantity="other">%1$dyhteystietoa estetty</item>
+    </plurals>
+    <plurals name="success_contacts_added_favorites">
+        <item quantity="one">%1$dyhteystiedot lisätty suosikkeihin</item>
+        <item quantity="other">%1$dyhteystiedot lisätty suosikkeihin</item>
+    </plurals>
     <string name="success_added_to_favorites">Lisätty suosikkeihin</string>
     <string name="success_removed_from_favorites">Poistettu suosikeista</string>
     <string name="msg_contact_will_be_deleted">\"%1$s\"poistetaan</string>
-    <string name="backup_encrypt_dialog_title">Salaa varmuuskopio</string>
-    <string name="backup_encrypt_dialog_desc">Anna salasana salataksesi varmuuskopion tai jätä tyhjäksi tallentaaksesi tavallisena JSON-muodossa.</string>
-    <string name="backup_encrypt_password_hint">Salasana (valinnainen)</string>
-    <string name="backup_encrypt_confirm">Viedä</string>
-    <string name="restore_decrypt_dialog_title">Salattu varmuuskopio</string>
-    <string name="restore_decrypt_dialog_desc">Tämä varmuuskopio on salattu. Anna salasana, jota käytit sen luomisen yhteydessä.</string>
-    <string name="restore_decrypt_password_hint">Salasana</string>
-    <string name="restore_decrypt_confirm">Palauttaa</string>
-    <string name="backup_wrong_password">Väärä salasana – varmuuskopion salausta ei voitu purkaa.</string>
-    <string name="backup_encrypted_badge">🔒 Salattu</string>
-    <string name="backup_created_success">Varmuuskopion luominen onnistui</string>
-    <string name="backup_created_failure">Varmuuskopion luominen epäonnistui</string>
-    <string name="backup_saved_success">✅ Varmuuskopio tallennettu onnistuneesti</string>
-    <string name="backup_saved_failure">❌ Tallennus epäonnistui:%1$s</string>
-    <string name="restore_success">✅ Tietojen palautus onnistui</string>
-    <string name="restore_failure">Palautus epäonnistui</string>
-    <string name="restore_error">Palautusvirhe:%1$s</string>
-    <string name="backup_restore_success">✅ Varmuuskopio palautettu onnistuneesti</string>
-    <string name="backup_restore_failure">❌ Palautus epäonnistui:%1$s</string>
-    <string name="generic_error">Virhe:%1$s</string>
-    <string name="export_calls_success">✅ Viedyt puhelut:%1$s</string>
-    <string name="export_messages_success">✅ Viestit viety:%1$s</string>
-    <string name="export_all_success">✅ Kaikki tiedot viety:%1$s</string>
-    <string name="export_failure">❌ Vienti epäonnistui</string>
-    <string name="import_success">✅ Tietojen tuonti onnistui</string>
-    <string name="import_failure">Tuonti epäonnistui</string>
-    <string name="import_error">Tuontivirhe:%1$s</string>
-    <string name="import_restore_failure">❌ Tuonti epäonnistui:%1$s</string>
     <string name="disclosure_title">Yksityisyytesi</string>
     <string name="disclosure_subtitle">Tarkista ennen kuin jatkat</string>
     <string name="disclosure_intro">Purevon korvaa oletuspuhelimesi ja SMS-/MMS-viestisovelluksesi. Se tarvitsee alla kuvatut käyttöoikeudet voidakseen tarjota puheluita, SMS/MMS-viestejä, roskapostisuojausta ja niihin liittyviä ominaisuuksia. Valinnaisia ​​kohteita (kamera, mikrofoni, sijainti) käytetään vain, kun valitset kyseiset toiminnot (esimerkiksi valokuvan liittäminen tai sijaintisi jakaminen). Tiedot säilyvät laitteessasi, ellet käytä verkko-ominaisuutta, kuten multimediaviestejä, tai lataa verkkolinkin esikatselua.</string>
@@ -729,8 +695,6 @@
     <string name="incall_error_reject_failed">Puhelun hylkääminen epäonnistui</string>
     <string name="incall_error_merge_not_supported">Puheluita ei voi yhdistää - ei tueta</string>
     <string name="incall_error_merge_failed">Puheluiden yhdistäminen epäonnistui</string>
-    <string name="incall_error_add_call_unavailable">Puhelua ei voi lisätä juuri nyt</string>
-    <string name="incall_error_sim_unknown">SIM-korttia ei voitu määrittää</string>
     <string name="incall_error_no_call_permission">Ei lupaa soittaa</string>
     <string name="incall_error_add_call_failed">Puhelun lisääminen epäonnistui:%1$s</string>
     <string name="incall_error_note_save_invalid_number">Muistiinpanon tallennus epäonnistui - virheellinen numero</string>
@@ -741,13 +705,54 @@
     <string name="incall_msg_number_unblocked">Numeron esto kumottu</string>
     <string name="incall_msg_number_blocked">Numero estetty</string>
     <string name="incall_msg_note_saved">✅ Tallennettu</string>
-    <string name="incall_msg_reminder_set_hours">✅ Muistutus asetettu%1$dtunnin kuluttua</string>
-    <string name="incall_msg_reminder_set_minutes">✅ Muistutus asetettu%1$dminuutin kuluttua</string>
+    <plurals name="incall_msg_reminder_set_hours">
+        <item quantity="one">✅ Muistutus asetettu%1$dtunnin kuluttua</item>
+        <item quantity="other">✅ Muistutus asetettu%1$dtunnin kuluttua</item>
+    </plurals>
+    <plurals name="incall_msg_reminder_set_minutes">
+        <item quantity="one">✅ Muistutus asetettu%1$dminuutin kuluttua</item>
+        <item quantity="other">✅ Muistutus asetettu%1$dminuutin kuluttua</item>
+    </plurals>
     <string name="incall_msg_reminder_approximate_warning">(Huom: likimääräinen ajoitus)</string>
     <string name="incall_msg_location_coming_soon">Sijainnin lähetys tulossa pian</string>
     <string name="incall_msg_image_sharing_coming_soon">Kuvien jakaminen tulossa pian</string>
     <string name="incall_block_reason_incall">Estetty InCall-näytön kautta</string>
     <string name="shortcut_new_message">Uusi viesti</string>
     <string name="shortcut_create_new_message">Luo uusi viesti</string>
-    <string name="btn_ai_scan">Skannaa AI:lla</string>
+
+    <string name="action_add_note">Add note</string>
+    <string name="action_view">View</string>
+    <string name="blocked_call_bubble_call">اتصال</string>
+    <string name="blocked_call_bubble_channel_desc">إشعارات حظر المكالمات</string>
+    <string name="blocked_call_bubble_channel_name">قناة حظر المكالمات</string>
+    <string name="blocked_call_bubble_content_title">مكالمة محظورة</string>
+    <string name="blocked_call_bubble_dismiss">إلغاء</string>
+    <string name="blocked_call_bubble_notification_text">تم حظر مكالمة واردة من رقم مشبوه</string>
+    <string name="blocked_call_bubble_notification_title">تم حظر مكالمة</string>
+    <string name="blocked_call_bubble_whitelist">إضافة لقائمة السماح</string>
+    <string name="blocked_call_bubble_whitelisted">تمت الإضافة إلى قائمة السماح</string>
+    <string name="mms_fg_channel_desc">Shows when MMS messages are being sent or downloaded</string>
+    <string name="mms_fg_channel_name">MMS Operations</string>
+    <string name="mms_fg_downloading">Downloading MMS</string>
+    <string name="mms_fg_in_progress">MMS operation in progress…</string>
+    <string name="mms_fg_processing">Processing MMS</string>
+    <string name="mms_fg_sending">Sending MMS</string>
+    <string name="mms_fg_to">To %1$s</string>
+    <string name="msg_action_cancel">Cancel</string>
+    <string name="msg_send_cancelled">Message send cancelled</string>
+    <string name="notification_channel_fake_call">Fake Calls</string>
+    <string name="notification_channel_fake_call_desc">Notifications for scheduled fake incoming calls</string>
+    <string name="notification_channel_incoming_calls">Incoming Calls</string>
+    <string name="notification_channel_incoming_calls_desc">Incoming call notifications - shows on lock screen</string>
+    <string name="notification_channel_incoming_call_unlocked">Incoming Call (Unlocked)</string>
+    <string name="notification_channel_incoming_call_unlocked_desc">Silent foreground service notification when screen is on and call activity is shown directly</string>
+    <string name="notification_fake_call_incoming">Incoming call</string>
+    <string name="notification_spam_call_text">%1$s - %2$s</string>
+    <string name="notification_spam_call_title">⚠️ Spam Call Detected</string>
+    <string name="otp_copied_generic">Verification code copied ✓</string>
+    <string name="otp_missed_notification_text">New message from %1$s — open inbox to view</string>
+    <string name="otp_missed_notification_title">Verification code received</string>
+    <string name="risk_high">High Risk</string>
+    <string name="risk_low">Low Risk</string>
+    <string name="risk_medium">Medium Risk</string>
 </resources>

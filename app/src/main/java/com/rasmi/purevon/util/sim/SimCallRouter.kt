@@ -1,6 +1,5 @@
 package com.rasmi.purevon.util.sim
 
-import android.os.Build
 import com.rasmi.purevon.data.preferences.SettingsDataStore
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
@@ -32,16 +31,12 @@ class SimCallRouter @Inject constructor(
     suspend fun resolveRoute(): CallRoute {
         val isAsk = settingsDataStore.isSimAskMode.first()
         return if (isAsk) {
-            val sims = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-                simManager.getAvailableSims()
-            } else {
-                emptyList()
-            }
+            val sims = simManager.getAvailableSims()
             CallRoute.AskSim(sims)
         } else {
             var subId = settingsDataStore.defaultSimSubscriptionId.first()
             // Auto-initialize: if no SIM preference saved yet, detect SIM 1 and persist it
-            if (subId <= 0 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+            if (subId <= 0) {
                 val sims = simManager.getAvailableSims()
                 val firstSim = sims.firstOrNull()
                 if (firstSim != null) {
@@ -60,7 +55,7 @@ class SimCallRouter @Inject constructor(
      */
     suspend fun resolveSubscriptionId(): Int? {
         var subId = settingsDataStore.defaultSimSubscriptionId.first()
-        if (subId <= 0 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+        if (subId <= 0) {
             val sims = simManager.getAvailableSims()
             val firstSim = sims.firstOrNull()
             if (firstSim != null) {

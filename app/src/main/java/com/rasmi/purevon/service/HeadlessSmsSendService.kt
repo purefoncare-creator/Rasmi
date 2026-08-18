@@ -40,7 +40,7 @@ class HeadlessSmsSendService : Service() {
         try {
             // Parse the URI to extract phone number
             val dataString = intent.dataString
-            Log.d(TAG, "Data string: $dataString")
+            com.rasmi.purevon.util.DebugLogger.d(TAG, "Data string: $dataString")
             
             if (dataString != null) {
                 // Remove scheme prefixes: sms:, smsto:, mms:, mmsto:

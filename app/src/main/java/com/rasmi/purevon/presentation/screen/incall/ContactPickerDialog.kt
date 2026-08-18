@@ -148,7 +148,7 @@ fun ContactPickerDialog(
                         }
                     } else {
                         // Show empty state
-                        showEmptyState()
+                        ShowEmptyState()
                     }
                 } else {
                     // Contacts list
@@ -166,7 +166,7 @@ fun ContactPickerDialog(
                     }
                     
                     if (filteredContacts.isEmpty()) {
-                        showEmptyState()
+                        ShowEmptyState()
                     } else {
                         LazyColumn(
                             modifier = Modifier.fillMaxSize()
@@ -191,7 +191,7 @@ fun ContactPickerDialog(
 }
 
 @Composable
-private fun showEmptyState() {
+private fun ShowEmptyState() {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center

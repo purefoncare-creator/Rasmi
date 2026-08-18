@@ -9,7 +9,6 @@
     <string name="template_title">Կաղապարի վերնագիր</string>
     <string name="template_content">Կաղապարի բովանդակություն</string>
     <string name="save">Պահպանել</string>
-    <string name="app_name" translatable="false">Purevon</string>
     <string name="perm_setup_title">Կարգավորման թույլտվություններ</string>
     <string name="perm_welcome_title">Բարի գալուստ Purevon</string>
     <string name="perm_welcome_message">Ձեր կանխադրված Հեռախոս և SMS հավելվածները փոխարինելու համար մեզ անհրաժեշտ են հետևյալ թույլտվությունները</string>
@@ -60,8 +59,14 @@
     <string name="action_number_copied">Համարը պատճենվեց սեղմատախտակում</string>
     <string name="callback_reminder_title">Հետ զանգի հիշեցում</string>
     <string name="callback_select_duration">Ընտրեք տևողությունը.</string>
-    <string name="callback_minutes">%dրոպե</string>
-    <string name="callback_hour">%dժամ</string>
+    <plurals name="callback_minutes">
+        <item quantity="one">%dրոպե</item>
+        <item quantity="other">%dրոպե</item>
+    </plurals>
+    <plurals name="callback_hour">
+        <item quantity="one">%dժամ</item>
+        <item quantity="other">%dժամ</item>
+    </plurals>
     <string name="callback_set">Սահմանել</string>
     <string name="callback_reminder_alert_title">Հետ զանգի հիշեցում</string>
     <string name="callback_call_now">Զանգահարեք հիմա</string>
@@ -71,8 +76,10 @@
     <string name="incall_end_call">Ավարտել զանգը</string>
     <string name="contacts_search_placeholder">Որոնում</string>
     <string name="contacts_no_contacts">Կոնտակտներ չկան</string>
-    <string name="contacts_stat_blocked">Արգելափակված</string>
-    <string name="contacts_selected">%dընտրված է</string>
+    <plurals name="contacts_selected">
+        <item quantity="one">%1$dընտրված է</item>
+        <item quantity="other">%1$dընտրված է</item>
+    </plurals>
     <string name="contacts_select_all">Ընտրեք Բոլորը</string>
     <string name="contacts_deselect_all">Ապաընտրել բոլորը</string>
     <string name="contacts_action_favorite">Սիրված</string>
@@ -80,7 +87,10 @@
     <string name="contacts_action_block">Արգելափակել</string>
     <string name="contacts_action_unblock">Ապաշրջափակել</string>
     <string name="contacts_action_delete">Ջնջել</string>
-    <string name="contacts_delete_multiple">Ջնջե՞լ%dկոնտակտները:</string>
+    <plurals name="contacts_delete_multiple">
+        <item quantity="one">Ջնջե՞լ%1$dկոնտակտները:</item>
+        <item quantity="other">Ջնջե՞լ%1$dկոնտակտները:</item>
+    </plurals>
     <string name="contacts_delete_warning">Այս գործողությունը հնարավոր չէ հետարկել:</string>
     <string name="contacts_cd_add_contact">Ավելացնել նոր կոնտակտ</string>
     <string name="contacts_cd_clear_search">Մաքրել որոնումը</string>
@@ -121,7 +131,7 @@
     <string name="contact_detail_no_history">Զանգերի պատմություն դեռ չկա</string>
     <string name="contact_detail_no_notes">Դեռևս նշումներ չկան</string>
     <string name="contact_detail_delete_title">Ջնջել կոնտակտը</string>
-    <string name="contact_detail_delete_message">Իսկապե՞ս ուզում եք ջնջել%s-ը:</string>
+    <string name="contact_detail_delete_message">Իսկապե՞ս ուզում եք ջնջել%1$s-ը:</string>
     <string name="contact_detail_delete_confirm">Ջնջել</string>
     <string name="contact_detail_first_name">Անուն</string>
     <string name="contact_detail_last_name">Ազգանուն</string>
@@ -150,8 +160,6 @@
     <string name="add_contact_group">Խումբ</string>
     <string name="add_contact_save_changes">Պահպանել փոփոխությունները</string>
     <string name="add_contact_save">Պահպանել կոնտակտը</string>
-    <string name="add_contact_saved">✓ Կոնտակտը պահպանված է</string>
-    <string name="add_contact_updated">✓ Կապը թարմացվել է</string>
     <string name="add_contact_failed">Չհաջողվեց պահել: Ստուգեք թույլտվությունները:</string>
     <string name="add_contact_favorite">Սիրված</string>
     <string name="add_contact_type_mobile">Բջջային</string>
@@ -160,26 +168,17 @@
     <string name="add_contact_type_other">Այլ</string>
     <string name="add_contact_save_to">Պահպանել</string>
     <string name="add_contact_account_device">Սարք</string>
-    <string name="add_contact_account_sim">SIM%1$d(%2$s)</string>
     <string name="add_contact_account_google">Google</string>
     <string name="add_contact_select_account">Ընտրեք, թե որտեղ պետք է պահվի այս կոնտակտը</string>
     <string name="messages_no_messages">Ոչ մի հաղորդագրություն</string>
     <string name="messages_delete_conversation">Ջնջել խոսակցությունը</string>
     <string name="history_missed">Բաց թողած</string>
     <string name="history_duration">Տևողությունը՝%s</string>
-    <string name="settings_title">Կարգավորումներ</string>
     <string name="settings_appearance">Արտաքին տեսք</string>
-    <string name="settings_notifications">Ծանուցումներ</string>
-    <string name="settings_theme">Թեմա</string>
     <string name="settings_theme_dark">Մութ</string>
     <string name="settings_theme_system">Համակարգի լռելյայն</string>
-    <string name="settings_rtl_title">Աջից ձախ դասավորություն</string>
-    <string name="settings_rtl_subtitle">Հայելային ինտերֆեյսը աջից ձախ ընթերցման համար</string>
     <string name="settings_language">Լեզու</string>
-    <string name="settings_language_summary">Փոխեք ձեռքով հավելվածի լեզուն</string>
     <string name="language_system">Համակարգի լռելյայն</string>
-    <string name="language_ar">العربية (արաբերեն)</string>
-    <string name="language_en">Անգլերեն (անգլերեն)</string>
     <string name="dialer_add_to_contacts">Ավելացնել կոնտակտներին</string>
     <string name="messages_all">Բոլորը</string>
     <string name="messages_starred_tab">Աստղանշված</string>
@@ -187,11 +186,8 @@
     <string name="messages_no_starred">Աստղանշված հաղորդագրություններ չկան</string>
     <string name="messages_starred_hint">Երկար սեղմեք ցանկացած հաղորդագրության վրա՝ ընտրյալներին ավելացնելու համար</string>
     <string name="messages_archive">Արխիվ</string>
-    <string name="messages_unarchive">Ապաարխիվացնել</string>
     <string name="messages_mark_as_read">Նշել որպես կարդացված</string>
-    <string name="messages_mark_as_unread">Նշել որպես չկարդացված</string>
     <string name="messages_archived_tab">Արխիվացված</string>
-    <string name="history_call_will_be_deleted">Զանգը կջնջվի</string>
     <string name="history_number_will_be_blocked">Համարը կարգելափակվի</string>
     <string name="history_undo">Հետարկել</string>
     <string name="history_no_history">Զանգերի պատմություն դեռ չկա</string>
@@ -219,40 +215,50 @@
     <string name="history_delete_from_history">Ջնջել բոլորը պատմությունից</string>
     <string name="history_delete_all_calls_title">Ջնջե՞լ այս համարի բոլոր զանգերը:</string>
     <string name="history_delete_all_calls_message">Հեռացրեք%s-ի բոլոր գրառումները ձեր զանգերի պատմությունից: Սա հնարավոր չէ հետարկել:</string>
-    <string name="history_delete_selected_numbers">Հեռացնե՞լ պատմությունը%dհամարների համար:</string>
-    <string name="history_group_missed_count">%dբաց թողնված</string>
+    <plurals name="history_delete_selected_numbers">
+        <item quantity="one">Հեռացնե՞լ պատմությունը%dհամարների համար:</item>
+        <item quantity="other">Հեռացնե՞լ պատմությունը%dհամարների համար:</item>
+    </plurals>
     <string name="history_notes_cd_has_note">Ունի նշումներ</string>
-    <string name="history_delete_call_title">Ջնջե՞լ զանգը</string>
-    <string name="history_delete_call_message">Իսկապե՞ս ուզում եք ջնջել այս զանգը ձեր պատմությունից: Այս գործողությունը հնարավոր չէ հետարկել:</string>
     <string name="history_block_number_title">Արգելափակե՞լ համարը:</string>
     <string name="history_block_number_message">Իսկապե՞ս ուզում եք արգելափակել%s-ը: Դուք\'զանգեր չեք ստանա այս համարից:</string>
     <string name="history_search_calls">Որոնել զանգեր</string>
     <string name="history_clear">Պարզ</string>
     <string name="history_today">Այսօր</string>
     <string name="history_yesterday">Երեկ</string>
-    <string name="history_calls">%dզանգեր</string>
+    <plurals name="history_calls">
+        <item quantity="one">%dզանգեր</item>
+        <item quantity="other">%dզանգեր</item>
+    </plurals>
     <string name="history_total">Ընդամենը</string>
     <string name="history_permission_name">READ_CALL_LOG</string>
     <string name="history_permission_rationale">Այս հավելվածին անհրաժեշտ է մուտք գործել ձեր զանգերի մատյաններ՝ ձեր զանգերի պատմությունը ցուցադրելու, բաց թողնված զանգերին հետևելու և զանգերի վիճակագրություն տրամադրելու համար:</string>
     <string name="history_action_call">Զանգահարեք</string>
     <string name="history_action_message">Հաղորդագրություն</string>
     <string name="history_notes">Նշումներ (%d)</string>
-    <string name="history_more_notes">+%dևս նշումներ</string>
+    <plurals name="history_more_notes">
+        <item quantity="one">+%dևս նշումներ</item>
+        <item quantity="other">+%dևս նշումներ</item>
+    </plurals>
     <string name="history_note_today">Այսօր</string>
     <string name="history_note_yesterday">Երեկ</string>
     <string name="note_dialog_title">Նշումներ%s-ի համար</string>
-    <string name="note_dialog_count">%dնշում</string>
+    <plurals name="note_dialog_count">
+        <item quantity="one">%dնշում</item>
+        <item quantity="other">%dնշում</item>
+    </plurals>
     <string name="note_dialog_empty">Նշումներ չկան</string>
     <string name="note_delete_cd">Ջնջել նշումը</string>
-    <string name="note_icon_cd">Կոնտակտային նշումներ</string>
     <string name="note_dialog_close">Փակել</string>
     <string name="history_sim">SIM%d</string>
-    <string name="history_selected_count">%dընտրված է</string>
+    <plurals name="history_selected_count">
+        <item quantity="one">%dընտրված է</item>
+        <item quantity="other">%dընտրված է</item>
+    </plurals>
     <string name="history_select_all">Ընտրեք Բոլորը</string>
     <string name="history_deselect_all">Ապաընտրել բոլորը</string>
     <string name="history_action_block">Արգելափակել</string>
     <string name="history_action_delete">Ջնջել</string>
-    <string name="history_delete_selected">Ջնջե՞լ%dզանգերը:</string>
     <string name="history_delete_selected_warning">Այս գործողությունը հնարավոր չէ հետարկել:</string>
     <string name="otp_settings_title">OTP կարգավորումներ</string>
     <string name="about_title">Մոտ</string>
@@ -268,26 +274,8 @@
     <string name="about_feature_bubble_desc">Վերահսկեք զանգերը լողացող պղպջակների ծածկույթով</string>
     <string name="about_feature_sim">Երկակի SIM-ի աջակցություն</string>
     <string name="about_feature_sim_desc">Լիարժեք աջակցություն երկու SIM սարքերի համար</string>
-    <string name="about_feature_backup">Կրկնօրինակում և վերականգնում</string>
-    <string name="about_feature_backup_desc">Պահպանեք ձեր տվյալները ապահով պահուստավորումների միջոցով</string>
     <string name="about_contact_us">Կապվեք մեզ հետ.</string>
     <string name="about_copyright">© 2026 Purevon. Բոլոր իրավունքները պաշտպանված են:</string>
-    <string name="ai_model_title">AI-ի առանձնահատկությունները</string>
-    <string name="ai_model_download">Ներբեռնեք Gemma 3 (1B)</string>
-    <string name="ai_model_download_desc">Ներբեռնեք Gemma 3 1B մոդելը (~ 555 ՄԲ) օֆլայն AI զրույցի համար</string>
-    <string name="ai_model_downloading">Ներբեռնվում է…%1$d%%</string>
-    <string name="ai_model_extracting">Մոդելի պահպանում…</string>
-    <string name="ai_model_downloaded">Մոդելը ներբեռնվել է</string>
-    <string name="ai_model_delete">Ջնջել AI մոդելը</string>
-    <string name="ai_model_delete_desc">Հեռացրեք ներբեռնված Gemma մոդելը՝ տարածք ազատելու համար</string>
-    <string name="ai_chat_title">Gemma AI Chat</string>
-    <string name="ai_chat_model_loading">Մոդելի բեռնում…</string>
-    <string name="ai_chat_model_error">Մոդելը չհաջողվեց բեռնել</string>
-    <string name="ai_chat_model_ready">Պատրաստ</string>
-    <string name="ai_chat_hint">Հարցրեք Ջեմային ինչ-որ բան…</string>
-    <string name="ai_hf_token_label">HuggingFace նշան</string>
-    <string name="ai_hf_token_placeholder">hf_xxxxxxxxxxxxxxxxxxxxx</string>
-    <string name="ai_hf_token_desc">Պահանջվում է Gemma-ն ներբեռնելու համար (անվճար huggingface.co կայքում)</string>
     <string name="conversation_no_messages">Դեռևս հաղորդագրություններ չկան</string>
     <string name="conversation_start_hint">Զրույցը սկսելու համար հաղորդագրություն ուղարկեք</string>
     <string name="conversation_message_hint">Հաղորդագրություն</string>
@@ -319,12 +307,7 @@
     <string name="msg_attachment_file">Ֆայլ</string>
     <string name="msg_attachment_contact">Կապ</string>
     <string name="msg_attachment_location">Գտնվելու վայրը</string>
-    <string name="msg_attachment_schedule">Ժամանակացույց</string>
-    <string name="location_fetching">Տեղադրության բեռնում…</string>
-    <string name="location_error">Չհաջողվեց որոշել գտնվելու վայրը</string>
     <string name="location_permission_denied">Տեղադրության թույլտվությունը պահանջվում է ձեր գտնվելու վայրը կիսելու համար</string>
-    <string name="location_my_current">Իմ ընթացիկ գտնվելու վայրը</string>
-    <string name="location_coordinates">Կոորդինատներ</string>
     <string name="location_view_map">Դիտել քարտեզի վրա.</string>
     <string name="msg_cd_attached_image">Կցված պատկեր</string>
     <string name="msg_cd_scheduled">Պլանավորված</string>
@@ -342,7 +325,6 @@
     <string name="msg_cd_retry">Կրկին փորձեք ուղարկել</string>
     <string name="msg_cd_attachment_type">Հավելվածի տեսակը</string>
     <string name="msg_cd_open_location">Բացեք գտնվելու վայրը քարտեզի վրա</string>
-    <string name="msg_cd_playback_speed">Նվագարկման արագություն</string>
     <string name="msg_cd_play">Խաղալ</string>
     <string name="msg_cd_pause">Դադար</string>
     <string name="msg_cd_send">Ուղարկել</string>
@@ -350,14 +332,16 @@
     <string name="msg_cd_conversation_options">Զրույցի ընտրանքներ</string>
     <string name="msg_cd_delete_recording">Ջնջել ձայնագրությունը</string>
     <string name="msg_cd_send_recording">Ուղարկեք ձայնագրությունը</string>
-    <string name="msg_fetching_location">Գտնվում է…</string>
     <string name="msg_date_today">Այսօր</string>
     <string name="msg_date_yesterday">Երեկ</string>
     <string name="msg_no_results">Ոչ մի արդյունք</string>
     <string name="msg_no_archived_conversations">Արխիվացված խոսակցություններ չկան</string>
     <string name="msg_search_try_different">Փորձեք այլ հիմնաբառ, քան\"%s\"</string>
     <string name="msg_archive_hint">Երկար սեղմեք խոսակցության վրա՝ այն արխիվացնելու համար</string>
-    <string name="msg_delete_conversations_title">Ջնջե՞լ%dխոսակցությունները:</string>
+    <plurals name="msg_delete_conversations_title">
+        <item quantity="one">Ջնջե՞լ%dխոսակցությունները:</item>
+        <item quantity="other">Ջնջե՞լ%dխոսակցությունները:</item>
+    </plurals>
     <string name="msg_sim_ask_me">Հարցրու ինձ</string>
     <string name="msg_phone_number_missing">Հեռախոսահամարը բացակայում է</string>
     <string name="msg_scheduled_cancelled">Պլանավորված հաղորդագրությունը չեղարկվել է</string>
@@ -380,10 +364,12 @@
     <string name="templates_title">Հաղորդագրությունների ձևանմուշներ</string>
     <string name="templates_empty">Կաղապարներ դեռ չկան</string>
     <string name="templates_create">Ստեղծեք ձևանմուշ</string>
-    <string name="templates_use_count">Օգտագործվել է%dանգամ</string>
+    <plurals name="templates_use_count">
+        <item quantity="one">Օգտագործվել է%dանգամ</item>
+        <item quantity="other">Օգտագործվել է%dանգամ</item>
+    </plurals>
     <string name="templates_delete_title">Ջնջել Կաղապարը</string>
     <string name="templates_delete_message">Իսկապե՞ս ուզում եք ջնջել «%s»-ը:</string>
-    <string name="cleanup_creating_backup">جاري إنشاء نسخة احتياطية...</string>
     <string name="system_perm_title">Լրացուցիչ կարգավորումներ</string>
     <string name="system_perm_device">Ձեր սարքը՝%1$s</string>
     <string name="system_perm_subtitle">Հավելվածը ճիշտ աշխատելու համար պահանջում է լրացուցիչ կարգավորումներ</string>
@@ -427,11 +413,8 @@
     <string name="manufacturer_vivo">Vivo (Funtouch OS)</string>
     <string name="manufacturer_oneplus">OnePlus (OxygenOS)</string>
     <string name="manufacturer_stock">Android</string>
-    <string name="appearance_theme_system_follow">Հետևեք համակարգի թեմային</string>
     <string name="spam_privacy_title">Գաղտնիություն</string>
-    <string name="otp_settings_desc">Ավտոմատ պատճենում, ծանուցումներ, վստահելի ուղարկողներ</string>
     <string name="privacy_hide_notifications">Թաքցնել զգայուն ծանուցումները</string>
-    <string name="privacy_hide_notifications_desc">Թաքցնել հաղորդագրության բովանդակությունը ծանուցումների մեջ</string>
     <string name="about_version">Տարբերակ%s</string>
     <string name="close">Փակել</string>
     <string name="remove">Հեռացնել</string>
@@ -444,11 +427,8 @@
     <string name="sim_all">Բոլոր SIM քարտերը</string>
     <string name="sim_select_for_blocking">Զանգերի արգելափակման համար ընտրեք SIM քարտ</string>
     <string name="sim_slot_format">Կիրառվել է՝%1$s</string>
-    <string name="call_blocking_desc">Արգելափակել անցանկալի զանգերը</string>
     <string name="call_blocking_blocked_list">Արգելափակված համարներ</string>
-    <string name="call_blocking_manage_blocked">Կառավարեք արգելափակված համարների ցանկը</string>
     <string name="call_blocking_whitelist">Սպիտակ ցուցակ</string>
-    <string name="call_blocking_manage_whitelist">Կառավարեք սպիտակ ցուցակը</string>
     <string name="blocked_list_title">Արգելափակված համարներ</string>
     <string name="blocked_list_count">Արգելափակված է (%d)</string>
     <string name="blocked_search_hint">Որոնեք կոնտակտներ կամ վերջին զանգեր</string>
@@ -467,7 +447,10 @@
     <string name="call_status_calling">Զանգում…</string>
     <string name="conference_call_title">Կոնֆերանսի զանգ</string>
     <string name="conference_label">Համաժողով</string>
-    <string name="conference_participants_count">%dմասնակից</string>
+    <plurals name="conference_participants_count">
+        <item quantity="one">%dմասնակից</item>
+        <item quantity="other">%dմասնակից</item>
+    </plurals>
     <string name="overlay_status_hold">Պահեք</string>
     <string name="overlay_status_incoming">Մուտքային</string>
     <string name="fake_call_title">Կեղծ զանգ</string>
@@ -485,20 +468,25 @@
     <string name="fake_call_incoming">Մուտքային զանգ…</string>
     <string name="fake_call_answer">Պատասխանել</string>
     <string name="fake_call_decline">Անկում</string>
-    <string name="fake_call_end">Ավարտել զանգը</string>
     <string name="fake_call_name_required">Խնդրում ենք մուտքագրել զանգահարողի անունը</string>
     <string name="fake_call_delay_required">Խնդրում ենք ընտրել զանգի ժամանակը</string>
-    <string name="fake_call_scheduled">Կեղծ զանգը նախատեսված է%s-ից հետո</string>
+    <string name="fake_call_scheduled">Կեղծ զանգը նախատեսված է%1$s-ից հետո</string>
     <string name="fake_call_schedule_error">Չհաջողվեց պլանավորել կեղծ զանգ</string>
     <string name="fake_call_manage_title">Պլանավորված կեղծ զանգեր</string>
-    <string name="fake_call_active_count">Պլանավորված է%dզանգ(ներ):</string>
+    <plurals name="fake_call_active_count">
+        <item quantity="one">Պլանավորված է%dզանգ(ներ):</item>
+        <item quantity="other">Պլանավորված է%dզանգ(ներ):</item>
+    </plurals>
     <string name="fake_call_no_scheduled">Չկան պլանավորված կեղծ զանգեր</string>
     <string name="fake_call_cancel_all">Չեղարկել բոլորը</string>
     <string name="fake_call_cancel_call">Չեղարկել զանգը</string>
     <string name="fake_call_inexact_alarm_warning">Նշում. Զանգը կարող է չհասնել ճշգրիտ ժամին: Տրամադրեք «Զարթուցիչներ և հիշեցումներ» թույլտվություն կարգավորումներում՝ ավելի լավ ճշգրտության համար:</string>
     <string name="refresh">Թարմացնել</string>
     <string name="callback_reminders_manage_title">Պլանավորված հետ կանչի հիշեցումներ</string>
-    <string name="callback_reminder_active_count">Պլանավորված է%dհիշեցում(ներ):</string>
+    <plurals name="callback_reminder_active_count">
+        <item quantity="one">Պլանավորված է%dհիշեցում(ներ):</item>
+        <item quantity="other">Պլանավորված է%dհիշեցում(ներ):</item>
+    </plurals>
     <string name="callback_reminder_no_scheduled">Պլանավորված հիշեցումներ չկան</string>
     <string name="callback_reminder_cancel_all">Չեղարկել բոլորը</string>
     <string name="callback_reminder_cancel_item">Չեղարկել հիշեցումը</string>
@@ -507,13 +495,10 @@
     <string name="scheduled_message_failed_body">Դեպի%1$s՝%2$s</string>
     <string name="scheduled_message_cancel">Չեղարկել</string>
     <string name="scheduled_message_edit">Խմբագրել</string>
-    <string name="scheduled_message_cancelled">Պլանավորված հաղորդագրությունը չեղարկվել է</string>
     <string name="scheduled_status_pending">Սպասվում է</string>
     <string name="scheduled_status_sent">Ուղարկված</string>
     <string name="scheduled_status_failed">Չհաջողվեց</string>
     <string name="scheduled_status_cancelled">Չեղարկված է</string>
-    <string name="msg_send_failure_title">Հաղորդագրության ուղարկումը ձախողվեց</string>
-    <string name="msg_send_failure_text">Դեպի%1$s՝%2$s</string>
     <string name="search_messages_hint">Որոնել հաղորդագրություններ</string>
     <string name="search_clear">Պարզ</string>
     <string name="call_state_calling">Զանգում…</string>
@@ -589,17 +574,18 @@
     <string name="sim_picker_call_title">Զանգի համար ընտրեք SIM քարտ</string>
     <string name="msg_unexpected_error">Անսպասելի սխալ՝%1$s</string>
     <string name="msg_suggestion_prefix">Առաջարկություն՝%1$s</string>
-    <string name="msg_send_attachments_lost">Չհաջողվեց ուղարկել: Ձեր կցորդները պահպանված են. կրկին փորձելու համար հպեք ձախողված հաղորդագրությանը:</string>
     <string name="msg_retry_unexpected_error">Անսպասելի սխալ՝%1$s</string>
     <string name="msg_forward_partial_success">Ուղարկվել է%1$d_%2$dհասցեատերերից:%3$dձախողվեց:</string>
-    <string name="msg_scheduled_load_error">Չհաջողվեց բեռնել պլանավորված հաղորդագրությունները</string>
     <string name="msg_error_network_wifi">📶 MMS-ը պահանջում է Wi-Fi կամ բջջային տվյալներ: Խնդրում ենք ստուգել ձեր կապը:</string>
     <string name="msg_error_network">📶 ինտերնետ կապ չկա։ Խնդրում ենք ստուգել ձեր ցանցի կարգավորումները:</string>
     <string name="msg_error_permission">🔒 Պահանջվում է թույլտվություն՝%1$s: Խնդրում ենք տրամադրել կարգավորումներում:</string>
     <string name="msg_error_balance">💳 SMS-ի անբավարար մնացորդ։ Խնդրում ենք լիցքավորել ձեր SIM քարտը:</string>
     <string name="msg_error_invalid_number">📱 Անվավեր հեռախոսահամար։ Խնդրում ենք ստուգել և նորից փորձել:</string>
     <string name="msg_error_storage_full">💾 Պահպանումը լի է։ Խնդրում ենք ազատեք որոշ տարածք:</string>
-    <string name="msg_error_rate_limit">⏱️ Չափից շատ հաղորդագրություններ են ուղարկվել: Խնդրում ենք սպասել%1$dվայրկյան:</string>
+    <plurals name="msg_error_rate_limit">
+        <item quantity="one">⏱️ Չափից շատ հաղորդագրություններ են ուղարկվել: Խնդրում ենք սպասել%1$dվայրկյան:</item>
+        <item quantity="other">⏱️ Չափից շատ հաղորդագրություններ են ուղարկվել: Խնդրում ենք սպասել%1$dվայրկյան:</item>
+    </plurals>
     <string name="msg_error_mms">📎 MMS սխալ՝%1$s: Խնդրում ենք կրկին փորձել:</string>
     <string name="msg_error_too_large">📏 Հաղորդագրությունը չափազանց մեծ է: Առավելագույն չափը%1$dKB է:</string>
     <string name="msg_error_attachment">📎 Հնարավոր չէ կցել%1$s՝%2$s</string>
@@ -631,7 +617,6 @@
     <string name="sms_error_radio_off">Ինքնաթիռի ռեժիմը միացված է (Ռադիոն անջատված է)</string>
     <string name="sms_error_limit_exceeded">Ուղարկման սահմանաչափը գերազանցվել է</string>
     <string name="sms_error_unknown">Անհայտ սխալ</string>
-    <string name="otp_copied_toast">Հաստատման կոդը պատճենված է՝%1$s✓</string>
     <string name="otp_bubble_channel_name">Լողացող հաստատման կոդեր</string>
     <string name="otp_bubble_channel_desc">Ծանուցումներ լողացող հաստատման կոդի պղպջակների համար</string>
     <string name="otp_bubble_notification_title">Ստուգման կոդը</string>
@@ -640,7 +625,10 @@
     <string name="settings_incoming_call_banner_desc">Մուտքային զանգերի համար ամբողջ էկրանի փոխարեն ցուցադրեք լողացող պաստառ</string>
     <string name="notification_summary_title">Հաղորդագրություններ</string>
     <string name="notification_summary_2_messages">2 նոր հաղորդագրություն</string>
-    <string name="notification_summary_n_messages">%1$dնոր հաղորդագրություններ</string>
+    <plurals name="notification_summary_n_messages">
+        <item quantity="one">%1$dնոր հաղորդագրություններ</item>
+        <item quantity="other">%1$dնոր հաղորդագրություններ</item>
+    </plurals>
     <string name="notification_summary_many_messages">9+ նոր հաղորդագրություն</string>
     <string name="notification_action_reply">Պատասխանել</string>
     <string name="notification_action_mark_read_short">Մարկը կարդաց</string>
@@ -658,39 +646,17 @@
     <string name="error_failed_update_favorite">Չհաջողվեց թարմացնել սիրելի կարգավիճակը</string>
     <string name="error_failed_delete_contact">Չհաջողվեց ջնջել կոնտակտը.%1$s</string>
     <string name="success_contact_deleted">Կոնտակտը ջնջված է</string>
-    <string name="success_contacts_blocked">%1$dկոնտակտներ արգելափակված են</string>
-    <string name="success_contacts_added_favorites">%1$dկոնտակտներ ավելացվել են ընտրյալներին</string>
+    <plurals name="success_contacts_blocked">
+        <item quantity="one">%1$dկոնտակտներ արգելափակված են</item>
+        <item quantity="other">%1$dկոնտակտներ արգելափակված են</item>
+    </plurals>
+    <plurals name="success_contacts_added_favorites">
+        <item quantity="one">%1$dկոնտակտներ ավելացվել են ընտրյալներին</item>
+        <item quantity="other">%1$dկոնտակտներ ավելացվել են ընտրյալներին</item>
+    </plurals>
     <string name="success_added_to_favorites">Ավելացված է ընտրյալների մեջ</string>
     <string name="success_removed_from_favorites">Հեռացված է ընտրյալներից</string>
     <string name="msg_contact_will_be_deleted">\"%1$s\"-ը կջնջվի</string>
-    <string name="backup_encrypt_dialog_title">Գաղտնագրեք Կրկնօրինակումը</string>
-    <string name="backup_encrypt_dialog_desc">Մուտքագրեք գաղտնաբառ՝ կրկնօրինակը կոդավորելու համար, կամ թողեք դատարկ՝ որպես պարզ JSON պահելու համար:</string>
-    <string name="backup_encrypt_password_hint">Գաղտնաբառ (ըստ ցանկության)</string>
-    <string name="backup_encrypt_confirm">Արտահանում</string>
-    <string name="restore_decrypt_dialog_title">Կոդավորված կրկնօրինակում</string>
-    <string name="restore_decrypt_dialog_desc">Այս կրկնօրինակը կոդավորված է: Մուտքագրեք այն ստեղծման ժամանակ օգտագործված գաղտնաբառը:</string>
-    <string name="restore_decrypt_password_hint">Գաղտնաբառ</string>
-    <string name="restore_decrypt_confirm">Վերականգնել</string>
-    <string name="backup_wrong_password">Սխալ գաղտնաբառ. չհաջողվեց վերծանել կրկնօրինակը:</string>
-    <string name="backup_encrypted_badge">🔒 Կոդավորված</string>
-    <string name="backup_created_success">Պահուստավորումը հաջողությամբ ստեղծվեց</string>
-    <string name="backup_created_failure">Չհաջողվեց ստեղծել պահուստավորում</string>
-    <string name="backup_saved_success">✅ Պահուստավորումը հաջողությամբ պահպանվեց</string>
-    <string name="backup_saved_failure">❌ Պահումը ձախողվեց՝%1$s</string>
-    <string name="restore_success">✅ Տվյալները հաջողությամբ վերականգնվեցին</string>
-    <string name="restore_failure">Վերականգնումը ձախողվեց</string>
-    <string name="restore_error">Վերականգնման սխալ՝%1$s</string>
-    <string name="backup_restore_success">✅ Կրկնօրինակը հաջողությամբ վերականգնվեց</string>
-    <string name="backup_restore_failure">❌ Վերականգնումը ձախողվեց՝%1$s</string>
-    <string name="generic_error">Սխալ՝%1$s</string>
-    <string name="export_calls_success">✅ Արտահանված զանգեր՝%1$s</string>
-    <string name="export_messages_success">✅ Արտահանված հաղորդագրություններ՝%1$s</string>
-    <string name="export_all_success">✅ Արտահանված բոլոր տվյալները՝%1$s</string>
-    <string name="export_failure">❌ Չհաջողվեց արտահանել</string>
-    <string name="import_success">✅ Տվյալները հաջողությամբ ներմուծվեցին</string>
-    <string name="import_failure">Չհաջողվեց ներմուծել</string>
-    <string name="import_error">Ներմուծման սխալ՝%1$s</string>
-    <string name="import_restore_failure">❌ Չհաջողվեց ներմուծել՝%1$s</string>
     <string name="disclosure_title">Ձեր գաղտնիությունը</string>
     <string name="disclosure_subtitle">Խնդրում ենք վերանայել նախքան շարունակելը</string>
     <string name="disclosure_intro">Purevon-ը փոխարինում է ձեր հեռախոսի լռելյայն հավաքիչին և SMS/MMS հաղորդագրությունների կանխադրված հավելվածին: Զանգեր, SMS/MMS, սպամից պաշտպանություն և հարակից գործառույթներ ապահովելու համար անհրաժեշտ են ստորև նկարագրված թույլտվությունները: Ընտրովի տարրերը (տեսախցիկ, խոսափող, տեղադրություն) օգտագործվում են միայն այն ժամանակ, երբ դուք ընտրում եք այդ գործողությունները (օրինակ՝ լուսանկար կցելով կամ կիսելով ձեր գտնվելու վայրը): Տվյալները մնում են ձեր սարքում, քանի դեռ չեք բացահայտորեն օգտագործում ցանցային գործառույթ, ինչպիսին է MMS-ը կամ բեռնում եք վեբ հղման նախադիտումը:</string>
@@ -729,8 +695,6 @@
     <string name="incall_error_reject_failed">Չհաջողվեց մերժել զանգը</string>
     <string name="incall_error_merge_not_supported">Հնարավոր չէ միաձուլել զանգերը. չի աջակցվում</string>
     <string name="incall_error_merge_failed">Չհաջողվեց միավորել զանգերը</string>
-    <string name="incall_error_add_call_unavailable">Այս պահին հնարավոր չէ զանգ ավելացնել</string>
-    <string name="incall_error_sim_unknown">Չհաջողվեց որոշել SIM քարտը</string>
     <string name="incall_error_no_call_permission">Զանգեր կատարելու թույլտվություն չկա</string>
     <string name="incall_error_add_call_failed">Չհաջողվեց ավելացնել զանգ՝%1$s</string>
     <string name="incall_error_note_save_invalid_number">Չհաջողվեց պահել նշումը՝ անվավեր համար</string>
@@ -741,13 +705,54 @@
     <string name="incall_msg_number_unblocked">Համարն ապաշրջափակված է</string>
     <string name="incall_msg_number_blocked">Համարն արգելափակված է</string>
     <string name="incall_msg_note_saved">✅ Պահպանված է</string>
-    <string name="incall_msg_reminder_set_hours">✅ Հիշեցումը սահմանված է%1$dժամից հետո</string>
-    <string name="incall_msg_reminder_set_minutes">✅ Հիշեցումը սահմանված է%1$dրոպեից հետո</string>
+    <plurals name="incall_msg_reminder_set_hours">
+        <item quantity="one">✅ Հիշեցումը սահմանված է%1$dժամից հետո</item>
+        <item quantity="other">✅ Հիշեցումը սահմանված է%1$dժամից հետո</item>
+    </plurals>
+    <plurals name="incall_msg_reminder_set_minutes">
+        <item quantity="one">✅ Հիշեցումը սահմանված է%1$dրոպեից հետո</item>
+        <item quantity="other">✅ Հիշեցումը սահմանված է%1$dրոպեից հետո</item>
+    </plurals>
     <string name="incall_msg_reminder_approximate_warning">(Ծանոթագրություն՝ մոտավոր ժամկետներ)</string>
     <string name="incall_msg_location_coming_soon">Տեղադրությունը կուղարկվի շուտով</string>
     <string name="incall_msg_image_sharing_coming_soon">Պատկերների փոխանակումը՝ շուտով</string>
     <string name="incall_block_reason_incall">Արգելափակված է InCall Screen-ի միջոցով</string>
     <string name="shortcut_new_message">Նոր Հաղորդագրություն</string>
     <string name="shortcut_create_new_message">Ստեղծեք նոր հաղորդագրություն</string>
-    <string name="btn_ai_scan">Սկանավորել AI-ով</string>
+
+    <string name="action_add_note">Add note</string>
+    <string name="action_view">View</string>
+    <string name="blocked_call_bubble_call">اتصال</string>
+    <string name="blocked_call_bubble_channel_desc">إشعارات حظر المكالمات</string>
+    <string name="blocked_call_bubble_channel_name">قناة حظر المكالمات</string>
+    <string name="blocked_call_bubble_content_title">مكالمة محظورة</string>
+    <string name="blocked_call_bubble_dismiss">إلغاء</string>
+    <string name="blocked_call_bubble_notification_text">تم حظر مكالمة واردة من رقم مشبوه</string>
+    <string name="blocked_call_bubble_notification_title">تم حظر مكالمة</string>
+    <string name="blocked_call_bubble_whitelist">إضافة لقائمة السماح</string>
+    <string name="blocked_call_bubble_whitelisted">تمت الإضافة إلى قائمة السماح</string>
+    <string name="mms_fg_channel_desc">Shows when MMS messages are being sent or downloaded</string>
+    <string name="mms_fg_channel_name">MMS Operations</string>
+    <string name="mms_fg_downloading">Downloading MMS</string>
+    <string name="mms_fg_in_progress">MMS operation in progress…</string>
+    <string name="mms_fg_processing">Processing MMS</string>
+    <string name="mms_fg_sending">Sending MMS</string>
+    <string name="mms_fg_to">To %1$s</string>
+    <string name="msg_action_cancel">Cancel</string>
+    <string name="msg_send_cancelled">Message send cancelled</string>
+    <string name="notification_channel_fake_call">Fake Calls</string>
+    <string name="notification_channel_fake_call_desc">Notifications for scheduled fake incoming calls</string>
+    <string name="notification_channel_incoming_calls">Incoming Calls</string>
+    <string name="notification_channel_incoming_calls_desc">Incoming call notifications - shows on lock screen</string>
+    <string name="notification_channel_incoming_call_unlocked">Incoming Call (Unlocked)</string>
+    <string name="notification_channel_incoming_call_unlocked_desc">Silent foreground service notification when screen is on and call activity is shown directly</string>
+    <string name="notification_fake_call_incoming">Incoming call</string>
+    <string name="notification_spam_call_text">%1$s - %2$s</string>
+    <string name="notification_spam_call_title">⚠️ Spam Call Detected</string>
+    <string name="otp_copied_generic">Verification code copied ✓</string>
+    <string name="otp_missed_notification_text">New message from %1$s — open inbox to view</string>
+    <string name="otp_missed_notification_title">Verification code received</string>
+    <string name="risk_high">High Risk</string>
+    <string name="risk_low">Low Risk</string>
+    <string name="risk_medium">Medium Risk</string>
 </resources>

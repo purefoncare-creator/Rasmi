@@ -1,5 +1,6 @@
 package com.rasmi.purevon.presentation.screen.permissions
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
@@ -17,6 +18,7 @@ class SystemSpecificPermissionsViewModel @Inject constructor(
     application: Application
 ) : AndroidViewModel(application) {
 
+    @SuppressLint("StaticFieldLeak")
     private val context: Context = application.applicationContext
 
     private val _uiState = MutableStateFlow(SystemSpecificPermissionsUiState())

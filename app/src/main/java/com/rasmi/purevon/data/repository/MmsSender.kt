@@ -225,9 +225,7 @@ internal class MmsSender(
                 Log.d(TAG, "📏 MMS estimated size: $totalSize bytes (pre-compression)")
 
                 // Dual SIM subscription_id
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP_MR1) {
-                    put(Telephony.Mms.SUBSCRIPTION_ID, subscriptionId)
-                }
+                put(Telephony.Mms.SUBSCRIPTION_ID, subscriptionId)
             }
 
             Log.d(TAG, "📝 Inserting MMS into database...")
@@ -615,7 +613,7 @@ internal class MmsSender(
                         val smsManager = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
                             if (validSubForSms != null) context.getSystemService(SmsManager::class.java).createForSubscriptionId(validSubForSms)
                             else context.getSystemService(SmsManager::class.java)
-                        } else if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP_MR1 && validSubForSms != null) {
+                        } else if (validSubForSms != null) {
                             @Suppress("DEPRECATION")
                             SmsManager.getSmsManagerForSubscriptionId(subscriptionId)
                         } else {
@@ -781,50 +779,48 @@ internal class MmsSender(
 
         try {
             // ✅ Request MMS-capable cellular network (non-blocking via suspendCancellableCoroutine)
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                val networkRequest = android.net.NetworkRequest.Builder()
-                    .addCapability(android.net.NetworkCapabilities.NET_CAPABILITY_MMS)
-                    .addTransportType(android.net.NetworkCapabilities.TRANSPORT_CELLULAR)
-                    .build()
+            val networkRequest = android.net.NetworkRequest.Builder()
+                .addCapability(android.net.NetworkCapabilities.NET_CAPABILITY_MMS)
+                .addTransportType(android.net.NetworkCapabilities.TRANSPORT_CELLULAR)
+                .build()
 
-                val acquiredNetwork = try {
-                    kotlinx.coroutines.withTimeoutOrNull(30_000L) {
-                        kotlinx.coroutines.suspendCancellableCoroutine<android.net.Network?> { cont ->
-                            val callback = object : android.net.ConnectivityManager.NetworkCallback() {
-                                override fun onAvailable(net: android.net.Network) {
-                                    // ✅ FIX 2.13: Unregister callback on success path too
-                                    try { connectivityManager.unregisterNetworkCallback(this) } catch (_: Exception) {}
-                                    if (cont.isActive) cont.resume(net) {}
-                                }
-                                override fun onUnavailable() {
-                                    try { connectivityManager.unregisterNetworkCallback(this) } catch (_: Exception) {}
-                                    if (cont.isActive) cont.resume(null) {}
-                                }
+            val acquiredNetwork = try {
+                kotlinx.coroutines.withTimeoutOrNull(30_000L) {
+                    kotlinx.coroutines.suspendCancellableCoroutine<android.net.Network?> { cont ->
+                        val callback = object : android.net.ConnectivityManager.NetworkCallback() {
+                            override fun onAvailable(net: android.net.Network) {
+                                // ✅ FIX 2.13: Unregister callback on success path too
+                                try { connectivityManager.unregisterNetworkCallback(this) } catch (_: Exception) {}
+                                if (cont.isActive) cont.resume(net) {}
                             }
-
-                            cont.invokeOnCancellation {
-                                try { connectivityManager.unregisterNetworkCallback(callback) } catch (_: Exception) {}
-                            }
-
-                            try {
-                                connectivityManager.requestNetwork(networkRequest, callback)
-                            } catch (e: SecurityException) {
-                                Log.d(TAG, "⚠️ Cannot request MMS network (SecurityException): ${e.message}")
+                            override fun onUnavailable() {
+                                try { connectivityManager.unregisterNetworkCallback(this) } catch (_: Exception) {}
                                 if (cont.isActive) cont.resume(null) {}
                             }
                         }
-                    }
-                } catch (e: Exception) {
-                    Log.d(TAG, "⚠️ Error acquiring MMS network: ${e.message}")
-                    null
-                }
 
-                if (acquiredNetwork == null) {
-                    Log.d(TAG, "⚠️ Could not acquire MMS network in 30s, trying with active network")
-                } else {
-                    network = acquiredNetwork
-                    Log.d(TAG, "✅ MMS cellular network acquired: $network")
+                        cont.invokeOnCancellation {
+                            try { connectivityManager.unregisterNetworkCallback(callback) } catch (_: Exception) {}
+                        }
+
+                        try {
+                            connectivityManager.requestNetwork(networkRequest, callback)
+                        } catch (e: SecurityException) {
+                            Log.d(TAG, "⚠️ Cannot request MMS network (SecurityException): ${e.message}")
+                            if (cont.isActive) cont.resume(null) {}
+                        }
+                    }
                 }
+            } catch (e: Exception) {
+                Log.d(TAG, "⚠️ Error acquiring MMS network: ${e.message}")
+                null
+            }
+
+            if (acquiredNetwork == null) {
+                Log.d(TAG, "⚠️ Could not acquire MMS network in 30s, trying with active network")
+            } else {
+                network = acquiredNetwork
+                Log.d(TAG, "✅ MMS cellular network acquired: $network")
             }
 
             // ✅ HTTP POST to MMSC
@@ -834,14 +830,14 @@ internal class MmsSender(
             connection = if (!proxy.isNullOrBlank() && proxy != "none") {
                 val proxyAddr = java.net.InetSocketAddress(proxy, port)
                 val httpProxy = java.net.Proxy(java.net.Proxy.Type.HTTP, proxyAddr)
-                if (network != null && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                if (network != null) {
                     // Open connection through MMS network
                     network.openConnection(url, httpProxy) as java.net.HttpURLConnection
                 } else {
                     url.openConnection(httpProxy) as java.net.HttpURLConnection
                 }
             } else {
-                if (network != null && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                if (network != null) {
                     network.openConnection(url) as java.net.HttpURLConnection
                 } else {
                     url.openConnection() as java.net.HttpURLConnection

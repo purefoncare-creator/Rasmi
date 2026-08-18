@@ -13,6 +13,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.rasmi.purevon.R
@@ -46,7 +47,7 @@ internal fun ContactNotesDialog(
                     style = MaterialTheme.typography.titleMedium
                 )
                 Text(
-                    stringResource(R.string.note_dialog_count, notes.size),
+                    pluralStringResource(R.plurals.note_dialog_count, notes.size, notes.size),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

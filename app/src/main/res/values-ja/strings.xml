@@ -9,7 +9,6 @@
     <string name="template_title">テンプレートのタイトル</string>
     <string name="template_content">テンプレートの内容</string>
     <string name="save">保存</string>
-    <string name="app_name" translatable="false">Purevon</string>
     <string name="perm_setup_title">権限のセットアップ</string>
     <string name="perm_welcome_title">ピュアボンへようこそ</string>
     <string name="perm_welcome_message">デフォルトの電話アプリと SMS アプリを置き換えるには、次の権限が必要です</string>
@@ -60,8 +59,14 @@
     <string name="action_number_copied">クリップボードにコピーされた番号</string>
     <string name="callback_reminder_title">コールバックリマインダー</string>
     <string name="callback_select_duration">期間を選択してください:</string>
-    <string name="callback_minutes">%d分</string>
-    <string name="callback_hour">%d時間</string>
+    <plurals name="callback_minutes">
+        <item quantity="one">%d分</item>
+        <item quantity="other">%d分</item>
+    </plurals>
+    <plurals name="callback_hour">
+        <item quantity="one">%d時間</item>
+        <item quantity="other">%d時間</item>
+    </plurals>
     <string name="callback_set">セット</string>
     <string name="callback_reminder_alert_title">コールバックリマインダー</string>
     <string name="callback_call_now">今すぐ電話してください</string>
@@ -71,8 +76,10 @@
     <string name="incall_end_call">通話を終了する</string>
     <string name="contacts_search_placeholder">検索</string>
     <string name="contacts_no_contacts">連絡先なし</string>
-    <string name="contacts_stat_blocked">ブロックされました</string>
-    <string name="contacts_selected">%dが選択されました</string>
+    <plurals name="contacts_selected">
+        <item quantity="one">%1$dが選択されました</item>
+        <item quantity="other">%1$dが選択されました</item>
+    </plurals>
     <string name="contacts_select_all">すべて選択</string>
     <string name="contacts_deselect_all">すべての選択を解除</string>
     <string name="contacts_action_favorite">お気に入り</string>
@@ -80,7 +87,10 @@
     <string name="contacts_action_block">ブロック</string>
     <string name="contacts_action_unblock">ブロックを解除する</string>
     <string name="contacts_action_delete">消去</string>
-    <string name="contacts_delete_multiple">%dの連絡先を削除しますか?</string>
+    <plurals name="contacts_delete_multiple">
+        <item quantity="one">%1$dの連絡先を削除しますか?</item>
+        <item quantity="other">%1$dの連絡先を削除しますか?</item>
+    </plurals>
     <string name="contacts_delete_warning">この操作は元に戻すことができません。</string>
     <string name="contacts_cd_add_contact">新しい連絡先を追加</string>
     <string name="contacts_cd_clear_search">検索をクリア</string>
@@ -121,7 +131,7 @@
     <string name="contact_detail_no_history">通話履歴はまだありません</string>
     <string name="contact_detail_no_notes">まだメモはありません</string>
     <string name="contact_detail_delete_title">連絡先の削除</string>
-    <string name="contact_detail_delete_message">%sを削除してもよろしいですか?</string>
+    <string name="contact_detail_delete_message">%1$sを削除してもよろしいですか?</string>
     <string name="contact_detail_delete_confirm">消去</string>
     <string name="contact_detail_first_name">ファーストネーム</string>
     <string name="contact_detail_last_name">苗字</string>
@@ -150,8 +160,6 @@
     <string name="add_contact_group">グループ</string>
     <string name="add_contact_save_changes">変更を保存</string>
     <string name="add_contact_save">連絡先の保存</string>
-    <string name="add_contact_saved">✓ 連絡先が保存されました</string>
-    <string name="add_contact_updated">✓ 連絡先が更新されました</string>
     <string name="add_contact_failed">保存に失敗しました。権限を確認してください。</string>
     <string name="add_contact_favorite">お気に入り</string>
     <string name="add_contact_type_mobile">携帯</string>
@@ -160,26 +168,17 @@
     <string name="add_contact_type_other">他の</string>
     <string name="add_contact_save_to">保存先</string>
     <string name="add_contact_account_device">デバイス</string>
-    <string name="add_contact_account_sim">SIM%1$d(%2$s)</string>
     <string name="add_contact_account_google">グーグル</string>
     <string name="add_contact_select_account">この連絡先を保存する場所を選択してください</string>
     <string name="messages_no_messages">メッセージはありません</string>
     <string name="messages_delete_conversation">会話の削除</string>
     <string name="history_missed">逃した</string>
     <string name="history_duration">期間:%s</string>
-    <string name="settings_title">設定</string>
     <string name="settings_appearance">外観</string>
-    <string name="settings_notifications">通知</string>
-    <string name="settings_theme">テーマ</string>
     <string name="settings_theme_dark">暗い</string>
     <string name="settings_theme_system">システムのデフォルト</string>
-    <string name="settings_rtl_title">右から左へのレイアウト</string>
-    <string name="settings_rtl_subtitle">右から左へ読むためにインターフェースをミラーリングする</string>
     <string name="settings_language">言語</string>
-    <string name="settings_language_summary">マニュアルアプリの言語を変更する</string>
     <string name="language_system">システムのデフォルト</string>
-    <string name="language_ar">العربية (アラビア語)</string>
-    <string name="language_en">英語（英語）</string>
     <string name="dialer_add_to_contacts">連絡先に追加</string>
     <string name="messages_all">全て</string>
     <string name="messages_starred_tab">スター付き</string>
@@ -187,11 +186,8 @@
     <string name="messages_no_starred">スター付きメッセージはありません</string>
     <string name="messages_starred_hint">メッセージを長押ししてお気に入りに追加します</string>
     <string name="messages_archive">アーカイブ</string>
-    <string name="messages_unarchive">アーカイブを解除する</string>
     <string name="messages_mark_as_read">既読としてマークする</string>
-    <string name="messages_mark_as_unread">未読としてマークする</string>
     <string name="messages_archived_tab">アーカイブ済み</string>
-    <string name="history_call_will_be_deleted">通話は削除されます</string>
     <string name="history_number_will_be_blocked">番号はブロックされます</string>
     <string name="history_undo">元に戻す</string>
     <string name="history_no_history">通話履歴はまだありません</string>
@@ -219,40 +215,50 @@
     <string name="history_delete_from_history">履歴からすべて削除</string>
     <string name="history_delete_all_calls_title">この番号への通話をすべて削除しますか?</string>
     <string name="history_delete_all_calls_message">通話履歴から%sのすべてのエントリを削除します。これを元に戻すことはできません。</string>
-    <string name="history_delete_selected_numbers">%d番号の履歴を削除しますか?</string>
-    <string name="history_group_missed_count">%dを逃しました</string>
+    <plurals name="history_delete_selected_numbers">
+        <item quantity="one">%d番号の履歴を削除しますか?</item>
+        <item quantity="other">%d番号の履歴を削除しますか?</item>
+    </plurals>
     <string name="history_notes_cd_has_note">メモあり</string>
-    <string name="history_delete_call_title">通話を削除しますか?</string>
-    <string name="history_delete_call_message">この通話を履歴から削除してもよろしいですか?この操作は元に戻すことができません。</string>
     <string name="history_block_number_title">ブロック番号?</string>
     <string name="history_block_number_message">%sをブロックしてもよろしいですか?この番号からの電話は\'受信しません。</string>
     <string name="history_search_calls">通話の検索</string>
     <string name="history_clear">クリア</string>
     <string name="history_today">今日</string>
     <string name="history_yesterday">昨日</string>
-    <string name="history_calls">%d呼び出し</string>
+    <plurals name="history_calls">
+        <item quantity="one">%d呼び出し</item>
+        <item quantity="other">%d呼び出し</item>
+    </plurals>
     <string name="history_total">合計</string>
     <string name="history_permission_name">READ_CALL_LOG</string>
     <string name="history_permission_rationale">このアプリは、通話履歴を表示し、不在着信を追跡し、通話統計を提供するために、通話ログにアクセスする必要があります。</string>
     <string name="history_action_call">電話</string>
     <string name="history_action_message">メッセージ</string>
     <string name="history_notes">メモ (%d)</string>
-    <string name="history_more_notes">+%dその他のメモ</string>
+    <plurals name="history_more_notes">
+        <item quantity="one">+%dその他のメモ</item>
+        <item quantity="other">+%dその他のメモ</item>
+    </plurals>
     <string name="history_note_today">今日</string>
     <string name="history_note_yesterday">昨日</string>
     <string name="note_dialog_title">%sに関するメモ</string>
-    <string name="note_dialog_count">%dメモ</string>
+    <plurals name="note_dialog_count">
+        <item quantity="one">%dメモ</item>
+        <item quantity="other">%dメモ</item>
+    </plurals>
     <string name="note_dialog_empty">メモはありません</string>
     <string name="note_delete_cd">メモを削除する</string>
-    <string name="note_icon_cd">連絡先メモ</string>
     <string name="note_dialog_close">近い</string>
     <string name="history_sim">SIM%d</string>
-    <string name="history_selected_count">%dが選択されました</string>
+    <plurals name="history_selected_count">
+        <item quantity="one">%dが選択されました</item>
+        <item quantity="other">%dが選択されました</item>
+    </plurals>
     <string name="history_select_all">すべて選択</string>
     <string name="history_deselect_all">すべての選択を解除</string>
     <string name="history_action_block">ブロック</string>
     <string name="history_action_delete">消去</string>
-    <string name="history_delete_selected">%d通話を削除しますか?</string>
     <string name="history_delete_selected_warning">この操作は元に戻すことができません。</string>
     <string name="otp_settings_title">OTP設定</string>
     <string name="about_title">について</string>
@@ -268,26 +274,8 @@
     <string name="about_feature_bubble_desc">フローティングバブルオーバーレイによる通話の制御</string>
     <string name="about_feature_sim">デュアルSIMのサポート</string>
     <string name="about_feature_sim_desc">デュアル SIM デバイスの完全サポート</string>
-    <string name="about_feature_backup">バックアップと復元</string>
-    <string name="about_feature_backup_desc">自動バックアップでデータを安全に保つ</string>
     <string name="about_contact_us">お問い合わせ：</string>
     <string name="about_copyright">© 2026 ピュアボン。無断転載を禁じます。</string>
-    <string name="ai_model_title">AIの機能</string>
-    <string name="ai_model_download">ジェマ 3 (1B) をダウンロード</string>
-    <string name="ai_model_download_desc">オフライン AI チャット用の Gemma 3 1B モデル (~555 MB) をダウンロード</string>
-    <string name="ai_model_downloading">ダウンロード中…%1$d%%</string>
-    <string name="ai_model_extracting">モデルを保存中…</string>
-    <string name="ai_model_downloaded">ダウンロードされたモデル</string>
-    <string name="ai_model_delete">AIモデルの削除</string>
-    <string name="ai_model_delete_desc">ダウンロードした Gemma モデルを削除してスペースを解放します</string>
-    <string name="ai_chat_title">ジェマ AI チャット</string>
-    <string name="ai_chat_model_loading">モデルを読み込み中…</string>
-    <string name="ai_chat_model_error">モデルのロードに失敗しました</string>
-    <string name="ai_chat_model_ready">準備ができて</string>
-    <string name="ai_chat_hint">ジェマに何でも聞いてください…</string>
-    <string name="ai_hf_token_label">ハグフェイストークン</string>
-    <string name="ai_hf_token_placeholder">hf_xxxxxxxxxxxxxxxxxxxx</string>
-    <string name="ai_hf_token_desc">Gemma のダウンロードが必要です (huggingface.co で無料)</string>
     <string name="conversation_no_messages">まだメッセージはありません</string>
     <string name="conversation_start_hint">メッセージを送信して会話を始めましょう</string>
     <string name="conversation_message_hint">メッセージ</string>
@@ -319,12 +307,7 @@
     <string name="msg_attachment_file">ファイル</string>
     <string name="msg_attachment_contact">接触</string>
     <string name="msg_attachment_location">位置</string>
-    <string name="msg_attachment_schedule">スケジュール</string>
-    <string name="location_fetching">場所を取得中…</string>
-    <string name="location_error">場所を特定できませんでした</string>
     <string name="location_permission_denied">位置情報を共有するには位置情報の許可が必要です</string>
-    <string name="location_my_current">私の現在地</string>
-    <string name="location_coordinates">座標</string>
     <string name="location_view_map">地図で見る:</string>
     <string name="msg_cd_attached_image">添付画像</string>
     <string name="msg_cd_scheduled">予定されている</string>
@@ -342,7 +325,6 @@
     <string name="msg_cd_retry">送信を再試行します</string>
     <string name="msg_cd_attachment_type">アタッチメントの種類</string>
     <string name="msg_cd_open_location">地図上で場所を開く</string>
-    <string name="msg_cd_playback_speed">再生速度</string>
     <string name="msg_cd_play">遊ぶ</string>
     <string name="msg_cd_pause">一時停止</string>
     <string name="msg_cd_send">送信</string>
@@ -350,14 +332,16 @@
     <string name="msg_cd_conversation_options">会話オプション</string>
     <string name="msg_cd_delete_recording">録音の削除</string>
     <string name="msg_cd_send_recording">録音を送信する</string>
-    <string name="msg_fetching_location">探しています…</string>
     <string name="msg_date_today">今日</string>
     <string name="msg_date_yesterday">昨日</string>
     <string name="msg_no_results">結果はありません</string>
     <string name="msg_no_archived_conversations">アーカイブされた会話はありません</string>
     <string name="msg_search_try_different">\"%s\"とは異なるキーワードを試してください</string>
     <string name="msg_archive_hint">会話を長押ししてアーカイブします</string>
-    <string name="msg_delete_conversations_title">%dの会話を削除しますか?</string>
+    <plurals name="msg_delete_conversations_title">
+        <item quantity="one">%dの会話を削除しますか?</item>
+        <item quantity="other">%dの会話を削除しますか?</item>
+    </plurals>
     <string name="msg_sim_ask_me">私に聞いて</string>
     <string name="msg_phone_number_missing">電話番号がありません</string>
     <string name="msg_scheduled_cancelled">スケジュールされたメッセージがキャンセルされました</string>
@@ -380,10 +364,12 @@
     <string name="templates_title">メッセージテンプレート</string>
     <string name="templates_empty">まだテンプレートがありません</string>
     <string name="templates_create">テンプレートの作成</string>
-    <string name="templates_use_count">%d回使用しました</string>
+    <plurals name="templates_use_count">
+        <item quantity="one">%d回使用しました</item>
+        <item quantity="other">%d回使用しました</item>
+    </plurals>
     <string name="templates_delete_title">テンプレートの削除</string>
     <string name="templates_delete_message">「%s」を削除してもよろしいですか?</string>
-    <string name="cleanup_creating_backup">認証済み...</string>
     <string name="system_perm_title">追加設定</string>
     <string name="system_perm_device">あなたのデバイス:%1$s</string>
     <string name="system_perm_subtitle">アプリが適切に動作するには追加の設定が必要です</string>
@@ -427,11 +413,8 @@
     <string name="manufacturer_vivo">Vivo (ファンタッチ OS)</string>
     <string name="manufacturer_oneplus">OnePlus (OxygenOS)</string>
     <string name="manufacturer_stock">アンドロイド</string>
-    <string name="appearance_theme_system_follow">システムテーマに従ってください</string>
     <string name="spam_privacy_title">プライバシー</string>
-    <string name="otp_settings_desc">自動コピー、通知、信頼できる送信者</string>
     <string name="privacy_hide_notifications">機密性の高い通知を非表示にする</string>
-    <string name="privacy_hide_notifications_desc">通知内のメッセージの内容を非表示にする</string>
     <string name="about_version">バージョン%s</string>
     <string name="close">近い</string>
     <string name="remove">取り除く</string>
@@ -444,11 +427,8 @@
     <string name="sim_all">すべてのSIM</string>
     <string name="sim_select_for_blocking">通話ブロック用の SIM を選択してください</string>
     <string name="sim_slot_format">適用先:%1$s</string>
-    <string name="call_blocking_desc">迷惑電話をブロックする</string>
     <string name="call_blocking_blocked_list">ブロックされた番号</string>
-    <string name="call_blocking_manage_blocked">ブロックされた番号リストを管理する</string>
     <string name="call_blocking_whitelist">ホワイトリスト</string>
-    <string name="call_blocking_manage_whitelist">ホワイトリストの管理</string>
     <string name="blocked_list_title">ブロックされた番号</string>
     <string name="blocked_list_count">ブロックされました (%d)</string>
     <string name="blocked_search_hint">連絡先や最近の通話を検索する</string>
@@ -467,7 +447,10 @@
     <string name="call_status_calling">通話中…</string>
     <string name="conference_call_title">電話会議</string>
     <string name="conference_label">会議</string>
-    <string name="conference_participants_count">%d参加者</string>
+    <plurals name="conference_participants_count">
+        <item quantity="one">%d参加者</item>
+        <item quantity="other">%d参加者</item>
+    </plurals>
     <string name="overlay_status_hold">所有</string>
     <string name="overlay_status_incoming">着信</string>
     <string name="fake_call_title">偽の電話</string>
@@ -485,20 +468,25 @@
     <string name="fake_call_incoming">着信中…</string>
     <string name="fake_call_answer">答え</string>
     <string name="fake_call_decline">衰退</string>
-    <string name="fake_call_end">通話を終了する</string>
     <string name="fake_call_name_required">発信者名を入力してください</string>
     <string name="fake_call_delay_required">通話タイミングを選択してください</string>
-    <string name="fake_call_scheduled">偽の通話は%s以降にスケジュールされています</string>
+    <string name="fake_call_scheduled">偽の通話は%1$s以降にスケジュールされています</string>
     <string name="fake_call_schedule_error">偽の通話をスケジュールできませんでした</string>
     <string name="fake_call_manage_title">スケジュールされた偽の通話</string>
-    <string name="fake_call_active_count">%d件の通話がスケジュールされています</string>
+    <plurals name="fake_call_active_count">
+        <item quantity="one">%d件の通話がスケジュールされています</item>
+        <item quantity="other">%d件の通話がスケジュールされています</item>
+    </plurals>
     <string name="fake_call_no_scheduled">スケジュールされた偽の通話はありません</string>
     <string name="fake_call_cancel_all">すべてキャンセル</string>
     <string name="fake_call_cancel_call">通話をキャンセルする</string>
     <string name="fake_call_inexact_alarm_warning">注: 電話は正確な時間に着信しない場合があります。精度を高めるために、設定で「アラームとリマインダー」権限を付与してください。</string>
     <string name="refresh">リフレッシュ</string>
     <string name="callback_reminders_manage_title">スケジュールされたコールバックリマインダー</string>
-    <string name="callback_reminder_active_count">%dリマインダーがスケジュールされています</string>
+    <plurals name="callback_reminder_active_count">
+        <item quantity="one">%dリマインダーがスケジュールされています</item>
+        <item quantity="other">%dリマインダーがスケジュールされています</item>
+    </plurals>
     <string name="callback_reminder_no_scheduled">スケジュールされたリマインダーはありません</string>
     <string name="callback_reminder_cancel_all">すべてキャンセル</string>
     <string name="callback_reminder_cancel_item">リマインダーをキャンセルする</string>
@@ -507,13 +495,10 @@
     <string name="scheduled_message_failed_body">%1$s宛:%2$s</string>
     <string name="scheduled_message_cancel">キャンセル</string>
     <string name="scheduled_message_edit">編集</string>
-    <string name="scheduled_message_cancelled">スケジュールされたメッセージがキャンセルされました</string>
     <string name="scheduled_status_pending">保留中</string>
     <string name="scheduled_status_sent">送信済み</string>
     <string name="scheduled_status_failed">失敗した</string>
     <string name="scheduled_status_cancelled">キャンセル</string>
-    <string name="msg_send_failure_title">メッセージの送信に失敗しました</string>
-    <string name="msg_send_failure_text">%1$s宛:%2$s</string>
     <string name="search_messages_hint">メッセージを検索する</string>
     <string name="search_clear">クリア</string>
     <string name="call_state_calling">通話中…</string>
@@ -589,17 +574,18 @@
     <string name="sim_picker_call_title">通話用SIMを選択</string>
     <string name="msg_unexpected_error">予期しないエラー:%1$s</string>
     <string name="msg_suggestion_prefix">提案:%1$s</string>
-    <string name="msg_send_attachments_lost">送信に失敗しました。添付ファイルは保存されます。失敗したメッセージをタップして再試行してください。</string>
     <string name="msg_retry_unexpected_error">予期しないエラー:%1$s</string>
     <string name="msg_forward_partial_success">%2$d人の受信者中%1$dに送信されます。%3$dは失敗しました。</string>
-    <string name="msg_scheduled_load_error">スケジュールされたメッセージのロードに失敗しました</string>
     <string name="msg_error_network_wifi">📶 MMS には Wi-Fi またはモバイルデータが必要です。接続を確認してください。</string>
     <string name="msg_error_network">📶 インターネット接続がありません。ネットワーク設定を確認してください。</string>
     <string name="msg_error_permission">🔒 許可が必要です:%1$s。設定で許可してください。</string>
     <string name="msg_error_balance">💳 SMS 残高が不足しています。 SIMカードをリチャージしてください。</string>
     <string name="msg_error_invalid_number">📱 電話番号が無効です。確認してもう一度お試しください。</string>
     <string name="msg_error_storage_full">💾 ストレージがいっぱいです。スペースを空けてください。</string>
-    <string name="msg_error_rate_limit">⏱️ 送信されたメッセージが多すぎます。%1$d秒お待ちください。</string>
+    <plurals name="msg_error_rate_limit">
+        <item quantity="one">⏱️ 送信されたメッセージが多すぎます。%1$d秒お待ちください。</item>
+        <item quantity="other">⏱️ 送信されたメッセージが多すぎます。%1$d秒お待ちください。</item>
+    </plurals>
     <string name="msg_error_mms">📎 MMS エラー:%1$s。もう一度試してください。</string>
     <string name="msg_error_too_large">📏 メッセージが大きすぎます。最大サイズは%1$dKBです。</string>
     <string name="msg_error_attachment">📎%1$s:%2$sを添付できません</string>
@@ -631,7 +617,6 @@
     <string name="sms_error_radio_off">機内モード有効 (無線オフ)</string>
     <string name="sms_error_limit_exceeded">送信制限を超えました</string>
     <string name="sms_error_unknown">不明なエラー</string>
-    <string name="otp_copied_toast">検証コードがコピーされました:%1$s✓</string>
     <string name="otp_bubble_channel_name">フローティング検証コード</string>
     <string name="otp_bubble_channel_desc">フローティング検証コードバブルの通知</string>
     <string name="otp_bubble_notification_title">検証コード</string>
@@ -640,7 +625,10 @@
     <string name="settings_incoming_call_banner_desc">着信時に全画面表示ではなくフローティング バナーを表示する</string>
     <string name="notification_summary_title">メッセージ</string>
     <string name="notification_summary_2_messages">2 件の新しいメッセージ</string>
-    <string name="notification_summary_n_messages">%1$d新しいメッセージ</string>
+    <plurals name="notification_summary_n_messages">
+        <item quantity="one">%1$d新しいメッセージ</item>
+        <item quantity="other">%1$d新しいメッセージ</item>
+    </plurals>
     <string name="notification_summary_many_messages">9 件以上の新しいメッセージ</string>
     <string name="notification_action_reply">返事</string>
     <string name="notification_action_mark_read_short">既読マークを付ける</string>
@@ -658,39 +646,17 @@
     <string name="error_failed_update_favorite">お気に入りステータスの更新に失敗しました</string>
     <string name="error_failed_delete_contact">連絡先を削除できませんでした:%1$s</string>
     <string name="success_contact_deleted">連絡先が削除されました</string>
-    <string name="success_contacts_blocked">%1$d連絡先がブロックされました</string>
-    <string name="success_contacts_added_favorites">%1$dの連絡先がお気に入りに追加されました</string>
+    <plurals name="success_contacts_blocked">
+        <item quantity="one">%1$d連絡先がブロックされました</item>
+        <item quantity="other">%1$d連絡先がブロックされました</item>
+    </plurals>
+    <plurals name="success_contacts_added_favorites">
+        <item quantity="one">%1$dの連絡先がお気に入りに追加されました</item>
+        <item quantity="other">%1$dの連絡先がお気に入りに追加されました</item>
+    </plurals>
     <string name="success_added_to_favorites">お気に入りに追加されました</string>
     <string name="success_removed_from_favorites">お気に入りから削除されました</string>
     <string name="msg_contact_will_be_deleted">\"%1$s\"は削除されます</string>
-    <string name="backup_encrypt_dialog_title">バックアップの暗号化</string>
-    <string name="backup_encrypt_dialog_desc">パスワードを入力してバックアップを暗号化するか、空のままにしてプレーンな JSON として保存します。</string>
-    <string name="backup_encrypt_password_hint">パスワード (オプション)</string>
-    <string name="backup_encrypt_confirm">輸出</string>
-    <string name="restore_decrypt_dialog_title">暗号化されたバックアップ</string>
-    <string name="restore_decrypt_dialog_desc">このバックアップは暗号化されています。作成時に使用したパスワードを入力します。</string>
-    <string name="restore_decrypt_password_hint">パスワード</string>
-    <string name="restore_decrypt_confirm">復元する</string>
-    <string name="backup_wrong_password">パスワードが間違っています - バックアップを復号化できませんでした。</string>
-    <string name="backup_encrypted_badge">🔒 暗号化</string>
-    <string name="backup_created_success">バックアップが正常に作成されました</string>
-    <string name="backup_created_failure">バックアップの作成に失敗しました</string>
-    <string name="backup_saved_success">✅ バックアップが正常に保存されました</string>
-    <string name="backup_saved_failure">❌ 保存に失敗しました:%1$s</string>
-    <string name="restore_success">✅ データは正常に復元されました</string>
-    <string name="restore_failure">復元に失敗しました</string>
-    <string name="restore_error">復元エラー:%1$s</string>
-    <string name="backup_restore_success">✅ バックアップが正常に復元されました</string>
-    <string name="backup_restore_failure">❌ 復元に失敗しました:%1$s</string>
-    <string name="generic_error">エラー:%1$s</string>
-    <string name="export_calls_success">✅ エクスポートされた通話:%1$s</string>
-    <string name="export_messages_success">✅ エクスポートされたメッセージ:%1$s</string>
-    <string name="export_all_success">✅ エクスポートされたすべてのデータ:%1$s</string>
-    <string name="export_failure">❌ エクスポートに失敗しました</string>
-    <string name="import_success">✅ データは正常にインポートされました</string>
-    <string name="import_failure">インポートに失敗しました</string>
-    <string name="import_error">インポート エラー:%1$s</string>
-    <string name="import_restore_failure">❌ インポートに失敗しました:%1$s</string>
     <string name="disclosure_title">あなたのプライバシー</string>
     <string name="disclosure_subtitle">続行する前に確認してください</string>
     <string name="disclosure_intro">Purevon は、デフォルトの電話ダイヤラーとデフォルトの SMS/MMS メッセージング アプリを置き換えます。通話、SMS/MMS、スパム保護、および関連機能を提供するには、以下で説明する権限が必要です。オプションの項目 (カメラ、マイク、位置情報) は、それらのアクション (写真の添付や位置情報の共有など) を選択した場合にのみ使用されます。 MMS や Web リンク プレビューの読み込みなどのネットワーク機能を明示的に使用しない限り、データはデバイス上に残ります。</string>
@@ -729,8 +695,6 @@
     <string name="incall_error_reject_failed">着信拒否に失敗しました</string>
     <string name="incall_error_merge_not_supported">通話を結合できません - サポートされていません</string>
     <string name="incall_error_merge_failed">通話をマージできませんでした</string>
-    <string name="incall_error_add_call_unavailable">現在通話を追加できません</string>
-    <string name="incall_error_sim_unknown">SIMを判別できませんでした</string>
     <string name="incall_error_no_call_permission">電話をかける権限がありません</string>
     <string name="incall_error_add_call_failed">呼び出しを追加できませんでした:%1$s</string>
     <string name="incall_error_note_save_invalid_number">メモの保存に失敗しました - 番号が無効です</string>
@@ -741,13 +705,54 @@
     <string name="incall_msg_number_unblocked">ブロックが解除された番号</string>
     <string name="incall_msg_number_blocked">ブロックされた番号</string>
     <string name="incall_msg_note_saved">✅ 保存されました</string>
-    <string name="incall_msg_reminder_set_hours">✅%1$d時間後にリマインダーを設定</string>
-    <string name="incall_msg_reminder_set_minutes">✅%1$d分後にリマインダーを設定</string>
+    <plurals name="incall_msg_reminder_set_hours">
+        <item quantity="one">✅%1$d時間後にリマインダーを設定</item>
+        <item quantity="other">✅%1$d時間後にリマインダーを設定</item>
+    </plurals>
+    <plurals name="incall_msg_reminder_set_minutes">
+        <item quantity="one">✅%1$d分後にリマインダーを設定</item>
+        <item quantity="other">✅%1$d分後にリマインダーを設定</item>
+    </plurals>
     <string name="incall_msg_reminder_approximate_warning">(注: おおよそのタイミング)</string>
     <string name="incall_msg_location_coming_soon">位置情報の送信は近日開始予定</string>
     <string name="incall_msg_image_sharing_coming_soon">画像共有は近日公開予定</string>
     <string name="incall_block_reason_incall">InCall画面でブロックされました</string>
     <string name="shortcut_new_message">新しいメッセージ</string>
     <string name="shortcut_create_new_message">新しいメッセージを作成する</string>
-    <string name="btn_ai_scan">AIでスキャン</string>
+
+    <string name="action_add_note">Add note</string>
+    <string name="action_view">View</string>
+    <string name="blocked_call_bubble_call">اتصال</string>
+    <string name="blocked_call_bubble_channel_desc">إشعارات حظر المكالمات</string>
+    <string name="blocked_call_bubble_channel_name">قناة حظر المكالمات</string>
+    <string name="blocked_call_bubble_content_title">مكالمة محظورة</string>
+    <string name="blocked_call_bubble_dismiss">إلغاء</string>
+    <string name="blocked_call_bubble_notification_text">تم حظر مكالمة واردة من رقم مشبوه</string>
+    <string name="blocked_call_bubble_notification_title">تم حظر مكالمة</string>
+    <string name="blocked_call_bubble_whitelist">إضافة لقائمة السماح</string>
+    <string name="blocked_call_bubble_whitelisted">تمت الإضافة إلى قائمة السماح</string>
+    <string name="mms_fg_channel_desc">Shows when MMS messages are being sent or downloaded</string>
+    <string name="mms_fg_channel_name">MMS Operations</string>
+    <string name="mms_fg_downloading">Downloading MMS</string>
+    <string name="mms_fg_in_progress">MMS operation in progress…</string>
+    <string name="mms_fg_processing">Processing MMS</string>
+    <string name="mms_fg_sending">Sending MMS</string>
+    <string name="mms_fg_to">To %1$s</string>
+    <string name="msg_action_cancel">Cancel</string>
+    <string name="msg_send_cancelled">Message send cancelled</string>
+    <string name="notification_channel_fake_call">Fake Calls</string>
+    <string name="notification_channel_fake_call_desc">Notifications for scheduled fake incoming calls</string>
+    <string name="notification_channel_incoming_calls">Incoming Calls</string>
+    <string name="notification_channel_incoming_calls_desc">Incoming call notifications - shows on lock screen</string>
+    <string name="notification_channel_incoming_call_unlocked">Incoming Call (Unlocked)</string>
+    <string name="notification_channel_incoming_call_unlocked_desc">Silent foreground service notification when screen is on and call activity is shown directly</string>
+    <string name="notification_fake_call_incoming">Incoming call</string>
+    <string name="notification_spam_call_text">%1$s - %2$s</string>
+    <string name="notification_spam_call_title">⚠️ Spam Call Detected</string>
+    <string name="otp_copied_generic">Verification code copied ✓</string>
+    <string name="otp_missed_notification_text">New message from %1$s — open inbox to view</string>
+    <string name="otp_missed_notification_title">Verification code received</string>
+    <string name="risk_high">High Risk</string>
+    <string name="risk_low">Low Risk</string>
+    <string name="risk_medium">Medium Risk</string>
 </resources>

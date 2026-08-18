@@ -9,7 +9,6 @@
     <string name="template_title">Şablon Başlığı</string>
     <string name="template_content">Şablon İçeriği</string>
     <string name="save">Kaydetmek</string>
-    <string name="app_name" translatable="false">Purevon</string>
     <string name="perm_setup_title">Kurulum İzinleri</string>
     <string name="perm_welcome_title">Purevon\'a hoş geldiniz</string>
     <string name="perm_welcome_message">Varsayılan Telefon ve SMS uygulamalarınızı değiştirmek için aşağıdaki izinlere ihtiyacımız var</string>
@@ -60,8 +59,14 @@
     <string name="action_number_copied">Numara panoya kopyalandı</string>
     <string name="callback_reminder_title">Geri Arama Hatırlatıcısı</string>
     <string name="callback_select_duration">Süreyi seçin:</string>
-    <string name="callback_minutes">%ddakika</string>
-    <string name="callback_hour">%dsaat</string>
+    <plurals name="callback_minutes">
+        <item quantity="one">%ddakika</item>
+        <item quantity="other">%ddakika</item>
+    </plurals>
+    <plurals name="callback_hour">
+        <item quantity="one">%dsaat</item>
+        <item quantity="other">%dsaat</item>
+    </plurals>
     <string name="callback_set">Ayarlamak</string>
     <string name="callback_reminder_alert_title">Geri Arama Hatırlatıcısı</string>
     <string name="callback_call_now">Şimdi Ara</string>
@@ -71,8 +76,10 @@
     <string name="incall_end_call">Aramayı Bitir</string>
     <string name="contacts_search_placeholder">Aramak</string>
     <string name="contacts_no_contacts">Kişi yok</string>
-    <string name="contacts_stat_blocked">Engellendi</string>
-    <string name="contacts_selected">%dseçildi</string>
+    <plurals name="contacts_selected">
+        <item quantity="one">%1$dseçildi</item>
+        <item quantity="other">%1$dseçildi</item>
+    </plurals>
     <string name="contacts_select_all">Tümünü Seç</string>
     <string name="contacts_deselect_all">Tümünün Seçimini Kaldır</string>
     <string name="contacts_action_favorite">Favori</string>
@@ -80,7 +87,10 @@
     <string name="contacts_action_block">Engellemek</string>
     <string name="contacts_action_unblock">Engellemeyi kaldır</string>
     <string name="contacts_action_delete">Silmek</string>
-    <string name="contacts_delete_multiple">%dkişi silinsin mi?</string>
+    <plurals name="contacts_delete_multiple">
+        <item quantity="one">%1$dkişi silinsin mi?</item>
+        <item quantity="other">%1$dkişi silinsin mi?</item>
+    </plurals>
     <string name="contacts_delete_warning">Bu eylem geri alınamaz.</string>
     <string name="contacts_cd_add_contact">Yeni kişi ekle</string>
     <string name="contacts_cd_clear_search">Aramayı temizle</string>
@@ -121,7 +131,7 @@
     <string name="contact_detail_no_history">Henüz arama geçmişi yok</string>
     <string name="contact_detail_no_notes">Henüz not yok</string>
     <string name="contact_detail_delete_title">Kişiyi Sil</string>
-    <string name="contact_detail_delete_message">%ssilmek istediğinizden emin misiniz?</string>
+    <string name="contact_detail_delete_message">%1$ssilmek istediğinizden emin misiniz?</string>
     <string name="contact_detail_delete_confirm">Silmek</string>
     <string name="contact_detail_first_name">İlk adı</string>
     <string name="contact_detail_last_name">Soy isim</string>
@@ -150,8 +160,6 @@
     <string name="add_contact_group">Grup</string>
     <string name="add_contact_save_changes">Değişiklikleri Kaydet</string>
     <string name="add_contact_save">Kişiyi Kaydet</string>
-    <string name="add_contact_saved">✓ Kişi kaydedildi</string>
-    <string name="add_contact_updated">✓ İletişim güncellendi</string>
     <string name="add_contact_failed">Kaydedilemedi. İzinleri kontrol edin.</string>
     <string name="add_contact_favorite">Favori</string>
     <string name="add_contact_type_mobile">Mobil</string>
@@ -160,26 +168,17 @@
     <string name="add_contact_type_other">Diğer</string>
     <string name="add_contact_save_to">Kaydet</string>
     <string name="add_contact_account_device">Cihaz</string>
-    <string name="add_contact_account_sim">SIM%1$d(%2$s)</string>
     <string name="add_contact_account_google">Google</string>
     <string name="add_contact_select_account">Bu kişinin nereye kaydedileceğini seçin</string>
     <string name="messages_no_messages">Mesaj yok</string>
     <string name="messages_delete_conversation">Konuşmayı Sil</string>
     <string name="history_missed">Kaçırıldı</string>
     <string name="history_duration">Süre:%s</string>
-    <string name="settings_title">Ayarlar</string>
     <string name="settings_appearance">Dış görünüş</string>
-    <string name="settings_notifications">Bildirimler</string>
-    <string name="settings_theme">Tema</string>
     <string name="settings_theme_dark">Karanlık</string>
     <string name="settings_theme_system">Sistem Varsayılanı</string>
-    <string name="settings_rtl_title">Sağdan Sola Düzen</string>
-    <string name="settings_rtl_subtitle">Sağdan sola okuma için arayüzü yansıtın</string>
     <string name="settings_language">Dil</string>
-    <string name="settings_language_summary">Manuel uygulama dilini değiştirme</string>
     <string name="language_system">Sistem Varsayılanı</string>
-    <string name="language_ar">العربية (Arapça)</string>
-    <string name="language_en">İngilizce (İngilizce)</string>
     <string name="dialer_add_to_contacts">Kişilere ekle</string>
     <string name="messages_all">Tüm</string>
     <string name="messages_starred_tab">Yıldızlı</string>
@@ -187,11 +186,8 @@
     <string name="messages_no_starred">Yıldızlı Mesaj Yok</string>
     <string name="messages_starred_hint">Favorilere eklemek için herhangi bir mesaja uzun basın</string>
     <string name="messages_archive">Arşiv</string>
-    <string name="messages_unarchive">Arşivden kaldır</string>
     <string name="messages_mark_as_read">Okundu olarak işaretle</string>
-    <string name="messages_mark_as_unread">Okunmadı olarak işaretle</string>
     <string name="messages_archived_tab">Arşivlendi</string>
-    <string name="history_call_will_be_deleted">Arama silinecek</string>
     <string name="history_number_will_be_blocked">Numara engellenecek</string>
     <string name="history_undo">Geri al</string>
     <string name="history_no_history">Henüz arama geçmişi yok</string>
@@ -219,40 +215,50 @@
     <string name="history_delete_from_history">Geçmişten hepsini sil</string>
     <string name="history_delete_all_calls_title">Bu numaraya yapılan tüm aramalar silinsin mi?</string>
     <string name="history_delete_all_calls_message">%siçin tüm girişleri çağrı geçmişinizden kaldırın. Bu geri alınamaz.</string>
-    <string name="history_delete_selected_numbers">%dnumaralarının geçmişi kaldırılsın mı?</string>
-    <string name="history_group_missed_count">%dcevapsız</string>
+    <plurals name="history_delete_selected_numbers">
+        <item quantity="one">%dnumaralarının geçmişi kaldırılsın mı?</item>
+        <item quantity="other">%dnumaralarının geçmişi kaldırılsın mı?</item>
+    </plurals>
     <string name="history_notes_cd_has_note">Notları var</string>
-    <string name="history_delete_call_title">Çağrı Silinsin mi?</string>
-    <string name="history_delete_call_message">Bu aramayı geçmişinizden silmek istediğinizden emin misiniz? Bu eylem geri alınamaz.</string>
     <string name="history_block_number_title">Blok Numarası?</string>
     <string name="history_block_number_message">%s\'u engellemek istediğinizden emin misiniz? Bu numaradan\'almayacaksınız.</string>
     <string name="history_search_calls">Çağrıları ara</string>
     <string name="history_clear">Temizlemek</string>
     <string name="history_today">Bugün</string>
     <string name="history_yesterday">Dün</string>
-    <string name="history_calls">%daramalar</string>
+    <plurals name="history_calls">
+        <item quantity="one">%daramalar</item>
+        <item quantity="other">%daramalar</item>
+    </plurals>
     <string name="history_total">Toplam</string>
     <string name="history_permission_name">READ_CALL_LOG</string>
     <string name="history_permission_rationale">Bu uygulamanın, çağrı geçmişinizi görüntülemek, cevapsız çağrıları izlemek ve çağrı istatistiklerini sağlamak için çağrı günlüklerinize erişmesi gerekiyor.</string>
     <string name="history_action_call">Arama</string>
     <string name="history_action_message">Mesaj</string>
     <string name="history_notes">Notlar (%d)</string>
-    <string name="history_more_notes">+%ddaha fazla not</string>
+    <plurals name="history_more_notes">
+        <item quantity="one">+%ddaha fazla not</item>
+        <item quantity="other">+%ddaha fazla not</item>
+    </plurals>
     <string name="history_note_today">Bugün</string>
     <string name="history_note_yesterday">Dün</string>
     <string name="note_dialog_title">%siçin notlar</string>
-    <string name="note_dialog_count">%dnotu</string>
+    <plurals name="note_dialog_count">
+        <item quantity="one">%dnotu</item>
+        <item quantity="other">%dnotu</item>
+    </plurals>
     <string name="note_dialog_empty">Not yok</string>
     <string name="note_delete_cd">Notu sil</string>
-    <string name="note_icon_cd">İletişim notları</string>
     <string name="note_dialog_close">Kapalı</string>
     <string name="history_sim">SIM%d</string>
-    <string name="history_selected_count">%dseçildi</string>
+    <plurals name="history_selected_count">
+        <item quantity="one">%dseçildi</item>
+        <item quantity="other">%dseçildi</item>
+    </plurals>
     <string name="history_select_all">Tümünü Seç</string>
     <string name="history_deselect_all">Tümünün Seçimini Kaldır</string>
     <string name="history_action_block">Engellemek</string>
     <string name="history_action_delete">Silmek</string>
-    <string name="history_delete_selected">%daramaları silinsin mi?</string>
     <string name="history_delete_selected_warning">Bu eylem geri alınamaz.</string>
     <string name="otp_settings_title">OTP Ayarları</string>
     <string name="about_title">Hakkında</string>
@@ -268,26 +274,8 @@
     <string name="about_feature_bubble_desc">Kayan baloncuk kaplamasıyla aramaları kontrol edin</string>
     <string name="about_feature_sim">Çift SIM Desteği</string>
     <string name="about_feature_sim_desc">Çift SIM\'li cihazlar için tam destek</string>
-    <string name="about_feature_backup">Yedekleme ve Geri Yükleme</string>
-    <string name="about_feature_backup_desc">Otomatik yedeklemelerle verilerinizi güvende tutun</string>
     <string name="about_contact_us">Bize Ulaşın:</string>
     <string name="about_copyright">© 2026 Purevon. Her hakkı saklıdır.</string>
-    <string name="ai_model_title">Yapay Zeka Özellikleri</string>
-    <string name="ai_model_download">Gemma 3\'ü (1B) indirin</string>
-    <string name="ai_model_download_desc">Çevrimdışı AI sohbeti için Gemma 3 1B modelini (~555 MB) indirin</string>
-    <string name="ai_model_downloading">İndiriliyor…%1$d%%</string>
-    <string name="ai_model_extracting">Model kaydediliyor…</string>
-    <string name="ai_model_downloaded">İndirilen model</string>
-    <string name="ai_model_delete">AI Modelini Sil</string>
-    <string name="ai_model_delete_desc">Yer açmak için indirilen Gemma modelini kaldırın</string>
-    <string name="ai_chat_title">Gemma Yapay Zeka Sohbeti</string>
-    <string name="ai_chat_model_loading">Model yükleniyor…</string>
-    <string name="ai_chat_model_error">Model yüklenemedi</string>
-    <string name="ai_chat_model_ready">Hazır</string>
-    <string name="ai_chat_hint">Gemma\'ya bir şey sor…</string>
-    <string name="ai_hf_token_label">SarılmaYüz Jetonu</string>
-    <string name="ai_hf_token_placeholder">hf_xxxxxxxxxxxxxxxxxxxxx</string>
-    <string name="ai_hf_token_desc">Gemma\'yı indirmek için gereklidir (huggingface.co\'da ücretsiz)</string>
     <string name="conversation_no_messages">Henüz mesaj yok</string>
     <string name="conversation_start_hint">Konuşmayı başlatmak için bir mesaj gönderin</string>
     <string name="conversation_message_hint">Mesaj</string>
@@ -319,12 +307,7 @@
     <string name="msg_attachment_file">Dosya</string>
     <string name="msg_attachment_contact">Temas etmek</string>
     <string name="msg_attachment_location">Konum</string>
-    <string name="msg_attachment_schedule">Takvim</string>
-    <string name="location_fetching">Konum getiriliyor…</string>
-    <string name="location_error">Konum belirlenemedi</string>
     <string name="location_permission_denied">Konumunuzu paylaşmak için konum izni gereklidir</string>
-    <string name="location_my_current">Şu anki konumum</string>
-    <string name="location_coordinates">Koordinatlar</string>
     <string name="location_view_map">Haritada görüntüle:</string>
     <string name="msg_cd_attached_image">Ekli resim</string>
     <string name="msg_cd_scheduled">planlanmış</string>
@@ -342,7 +325,6 @@
     <string name="msg_cd_retry">Göndermeyi yeniden dene</string>
     <string name="msg_cd_attachment_type">Ek türü</string>
     <string name="msg_cd_open_location">Konumu haritada aç</string>
-    <string name="msg_cd_playback_speed">Oynatma hızı</string>
     <string name="msg_cd_play">Oynamak</string>
     <string name="msg_cd_pause">Duraklat</string>
     <string name="msg_cd_send">Göndermek</string>
@@ -350,14 +332,16 @@
     <string name="msg_cd_conversation_options">Konuşma seçenekleri</string>
     <string name="msg_cd_delete_recording">Kaydı sil</string>
     <string name="msg_cd_send_recording">Kaydı gönder</string>
-    <string name="msg_fetching_location">Bulunuyor…</string>
     <string name="msg_date_today">Bugün</string>
     <string name="msg_date_yesterday">Dün</string>
     <string name="msg_no_results">Sonuç yok</string>
     <string name="msg_no_archived_conversations">Arşivlenmiş görüşme yok</string>
     <string name="msg_search_try_different">\"%s\"dışında farklı bir anahtar kelime deneyin</string>
     <string name="msg_archive_hint">Arşivlemek için bir görüşmeye uzun basın</string>
-    <string name="msg_delete_conversations_title">%dgörüşme silinsin mi?</string>
+    <plurals name="msg_delete_conversations_title">
+        <item quantity="one">%dgörüşme silinsin mi?</item>
+        <item quantity="other">%dgörüşme silinsin mi?</item>
+    </plurals>
     <string name="msg_sim_ask_me">Bana Sor</string>
     <string name="msg_phone_number_missing">Telefon numarası eksik</string>
     <string name="msg_scheduled_cancelled">Planlanan mesaj iptal edildi</string>
@@ -380,10 +364,12 @@
     <string name="templates_title">Mesaj Şablonları</string>
     <string name="templates_empty">Henüz şablon yok</string>
     <string name="templates_create">Şablon Oluştur</string>
-    <string name="templates_use_count">%dkez kullanıldı</string>
+    <plurals name="templates_use_count">
+        <item quantity="one">%dkez kullanıldı</item>
+        <item quantity="other">%dkez kullanıldı</item>
+    </plurals>
     <string name="templates_delete_title">Şablonu Sil</string>
     <string name="templates_delete_message">\"%s\" öğesini silmek istediğinizden emin misiniz?</string>
-    <string name="cleanup_creating_backup">جاري إنشاء نسخة احتياطية...</string>
     <string name="system_perm_title">Ek Ayarlar</string>
     <string name="system_perm_device">Cihazınız:%1$s</string>
     <string name="system_perm_subtitle">Uygulamanın düzgün çalışması için ek ayarlar gerekir</string>
@@ -427,11 +413,8 @@
     <string name="manufacturer_vivo">Vivo (Funtouch İşletim Sistemi)</string>
     <string name="manufacturer_oneplus">OnePlus (OxygenOS)</string>
     <string name="manufacturer_stock">Android</string>
-    <string name="appearance_theme_system_follow">Sistem temasını takip edin</string>
     <string name="spam_privacy_title">Mahremiyet</string>
-    <string name="otp_settings_desc">Otomatik kopyalama, bildirimler, güvenilir gönderenler</string>
     <string name="privacy_hide_notifications">Hassas Bildirimleri Gizle</string>
-    <string name="privacy_hide_notifications_desc">Bildirimlerdeki mesaj içeriğini gizle</string>
     <string name="about_version">Sürüm%s</string>
     <string name="close">Kapalı</string>
     <string name="remove">Kaldırmak</string>
@@ -444,11 +427,8 @@
     <string name="sim_all">Tüm SIM\'ler</string>
     <string name="sim_select_for_blocking">Çağrı engelleme için SIM\'i seçin</string>
     <string name="sim_slot_format">Uygulandığı yer:%1$s</string>
-    <string name="call_blocking_desc">İstenmeyen aramaları engelle</string>
     <string name="call_blocking_blocked_list">Engellenen Numaralar</string>
-    <string name="call_blocking_manage_blocked">Engellenen numaralar listesini yönet</string>
     <string name="call_blocking_whitelist">Beyaz liste</string>
-    <string name="call_blocking_manage_whitelist">Beyaz listeyi yönet</string>
     <string name="blocked_list_title">Engellenen Numaralar</string>
     <string name="blocked_list_count">Engellendi (%d)</string>
     <string name="blocked_search_hint">Kişileri veya son aramaları arayın</string>
@@ -467,7 +447,10 @@
     <string name="call_status_calling">Arıyorum…</string>
     <string name="conference_call_title">Konferans Görüşmesi</string>
     <string name="conference_label">Konferans</string>
-    <string name="conference_participants_count">%dkatılımcı</string>
+    <plurals name="conference_participants_count">
+        <item quantity="one">%dkatılımcı</item>
+        <item quantity="other">%dkatılımcı</item>
+    </plurals>
     <string name="overlay_status_hold">Tutmak</string>
     <string name="overlay_status_incoming">Gelen</string>
     <string name="fake_call_title">Sahte Arama</string>
@@ -485,20 +468,25 @@
     <string name="fake_call_incoming">Gelen arama…</string>
     <string name="fake_call_answer">Cevap</string>
     <string name="fake_call_decline">Reddetmek</string>
-    <string name="fake_call_end">Aramayı Bitir</string>
     <string name="fake_call_name_required">Lütfen arayanın adını girin</string>
     <string name="fake_call_delay_required">Lütfen arama zamanlamasını seçin</string>
-    <string name="fake_call_scheduled">Sahte arama şu saatten sonra planlandı:%s</string>
+    <string name="fake_call_scheduled">Sahte arama şu saatten sonra planlandı:%1$s</string>
     <string name="fake_call_schedule_error">Sahte arama planlanamadı</string>
     <string name="fake_call_manage_title">Planlanmış Sahte Aramalar</string>
-    <string name="fake_call_active_count">%dçağrı(lar) planlandı</string>
+    <plurals name="fake_call_active_count">
+        <item quantity="one">%dçağrı(lar) planlandı</item>
+        <item quantity="other">%dçağrı(lar) planlandı</item>
+    </plurals>
     <string name="fake_call_no_scheduled">Planlanmış sahte arama yok</string>
     <string name="fake_call_cancel_all">Tümünü İptal Et</string>
     <string name="fake_call_cancel_call">Aramayı iptal et</string>
     <string name="fake_call_inexact_alarm_warning">Not: Çağrı tam zamanında gelmeyebilir. Daha iyi doğruluk için ayarlarda \"Alarmlar ve hatırlatıcılar\" iznini verin.</string>
     <string name="refresh">Yenile</string>
     <string name="callback_reminders_manage_title">Planlanmış Geri Arama Hatırlatıcıları</string>
-    <string name="callback_reminder_active_count">%dhatırlatıcı(lar) planlandı</string>
+    <plurals name="callback_reminder_active_count">
+        <item quantity="one">%dhatırlatıcı(lar) planlandı</item>
+        <item quantity="other">%dhatırlatıcı(lar) planlandı</item>
+    </plurals>
     <string name="callback_reminder_no_scheduled">Planlanmış hatırlatıcı yok</string>
     <string name="callback_reminder_cancel_all">Tümünü İptal Et</string>
     <string name="callback_reminder_cancel_item">Hatırlatıcıyı iptal et</string>
@@ -507,13 +495,10 @@
     <string name="scheduled_message_failed_body">%1$s\'a:%2$s</string>
     <string name="scheduled_message_cancel">İptal etmek</string>
     <string name="scheduled_message_edit">Düzenlemek</string>
-    <string name="scheduled_message_cancelled">Planlanan mesaj iptal edildi</string>
     <string name="scheduled_status_pending">Askıda olması</string>
     <string name="scheduled_status_sent">Gönderilmiş</string>
     <string name="scheduled_status_failed">Arızalı</string>
     <string name="scheduled_status_cancelled">İptal edildi</string>
-    <string name="msg_send_failure_title">Mesaj Gönderimi Başarısız</string>
-    <string name="msg_send_failure_text">%1$s\'a:%2$s</string>
     <string name="search_messages_hint">Mesajlarda ara</string>
     <string name="search_clear">Temizlemek</string>
     <string name="call_state_calling">Arıyorum…</string>
@@ -589,17 +574,18 @@
     <string name="sim_picker_call_title">Arama için SIM\'i seçin</string>
     <string name="msg_unexpected_error">Beklenmeyen hata:%1$s</string>
     <string name="msg_suggestion_prefix">Öneri:%1$s</string>
-    <string name="msg_send_attachments_lost">Gönderim başarısız oldu. Ekleriniz korunuyor; yeniden denemek için başarısız olan mesaja dokunun.</string>
     <string name="msg_retry_unexpected_error">Beklenmeyen hata:%1$s</string>
     <string name="msg_forward_partial_success">%2$dalıcılardan%1$dalıcısına gönderildi.%3$dbaşarısız oldu.</string>
-    <string name="msg_scheduled_load_error">Planlanmış mesajlar yüklenemedi</string>
     <string name="msg_error_network_wifi">📶 MMS, Wi-Fi veya mobil veri gerektirir. Lütfen bağlantınızı kontrol edin.</string>
     <string name="msg_error_network">📶İnternet bağlantısı yok. Lütfen ağ ayarlarınızı kontrol edin.</string>
     <string name="msg_error_permission">🔒 İzin gerekli:%1$s. Lütfen ayarlarda izin verin.</string>
     <string name="msg_error_balance">💳 Yetersiz SMS bakiyesi. Lütfen SIM kartınızı şarj edin.</string>
     <string name="msg_error_invalid_number">📱Geçersiz telefon numarası. Lütfen kontrol edip tekrar deneyin.</string>
     <string name="msg_error_storage_full">💾 Depolama alanı dolu. Lütfen biraz yer açın.</string>
-    <string name="msg_error_rate_limit">⏱️ Çok fazla mesaj gönderildi. Lütfen%1$dsaniye bekleyin.</string>
+    <plurals name="msg_error_rate_limit">
+        <item quantity="one">⏱️ Çok fazla mesaj gönderildi. Lütfen%1$dsaniye bekleyin.</item>
+        <item quantity="other">⏱️ Çok fazla mesaj gönderildi. Lütfen%1$dsaniye bekleyin.</item>
+    </plurals>
     <string name="msg_error_mms">📎MMS hatası:%1$s. Lütfen tekrar deneyin.</string>
     <string name="msg_error_too_large">📏 Mesaj çok büyük. Maksimum boyut%1$dKB\'dir.</string>
     <string name="msg_error_attachment">📎%1$seklenemiyor:%2$s</string>
@@ -631,7 +617,6 @@
     <string name="sms_error_radio_off">Uçak modu etkin (Radyo kapalı)</string>
     <string name="sms_error_limit_exceeded">Gönderme sınırı aşıldı</string>
     <string name="sms_error_unknown">Bilinmeyen hata</string>
-    <string name="otp_copied_toast">Doğrulama kodu kopyalandı:%1$s✓</string>
     <string name="otp_bubble_channel_name">Değişken doğrulama kodları</string>
     <string name="otp_bubble_channel_desc">Kayan doğrulama kodu baloncukları için bildirimler</string>
     <string name="otp_bubble_notification_title">Doğrulama kodu</string>
@@ -640,7 +625,10 @@
     <string name="settings_incoming_call_banner_desc">Gelen çağrılar için tam ekran yerine kayan bir banner göster</string>
     <string name="notification_summary_title">Mesajlar</string>
     <string name="notification_summary_2_messages">2 yeni mesaj</string>
-    <string name="notification_summary_n_messages">%1$dyeni mesajlar</string>
+    <plurals name="notification_summary_n_messages">
+        <item quantity="one">%1$dyeni mesajlar</item>
+        <item quantity="other">%1$dyeni mesajlar</item>
+    </plurals>
     <string name="notification_summary_many_messages">9\'dan fazla yeni mesaj</string>
     <string name="notification_action_reply">Cevap vermek</string>
     <string name="notification_action_mark_read_short">Okundu olarak işaretle</string>
@@ -658,39 +646,17 @@
     <string name="error_failed_update_favorite">Favori durumu güncellenemedi</string>
     <string name="error_failed_delete_contact">Kişi silinemedi:%1$s</string>
     <string name="success_contact_deleted">Kişi silindi</string>
-    <string name="success_contacts_blocked">%1$dkişi engellendi</string>
-    <string name="success_contacts_added_favorites">%1$dkişi favorilere eklendi</string>
+    <plurals name="success_contacts_blocked">
+        <item quantity="one">%1$dkişi engellendi</item>
+        <item quantity="other">%1$dkişi engellendi</item>
+    </plurals>
+    <plurals name="success_contacts_added_favorites">
+        <item quantity="one">%1$dkişi favorilere eklendi</item>
+        <item quantity="other">%1$dkişi favorilere eklendi</item>
+    </plurals>
     <string name="success_added_to_favorites">Favorilere eklendi</string>
     <string name="success_removed_from_favorites">Favorilerden kaldırıldı</string>
     <string name="msg_contact_will_be_deleted">\"%1$s\"silinecek</string>
-    <string name="backup_encrypt_dialog_title">Yedeklemeyi Şifrele</string>
-    <string name="backup_encrypt_dialog_desc">Yedeği şifrelemek için bir şifre girin veya düz JSON olarak kaydetmek için boş bırakın.</string>
-    <string name="backup_encrypt_password_hint">Şifre (isteğe bağlı)</string>
-    <string name="backup_encrypt_confirm">İhracat</string>
-    <string name="restore_decrypt_dialog_title">Şifreli Yedekleme</string>
-    <string name="restore_decrypt_dialog_desc">Bu yedekleme şifrelenmiştir. Oluşturulduğunda kullanılan şifreyi girin.</string>
-    <string name="restore_decrypt_password_hint">Şifre</string>
-    <string name="restore_decrypt_confirm">Eski haline getirmek</string>
-    <string name="backup_wrong_password">Yanlış şifre — yedeklemenin şifresi çözülemedi.</string>
-    <string name="backup_encrypted_badge">🔒 Şifreli</string>
-    <string name="backup_created_success">Yedekleme başarıyla oluşturuldu</string>
-    <string name="backup_created_failure">Yedekleme oluşturulamadı</string>
-    <string name="backup_saved_success">✅ Yedekleme başarıyla kaydedildi</string>
-    <string name="backup_saved_failure">❌ Kaydetme başarısız oldu:%1$s</string>
-    <string name="restore_success">✅ Veriler başarıyla geri yüklendi</string>
-    <string name="restore_failure">Geri yükleme başarısız oldu</string>
-    <string name="restore_error">Hatayı geri yükle:%1$s</string>
-    <string name="backup_restore_success">✅ Yedekleme başarıyla geri yüklendi</string>
-    <string name="backup_restore_failure">❌ Geri yükleme başarısız oldu:%1$s</string>
-    <string name="generic_error">Hata:%1$s</string>
-    <string name="export_calls_success">✅ Dışa aktarılan çağrılar:%1$s</string>
-    <string name="export_messages_success">✅ Dışa aktarılan mesajlar:%1$s</string>
-    <string name="export_all_success">✅ Dışa aktarılan tüm veriler:%1$s</string>
-    <string name="export_failure">❌ Dışa aktarma başarısız oldu</string>
-    <string name="import_success">✅ Veriler başarıyla içe aktarıldı</string>
-    <string name="import_failure">İçe aktarma başarısız oldu</string>
-    <string name="import_error">İçe aktarma hatası:%1$s</string>
-    <string name="import_restore_failure">❌ İçe aktarma başarısız oldu:%1$s</string>
     <string name="disclosure_title">Gizliliğiniz</string>
     <string name="disclosure_subtitle">Devam etmeden önce lütfen inceleyin</string>
     <string name="disclosure_intro">Purevon, varsayılan Telefon çeviricinizin ve varsayılan SMS/MMS mesajlaşma uygulamanızın yerini alır. Arama, SMS/MMS, spam koruması ve ilgili özellikleri sağlamak için aşağıda açıklanan izinlere ihtiyacı vardır. İsteğe bağlı öğeler (kamera, mikrofon, konum) yalnızca bu eylemleri seçtiğinizde (örneğin fotoğraf eklemek veya konumunuzu paylaşmak) kullanılır. MMS gibi bir ağ özelliğini açıkça kullanmadığınız veya bir web bağlantısı ön izlemesi yüklemediğiniz sürece veriler cihazınızda kalır.</string>
@@ -729,8 +695,6 @@
     <string name="incall_error_reject_failed">Arama reddedilemedi</string>
     <string name="incall_error_merge_not_supported">Aramalar birleştirilemiyor - desteklenmiyor</string>
     <string name="incall_error_merge_failed">Aramalar birleştirilemedi</string>
-    <string name="incall_error_add_call_unavailable">Şu anda çağrı eklenemiyor</string>
-    <string name="incall_error_sim_unknown">SIM belirlenemedi</string>
     <string name="incall_error_no_call_permission">Arama yapma izni yok</string>
     <string name="incall_error_add_call_failed">Çağrı eklenemedi:%1$s</string>
     <string name="incall_error_note_save_invalid_number">Not kaydedilemedi - geçersiz numara</string>
@@ -741,13 +705,54 @@
     <string name="incall_msg_number_unblocked">Numaranın engellemesi kaldırıldı</string>
     <string name="incall_msg_number_blocked">Numara engellendi</string>
     <string name="incall_msg_note_saved">✅ Kaydedildi</string>
-    <string name="incall_msg_reminder_set_hours">✅ Hatırlatıcı%1$dsaat sonra ayarlandı</string>
-    <string name="incall_msg_reminder_set_minutes">✅ Hatırlatma%1$ddakika sonra ayarlandı</string>
+    <plurals name="incall_msg_reminder_set_hours">
+        <item quantity="one">✅ Hatırlatıcı%1$dsaat sonra ayarlandı</item>
+        <item quantity="other">✅ Hatırlatıcı%1$dsaat sonra ayarlandı</item>
+    </plurals>
+    <plurals name="incall_msg_reminder_set_minutes">
+        <item quantity="one">✅ Hatırlatma%1$ddakika sonra ayarlandı</item>
+        <item quantity="other">✅ Hatırlatma%1$ddakika sonra ayarlandı</item>
+    </plurals>
     <string name="incall_msg_reminder_approximate_warning">(Not: yaklaşık zamanlama)</string>
     <string name="incall_msg_location_coming_soon">Konum gönderimi çok yakında</string>
     <string name="incall_msg_image_sharing_coming_soon">Resim paylaşımı yakında gelecek</string>
     <string name="incall_block_reason_incall">InCall Ekranı aracılığıyla engellendi</string>
     <string name="shortcut_new_message">Yeni Mesaj</string>
     <string name="shortcut_create_new_message">Yeni mesaj oluştur</string>
-    <string name="btn_ai_scan">AI ile tarayın</string>
+
+    <string name="action_add_note">Add note</string>
+    <string name="action_view">View</string>
+    <string name="blocked_call_bubble_call">اتصال</string>
+    <string name="blocked_call_bubble_channel_desc">إشعارات حظر المكالمات</string>
+    <string name="blocked_call_bubble_channel_name">قناة حظر المكالمات</string>
+    <string name="blocked_call_bubble_content_title">مكالمة محظورة</string>
+    <string name="blocked_call_bubble_dismiss">إلغاء</string>
+    <string name="blocked_call_bubble_notification_text">تم حظر مكالمة واردة من رقم مشبوه</string>
+    <string name="blocked_call_bubble_notification_title">تم حظر مكالمة</string>
+    <string name="blocked_call_bubble_whitelist">إضافة لقائمة السماح</string>
+    <string name="blocked_call_bubble_whitelisted">تمت الإضافة إلى قائمة السماح</string>
+    <string name="mms_fg_channel_desc">Shows when MMS messages are being sent or downloaded</string>
+    <string name="mms_fg_channel_name">MMS Operations</string>
+    <string name="mms_fg_downloading">Downloading MMS</string>
+    <string name="mms_fg_in_progress">MMS operation in progress…</string>
+    <string name="mms_fg_processing">Processing MMS</string>
+    <string name="mms_fg_sending">Sending MMS</string>
+    <string name="mms_fg_to">To %1$s</string>
+    <string name="msg_action_cancel">Cancel</string>
+    <string name="msg_send_cancelled">Message send cancelled</string>
+    <string name="notification_channel_fake_call">Fake Calls</string>
+    <string name="notification_channel_fake_call_desc">Notifications for scheduled fake incoming calls</string>
+    <string name="notification_channel_incoming_calls">Incoming Calls</string>
+    <string name="notification_channel_incoming_calls_desc">Incoming call notifications - shows on lock screen</string>
+    <string name="notification_channel_incoming_call_unlocked">Incoming Call (Unlocked)</string>
+    <string name="notification_channel_incoming_call_unlocked_desc">Silent foreground service notification when screen is on and call activity is shown directly</string>
+    <string name="notification_fake_call_incoming">Incoming call</string>
+    <string name="notification_spam_call_text">%1$s - %2$s</string>
+    <string name="notification_spam_call_title">⚠️ Spam Call Detected</string>
+    <string name="otp_copied_generic">Verification code copied ✓</string>
+    <string name="otp_missed_notification_text">New message from %1$s — open inbox to view</string>
+    <string name="otp_missed_notification_title">Verification code received</string>
+    <string name="risk_high">High Risk</string>
+    <string name="risk_low">Low Risk</string>
+    <string name="risk_medium">Medium Risk</string>
 </resources>

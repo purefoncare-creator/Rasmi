@@ -262,6 +262,9 @@ private fun WheelPicker(
     val halfVisible = WHEEL_VISIBLE_ITEMS / 2       // padding rows above & below
     val listState = rememberLazyListState(initialFirstVisibleItemIndex = initialIndex)
     val flingBehavior = rememberSnapFlingBehavior(lazyListState = listState)
+    val centerIndex by remember {
+        derivedStateOf { listState.firstVisibleItemIndex }
+    }
 
     // Report selected index after scroll settles
     LaunchedEffect(listState.isScrollInProgress) {
@@ -293,7 +296,7 @@ private fun WheelPicker(
                         .height(WHEEL_ITEM_HEIGHT),
                     contentAlignment = Alignment.Center
                 ) {
-                    val isCenter = index == listState.firstVisibleItemIndex
+                    val isCenter = index == centerIndex
 
                     Text(
                         text = items[index],

@@ -19,6 +19,13 @@ object DebugLogger {
             Log.d(tag, message)
         }
     }
+
+    /** Diagnostic logging that is always suppressed in release builds. */
+    fun diagnostic(tag: String = DEFAULT_TAG, message: String, throwable: Throwable? = null) {
+        if (BuildConfig.DEBUG) {
+            if (throwable != null) Log.d(tag, message, throwable) else Log.d(tag, message)
+        }
+    }
     
     /**
      * Log info message (only in DEBUG builds)
@@ -115,5 +122,4 @@ object DebugLogger {
         }
     }
 }
-
 

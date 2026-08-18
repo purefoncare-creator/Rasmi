@@ -25,6 +25,7 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.*
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.ripple
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -39,6 +40,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -62,7 +64,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
-import androidx.compose.material.icons.filled.Check
 
 /**
  * Modern Professional Contacts Screen
@@ -597,7 +598,7 @@ private fun SelectionModeTopBar(
                 )
             }
             Text(
-                text = context.getString(R.string.contacts_selected, selectedCount),
+                text = context.resources.getQuantityString(R.plurals.contacts_selected, selectedCount, selectedCount),
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.SemiBold,
                 modifier = Modifier.weight(1f).padding(start = 4.dp)
@@ -687,7 +688,7 @@ private fun SelectionModeBottomBar(
                 )
             },
             title = {
-                Text(context.getString(R.string.contacts_delete_multiple, selectedCount))
+                Text(context.resources.getQuantityString(R.plurals.contacts_delete_multiple, selectedCount, selectedCount))
             },
             text = {
                 Text(stringResource(R.string.contacts_delete_warning))

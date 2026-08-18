@@ -14,7 +14,6 @@ import android.provider.Settings
 import android.util.Log
 import android.view.Gravity
 import android.view.WindowManager
-import androidx.annotation.RequiresApi
 import androidx.compose.ui.platform.ComposeView
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.Lifecycle
@@ -36,7 +35,6 @@ import javax.inject.Inject
  * Floating OTP Bubble Service
  * Shows a floating bubble with OTP code when SMS arrives
  */
-@RequiresApi(Build.VERSION_CODES.M)
 @AndroidEntryPoint
 class FloatingOtpBubbleService : Service(), LifecycleOwner, SavedStateRegistryOwner {
 

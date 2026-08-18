@@ -21,9 +21,9 @@ class ValidatePhoneNumberUseCase @Inject constructor() {
         // Extract digits only
         val digits = number.filter { it.isDigit() }
         
-        // Check minimum length
-        if (digits.length < 7) {
-            return ValidationResult.Error("Phone number is too short (minimum 7 digits)")
+        // Allow carrier and government short codes such as 937 and 911.
+        if (digits.length < 3) {
+            return ValidationResult.Error("Phone number is too short (minimum 3 digits)")
         }
         
         // Check maximum length
@@ -228,5 +228,4 @@ class ValidatePhoneNumberUseCase @Inject constructor() {
         data class Error(val message: String) : ValidationResult()
     }
 }
-
 

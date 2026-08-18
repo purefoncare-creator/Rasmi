@@ -438,7 +438,7 @@ fun HistoryScreen(
     }
 
     // ✅ حوار اختيار الشريحة (وضع ASK)
-    if (showSimPickerDialog && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP_MR1) {
+    if (showSimPickerDialog) {
         SimSelectorDialog(
             availableSims = simPickerSims,
             selectedSimId = null,

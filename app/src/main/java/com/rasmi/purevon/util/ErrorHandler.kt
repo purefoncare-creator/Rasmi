@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import android.os.Build
 import android.os.Environment
 import android.os.StatFs
 import androidx.core.content.ContextCompat
@@ -60,34 +59,22 @@ object ErrorHandler {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
             ?: return MessageResult.Failure(MessageError.NetworkError("Cannot access connectivity service"))
         
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val network = connectivityManager.activeNetwork
-                ?: return MessageResult.Failure(MessageError.NetworkError("No active network"))
-            
-            val capabilities = connectivityManager.getNetworkCapabilities(network)
-                ?: return MessageResult.Failure(MessageError.NetworkError("Cannot get network capabilities"))
-            
-            val hasInternet = capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-            val hasWifi = capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
-            val hasCellular = capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
-            
-            return when {
-                !hasInternet -> MessageResult.Failure(MessageError.NetworkError("No internet connection"))
-                requiresWifi && !hasWifi && !hasCellular -> MessageResult.Failure(
-                    MessageError.NetworkError("MMS requires mobile data or Wi-Fi", requiresWifi = true)
-                )
-                else -> MessageResult.Success(Unit)
-            }
-        } else {
-            @Suppress("DEPRECATION")
-            val networkInfo = connectivityManager.activeNetworkInfo
-            @Suppress("DEPRECATION")
-            val isConnected = networkInfo?.isConnected == true
-            return if (isConnected) {
-                MessageResult.Success(Unit)
-            } else {
-                MessageResult.Failure(MessageError.NetworkError())
-            }
+        val network = connectivityManager.activeNetwork
+            ?: return MessageResult.Failure(MessageError.NetworkError("No active network"))
+        
+        val capabilities = connectivityManager.getNetworkCapabilities(network)
+            ?: return MessageResult.Failure(MessageError.NetworkError("Cannot get network capabilities"))
+        
+        val hasInternet = capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+        val hasWifi = capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
+        val hasCellular = capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
+        
+        return when {
+            !hasInternet -> MessageResult.Failure(MessageError.NetworkError("No internet connection"))
+            requiresWifi && !hasWifi && !hasCellular -> MessageResult.Failure(
+                MessageError.NetworkError("MMS requires mobile data or Wi-Fi", requiresWifi = true)
+            )
+            else -> MessageResult.Success(Unit)
         }
     }
     
@@ -97,12 +84,7 @@ object ErrorHandler {
     fun checkStorage(context: Context, requiredBytes: Long = 1024 * 1024): MessageResult<Unit> {
         return try {
             val stat = StatFs(Environment.getDataDirectory().path)
-            val availableBytes = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-                stat.availableBytes
-            } else {
-                @Suppress("DEPRECATION")
-                stat.availableBlocks.toLong() * stat.blockSize.toLong()
-            }
+            val availableBytes = stat.availableBytes
             
             if (availableBytes < requiredBytes) {
                 MessageResult.Failure(MessageError.StorageFullError(availableBytes))

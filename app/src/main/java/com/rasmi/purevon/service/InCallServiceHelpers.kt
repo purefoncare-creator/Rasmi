@@ -2,7 +2,6 @@ package com.rasmi.purevon.service
 
 import android.app.KeyguardManager
 import android.content.Context
-import android.os.Build
 import android.os.PowerManager
 import android.os.VibrationEffect
 import android.os.Vibrator
@@ -84,7 +83,7 @@ internal fun PurevonInCallService.launchInCallActivity() {
         if (!powerManager.isInteractive) {
             Log.e("PurevonInCallService", "Screen is OFF - Waking up screen first")
             val wakeLock = powerManager.newWakeLock(
-                PowerManager.PARTIAL_WAKE_LOCK or PowerManager.ACQUIRE_CAUSES_WAKEUP,
+                PowerManager.PARTIAL_WAKE_LOCK,
                 "Purevon:InCallWakeLock"
             )
             wakeLock.acquire(5000L)
@@ -106,12 +105,7 @@ internal fun PurevonInCallService.launchInCallActivity() {
 internal fun PurevonInCallService.triggerHapticFeedback() {
     try {
         val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            vibrator?.vibrate(VibrationEffect.createOneShot(300, VibrationEffect.DEFAULT_AMPLITUDE))
-        } else {
-            @Suppress("DEPRECATION")
-            vibrator?.vibrate(300)
-        }
+        vibrator?.vibrate(VibrationEffect.createOneShot(300, VibrationEffect.DEFAULT_AMPLITUDE))
         Log.d("PurevonInCallService", "Haptic feedback triggered for waiting call")
     } catch (e: Exception) {
         Log.e("PurevonInCallService", "Error triggering haptic feedback", e)

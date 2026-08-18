@@ -74,6 +74,11 @@ class MessageRepositoryImpl @Inject constructor(
     
     companion object {
         private const val TAG = "MessageRepository"
+        private const val MMS_ID_OFFSET = 2_000_000_000L
+
+        /** Convert display ID (with offset) back to raw system ID for MMS content provider queries. */
+        fun rawSystemId(displayId: Long, isMms: Boolean): Long =
+            if (isMms && displayId >= MMS_ID_OFFSET) displayId - MMS_ID_OFFSET else displayId
     }
     
     // ============================================
@@ -337,14 +342,29 @@ class MessageRepositoryImpl @Inject constructor(
     override suspend fun deleteThread(threadId: Long) = conversationPrefsDelegate.deleteThread(threadId)
     
     override suspend fun deleteMessage(messageId: Long) {
-        context.contentResolver.delete(
-            Telephony.Sms.CONTENT_URI,
-            "${Telephony.Sms._ID} = ?",
-            arrayOf(messageId.toString())
-        )
-        
+        // Check Room cache to determine if this is an MMS message before querying system
+        val cached = cachedMessageDao.getMessageById(messageId)
+        val isMms = cached?.isMms ?: false
+        val systemId = rawSystemId(messageId, isMms)
+
+        if (isMms) {
+            try {
+                context.contentResolver.delete(
+                    android.net.Uri.parse("content://mms/$systemId"),
+                    null, null
+                )
+            } catch (e: Exception) {
+                Log.e(TAG, "Error deleting MMS $systemId from system", e)
+            }
+        } else {
+            context.contentResolver.delete(
+                Telephony.Sms.CONTENT_URI,
+                "${Telephony.Sms._ID} = ?",
+                arrayOf(systemId.toString())
+            )
+        }
+
         messageMetadataDao.deleteMetadata(messageId)
-        // ✅ FIX #6: Also delete from Room cache so deleted message doesn't reappear
         cachedMessageDao.deleteById(messageId)
     }
     
@@ -459,7 +479,7 @@ class MessageRepositoryImpl @Inject constructor(
     override suspend fun getMessageById(messageId: Long): Message? {
         var message: Message? = null
         
-        // ✅ FIX: First try SMS, then try MMS if not found
+        // Try SMS first (raw ID directly)
         context.contentResolver.query(
             Telephony.Sms.CONTENT_URI,
             arrayOf(
@@ -481,12 +501,9 @@ class MessageRepositoryImpl @Inject constructor(
                 val phoneNumber = cursor.getString(2) ?: "Unknown"
                 val metadata = messageMetadataDao.getMetadata(systemId)
                 
-                // ✅ FIX S1: Read SUBSCRIPTION_ID to preserve SIM info for retry
                 val subIdCol = cursor.getColumnIndex(Telephony.Sms.SUBSCRIPTION_ID)
                 val subId = if (subIdCol >= 0 && !cursor.isNull(subIdCol)) cursor.getInt(subIdCol) else null
-                val simSlotValue = subId?.let { simManager.getSlotForSubscriptionId(it) }
                 
-                // Resolve contact name
                 val contactNamesMap = contactResolver.batchResolveContactNamesOptimized(setOf(phoneNumber))
                 val contactName = contactNamesMap[phoneNumber]
                 
@@ -512,10 +529,11 @@ class MessageRepositoryImpl @Inject constructor(
             }
         }
         
-        // ✅ FIX: If not found in SMS, try MMS content provider
+        // If not found in SMS, try MMS — strip offset if present
         if (message == null) {
+            val mmsSystemId = rawSystemId(messageId, isMms = messageId >= MMS_ID_OFFSET)
             try {
-                val mmsUri = android.net.Uri.parse("content://mms/$messageId")
+                val mmsUri = android.net.Uri.parse("content://mms/$mmsSystemId")
                 context.contentResolver.query(
                     mmsUri,
                     arrayOf("_id", "thread_id", "date", "msg_box", "read", "sub_id"),
@@ -562,7 +580,7 @@ class MessageRepositoryImpl @Inject constructor(
                             Log.e(TAG, "Error getting MMS attachments for message $systemId", e)
                         }
                         
-                        val metadata = messageMetadataDao.getMetadata(systemId)
+                        val metadata = messageMetadataDao.getMetadata(mmsSystemId)
                         
                         // MMS msg_box: 1=received, 2=sent, 3=draft, 4=outbox, 5=failed
                         val type = when (msgBox) {
@@ -573,7 +591,7 @@ class MessageRepositoryImpl @Inject constructor(
                         }
                         
                         message = Message(
-                            id = systemId,
+                            id = mmsSystemId + MMS_ID_OFFSET,
                             threadId = threadId,
                             phoneNumber = phoneNumber,
                             contactName = contactName,
@@ -602,8 +620,7 @@ class MessageRepositoryImpl @Inject constructor(
     }
     
     override suspend fun updateMessage(message: Message) {
-        // Update system message
-        // ✅ FIX M19: Update both SMS and MMS, not just SMS
+        val systemId = rawSystemId(message.id, message.isMms)
         if (message.isMms) {
             val mmsValues = ContentValues().apply {
                 put(Telephony.Mms.READ, if (message.isRead) 1 else 0)
@@ -612,7 +629,7 @@ class MessageRepositoryImpl @Inject constructor(
                 android.net.Uri.parse("content://mms"),
                 mmsValues,
                 "${Telephony.Mms._ID} = ?",
-                arrayOf(message.id.toString())
+                arrayOf(systemId.toString())
             )
         } else {
             val values = ContentValues().apply {
@@ -623,7 +640,7 @@ class MessageRepositoryImpl @Inject constructor(
                 Telephony.Sms.CONTENT_URI,
                 values,
                 "${Telephony.Sms._ID} = ?",
-                arrayOf(message.id.toString())
+                arrayOf(systemId.toString())
             )
         }
         

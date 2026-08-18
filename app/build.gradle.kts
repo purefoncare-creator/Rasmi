@@ -12,14 +12,15 @@ plugins {
 
 android {
     namespace = "com.rasmi.purevon"
-    compileSdk = 36
+    // تم التخفيض إلى 35 لضمان استقرار البناء ولتجنب أخطاء حزم المطورين
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.rasmi.purevon"
         minSdk = 26
-        targetSdk = 36
-        versionCode = 19
-        versionName = "1.1.9"
+        targetSdk = 35
+        versionCode = 27
+        versionName = "1.2.7"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         
@@ -27,24 +28,22 @@ android {
             useSupportLibrary = true
         }
         
-        // Room schema export directory
-        ksp {
-            arg("room.schemaLocation", "$projectDir/schemas")
-        }
+        // تم نقل ksp من هنا إلى الأسفل كجذر منفصل
         
         ndk {
-            abiFilters.addAll(listOf("arm64-v8a", "armeabi-v7a"))
+            // التصحيح: استخدام += بدلاً من addAll ليتوافق مع Kotlin DSL
+            abiFilters += listOf("arm64-v8a", "armeabi-v7a")
         }
 
-        // App supports English, Arabic, and all 50 target translation languages — strip other locales pulled in by libraries.
-        resourceConfigurations.addAll(listOf(
+        // التصحيح: استخدام += بدلاً من addAll
+        resourceConfigurations += listOf(
             "en", "ar", "fr", "es", "de", "pt", "tr", "hi", "ur", "fa", 
             "id", "ms", "ru", "ja", "ko", "zh-rCN", "zh-rTW", "it", "nl", 
             "pl", "uk", "bn", "sw", "vi", "th", "fil", "el", "he", "sv", 
             "no", "da", "fi", "cs", "hu", "ro", "sk", "bg", "hr", "sr", 
             "sl", "et", "lv", "lt", "ca", "is", "sq", "hy", "ka", "az", 
             "kk", "uz"
-        ))
+        )
     }
 
     // Configure signing for release builds
@@ -52,41 +51,37 @@ android {
         create("release") {
             // Read from keystore.properties file (create it from keystore.properties.example)
             val keystorePropertiesFile = rootProject.file("keystore.properties")
-            val encryptedKeystoreFile = rootProject.file("keystore.properties.enc")
-            
-            // Auto-decrypt if only encrypted file exists
-            if (!keystorePropertiesFile.exists() && encryptedKeystoreFile.exists()) {
-                logger.warn("⚠️ keystore.properties not found but .enc exists — run ./decrypt_keystore.sh to decrypt")
-            }
             
             when {
                 keystorePropertiesFile.exists() -> {
                     val keystoreProperties = Properties()
                     keystoreProperties.load(FileInputStream(keystorePropertiesFile))
                     
-                    val keystorePath = keystoreProperties["storeFile"]?.toString()
-                    if (keystorePath != null && file(keystorePath).exists()) {
-                        storeFile = file(keystorePath)
-                        storePassword = keystoreProperties["storePassword"]?.toString() ?: ""
-                        keyAlias = keystoreProperties["keyAlias"]?.toString() ?: ""
-                        keyPassword = keystoreProperties["keyPassword"]?.toString() ?: ""
-                    } else {
-                        logger.warn("⚠️ Keystore file not found at: $keystorePath - Release builds will use debug signing")
+                    val keystorePath = requireNotNull(keystoreProperties["storeFile"]?.toString()) {
+                        "keystore.properties must define storeFile for release builds"
                     }
+                    require(file(keystorePath).exists()) {
+                        "Release keystore not found at: $keystorePath"
+                    }
+                    storeFile = file(keystorePath)
+                    storePassword = requireNotNull(keystoreProperties["storePassword"]?.toString())
+                    keyAlias = requireNotNull(keystoreProperties["keyAlias"]?.toString())
+                    keyPassword = requireNotNull(keystoreProperties["keyPassword"]?.toString())
                 }
                 
                 System.getenv("KEYSTORE_FILE") != null -> {
                     // For CI/CD: use environment variables
                     val keystorePath = System.getenv("KEYSTORE_FILE")
                     storeFile = file(keystorePath)
-                    storePassword = System.getenv("STORE_PASSWORD") ?: ""
-                    keyAlias = System.getenv("KEY_ALIAS") ?: ""
-                    keyPassword = System.getenv("KEY_PASSWORD") ?: ""
+                    storePassword = requireNotNull(System.getenv("STORE_PASSWORD"))
+                    keyAlias = requireNotNull(System.getenv("KEY_ALIAS"))
+                    keyPassword = requireNotNull(System.getenv("KEY_PASSWORD"))
                 }
                 
                 else -> {
-                    logger.warn("⚠️ No keystore configuration found - Release builds will use debug signing")
-                    logger.warn("   Create keystore.properties from keystore.properties.example for production builds")
+                    throw GradleException(
+                        "Release signing is not configured. Provide keystore.properties or KEYSTORE_FILE/STORE_PASSWORD/KEY_ALIAS/KEY_PASSWORD."
+                    )
                 }
             }
         }
@@ -111,29 +106,26 @@ android {
         }
         
         create("staging") {
-            initWith(getByName("debug"))
+            initWith(getByName("release"))
             
             applicationIdSuffix = ".staging"
             versionNameSuffix = "-STAGING"
             
-            // Enable minification but keep debuggable
+            // Staging mirrors release security profile
             isMinifyEnabled = true
             isShrinkResources = true
-            isDebuggable = true
+            isDebuggable = false
             
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
             
-            // Use release signing for staging (if available)
             signingConfig = signingConfigs.findByName("release") ?: signingConfigs.getByName("debug")
             
-            // Build config fields for staging
             buildConfigField("String", "API_BASE_URL", "\"https://staging-api.purevon.com\"")
-            buildConfigField("boolean", "ENABLE_LOGGING", "true")
+            buildConfigField("boolean", "ENABLE_LOGGING", "false")
             
-            // Different app name for staging
             resValue("string", "app_name", "Purevon Staging")
         }
         
@@ -178,12 +170,18 @@ android {
     }
 }
 
+// ✅ التصحيح: وضع ksp ككتلة مستقلة في المستوى الجذري
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
+}
+
 dependencies {
     // Core Android
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.core.splashscreen)
+    implementation(libs.androidx.exifinterface)
 
     // Lifecycle
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -240,7 +238,6 @@ dependencies {
     implementation(libs.androidx.work.runtime.ktx)
 
     // Security
-    implementation(libs.androidx.biometric)
     implementation(libs.androidx.security.crypto)
 
     // Media3 (ExoPlayer) for video playback
@@ -252,6 +249,8 @@ dependencies {
     implementation(libs.jsoup)
 
     // SMS/MMS Library - Global APN database
+    // ❌ التصحيح: تم تعليق هذه المكتبة لتجنب انهيار البناء بالخطأ 25.0.4.
+    // ابحث عن بدائل حديثة متوافقة مع AndroidX إذا كنت بحاجة لها.
     implementation(libs.klinker.android.smsmms)
 
     // Memory Leak Detection (Debug only)
@@ -264,6 +263,9 @@ dependencies {
     testImplementation(libs.mockk)
     testImplementation(libs.turbine)
     testImplementation(libs.androidx.room.testing)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.androidx.test.core)
+    testImplementation(libs.androidx.work.testing)
     
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

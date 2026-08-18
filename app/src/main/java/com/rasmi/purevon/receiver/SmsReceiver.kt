@@ -94,16 +94,24 @@ class SmsReceiver : BroadcastReceiver() {
             scope.launch {
                 try {
                     kotlinx.coroutines.withTimeout(20_000L) { // Safe 20s timeout to avoid 30s goAsync() ANR/crash
-                    // Group messages by sender to handle multipart SMS correctly
-                    // Multipart messages have the same originatingAddress
-                    val groupedMessages = messages.groupBy { it.displayOriginatingAddress ?: "" }
+                    // Guard against null PDU entries (SmsMessage.createFromPdu can return null
+                    // for malformed PDUs) and group by sender to handle multipart SMS correctly.
+                    // Multipart messages share the same originatingAddress.
+                    // SMS_DELIVER represents one delivery operation. Multipart segments from that
+                    // operation may carry slightly different timestamps, so grouping by timestamp
+                    // splits one long SMS into multiple messages. Separate broadcasts are handled
+                    // independently and are not merged here.
+                    val groupedMessages = messages
+                        .filterNotNull()
+                        .groupBy { it.displayOriginatingAddress ?: "" }
                     
                     for ((sender, messageParts) in groupedMessages) {
                         if (sender.isBlank()) continue
                         
-                        // Combine all parts into a single message body
-                        // Parts are usually in order, just concatenate them
-                        val combinedBody = messageParts.joinToString("") { it.messageBody ?: "" }
+                        // The public SmsMessage API does not expose the concatenation sequence
+                        // number. Android supplies segments in delivery order for this broadcast.
+                        val combinedBody = messageParts
+                            .joinToString("") { it.messageBody ?: "" }
                         
                         // Use timestamp from first part
                         val timestamp = messageParts.firstOrNull()?.timestampMillis ?: System.currentTimeMillis()
@@ -544,23 +552,21 @@ class SmsReceiver : BroadcastReceiver() {
             val soundUri = android.net.Uri.parse("android.resource://" + context.packageName + "/" + com.rasmi.purevon.R.raw.recieve)
             
             // Create notification channel if needed
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                // Changing channel ID to force update sound settings
-                val channel = android.app.NotificationChannel(
-                    com.rasmi.purevon.notification.EnhancedNotificationManager.CHANNEL_ID_MESSAGES,
-                    context.getString(com.rasmi.purevon.R.string.notification_channel_messages),
-                    android.app.NotificationManager.IMPORTANCE_HIGH
-                ).apply {
-                    description = context.getString(com.rasmi.purevon.R.string.notification_channel_messages_desc)
-                    enableLights(true)
-                    enableVibration(true)
-                    setSound(soundUri, android.media.AudioAttributes.Builder()
-                        .setUsage(android.media.AudioAttributes.USAGE_NOTIFICATION)
-                        .setContentType(android.media.AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                        .build())
-                }
-                notificationManager.createNotificationChannel(channel)
+            // Changing channel ID to force update sound settings
+            val channel = android.app.NotificationChannel(
+                com.rasmi.purevon.notification.EnhancedNotificationManager.CHANNEL_ID_MESSAGES,
+                context.getString(com.rasmi.purevon.R.string.notification_channel_messages),
+                android.app.NotificationManager.IMPORTANCE_HIGH
+            ).apply {
+                description = context.getString(com.rasmi.purevon.R.string.notification_channel_messages_desc)
+                enableLights(true)
+                enableVibration(true)
+                setSound(soundUri, android.media.AudioAttributes.Builder()
+                    .setUsage(android.media.AudioAttributes.USAGE_NOTIFICATION)
+                    .setContentType(android.media.AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                    .build())
             }
+            notificationManager.createNotificationChannel(channel)
             
             // Create intent to open conversation
             val intent = Intent(context, com.rasmi.purevon.MainActivity::class.java).apply {

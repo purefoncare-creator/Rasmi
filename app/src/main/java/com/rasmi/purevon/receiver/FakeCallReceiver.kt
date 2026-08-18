@@ -42,19 +42,17 @@ class FakeCallReceiver : BroadcastReceiver() {
         
         val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(
-                "fake_call_channel",
-                context.getString(R.string.notification_channel_fake_call),
-                NotificationManager.IMPORTANCE_HIGH
-            ).apply {
-                description = context.getString(R.string.notification_channel_fake_call_desc)
-                enableLights(true)
-                lightColor = android.graphics.Color.BLUE
-                enableVibration(true)
-            }
-            nm.createNotificationChannel(channel)
+        val channel = NotificationChannel(
+            "fake_call_channel",
+            context.getString(R.string.notification_channel_fake_call),
+            NotificationManager.IMPORTANCE_HIGH
+        ).apply {
+            description = context.getString(R.string.notification_channel_fake_call_desc)
+            enableLights(true)
+            lightColor = android.graphics.Color.BLUE
+            enableVibration(true)
         }
+        nm.createNotificationChannel(channel)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             val fullScreenPendingIntent = PendingIntent.getActivity(

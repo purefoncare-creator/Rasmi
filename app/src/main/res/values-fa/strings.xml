@@ -9,7 +9,6 @@
     <string name="template_title">عنوان قالب</string>
     <string name="template_content">محتوای قالب</string>
     <string name="save">ذخیره کنید</string>
-    <string name="app_name" translatable="false">Purevon</string>
     <string name="perm_setup_title">مجوزهای راه اندازی</string>
     <string name="perm_welcome_title">به Purevon خوش آمدید</string>
     <string name="perm_welcome_message">برای جایگزینی برنامه‌های تلفن و پیامک پیش‌فرض شما، به مجوزهای زیر نیاز داریم</string>
@@ -60,8 +59,14 @@
     <string name="action_number_copied">شماره در کلیپ بورد کپی شد</string>
     <string name="callback_reminder_title">یادآوری تماس برگشت</string>
     <string name="callback_select_duration">انتخاب مدت زمان:</string>
-    <string name="callback_minutes">%dدقیقه</string>
-    <string name="callback_hour">%dساعت</string>
+    <plurals name="callback_minutes">
+        <item quantity="one">%dدقیقه</item>
+        <item quantity="other">%dدقیقه</item>
+    </plurals>
+    <plurals name="callback_hour">
+        <item quantity="one">%dساعت</item>
+        <item quantity="other">%dساعت</item>
+    </plurals>
     <string name="callback_set">تنظیم کنید</string>
     <string name="callback_reminder_alert_title">یادآوری تماس برگشت</string>
     <string name="callback_call_now">اکنون تماس بگیرید</string>
@@ -71,8 +76,10 @@
     <string name="incall_end_call">پایان تماس</string>
     <string name="contacts_search_placeholder">جستجو کنید</string>
     <string name="contacts_no_contacts">هیچ مخاطبی وجود ندارد</string>
-    <string name="contacts_stat_blocked">مسدود شده است</string>
-    <string name="contacts_selected">%dانتخاب شد</string>
+    <plurals name="contacts_selected">
+        <item quantity="one">%1$dانتخاب شد</item>
+        <item quantity="other">%1$dانتخاب شد</item>
+    </plurals>
     <string name="contacts_select_all">همه را انتخاب کنید</string>
     <string name="contacts_deselect_all">همه را لغو انتخاب کنید</string>
     <string name="contacts_action_favorite">مورد علاقه</string>
@@ -80,7 +87,10 @@
     <string name="contacts_action_block">مسدود کردن</string>
     <string name="contacts_action_unblock">رفع انسداد</string>
     <string name="contacts_action_delete">حذف کنید</string>
-    <string name="contacts_delete_multiple">مخاطب%dحذف شود؟</string>
+    <plurals name="contacts_delete_multiple">
+        <item quantity="one">مخاطب%1$dحذف شود؟</item>
+        <item quantity="other">مخاطب%1$dحذف شود؟</item>
+    </plurals>
     <string name="contacts_delete_warning">این عمل قابل لغو نیست.</string>
     <string name="contacts_cd_add_contact">افزودن مخاطب جدید</string>
     <string name="contacts_cd_clear_search">جستجو را پاک کنید</string>
@@ -121,7 +131,7 @@
     <string name="contact_detail_no_history">هنوز سابقه تماس وجود ندارد</string>
     <string name="contact_detail_no_notes">هنوز یادداشتی وجود ندارد</string>
     <string name="contact_detail_delete_title">حذف مخاطب</string>
-    <string name="contact_detail_delete_message">آیا مطمئنید که می خواهید%sرا حذف کنید؟</string>
+    <string name="contact_detail_delete_message">آیا مطمئنید که می خواهید%1$sرا حذف کنید؟</string>
     <string name="contact_detail_delete_confirm">حذف کنید</string>
     <string name="contact_detail_first_name">نام کوچک</string>
     <string name="contact_detail_last_name">نام خانوادگی</string>
@@ -150,8 +160,6 @@
     <string name="add_contact_group">گروه</string>
     <string name="add_contact_save_changes">ذخیره تغییرات</string>
     <string name="add_contact_save">ذخیره مخاطب</string>
-    <string name="add_contact_saved">✓ مخاطب ذخیره شد</string>
-    <string name="add_contact_updated">✓ تماس به روز شد</string>
     <string name="add_contact_failed">ذخیره نشد. مجوزها را بررسی کنید.</string>
     <string name="add_contact_favorite">مورد علاقه</string>
     <string name="add_contact_type_mobile">موبایل</string>
@@ -160,26 +168,17 @@
     <string name="add_contact_type_other">دیگر</string>
     <string name="add_contact_save_to">ذخیره به</string>
     <string name="add_contact_account_device">دستگاه</string>
-    <string name="add_contact_account_sim">سیم کارت%1$d(%2$s)</string>
     <string name="add_contact_account_google">گوگل</string>
     <string name="add_contact_select_account">محل ذخیره این مخاطب را انتخاب کنید</string>
     <string name="messages_no_messages">پیامی وجود ندارد</string>
     <string name="messages_delete_conversation">حذف مکالمه</string>
     <string name="history_missed">از دست رفته</string>
     <string name="history_duration">مدت زمان:%s</string>
-    <string name="settings_title">تنظیمات</string>
     <string name="settings_appearance">ظاهر</string>
-    <string name="settings_notifications">اطلاعیه ها</string>
-    <string name="settings_theme">تم</string>
     <string name="settings_theme_dark">تاریک</string>
     <string name="settings_theme_system">پیش فرض سیستم</string>
-    <string name="settings_rtl_title">چیدمان از راست به چپ</string>
-    <string name="settings_rtl_subtitle">رابط را برای خواندن از راست به چپ آینه کنید</string>
     <string name="settings_language">زبان</string>
-    <string name="settings_language_summary">زبان برنامه دستی را تغییر دهید</string>
     <string name="language_system">پیش فرض سیستم</string>
-    <string name="language_ar">العربية (عربي)</string>
-    <string name="language_en">انگلیسی (انگلیسی)</string>
     <string name="dialer_add_to_contacts">به مخاطبین اضافه کنید</string>
     <string name="messages_all">همه</string>
     <string name="messages_starred_tab">ستاره دار</string>
@@ -187,11 +186,8 @@
     <string name="messages_no_starred">پیام ستاره دار وجود ندارد</string>
     <string name="messages_starred_hint">برای افزودن به موارد دلخواه، روی هر پیامی به مدت طولانی فشار دهید</string>
     <string name="messages_archive">آرشیو</string>
-    <string name="messages_unarchive">لغو بایگانی</string>
     <string name="messages_mark_as_read">علامت گذاری به عنوان خوانده شده</string>
-    <string name="messages_mark_as_unread">علامت گذاری به عنوان خوانده نشده</string>
     <string name="messages_archived_tab">بایگانی شد</string>
-    <string name="history_call_will_be_deleted">تماس حذف خواهد شد</string>
     <string name="history_number_will_be_blocked">شماره مسدود خواهد شد</string>
     <string name="history_undo">واگرد</string>
     <string name="history_no_history">هنوز سابقه تماس وجود ندارد</string>
@@ -219,40 +215,50 @@
     <string name="history_delete_from_history">همه را از تاریخ حذف کنید</string>
     <string name="history_delete_all_calls_title">همه تماس‌های این شماره حذف شود؟</string>
     <string name="history_delete_all_calls_message">هر ورودی برای%sرا از سابقه تماس خود حذف کنید. این قابل واگرد نیست.</string>
-    <string name="history_delete_selected_numbers">سابقه برای شماره های%dحذف شود؟</string>
-    <string name="history_group_missed_count">%dاز دست رفته</string>
+    <plurals name="history_delete_selected_numbers">
+        <item quantity="one">سابقه برای شماره های%dحذف شود؟</item>
+        <item quantity="other">سابقه برای شماره های%dحذف شود؟</item>
+    </plurals>
     <string name="history_notes_cd_has_note">یادداشت دارد</string>
-    <string name="history_delete_call_title">تماس حذف شود؟</string>
-    <string name="history_delete_call_message">آیا مطمئن هستید که می خواهید این تماس را از سابقه خود حذف کنید؟ این عمل قابل لغو نیست.</string>
     <string name="history_block_number_title">شماره بلوک؟</string>
     <string name="history_block_number_message">آیا مطمئنید که می‌خواهید%sرا مسدود کنید؟ شما\'تماسی از این شماره دریافت نخواهید کرد.</string>
     <string name="history_search_calls">جستجوی تماس ها</string>
     <string name="history_clear">پاک کردن</string>
     <string name="history_today">امروز</string>
     <string name="history_yesterday">دیروز</string>
-    <string name="history_calls">%dتماس می گیرد</string>
+    <plurals name="history_calls">
+        <item quantity="one">%dتماس می گیرد</item>
+        <item quantity="other">%dتماس می گیرد</item>
+    </plurals>
     <string name="history_total">مجموع</string>
     <string name="history_permission_name">READ_CALL_LOG</string>
     <string name="history_permission_rationale">این برنامه برای نمایش سابقه تماس، ردیابی تماس های از دست رفته و ارائه آمار تماس، نیاز به دسترسی به گزارش تماس های شما دارد.</string>
     <string name="history_action_call">تماس بگیرید</string>
     <string name="history_action_message">پیام</string>
     <string name="history_notes">یادداشت ها (%d)</string>
-    <string name="history_more_notes">+%dیادداشت های دیگر</string>
+    <plurals name="history_more_notes">
+        <item quantity="one">+%dیادداشت های دیگر</item>
+        <item quantity="other">+%dیادداشت های دیگر</item>
+    </plurals>
     <string name="history_note_today">امروز</string>
     <string name="history_note_yesterday">دیروز</string>
     <string name="note_dialog_title">یادداشت برای%s</string>
-    <string name="note_dialog_count">%dیادداشت</string>
+    <plurals name="note_dialog_count">
+        <item quantity="one">%dیادداشت</item>
+        <item quantity="other">%dیادداشت</item>
+    </plurals>
     <string name="note_dialog_empty">بدون یادداشت</string>
     <string name="note_delete_cd">حذف یادداشت</string>
-    <string name="note_icon_cd">یادداشت های تماس</string>
     <string name="note_dialog_close">بستن</string>
     <string name="history_sim">سیم کارت%d</string>
-    <string name="history_selected_count">%dانتخاب شد</string>
+    <plurals name="history_selected_count">
+        <item quantity="one">%dانتخاب شد</item>
+        <item quantity="other">%dانتخاب شد</item>
+    </plurals>
     <string name="history_select_all">همه را انتخاب کنید</string>
     <string name="history_deselect_all">همه را لغو انتخاب کنید</string>
     <string name="history_action_block">مسدود کردن</string>
     <string name="history_action_delete">حذف کنید</string>
-    <string name="history_delete_selected">تماس%dحذف شود؟</string>
     <string name="history_delete_selected_warning">این عمل قابل لغو نیست.</string>
     <string name="otp_settings_title">تنظیمات OTP</string>
     <string name="about_title">درباره</string>
@@ -268,26 +274,8 @@
     <string name="about_feature_bubble_desc">تماس ها را با پوشش حباب شناور کنترل کنید</string>
     <string name="about_feature_sim">پشتیبانی از دو سیم کارت</string>
     <string name="about_feature_sim_desc">پشتیبانی کامل از دستگاه های دو سیم کارته</string>
-    <string name="about_feature_backup">پشتیبان گیری و بازیابی</string>
-    <string name="about_feature_backup_desc">با پشتیبان گیری خودکار اطلاعات خود را ایمن نگه دارید</string>
     <string name="about_contact_us">تماس با ما:</string>
     <string name="about_copyright">© 2026 Purevon. تمامی حقوق محفوظ است.</string>
-    <string name="ai_model_title">ویژگی های هوش مصنوعی</string>
-    <string name="ai_model_download">دانلود Gemma 3 (1B)</string>
-    <string name="ai_model_download_desc">مدل Gemma 3 1B (~555 مگابایت) را برای چت آفلاین هوش مصنوعی دانلود کنید</string>
-    <string name="ai_model_downloading">در حال دانلود…%1$d%%</string>
-    <string name="ai_model_extracting">در حال ذخیره مدل…</string>
-    <string name="ai_model_downloaded">مدل دانلود شد</string>
-    <string name="ai_model_delete">حذف مدل هوش مصنوعی</string>
-    <string name="ai_model_delete_desc">برای آزاد کردن فضا، مدل Gemma دانلود شده را حذف کنید</string>
-    <string name="ai_chat_title">گما هوش مصنوعی چت</string>
-    <string name="ai_chat_model_loading">در حال بارگیری مدل…</string>
-    <string name="ai_chat_model_error">مدل بارگیری نشد</string>
-    <string name="ai_chat_model_ready">آماده است</string>
-    <string name="ai_chat_hint">هر چیزی از جما بپرسید…</string>
-    <string name="ai_hf_token_label">نشانه HuggingFace</string>
-    <string name="ai_hf_token_placeholder">hf_xxxxxxxxxxxxxxxxxxxxx</string>
-    <string name="ai_hf_token_desc">برای دانلود Gemma مورد نیاز است (رایگان در huggingface.co)</string>
     <string name="conversation_no_messages">هنوز پیامی وجود ندارد</string>
     <string name="conversation_start_hint">برای شروع مکالمه پیام ارسال کنید</string>
     <string name="conversation_message_hint">پیام</string>
@@ -319,12 +307,7 @@
     <string name="msg_attachment_file">فایل</string>
     <string name="msg_attachment_contact">تماس بگیرید</string>
     <string name="msg_attachment_location">مکان</string>
-    <string name="msg_attachment_schedule">برنامه ریزی کنید</string>
-    <string name="location_fetching">در حال واکشی مکان…</string>
-    <string name="location_error">نمی توان مکان را تعیین کرد</string>
     <string name="location_permission_denied">برای اشتراک‌گذاری موقعیت مکانی شما، مجوز مکان مورد نیاز است</string>
-    <string name="location_my_current">مکان فعلی من</string>
-    <string name="location_coordinates">مختصات</string>
     <string name="location_view_map">مشاهده روی نقشه:</string>
     <string name="msg_cd_attached_image">تصویر پیوست شده</string>
     <string name="msg_cd_scheduled">برنامه ریزی شده است</string>
@@ -342,7 +325,6 @@
     <string name="msg_cd_retry">برای ارسال مجدد تلاش کنید</string>
     <string name="msg_cd_attachment_type">نوع پیوست</string>
     <string name="msg_cd_open_location">باز کردن مکان روی نقشه</string>
-    <string name="msg_cd_playback_speed">سرعت پخش</string>
     <string name="msg_cd_play">بازی کنید</string>
     <string name="msg_cd_pause">مکث کنید</string>
     <string name="msg_cd_send">ارسال کنید</string>
@@ -350,14 +332,16 @@
     <string name="msg_cd_conversation_options">گزینه های مکالمه</string>
     <string name="msg_cd_delete_recording">ضبط را حذف کنید</string>
     <string name="msg_cd_send_recording">ارسال ضبط</string>
-    <string name="msg_fetching_location">در حال مکان یابی…</string>
     <string name="msg_date_today">امروز</string>
     <string name="msg_date_yesterday">دیروز</string>
     <string name="msg_no_results">هیچ نتیجه ای وجود ندارد</string>
     <string name="msg_no_archived_conversations">هیچ مکالمه بایگانی شده ای وجود ندارد</string>
     <string name="msg_search_try_different">کلمه کلیدی دیگری غیر از\"%s\"را امتحان کنید</string>
     <string name="msg_archive_hint">برای بایگانی کردن مکالمه، آن را به مدت طولانی فشار دهید</string>
-    <string name="msg_delete_conversations_title">%dمکالمه حذف شود؟</string>
+    <plurals name="msg_delete_conversations_title">
+        <item quantity="one">%dمکالمه حذف شود؟</item>
+        <item quantity="other">%dمکالمه حذف شود؟</item>
+    </plurals>
     <string name="msg_sim_ask_me">از من بپرس</string>
     <string name="msg_phone_number_missing">شماره تلفن موجود نیست</string>
     <string name="msg_scheduled_cancelled">پیام برنامه ریزی شده لغو شد</string>
@@ -380,10 +364,12 @@
     <string name="templates_title">الگوهای پیام</string>
     <string name="templates_empty">هنوز هیچ قالبی وجود ندارد</string>
     <string name="templates_create">ایجاد الگو</string>
-    <string name="templates_use_count">%dبار استفاده شده است</string>
+    <plurals name="templates_use_count">
+        <item quantity="one">%dبار استفاده شده است</item>
+        <item quantity="other">%dبار استفاده شده است</item>
+    </plurals>
     <string name="templates_delete_title">حذف قالب</string>
     <string name="templates_delete_message">آیا مطمئن هستید که می خواهید \"%s\" را حذف کنید؟</string>
-    <string name="cleanup_creating_backup">جاري انشاء نسخة احتياطية...</string>
     <string name="system_perm_title">تنظیمات اضافی</string>
     <string name="system_perm_device">دستگاه شما:%1$s</string>
     <string name="system_perm_subtitle">به تنظیمات اضافی نیاز دارد تا برنامه به درستی کار کند</string>
@@ -427,11 +413,8 @@
     <string name="manufacturer_vivo">Vivo (سیستم عامل Funtouch)</string>
     <string name="manufacturer_oneplus">OnePlus (OxygenOS)</string>
     <string name="manufacturer_stock">اندروید</string>
-    <string name="appearance_theme_system_follow">موضوع سیستم را دنبال کنید</string>
     <string name="spam_privacy_title">حریم خصوصی</string>
-    <string name="otp_settings_desc">کپی خودکار، اعلان ها، فرستنده های مورد اعتماد</string>
     <string name="privacy_hide_notifications">پنهان کردن اعلان های حساس</string>
-    <string name="privacy_hide_notifications_desc">محتوای پیام را در اعلان ها پنهان کنید</string>
     <string name="about_version">نسخه%s</string>
     <string name="close">بستن</string>
     <string name="remove">حذف کنید</string>
@@ -444,11 +427,8 @@
     <string name="sim_all">همه سیم کارت ها</string>
     <string name="sim_select_for_blocking">سیم کارت را برای مسدود کردن تماس انتخاب کنید</string>
     <string name="sim_slot_format">اعمال شده برای:%1$s</string>
-    <string name="call_blocking_desc">تماس های ناخواسته را مسدود کنید</string>
     <string name="call_blocking_blocked_list">شماره های مسدود شده</string>
-    <string name="call_blocking_manage_blocked">مدیریت لیست شماره های مسدود شده</string>
     <string name="call_blocking_whitelist">لیست سفید</string>
-    <string name="call_blocking_manage_whitelist">لیست سفید را مدیریت کنید</string>
     <string name="blocked_list_title">شماره های مسدود شده</string>
     <string name="blocked_list_count">مسدود شده (%d)</string>
     <string name="blocked_search_hint">مخاطبین یا تماس های اخیر را جستجو کنید</string>
@@ -467,7 +447,10 @@
     <string name="call_status_calling">تماس گرفتن…</string>
     <string name="conference_call_title">تماس کنفرانسی</string>
     <string name="conference_label">کنفرانس</string>
-    <string name="conference_participants_count">%dشرکت کننده</string>
+    <plurals name="conference_participants_count">
+        <item quantity="one">%dشرکت کننده</item>
+        <item quantity="other">%dشرکت کننده</item>
+    </plurals>
     <string name="overlay_status_hold">نگه دارید</string>
     <string name="overlay_status_incoming">ورودی</string>
     <string name="fake_call_title">تماس جعلی</string>
@@ -485,20 +468,25 @@
     <string name="fake_call_incoming">تماس ورودی…</string>
     <string name="fake_call_answer">پاسخ دهید</string>
     <string name="fake_call_decline">رد کردن</string>
-    <string name="fake_call_end">پایان تماس</string>
     <string name="fake_call_name_required">لطفا نام تماس گیرنده را وارد کنید</string>
     <string name="fake_call_delay_required">لطفا زمان تماس را انتخاب کنید</string>
-    <string name="fake_call_scheduled">تماس جعلی پس از%sزمان‌بندی شد</string>
+    <string name="fake_call_scheduled">تماس جعلی پس از%1$sزمان‌بندی شد</string>
     <string name="fake_call_schedule_error">تماس جعلی برنامه ریزی نشد</string>
     <string name="fake_call_manage_title">تماس های جعلی برنامه ریزی شده</string>
-    <string name="fake_call_active_count">%dتماس (های) زمان‌بندی شده است</string>
+    <plurals name="fake_call_active_count">
+        <item quantity="one">%dتماس (های) زمان‌بندی شده است</item>
+        <item quantity="other">%dتماس (های) زمان‌بندی شده است</item>
+    </plurals>
     <string name="fake_call_no_scheduled">بدون تماس جعلی برنامه ریزی شده</string>
     <string name="fake_call_cancel_all">لغو همه</string>
     <string name="fake_call_cancel_call">لغو تماس</string>
     <string name="fake_call_inexact_alarm_warning">توجه: ممکن است تماس در زمان دقیق نرسد. برای دقت بهتر، مجوز «زنگ‌ها و یادآوری‌ها» را در تنظیمات اعطا کنید.</string>
     <string name="refresh">تازه کردن</string>
     <string name="callback_reminders_manage_title">یادآوری تماس های برنامه ریزی شده</string>
-    <string name="callback_reminder_active_count">%dیادآوری زمان‌بندی شده است</string>
+    <plurals name="callback_reminder_active_count">
+        <item quantity="one">%dیادآوری زمان‌بندی شده است</item>
+        <item quantity="other">%dیادآوری زمان‌بندی شده است</item>
+    </plurals>
     <string name="callback_reminder_no_scheduled">هیچ یادآوری برنامه ریزی شده ای وجود ندارد</string>
     <string name="callback_reminder_cancel_all">لغو همه</string>
     <string name="callback_reminder_cancel_item">لغو یادآوری</string>
@@ -507,13 +495,10 @@
     <string name="scheduled_message_failed_body">به%1$s:%2$s</string>
     <string name="scheduled_message_cancel">لغو کنید</string>
     <string name="scheduled_message_edit">ویرایش کنید</string>
-    <string name="scheduled_message_cancelled">پیام برنامه ریزی شده لغو شد</string>
     <string name="scheduled_status_pending">در انتظار</string>
     <string name="scheduled_status_sent">ارسال شد</string>
     <string name="scheduled_status_failed">شکست خورد</string>
     <string name="scheduled_status_cancelled">لغو شد</string>
-    <string name="msg_send_failure_title">پیام ارسال نشد</string>
-    <string name="msg_send_failure_text">به%1$s:%2$s</string>
     <string name="search_messages_hint">جستجوی پیام ها</string>
     <string name="search_clear">پاک کردن</string>
     <string name="call_state_calling">تماس گرفتن…</string>
@@ -589,17 +574,18 @@
     <string name="sim_picker_call_title">سیم کارت را برای تماس انتخاب کنید</string>
     <string name="msg_unexpected_error">خطای غیرمنتظره:%1$s</string>
     <string name="msg_suggestion_prefix">پیشنهاد:%1$s</string>
-    <string name="msg_send_attachments_lost">ارسال ناموفق بود. پیوست‌های شما حفظ می‌شوند - برای امتحان مجدد روی پیام ناموفق ضربه بزنید.</string>
     <string name="msg_retry_unexpected_error">خطای غیرمنتظره:%1$s</string>
     <string name="msg_forward_partial_success">به%1$dاز%2$dگیرندگان ارسال شد.%3$dناموفق بود.</string>
-    <string name="msg_scheduled_load_error">پیام های برنامه ریزی شده بارگیری نشد</string>
     <string name="msg_error_network_wifi">📶 MMS به Wi-Fi یا داده تلفن همراه نیاز دارد. لطفا اتصال خود را بررسی کنید.</string>
     <string name="msg_error_network">📶 بدون اتصال به اینترنت. لطفا تنظیمات شبکه خود را بررسی کنید.</string>
     <string name="msg_error_permission">🔒 مجوز لازم:%1$s. لطفا در تنظیمات اعطا کنید.</string>
     <string name="msg_error_balance">💳 موجودی پیامک ناکافی. لطفا سیم کارت خود را شارژ کنید.</string>
     <string name="msg_error_invalid_number">📱 شماره تلفن نامعتبر است. لطفا بررسی کنید و دوباره امتحان کنید.</string>
     <string name="msg_error_storage_full">💾 فضای ذخیره سازی پر است. لطفاً مقداری فضا آزاد کنید.</string>
-    <string name="msg_error_rate_limit">⏱️ پیام های بسیار زیادی ارسال شد. لطفا%1$dثانیه صبر کنید.</string>
+    <plurals name="msg_error_rate_limit">
+        <item quantity="one">⏱️ پیام های بسیار زیادی ارسال شد. لطفا%1$dثانیه صبر کنید.</item>
+        <item quantity="other">⏱️ پیام های بسیار زیادی ارسال شد. لطفا%1$dثانیه صبر کنید.</item>
+    </plurals>
     <string name="msg_error_mms">📎 خطای MMS:%1$s. لطفا دوباره امتحان کنید.</string>
     <string name="msg_error_too_large">پیام خیلی بزرگ است. حداکثر اندازه%1$dKB است.</string>
     <string name="msg_error_attachment">📎 نمی توان%1$sرا پیوست کرد:%2$s</string>
@@ -631,7 +617,6 @@
     <string name="sms_error_radio_off">حالت هواپیما فعال است (رادیو خاموش)</string>
     <string name="sms_error_limit_exceeded">از محدودیت ارسال فراتر رفت</string>
     <string name="sms_error_unknown">خطای ناشناخته</string>
-    <string name="otp_copied_toast">کد تأیید کپی شد:%1$s✓</string>
     <string name="otp_bubble_channel_name">کدهای تأیید شناور</string>
     <string name="otp_bubble_channel_desc">اعلان‌ها برای حباب‌های کد تأیید شناور</string>
     <string name="otp_bubble_notification_title">کد تایید</string>
@@ -640,7 +625,10 @@
     <string name="settings_incoming_call_banner_desc">نمایش یک بنر شناور به جای تمام صفحه برای تماس های ورودی</string>
     <string name="notification_summary_title">پیام ها</string>
     <string name="notification_summary_2_messages">2 پیام جدید</string>
-    <string name="notification_summary_n_messages">%1$dپیام های جدید</string>
+    <plurals name="notification_summary_n_messages">
+        <item quantity="one">%1$dپیام های جدید</item>
+        <item quantity="other">%1$dپیام های جدید</item>
+    </plurals>
     <string name="notification_summary_many_messages">9+ پیام جدید</string>
     <string name="notification_action_reply">پاسخ دهید</string>
     <string name="notification_action_mark_read_short">علامت گذاری به عنوان خوانده شده</string>
@@ -658,39 +646,17 @@
     <string name="error_failed_update_favorite">وضعیت دلخواه به‌روزرسانی نشد</string>
     <string name="error_failed_delete_contact">مخاطب حذف نشد:%1$s</string>
     <string name="success_contact_deleted">مخاطب حذف شد</string>
-    <string name="success_contacts_blocked">%1$dمخاطب مسدود شد</string>
-    <string name="success_contacts_added_favorites">%1$dمخاطبین به موارد دلخواه اضافه شدند</string>
+    <plurals name="success_contacts_blocked">
+        <item quantity="one">%1$dمخاطب مسدود شد</item>
+        <item quantity="other">%1$dمخاطب مسدود شد</item>
+    </plurals>
+    <plurals name="success_contacts_added_favorites">
+        <item quantity="one">%1$dمخاطبین به موارد دلخواه اضافه شدند</item>
+        <item quantity="other">%1$dمخاطبین به موارد دلخواه اضافه شدند</item>
+    </plurals>
     <string name="success_added_to_favorites">به علاقه مندی ها اضافه شد</string>
     <string name="success_removed_from_favorites">از موارد دلخواه حذف شد</string>
     <string name="msg_contact_will_be_deleted">\"%1$s\"حذف خواهد شد</string>
-    <string name="backup_encrypt_dialog_title">رمزگذاری پشتیبان گیری</string>
-    <string name="backup_encrypt_dialog_desc">یک رمز عبور برای رمزگذاری پشتیبان وارد کنید، یا آن را خالی بگذارید تا به عنوان JSON ساده ذخیره شود.</string>
-    <string name="backup_encrypt_password_hint">رمز عبور (اختیاری)</string>
-    <string name="backup_encrypt_confirm">صادرات</string>
-    <string name="restore_decrypt_dialog_title">پشتیبان گیری رمزگذاری شده</string>
-    <string name="restore_decrypt_dialog_desc">این پشتیبان رمزگذاری شده است. رمز عبور استفاده شده هنگام ایجاد آن را وارد کنید.</string>
-    <string name="restore_decrypt_password_hint">رمز عبور</string>
-    <string name="restore_decrypt_confirm">بازیابی کنید</string>
-    <string name="backup_wrong_password">رمز عبور اشتباه - پشتیبان‌گیری رمزگشایی نشد.</string>
-    <string name="backup_encrypted_badge">🔒 رمزگذاری شده</string>
-    <string name="backup_created_success">پشتیبان گیری با موفقیت ایجاد شد</string>
-    <string name="backup_created_failure">پشتیبان ایجاد نشد</string>
-    <string name="backup_saved_success">✅ پشتیبان گیری با موفقیت ذخیره شد</string>
-    <string name="backup_saved_failure">❌ ذخیره انجام نشد:%1$s</string>
-    <string name="restore_success">✅ داده ها با موفقیت بازیابی شدند</string>
-    <string name="restore_failure">بازیابی انجام نشد</string>
-    <string name="restore_error">خطای بازیابی:%1$s</string>
-    <string name="backup_restore_success">✅ پشتیبان گیری با موفقیت بازیابی شد</string>
-    <string name="backup_restore_failure">❌ بازیابی انجام نشد:%1$s</string>
-    <string name="generic_error">خطا:%1$s</string>
-    <string name="export_calls_success">✅ تماس های صادر شده:%1$s</string>
-    <string name="export_messages_success">✅ پیام های صادر شده:%1$s</string>
-    <string name="export_all_success">✅ همه داده های صادر شده:%1$s</string>
-    <string name="export_failure">❌ صادرات انجام نشد</string>
-    <string name="import_success">✅ داده ها با موفقیت وارد شدند</string>
-    <string name="import_failure">واردات انجام نشد</string>
-    <string name="import_error">خطای وارد کردن:%1$s</string>
-    <string name="import_restore_failure">❌ واردات انجام نشد:%1$s</string>
     <string name="disclosure_title">حریم خصوصی شما</string>
     <string name="disclosure_subtitle">لطفا قبل از ادامه بررسی کنید</string>
     <string name="disclosure_intro">Purevon جایگزین شماره‌گیر پیش‌فرض تلفن و برنامه پیام‌رسانی SMS/MMS پیش‌فرض شما می‌شود. برای ارائه تماس، SMS/MMS، حفاظت از هرزنامه، و ویژگی‌های مرتبط، به مجوزهایی نیاز دارد که در زیر توضیح داده شده است. موارد اختیاری (دوربین، میکروفون، مکان) فقط زمانی استفاده می‌شوند که آن اقدامات را انتخاب کنید (به عنوان مثال پیوست کردن یک عکس یا اشتراک‌گذاری موقعیت مکانی خود). داده‌ها در دستگاه شما باقی می‌مانند مگر اینکه صریحاً از یک ویژگی شبکه مانند MMS یا بارگیری پیش‌نمایش پیوند وب استفاده کنید.</string>
@@ -729,8 +695,6 @@
     <string name="incall_error_reject_failed">رد تماس انجام نشد</string>
     <string name="incall_error_merge_not_supported">تماس ها ادغام نمی شوند - پشتیبانی نمی شود</string>
     <string name="incall_error_merge_failed">تماس ها ادغام نشدند</string>
-    <string name="incall_error_add_call_unavailable">تماس در حال حاضر اضافه نمی شود</string>
-    <string name="incall_error_sim_unknown">سیم کارت تعیین نشد</string>
     <string name="incall_error_no_call_permission">بدون اجازه برای برقراری تماس</string>
     <string name="incall_error_add_call_failed">تماس اضافه نشد:%1$s</string>
     <string name="incall_error_note_save_invalid_number">یادداشت ذخیره نشد - شماره نامعتبر است</string>
@@ -741,13 +705,54 @@
     <string name="incall_msg_number_unblocked">شماره رفع انسداد شد</string>
     <string name="incall_msg_number_blocked">شماره مسدود شد</string>
     <string name="incall_msg_note_saved">✅ ذخیره شده</string>
-    <string name="incall_msg_reminder_set_hours">✅ یادآوری بعد از%1$dساعت تنظیم شد</string>
-    <string name="incall_msg_reminder_set_minutes">✅ یادآوری بعد از%1$dدقیقه تنظیم شد</string>
+    <plurals name="incall_msg_reminder_set_hours">
+        <item quantity="one">✅ یادآوری بعد از%1$dساعت تنظیم شد</item>
+        <item quantity="other">✅ یادآوری بعد از%1$dساعت تنظیم شد</item>
+    </plurals>
+    <plurals name="incall_msg_reminder_set_minutes">
+        <item quantity="one">✅ یادآوری بعد از%1$dدقیقه تنظیم شد</item>
+        <item quantity="other">✅ یادآوری بعد از%1$dدقیقه تنظیم شد</item>
+    </plurals>
     <string name="incall_msg_reminder_approximate_warning">(توجه: زمان تقریبی)</string>
     <string name="incall_msg_location_coming_soon">ارسال مکان به زودی</string>
     <string name="incall_msg_image_sharing_coming_soon">اشتراک گذاری تصویر به زودی</string>
     <string name="incall_block_reason_incall">از طریق InCall Screen مسدود شده است</string>
     <string name="shortcut_new_message">پیام جدید</string>
     <string name="shortcut_create_new_message">ایجاد پیام جدید</string>
-    <string name="btn_ai_scan">اسکن با هوش مصنوعی</string>
+
+    <string name="action_add_note">Add note</string>
+    <string name="action_view">View</string>
+    <string name="blocked_call_bubble_call">اتصال</string>
+    <string name="blocked_call_bubble_channel_desc">إشعارات حظر المكالمات</string>
+    <string name="blocked_call_bubble_channel_name">قناة حظر المكالمات</string>
+    <string name="blocked_call_bubble_content_title">مكالمة محظورة</string>
+    <string name="blocked_call_bubble_dismiss">إلغاء</string>
+    <string name="blocked_call_bubble_notification_text">تم حظر مكالمة واردة من رقم مشبوه</string>
+    <string name="blocked_call_bubble_notification_title">تم حظر مكالمة</string>
+    <string name="blocked_call_bubble_whitelist">إضافة لقائمة السماح</string>
+    <string name="blocked_call_bubble_whitelisted">تمت الإضافة إلى قائمة السماح</string>
+    <string name="mms_fg_channel_desc">Shows when MMS messages are being sent or downloaded</string>
+    <string name="mms_fg_channel_name">MMS Operations</string>
+    <string name="mms_fg_downloading">Downloading MMS</string>
+    <string name="mms_fg_in_progress">MMS operation in progress…</string>
+    <string name="mms_fg_processing">Processing MMS</string>
+    <string name="mms_fg_sending">Sending MMS</string>
+    <string name="mms_fg_to">To %1$s</string>
+    <string name="msg_action_cancel">Cancel</string>
+    <string name="msg_send_cancelled">Message send cancelled</string>
+    <string name="notification_channel_fake_call">Fake Calls</string>
+    <string name="notification_channel_fake_call_desc">Notifications for scheduled fake incoming calls</string>
+    <string name="notification_channel_incoming_calls">Incoming Calls</string>
+    <string name="notification_channel_incoming_calls_desc">Incoming call notifications - shows on lock screen</string>
+    <string name="notification_channel_incoming_call_unlocked">Incoming Call (Unlocked)</string>
+    <string name="notification_channel_incoming_call_unlocked_desc">Silent foreground service notification when screen is on and call activity is shown directly</string>
+    <string name="notification_fake_call_incoming">Incoming call</string>
+    <string name="notification_spam_call_text">%1$s - %2$s</string>
+    <string name="notification_spam_call_title">⚠️ Spam Call Detected</string>
+    <string name="otp_copied_generic">Verification code copied ✓</string>
+    <string name="otp_missed_notification_text">New message from %1$s — open inbox to view</string>
+    <string name="otp_missed_notification_title">Verification code received</string>
+    <string name="risk_high">High Risk</string>
+    <string name="risk_low">Low Risk</string>
+    <string name="risk_medium">Medium Risk</string>
 </resources>

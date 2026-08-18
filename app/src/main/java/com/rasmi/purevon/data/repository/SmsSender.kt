@@ -163,11 +163,10 @@ internal class SmsSender(
             // INVALID_SUBSCRIPTION_ID (Integer.MAX_VALUE) or <= 0 must fall back to default.
             val validSubId = simSlot?.takeIf { subId ->
                 subId > 0 && subId != SubscriptionManager.INVALID_SUBSCRIPTION_ID &&
-                (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.LOLLIPOP_MR1 ||
-                 try {
-                     val subMgr = context.getSystemService(android.content.Context.TELEPHONY_SUBSCRIPTION_SERVICE) as? SubscriptionManager
-                     subMgr?.activeSubscriptionInfoList?.any { it.subscriptionId == subId } == true
-                 } catch (_: SecurityException) { true /* assume valid if no permission to check */ })
+                    try {
+                        val subMgr = context.getSystemService(android.content.Context.TELEPHONY_SUBSCRIPTION_SERVICE) as? SubscriptionManager
+                        subMgr?.activeSubscriptionInfoList?.any { it.subscriptionId == subId } == true
+                    } catch (_: SecurityException) { true /* assume valid if no permission to check */ }
             }
             if (simSlot != null && validSubId == null) {
                 Log.w(TAG, "  - Invalid subscriptionId $simSlot, falling back to default SmsManager")
@@ -182,7 +181,7 @@ internal class SmsSender(
                     DebugLogger.d(TAG, "  - Using default SmsManager")
                     context.getSystemService(SmsManager::class.java)
                 }
-            } else if (validSubId != null && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP_MR1) {
+            } else if (validSubId != null) {
                 DebugLogger.d(TAG, "  - Using SIM slot (legacy): $validSubId")
                 @Suppress("DEPRECATION")
                 SmsManager.getSmsManagerForSubscriptionId(validSubId)

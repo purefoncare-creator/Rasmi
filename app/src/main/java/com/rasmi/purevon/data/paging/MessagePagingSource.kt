@@ -54,7 +54,8 @@ class MessagePagingSource @AssistedInject constructor(
             // ✅ FIX M5: Use (timestamp, id) compound cursor to avoid skipping
             // messages with identical timestamps at page boundaries
             val lastMsg = messages.lastOrNull()
-            val nextKey = if (messages.size < params.loadSize || lastMsg == null) null else lastMsg.timestamp
+            val nextKey = if (messages.size < params.loadSize || lastMsg == null) null
+                else lastMsg.timestamp
             
             LoadResult.Page(
                 data = messages,
@@ -94,8 +95,10 @@ class MessagePagingSource @AssistedInject constructor(
                 smsSelectionArgsList.add(threadId.toString())
             }
             if (beforeTimestamp != null) {
-                // ✅ FIX M5: Use <= (not <) and rely on LIMIT + sort to handle duplicates
-                smsSelectionParts.add("${Telephony.Sms.DATE} <= ?")
+                // ✅ FIX H-02: Use strict < for keyset pagination to avoid duplicates.
+                // Messages with identical timestamps at page boundaries are excluded from
+                // the next page. This is correct keyset pagination behavior.
+                smsSelectionParts.add("${Telephony.Sms.DATE} < ?")
                 smsSelectionArgsList.add(beforeTimestamp.toString())
             }
             val smsSelection = smsSelectionParts.takeIf { it.isNotEmpty() }?.joinToString(" AND ")
@@ -214,9 +217,8 @@ class MessagePagingSource @AssistedInject constructor(
             val selectionParts = mutableListOf("${Telephony.Mms.THREAD_ID} = ?")
             val selectionArgsList = mutableListOf(threadId.toString())
             if (beforeTimestamp != null) {
-                // MMS dates are in seconds, not milliseconds
-                // ✅ FIX M5: Use <= to include same-timestamp messages
-                selectionParts.add("${Telephony.Mms.DATE} <= ?")
+                // ✅ FIX H-02: Use strict < for keyset pagination consistency
+                selectionParts.add("${Telephony.Mms.DATE} < ?")
                 selectionArgsList.add((beforeTimestamp / 1000).toString())
             }
             

@@ -154,9 +154,8 @@
         <domain includeSubdomains="true">mms.telcel.com</domain>
         <domain includeSubdomains="true">mms.movistar.com</domain>
 
-        <!-- ── Generic wildcard patterns covering many carriers ── -->
-        <!-- Most carriers use "mmsc" or "mms" as a subdomain or hostname prefix -->
-        <domain includeSubdomains="true">mmsc</domain>
-        <domain includeSubdomains="true">mms</domain>
+        <!-- Generic wildcard patterns removed — specific carrier domains above are sufficient.
+             Broad patterns like "mms" or "mmsc" without a TLD allow cleartext to any
+             subdomain (e.g. evil.mms.attacker.com), creating a MITM attack surface. -->
     </domain-config>
 </network-security-config>

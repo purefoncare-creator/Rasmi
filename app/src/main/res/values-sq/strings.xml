@@ -9,7 +9,6 @@
     <string name="template_title">Titulli i shabllonit</string>
     <string name="template_content">Përmbajtja e shabllonit</string>
     <string name="save">Ruaj</string>
-    <string name="app_name" translatable="false">Purevon</string>
     <string name="perm_setup_title">Lejet e konfigurimit</string>
     <string name="perm_welcome_title">Mirë se vini në Purevon</string>
     <string name="perm_welcome_message">Për të zëvendësuar aplikacionet tuaja të paracaktuara të telefonit dhe SMS, na duhen lejet e mëposhtme</string>
@@ -60,8 +59,14 @@
     <string name="action_number_copied">Numri u kopjua në kujtesën e fragmenteve</string>
     <string name="callback_reminder_title">Kujtesa e kthimit të thirrjes</string>
     <string name="callback_select_duration">Zgjidhni kohëzgjatjen:</string>
-    <string name="callback_minutes">%dminuta</string>
-    <string name="callback_hour">%dorë</string>
+    <plurals name="callback_minutes">
+        <item quantity="one">%dminuta</item>
+        <item quantity="other">%dminuta</item>
+    </plurals>
+    <plurals name="callback_hour">
+        <item quantity="one">%dorë</item>
+        <item quantity="other">%dorë</item>
+    </plurals>
     <string name="callback_set">Set</string>
     <string name="callback_reminder_alert_title">Kujtesa e kthimit të thirrjes</string>
     <string name="callback_call_now">Telefono tani</string>
@@ -71,8 +76,10 @@
     <string name="incall_end_call">Fundi i telefonatës</string>
     <string name="contacts_search_placeholder">Kërko</string>
     <string name="contacts_no_contacts">Nuk ka kontakte</string>
-    <string name="contacts_stat_blocked">E bllokuar</string>
-    <string name="contacts_selected">u zgjodh%d</string>
+    <plurals name="contacts_selected">
+        <item quantity="one">u zgjodh%1$d</item>
+        <item quantity="other">u zgjodh%1$d</item>
+    </plurals>
     <string name="contacts_select_all">Zgjidhni Të gjitha</string>
     <string name="contacts_deselect_all">Çzgjidh të gjitha</string>
     <string name="contacts_action_favorite">E preferuara</string>
@@ -80,7 +87,10 @@
     <string name="contacts_action_block">Blloko</string>
     <string name="contacts_action_unblock">Zhblloko</string>
     <string name="contacts_action_delete">Fshije</string>
-    <string name="contacts_delete_multiple">Të fshihen kontaktet%d?</string>
+    <plurals name="contacts_delete_multiple">
+        <item quantity="one">Të fshihen kontaktet%1$d?</item>
+        <item quantity="other">Të fshihen kontaktet%1$d?</item>
+    </plurals>
     <string name="contacts_delete_warning">Ky veprim nuk mund të zhbëhet.</string>
     <string name="contacts_cd_add_contact">Shto kontakt të ri</string>
     <string name="contacts_cd_clear_search">Pastro kërkimin</string>
@@ -121,7 +131,7 @@
     <string name="contact_detail_no_history">Nuk ka ende histori thirrjesh</string>
     <string name="contact_detail_no_notes">Ende nuk ka shënime</string>
     <string name="contact_detail_delete_title">Fshi kontaktin</string>
-    <string name="contact_detail_delete_message">Jeni i sigurt që dëshironi të fshini%s?</string>
+    <string name="contact_detail_delete_message">Jeni i sigurt që dëshironi të fshini%1$s?</string>
     <string name="contact_detail_delete_confirm">Fshije</string>
     <string name="contact_detail_first_name">Emri i parë</string>
     <string name="contact_detail_last_name">Mbiemri</string>
@@ -150,8 +160,6 @@
     <string name="add_contact_group">Grupi</string>
     <string name="add_contact_save_changes">Ruaj Ndryshimet</string>
     <string name="add_contact_save">Ruaj kontaktin</string>
-    <string name="add_contact_saved">✓ Kontakti u ruajt</string>
-    <string name="add_contact_updated">✓ Kontakti u përditësua</string>
     <string name="add_contact_failed">Ruajtja dështoi. Kontrolloni lejet.</string>
     <string name="add_contact_favorite">E preferuara</string>
     <string name="add_contact_type_mobile">Celular</string>
@@ -160,26 +168,17 @@
     <string name="add_contact_type_other">Të tjera</string>
     <string name="add_contact_save_to">Ruaj në</string>
     <string name="add_contact_account_device">Pajisja</string>
-    <string name="add_contact_account_sim">SIM%1$d(%2$s)</string>
     <string name="add_contact_account_google">Google</string>
     <string name="add_contact_select_account">Zgjidh se ku të ruhet ky kontakt</string>
     <string name="messages_no_messages">Asnjë mesazh</string>
     <string name="messages_delete_conversation">Fshi Bisedën</string>
     <string name="history_missed">I humbur</string>
     <string name="history_duration">Kohëzgjatja:%s</string>
-    <string name="settings_title">Cilësimet</string>
     <string name="settings_appearance">Pamja e jashtme</string>
-    <string name="settings_notifications">Njoftimet</string>
-    <string name="settings_theme">Tema</string>
     <string name="settings_theme_dark">E errët</string>
     <string name="settings_theme_system">Parazgjedhja e sistemit</string>
-    <string name="settings_rtl_title">Paraqitja nga e djathta në të majtë</string>
-    <string name="settings_rtl_subtitle">Pasqyroni ndërfaqen për leximin nga e djathta në të majtë</string>
     <string name="settings_language">Gjuha</string>
-    <string name="settings_language_summary">Ndryshoni gjuhën manuale të aplikacionit</string>
     <string name="language_system">Parazgjedhja e sistemit</string>
-    <string name="language_ar">العربية (Arabisht)</string>
-    <string name="language_en">anglisht (anglisht)</string>
     <string name="dialer_add_to_contacts">Shto te kontaktet</string>
     <string name="messages_all">Të gjitha</string>
     <string name="messages_starred_tab">Me yll</string>
@@ -187,11 +186,8 @@
     <string name="messages_no_starred">Nuk ka mesazhe me yll</string>
     <string name="messages_starred_hint">Shtypni gjatë në çdo mesazh për ta shtuar në të preferuarat</string>
     <string name="messages_archive">Arkivi</string>
-    <string name="messages_unarchive">Unarkivoj</string>
     <string name="messages_mark_as_read">Shënoni si të lexuar</string>
-    <string name="messages_mark_as_unread">Shëno si të palexuar</string>
     <string name="messages_archived_tab">Arkivuar</string>
-    <string name="history_call_will_be_deleted">Thirrja do të fshihet</string>
     <string name="history_number_will_be_blocked">Numri do të bllokohet</string>
     <string name="history_undo">Zhbër</string>
     <string name="history_no_history">Nuk ka ende histori thirrjesh</string>
@@ -219,40 +215,50 @@
     <string name="history_delete_from_history">Fshi të gjitha nga historia</string>
     <string name="history_delete_all_calls_title">Të fshihen të gjitha telefonatat për këtë numër?</string>
     <string name="history_delete_all_calls_message">Hiq çdo hyrje për%snga historiku yt i telefonatave. Kjo nuk mund të zhbëhet.</string>
-    <string name="history_delete_selected_numbers">Të hiqet historiku për numrat%d?</string>
-    <string name="history_group_missed_count">%di humbur</string>
+    <plurals name="history_delete_selected_numbers">
+        <item quantity="one">Të hiqet historiku për numrat%d?</item>
+        <item quantity="other">Të hiqet historiku për numrat%d?</item>
+    </plurals>
     <string name="history_notes_cd_has_note">Ka shënime</string>
-    <string name="history_delete_call_title">Të fshihet telefonata?</string>
-    <string name="history_delete_call_message">Je i sigurt që dëshiron ta fshish këtë telefonatë nga historiku yt? Ky veprim nuk mund të zhbëhet.</string>
     <string name="history_block_number_title">Numri i bllokut?</string>
     <string name="history_block_number_message">Jeni i sigurt që dëshironi të bllokoni%s? Ju nuk do të merrni\'n telefonata nga ky numër.</string>
     <string name="history_search_calls">Kërko telefonatat</string>
     <string name="history_clear">E qartë</string>
     <string name="history_today">Sot</string>
     <string name="history_yesterday">Dje</string>
-    <string name="history_calls">%dtelefonon</string>
+    <plurals name="history_calls">
+        <item quantity="one">%dtelefonon</item>
+        <item quantity="other">%dtelefonon</item>
+    </plurals>
     <string name="history_total">Gjithsej</string>
     <string name="history_permission_name">READ_CALL_LOG</string>
     <string name="history_permission_rationale">Ky aplikacion ka nevojë për qasje në regjistrat e thirrjeve për të shfaqur historikun e telefonatave, për të gjurmuar telefonatat e humbura dhe për të ofruar statistikat e thirrjeve.</string>
     <string name="history_action_call">Thirrni</string>
     <string name="history_action_message">Mesazh</string>
     <string name="history_notes">Shënime (%d)</string>
-    <string name="history_more_notes">+%dshënime të tjera</string>
+    <plurals name="history_more_notes">
+        <item quantity="one">+%dshënime të tjera</item>
+        <item quantity="other">+%dshënime të tjera</item>
+    </plurals>
     <string name="history_note_today">Sot</string>
     <string name="history_note_yesterday">Dje</string>
     <string name="note_dialog_title">Shënime për%s</string>
-    <string name="note_dialog_count">%dshënim</string>
+    <plurals name="note_dialog_count">
+        <item quantity="one">%dshënim</item>
+        <item quantity="other">%dshënim</item>
+    </plurals>
     <string name="note_dialog_empty">Asnjë shënim</string>
     <string name="note_delete_cd">Fshi shënimin</string>
-    <string name="note_icon_cd">Shënimet e kontaktit</string>
     <string name="note_dialog_close">Mbylle</string>
     <string name="history_sim">SIM%d</string>
-    <string name="history_selected_count">u zgjodh%d</string>
+    <plurals name="history_selected_count">
+        <item quantity="one">u zgjodh%d</item>
+        <item quantity="other">u zgjodh%d</item>
+    </plurals>
     <string name="history_select_all">Zgjidhni Të gjitha</string>
     <string name="history_deselect_all">Çzgjidh të gjitha</string>
     <string name="history_action_block">Blloko</string>
     <string name="history_action_delete">Fshije</string>
-    <string name="history_delete_selected">Të fshihen telefonatat%d?</string>
     <string name="history_delete_selected_warning">Ky veprim nuk mund të zhbëhet.</string>
     <string name="otp_settings_title">Cilësimet OTP</string>
     <string name="about_title">Rreth</string>
@@ -268,26 +274,8 @@
     <string name="about_feature_bubble_desc">Kontrolloni thirrjet me mbivendosje lundruese me flluskë</string>
     <string name="about_feature_sim">Mbështetje me dy karta SIM</string>
     <string name="about_feature_sim_desc">Mbështetje e plotë për pajisjet me dy SIM</string>
-    <string name="about_feature_backup">Rezervimi dhe rivendosja</string>
-    <string name="about_feature_backup_desc">Mbani të sigurta të dhënat tuaja me kopje rezervë automatike</string>
     <string name="about_contact_us">Na kontaktoni:</string>
     <string name="about_copyright">© 2026 Purevon. Të gjitha të drejtat e rezervuara.</string>
-    <string name="ai_model_title">Karakteristikat e AI</string>
-    <string name="ai_model_download">Shkarkoni Gemma 3 (1B)</string>
-    <string name="ai_model_download_desc">Shkarkoni modelin Gemma 3 1B (~555 MB) për bisedën jashtë linje me AI</string>
-    <string name="ai_model_downloading">Po shkarkohet…%1$d%%</string>
-    <string name="ai_model_extracting">Modeli po ruhet…</string>
-    <string name="ai_model_downloaded">Modeli u shkarkua</string>
-    <string name="ai_model_delete">Fshi modelin e AI</string>
-    <string name="ai_model_delete_desc">Hiqni modelin e shkarkuar Gemma për të liruar hapësirë</string>
-    <string name="ai_chat_title">Gemma AI Chat</string>
-    <string name="ai_chat_model_loading">Modeli po ngarkohet…</string>
-    <string name="ai_chat_model_error">Modeli nuk u ngarkua</string>
-    <string name="ai_chat_model_ready">Gati</string>
-    <string name="ai_chat_hint">Pyete Gemma-n çdo gjë…</string>
-    <string name="ai_hf_token_label">Token HuggingFace</string>
-    <string name="ai_hf_token_placeholder">hf_xxxxxxxxxxxxxxxxxxxxx</string>
-    <string name="ai_hf_token_desc">Kërkohet për të shkarkuar Gemma (falas në huggingface.co)</string>
     <string name="conversation_no_messages">Nuk ka ende mesazhe</string>
     <string name="conversation_start_hint">Dërgoni një mesazh për të filluar bisedën</string>
     <string name="conversation_message_hint">Mesazh</string>
@@ -319,12 +307,7 @@
     <string name="msg_attachment_file">Skedari</string>
     <string name="msg_attachment_contact">Kontaktoni</string>
     <string name="msg_attachment_location">Vendndodhja</string>
-    <string name="msg_attachment_schedule">Orari</string>
-    <string name="location_fetching">Po merr vendndodhjen…</string>
-    <string name="location_error">Vendndodhja nuk mund të përcaktohej</string>
     <string name="location_permission_denied">Kërkohet leja e vendndodhjes për të ndarë vendndodhjen tuaj</string>
-    <string name="location_my_current">Vendndodhja ime aktuale</string>
-    <string name="location_coordinates">Koordinatat</string>
     <string name="location_view_map">Shiko në hartë:</string>
     <string name="msg_cd_attached_image">Imazhi i bashkangjitur</string>
     <string name="msg_cd_scheduled">I planifikuar</string>
@@ -342,7 +325,6 @@
     <string name="msg_cd_retry">Riprovo dërgimin</string>
     <string name="msg_cd_attachment_type">Lloji i bashkëngjitjes</string>
     <string name="msg_cd_open_location">Hapni vendndodhjen në hartë</string>
-    <string name="msg_cd_playback_speed">Shpejtësia e riprodhimit</string>
     <string name="msg_cd_play">Luaj</string>
     <string name="msg_cd_pause">Ndalo</string>
     <string name="msg_cd_send">Dërgo</string>
@@ -350,14 +332,16 @@
     <string name="msg_cd_conversation_options">Opsionet e bisedës</string>
     <string name="msg_cd_delete_recording">Fshi regjistrimin</string>
     <string name="msg_cd_send_recording">Dërgo regjistrimin</string>
-    <string name="msg_fetching_location">Po lokalizohet…</string>
     <string name="msg_date_today">Sot</string>
     <string name="msg_date_yesterday">Dje</string>
     <string name="msg_no_results">Nuk ka rezultate</string>
     <string name="msg_no_archived_conversations">Nuk ka biseda të arkivuara</string>
     <string name="msg_search_try_different">Provoni një fjalë kyçe të ndryshme nga\"%s\"</string>
     <string name="msg_archive_hint">Shtypni gjatë mbi një bisedë për ta arkivuar atë</string>
-    <string name="msg_delete_conversations_title">Të fshihen%dbisedat?</string>
+    <plurals name="msg_delete_conversations_title">
+        <item quantity="one">Të fshihen%dbisedat?</item>
+        <item quantity="other">Të fshihen%dbisedat?</item>
+    </plurals>
     <string name="msg_sim_ask_me">Më pyet mua</string>
     <string name="msg_phone_number_missing">Numri i telefonit mungon</string>
     <string name="msg_scheduled_cancelled">Mesazhi i planifikuar u anulua</string>
@@ -380,10 +364,12 @@
     <string name="templates_title">Modelet e mesazheve</string>
     <string name="templates_empty">Nuk ka ende shabllone</string>
     <string name="templates_create">Krijo shabllon</string>
-    <string name="templates_use_count">Përdorur%dherë</string>
+    <plurals name="templates_use_count">
+        <item quantity="one">Përdorur%dherë</item>
+        <item quantity="other">Përdorur%dherë</item>
+    </plurals>
     <string name="templates_delete_title">Fshi shabllonin</string>
     <string name="templates_delete_message">Jeni i sigurt që dëshironi të fshini \"%s\"?</string>
-    <string name="cleanup_creating_backup">جاري إنشاء نسخة احتياطية...</string>
     <string name="system_perm_title">Cilësimet shtesë</string>
     <string name="system_perm_device">Pajisja juaj:%1$s</string>
     <string name="system_perm_subtitle">Kërkon cilësime shtesë që aplikacioni të funksionojë siç duhet</string>
@@ -427,11 +413,8 @@
     <string name="manufacturer_vivo">Vivo (Funtouch OS)</string>
     <string name="manufacturer_oneplus">OnePlus (OxygenOS)</string>
     <string name="manufacturer_stock">Android</string>
-    <string name="appearance_theme_system_follow">Ndiqni temën e sistemit</string>
     <string name="spam_privacy_title">Privatësia</string>
-    <string name="otp_settings_desc">Kopjimi automatik, njoftimet, dërguesit e besuar</string>
     <string name="privacy_hide_notifications">Fshih njoftimet e ndjeshme</string>
-    <string name="privacy_hide_notifications_desc">Fshih përmbajtjen e mesazhit në njoftime</string>
     <string name="about_version">Versioni%s</string>
     <string name="close">Mbylle</string>
     <string name="remove">Hiq</string>
@@ -444,11 +427,8 @@
     <string name="sim_all">Të gjitha kartat SIM</string>
     <string name="sim_select_for_blocking">Zgjidhni SIM për bllokimin e telefonatave</string>
     <string name="sim_slot_format">Aplikuar në:%1$s</string>
-    <string name="call_blocking_desc">Blloko thirrjet e padëshiruara</string>
     <string name="call_blocking_blocked_list">Numrat e bllokuar</string>
-    <string name="call_blocking_manage_blocked">Menaxho listën e numrave të bllokuar</string>
     <string name="call_blocking_whitelist">Lista e bardhë</string>
-    <string name="call_blocking_manage_whitelist">Menaxho listën e bardhë</string>
     <string name="blocked_list_title">Numrat e bllokuar</string>
     <string name="blocked_list_count">E bllokuar (%d)</string>
     <string name="blocked_search_hint">Kërkoni kontakte ose telefonata të fundit</string>
@@ -467,7 +447,10 @@
     <string name="call_status_calling">Po telefonon…</string>
     <string name="conference_call_title">Thirrje konferencë</string>
     <string name="conference_label">Konferenca</string>
-    <string name="conference_participants_count">%dpjesëmarrës</string>
+    <plurals name="conference_participants_count">
+        <item quantity="one">%dpjesëmarrës</item>
+        <item quantity="other">%dpjesëmarrës</item>
+    </plurals>
     <string name="overlay_status_hold">Mbaje</string>
     <string name="overlay_status_incoming">Në hyrje</string>
     <string name="fake_call_title">Thirrje e rreme</string>
@@ -485,20 +468,25 @@
     <string name="fake_call_incoming">Telefonatë hyrëse…</string>
     <string name="fake_call_answer">Përgjigju</string>
     <string name="fake_call_decline">Rënia</string>
-    <string name="fake_call_end">Fundi i telefonatës</string>
     <string name="fake_call_name_required">Ju lutemi shkruani emrin e thirrësit</string>
     <string name="fake_call_delay_required">Ju lutemi zgjidhni kohën e telefonatës</string>
-    <string name="fake_call_scheduled">Telefonatë e rreme e planifikuar pas%s</string>
+    <string name="fake_call_scheduled">Telefonatë e rreme e planifikuar pas%1$s</string>
     <string name="fake_call_schedule_error">Planifikimi i telefonatës së rreme dështoi</string>
     <string name="fake_call_manage_title">Telefonata të rreme të planifikuara</string>
-    <string name="fake_call_active_count">%dtelefonata të planifikuara</string>
+    <plurals name="fake_call_active_count">
+        <item quantity="one">%dtelefonata të planifikuara</item>
+        <item quantity="other">%dtelefonata të planifikuara</item>
+    </plurals>
     <string name="fake_call_no_scheduled">Nuk ka telefonata të rreme të planifikuara</string>
     <string name="fake_call_cancel_all">Anulo të gjitha</string>
     <string name="fake_call_cancel_call">Anulo telefonatën</string>
     <string name="fake_call_inexact_alarm_warning">Shënim: Telefonata mund të mos arrijë në kohën e saktë. Jepni lejen \"Alarmet dhe përkujtuesit\" në cilësimet për saktësi më të mirë.</string>
     <string name="refresh">Rifresko</string>
     <string name="callback_reminders_manage_title">Kujtesa të planifikuara për kthimin e thirrjeve</string>
-    <string name="callback_reminder_active_count">%drikujtues(et) i planifikuar</string>
+    <plurals name="callback_reminder_active_count">
+        <item quantity="one">%drikujtues(et) i planifikuar</item>
+        <item quantity="other">%drikujtues(et) i planifikuar</item>
+    </plurals>
     <string name="callback_reminder_no_scheduled">Asnjë rikujtues i planifikuar</string>
     <string name="callback_reminder_cancel_all">Anulo të gjitha</string>
     <string name="callback_reminder_cancel_item">Anulo rikujtuesin</string>
@@ -507,13 +495,10 @@
     <string name="scheduled_message_failed_body">Për%1$s:%2$s</string>
     <string name="scheduled_message_cancel">Anulo</string>
     <string name="scheduled_message_edit">Redakto</string>
-    <string name="scheduled_message_cancelled">Mesazhi i planifikuar u anulua</string>
     <string name="scheduled_status_pending">Në pritje</string>
     <string name="scheduled_status_sent">Dërguar</string>
     <string name="scheduled_status_failed">Dështoi</string>
     <string name="scheduled_status_cancelled">Anuluar</string>
-    <string name="msg_send_failure_title">Dërgimi i mesazhit dështoi</string>
-    <string name="msg_send_failure_text">Për%1$s:%2$s</string>
     <string name="search_messages_hint">Kërko mesazhe</string>
     <string name="search_clear">E qartë</string>
     <string name="call_state_calling">Po telefonon…</string>
@@ -589,17 +574,18 @@
     <string name="sim_picker_call_title">Zgjidhni SIM për thirrje</string>
     <string name="msg_unexpected_error">Gabim i papritur:%1$s</string>
     <string name="msg_suggestion_prefix">Sugjerim:%1$s</string>
-    <string name="msg_send_attachments_lost">Dërgimi dështoi. Bashkëngjitjet tuaja ruhen - trokitni lehtë mbi mesazhin e dështuar për të riprovuar.</string>
     <string name="msg_retry_unexpected_error">Gabim i papritur:%1$s</string>
     <string name="msg_forward_partial_success">Dërguar te%1$dnga%2$dmarrës.%3$ddështoi.</string>
-    <string name="msg_scheduled_load_error">Ngarkimi i mesazheve të planifikuara dështoi</string>
     <string name="msg_error_network_wifi">📶 MMS kërkon Wi-Fi ose të dhëna celulare. Ju lutemi kontrolloni lidhjen tuaj.</string>
     <string name="msg_error_network">📶 Nuk ka lidhje interneti. Ju lutemi kontrolloni cilësimet e rrjetit tuaj.</string>
     <string name="msg_error_permission">🔒 Kërkohet leje:%1$s. Ju lutemi jepni në cilësimet.</string>
     <string name="msg_error_balance">💳 Bilanci i pamjaftueshëm i SMS-ve. Ju lutemi rimbushni kartën tuaj SIM.</string>
     <string name="msg_error_invalid_number">📱 Numër telefoni i pavlefshëm. Ju lutemi kontrolloni dhe provoni përsëri.</string>
     <string name="msg_error_storage_full">💾 Magazinimi plot. Liro pak hapësirë.</string>
-    <string name="msg_error_rate_limit">⏱️ U dërguan shumë mesazhe. Ju lutemi prisni%1$dsekonda.</string>
+    <plurals name="msg_error_rate_limit">
+        <item quantity="one">⏱️ U dërguan shumë mesazhe. Ju lutemi prisni%1$dsekonda.</item>
+        <item quantity="other">⏱️ U dërguan shumë mesazhe. Ju lutemi prisni%1$dsekonda.</item>
+    </plurals>
     <string name="msg_error_mms">📎 Gabim MMS:%1$s. Ju lutemi provoni përsëri.</string>
     <string name="msg_error_too_large">📏 Mesazhi shumë i madh. Madhësia maksimale është%1$dKB.</string>
     <string name="msg_error_attachment">📎 Nuk mund të bashkëngjitet%1$s:%2$s</string>
@@ -631,7 +617,6 @@
     <string name="sms_error_radio_off">Modaliteti i aeroplanit është aktivizuar (Radio fikur)</string>
     <string name="sms_error_limit_exceeded">Kufiri i dërgimit u tejkalua</string>
     <string name="sms_error_unknown">Gabim i panjohur</string>
-    <string name="otp_copied_toast">Kodi i verifikimit u kopjua:%1$s✓</string>
     <string name="otp_bubble_channel_name">Kodet e verifikimit lundrues</string>
     <string name="otp_bubble_channel_desc">Njoftimet për flluskat lundruese të kodit të verifikimit</string>
     <string name="otp_bubble_notification_title">Kodi i verifikimit</string>
@@ -640,7 +625,10 @@
     <string name="settings_incoming_call_banner_desc">Shfaq një baner lundrues në vend të ekranit të plotë për thirrjet hyrëse</string>
     <string name="notification_summary_title">Mesazhet</string>
     <string name="notification_summary_2_messages">2 mesazhe te reja</string>
-    <string name="notification_summary_n_messages">%1$dmesazhe të reja</string>
+    <plurals name="notification_summary_n_messages">
+        <item quantity="one">%1$dmesazhe të reja</item>
+        <item quantity="other">%1$dmesazhe të reja</item>
+    </plurals>
     <string name="notification_summary_many_messages">Mbi 9 mesazhe të reja</string>
     <string name="notification_action_reply">Përgjigju</string>
     <string name="notification_action_mark_read_short">Shënoni lexuar</string>
@@ -658,39 +646,17 @@
     <string name="error_failed_update_favorite">Përditësimi i statusit të preferuar dështoi</string>
     <string name="error_failed_delete_contact">Fshirja e kontaktit dështoi:%1$s</string>
     <string name="success_contact_deleted">Kontakti u fshi</string>
-    <string name="success_contacts_blocked">%1$dkontakte u bllokuan</string>
-    <string name="success_contacts_added_favorites">%1$dkontakte u shtuan te të preferuarat</string>
+    <plurals name="success_contacts_blocked">
+        <item quantity="one">%1$dkontakte u bllokuan</item>
+        <item quantity="other">%1$dkontakte u bllokuan</item>
+    </plurals>
+    <plurals name="success_contacts_added_favorites">
+        <item quantity="one">%1$dkontakte u shtuan te të preferuarat</item>
+        <item quantity="other">%1$dkontakte u shtuan te të preferuarat</item>
+    </plurals>
     <string name="success_added_to_favorites">Shtuar në të preferuarat</string>
     <string name="success_removed_from_favorites">U hoq nga të preferuarat</string>
     <string name="msg_contact_will_be_deleted">\"%1$s\"do të fshihet</string>
-    <string name="backup_encrypt_dialog_title">Enkripto kopje rezervë</string>
-    <string name="backup_encrypt_dialog_desc">Futni një fjalëkalim për të enkriptuar kopjen rezervë ose lëreni bosh për ta ruajtur si JSON të thjeshtë.</string>
-    <string name="backup_encrypt_password_hint">Fjalëkalimi (opsionale)</string>
-    <string name="backup_encrypt_confirm">Eksporto</string>
-    <string name="restore_decrypt_dialog_title">Rezervimi i koduar</string>
-    <string name="restore_decrypt_dialog_desc">Ky rezervë është i koduar. Futni fjalëkalimin e përdorur kur u krijua.</string>
-    <string name="restore_decrypt_password_hint">Fjalëkalimi</string>
-    <string name="restore_decrypt_confirm">Rivendos</string>
-    <string name="backup_wrong_password">Fjalëkalim i gabuar — rezervimi nuk mund të deshifrohej.</string>
-    <string name="backup_encrypted_badge">🔒 E koduar</string>
-    <string name="backup_created_success">Rezervimi u krijua me sukses</string>
-    <string name="backup_created_failure">Krijimi i kopjes rezervë dështoi</string>
-    <string name="backup_saved_success">✅ Rezervimi u ruajt me sukses</string>
-    <string name="backup_saved_failure">❌ Ruajtja dështoi:%1$s</string>
-    <string name="restore_success">✅ Të dhënat u rivendosën me sukses</string>
-    <string name="restore_failure">Rivendosja dështoi</string>
-    <string name="restore_error">Gabim i rivendosjes:%1$s</string>
-    <string name="backup_restore_success">✅ Rezervimi u rivendos me sukses</string>
-    <string name="backup_restore_failure">❌ Rivendosja dështoi:%1$s</string>
-    <string name="generic_error">Gabim:%1$s</string>
-    <string name="export_calls_success">✅ Telefonatat e eksportuara:%1$s</string>
-    <string name="export_messages_success">✅ Mesazhet e eksportuara:%1$s</string>
-    <string name="export_all_success">✅ Të gjitha të dhënat e eksportuara:%1$s</string>
-    <string name="export_failure">❌ Eksporti dështoi</string>
-    <string name="import_success">✅ Të dhënat u importuan me sukses</string>
-    <string name="import_failure">Importi dështoi</string>
-    <string name="import_error">Gabim importi:%1$s</string>
-    <string name="import_restore_failure">❌ Importimi dështoi:%1$s</string>
     <string name="disclosure_title">Privatësia juaj</string>
     <string name="disclosure_subtitle">Ju lutemi rishikoni përpara se të vazhdoni</string>
     <string name="disclosure_intro">Purevon zëvendëson numrin tuaj të paracaktuar të telefonit dhe aplikacionin tuaj të paracaktuar të mesazheve SMS/MMS. Për të ofruar telefonata, SMS/MMS, mbrojtje ndaj mesazheve të padëshiruara dhe veçori të ngjashme, i duhen lejet e shpjeguara më poshtë. Artikujt opsionalë (kamera, mikrofoni, vendndodhja) përdoren vetëm kur zgjidhni ato veprime (për shembull bashkëngjitja e një fotoje ose ndarja e vendndodhjes tuaj). Të dhënat qëndrojnë në pajisjen tuaj nëse nuk përdorni në mënyrë të qartë një veçori rrjeti si MMS ose ngarkoni një pamje paraprake të lidhjes në ueb.</string>
@@ -729,8 +695,6 @@
     <string name="incall_error_reject_failed">Refuzimi i telefonatës dështoi</string>
     <string name="incall_error_merge_not_supported">Thirrjet nuk mund të bashkohen - nuk mbështetet</string>
     <string name="incall_error_merge_failed">Bashkimi i telefonatave dështoi</string>
-    <string name="incall_error_add_call_unavailable">Telefonata nuk mund të shtohet për momentin</string>
-    <string name="incall_error_sim_unknown">SIM nuk mund të përcaktohej</string>
     <string name="incall_error_no_call_permission">Nuk ka leje për të bërë telefonata</string>
     <string name="incall_error_add_call_failed">Shtimi i telefonatës dështoi:%1$s</string>
     <string name="incall_error_note_save_invalid_number">Ruajtja e shënimit dështoi - numër i pavlefshëm</string>
@@ -741,13 +705,54 @@
     <string name="incall_msg_number_unblocked">Numri u zhbllokua</string>
     <string name="incall_msg_number_blocked">Numri i bllokuar</string>
     <string name="incall_msg_note_saved">✅ I ruajtur</string>
-    <string name="incall_msg_reminder_set_hours">✅ Alarmi rikujtues u vendos pas%1$dorë(a)</string>
-    <string name="incall_msg_reminder_set_minutes">✅ Alarmi rikujtues u vendos pas%1$dminutash</string>
+    <plurals name="incall_msg_reminder_set_hours">
+        <item quantity="one">✅ Alarmi rikujtues u vendos pas%1$dorë(a)</item>
+        <item quantity="other">✅ Alarmi rikujtues u vendos pas%1$dorë(a)</item>
+    </plurals>
+    <plurals name="incall_msg_reminder_set_minutes">
+        <item quantity="one">✅ Alarmi rikujtues u vendos pas%1$dminutash</item>
+        <item quantity="other">✅ Alarmi rikujtues u vendos pas%1$dminutash</item>
+    </plurals>
     <string name="incall_msg_reminder_approximate_warning">(Shënim: koha e përafërt)</string>
     <string name="incall_msg_location_coming_soon">Dërgimi i vendndodhjes vjen së shpejti</string>
     <string name="incall_msg_image_sharing_coming_soon">Shpërndarja e imazhit vjen së shpejti</string>
     <string name="incall_block_reason_incall">Bllokuar përmes InCall Screen</string>
     <string name="shortcut_new_message">Mesazh i ri</string>
     <string name="shortcut_create_new_message">Krijo mesazh të ri</string>
-    <string name="btn_ai_scan">Skanoni me AI</string>
+
+    <string name="action_add_note">Add note</string>
+    <string name="action_view">View</string>
+    <string name="blocked_call_bubble_call">اتصال</string>
+    <string name="blocked_call_bubble_channel_desc">إشعارات حظر المكالمات</string>
+    <string name="blocked_call_bubble_channel_name">قناة حظر المكالمات</string>
+    <string name="blocked_call_bubble_content_title">مكالمة محظورة</string>
+    <string name="blocked_call_bubble_dismiss">إلغاء</string>
+    <string name="blocked_call_bubble_notification_text">تم حظر مكالمة واردة من رقم مشبوه</string>
+    <string name="blocked_call_bubble_notification_title">تم حظر مكالمة</string>
+    <string name="blocked_call_bubble_whitelist">إضافة لقائمة السماح</string>
+    <string name="blocked_call_bubble_whitelisted">تمت الإضافة إلى قائمة السماح</string>
+    <string name="mms_fg_channel_desc">Shows when MMS messages are being sent or downloaded</string>
+    <string name="mms_fg_channel_name">MMS Operations</string>
+    <string name="mms_fg_downloading">Downloading MMS</string>
+    <string name="mms_fg_in_progress">MMS operation in progress…</string>
+    <string name="mms_fg_processing">Processing MMS</string>
+    <string name="mms_fg_sending">Sending MMS</string>
+    <string name="mms_fg_to">To %1$s</string>
+    <string name="msg_action_cancel">Cancel</string>
+    <string name="msg_send_cancelled">Message send cancelled</string>
+    <string name="notification_channel_fake_call">Fake Calls</string>
+    <string name="notification_channel_fake_call_desc">Notifications for scheduled fake incoming calls</string>
+    <string name="notification_channel_incoming_calls">Incoming Calls</string>
+    <string name="notification_channel_incoming_calls_desc">Incoming call notifications - shows on lock screen</string>
+    <string name="notification_channel_incoming_call_unlocked">Incoming Call (Unlocked)</string>
+    <string name="notification_channel_incoming_call_unlocked_desc">Silent foreground service notification when screen is on and call activity is shown directly</string>
+    <string name="notification_fake_call_incoming">Incoming call</string>
+    <string name="notification_spam_call_text">%1$s - %2$s</string>
+    <string name="notification_spam_call_title">⚠️ Spam Call Detected</string>
+    <string name="otp_copied_generic">Verification code copied ✓</string>
+    <string name="otp_missed_notification_text">New message from %1$s — open inbox to view</string>
+    <string name="otp_missed_notification_title">Verification code received</string>
+    <string name="risk_high">High Risk</string>
+    <string name="risk_low">Low Risk</string>
+    <string name="risk_medium">Medium Risk</string>
 </resources>

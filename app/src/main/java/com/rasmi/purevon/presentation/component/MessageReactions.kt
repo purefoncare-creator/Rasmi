@@ -133,8 +133,8 @@ private fun ReactionButton(
 fun MessageReactionBar(
     reactions: List<MessageReaction>,
     onReactionClick: (String) -> Unit,
-    onReactionLongClick: ((String) -> Unit)? = null,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onReactionLongClick: ((String) -> Unit)? = null
 ) {
     if (reactions.isEmpty()) return
     

@@ -40,6 +40,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import com.rasmi.purevon.R
 import com.rasmi.purevon.presentation.screen.incall.getAudioRouteIcon
@@ -59,6 +60,11 @@ fun FloatingCallOverlay(
     callStartTime: Long,
     isMuted: Boolean,
     isSpeakerOn: Boolean,
+    onToggleMute: () -> Unit,
+    onToggleSpeaker: () -> Unit,
+    onEndCall: () -> Unit,
+    onTap: () -> Unit,
+    modifier: Modifier = Modifier,
     currentAudioRoute: Int = 0,
     isRinging: Boolean = false,
     isDialing: Boolean = false,
@@ -71,18 +77,13 @@ fun FloatingCallOverlay(
     onCollapsedChange: (Boolean) -> Unit = {},
     onDrag: (Float, Float) -> Unit = { _, _ -> },
     onDragEnd: () -> Unit = {},
-    onToggleMute: () -> Unit,
-    onToggleSpeaker: () -> Unit,
     onAnswer: () -> Unit = {},
     onReject: () -> Unit = {},
     onSilence: () -> Unit = {},
-    onEndCall: () -> Unit,
     onAnswerWaiting: () -> Unit = {},
     onRejectWaiting: () -> Unit = {},
     onSwapCalls: () -> Unit = {},
-    onTap: () -> Unit,
-    darkThemeOverride: Boolean? = null,
-    modifier: Modifier = Modifier
+    darkThemeOverride: Boolean? = null
 ) {
     val isLightTheme = !(darkThemeOverride ?: isSystemInDarkTheme())
     // ✅ إعادة فتح الشريط عند مكالمة واردة جديدة
@@ -171,13 +172,13 @@ private fun CollapsedBubble(
     phoneNumber: String,
     callStartTime: Long,
     isRinging: Boolean,
-    isDialing: Boolean = false,
     onTap: () -> Unit,
     onLongPress: () -> Unit,
     onDrag: (Float, Float) -> Unit,
     onDragEnd: () -> Unit,
     isLightTheme: Boolean,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    isDialing: Boolean = false
 ) {
     val bubbleShape = RoundedCornerShape(28.dp)
     val bubbleContainer = if (isLightTheme) {
@@ -207,9 +208,9 @@ private fun CollapsedBubble(
                 val minutes = (durationMillis / (1000 * 60)) % 60
                 val hours = (durationMillis / (1000 * 60 * 60))
                 callDuration = if (hours > 0) {
-                    String.format("%02d:%02d:%02d", hours, minutes, seconds)
+                    String.format(java.util.Locale.getDefault(), "%02d:%02d:%02d", hours, minutes, seconds)
                 } else {
-                    String.format("%02d:%02d", minutes, seconds)
+                    String.format(java.util.Locale.getDefault(), "%02d:%02d", minutes, seconds)
                 }
                 kotlinx.coroutines.delay(1000)
             }
@@ -342,9 +343,7 @@ private fun ExpandedBar(
     callStartTime: Long,
     isMuted: Boolean,
     isSpeakerOn: Boolean,
-    currentAudioRoute: Int = 0,
     isRinging: Boolean,
-    isDialing: Boolean = false,
     secondCallName: String?,
     secondCallNumber: String?,
     secondCallState: String?,
@@ -358,11 +357,13 @@ private fun ExpandedBar(
     onRejectWaiting: () -> Unit,
     onSwapCalls: () -> Unit,
     onCollapse: () -> Unit,
-    onDrag: (Float, Float) -> Unit = { _, _ -> },
-    onDragEnd: () -> Unit = {},
     onTap: () -> Unit,
     isLightTheme: Boolean,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    currentAudioRoute: Int = 0,
+    isDialing: Boolean = false,
+    onDrag: (Float, Float) -> Unit = { _, _ -> },
+    onDragEnd: () -> Unit = {}
 ) {
     val hasSecondCall = secondCallState != null && secondCallNumber != null
     val isWaitingCall = secondCallState == "waiting"
@@ -407,9 +408,9 @@ private fun ExpandedBar(
                 val hours = (durationMillis / (1000 * 60 * 60))
 
                 callDuration = if (hours > 0) {
-                    String.format("%02d:%02d:%02d", hours, minutes, seconds)
+                    String.format(java.util.Locale.getDefault(), "%02d:%02d:%02d", hours, minutes, seconds)
                 } else {
-                    String.format("%02d:%02d", minutes, seconds)
+                    String.format(java.util.Locale.getDefault(), "%02d:%02d", minutes, seconds)
                 }
                 kotlinx.coroutines.delay(1000)
             }
@@ -676,7 +677,7 @@ private fun ExpandedBar(
 
                         Text(
                             text = when {
-                                isConferenceCall -> stringResource(R.string.conference_participants_count, (secondCallNumber ?: "0").toIntOrNull() ?: 0)
+                                isConferenceCall -> pluralStringResource(R.plurals.conference_participants_count, (secondCallNumber ?: "0").toIntOrNull() ?: 0, (secondCallNumber ?: "0").toIntOrNull() ?: 0)
                                 isWaitingCall -> stringResource(R.string.overlay_status_incoming)
                                 else -> stringResource(R.string.overlay_status_hold)
                             },

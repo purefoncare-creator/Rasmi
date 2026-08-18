@@ -80,49 +80,47 @@ class EnhancedNotificationManager @Inject constructor(
      * إنشاء قنوات الإشعارات
      */
     private fun createNotificationChannels() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            // ✅ Delete old versioned channels so Android picks up the new sound
-            OLD_CHANNEL_IDS.forEach { oldId ->
-                notificationManager.deleteNotificationChannel(oldId)
-            }
-            
-            // قناة الرسائل العادية
-            val customSound = android.net.Uri.parse(
-                "android.resource://" + context.packageName + "/" + com.rasmi.purevon.R.raw.recieve
-            )
-            val messagesChannel = NotificationChannel(
-                CHANNEL_ID_MESSAGES,
-                context.getString(com.rasmi.purevon.R.string.notification_channel_sms),
-                NotificationManager.IMPORTANCE_HIGH
-            ).apply {
-                description = context.getString(com.rasmi.purevon.R.string.notification_channel_sms_desc)
-                enableVibration(true)
-                vibrationPattern = longArrayOf(0, 250, 250, 250)
-                enableLights(true)
-                setShowBadge(true)
-                lockscreenVisibility = Notification.VISIBILITY_PUBLIC
-                setSound(customSound, android.media.AudioAttributes.Builder()
-                    .setUsage(android.media.AudioAttributes.USAGE_NOTIFICATION)
-                    .setContentType(android.media.AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                    .build())
-            }
-            
-            // قناة الرسائل المهمة
-            val importantChannel = NotificationChannel(
-                CHANNEL_ID_IMPORTANT,
-                context.getString(com.rasmi.purevon.R.string.notification_channel_important),
-                NotificationManager.IMPORTANCE_HIGH
-            ).apply {
-                description = context.getString(com.rasmi.purevon.R.string.notification_channel_important_desc)
-                enableVibration(true)
-                vibrationPattern = longArrayOf(0, 250, 250, 250)
-                enableLights(true)
-                setShowBadge(true)
-            }
-            
-            notificationManager.createNotificationChannel(messagesChannel)
-            notificationManager.createNotificationChannel(importantChannel)
+        // ✅ Delete old versioned channels so Android picks up the new sound
+        OLD_CHANNEL_IDS.forEach { oldId ->
+            notificationManager.deleteNotificationChannel(oldId)
         }
+        
+        // قناة الرسائل العادية
+        val customSound = android.net.Uri.parse(
+            "android.resource://" + context.packageName + "/" + com.rasmi.purevon.R.raw.recieve
+        )
+        val messagesChannel = NotificationChannel(
+            CHANNEL_ID_MESSAGES,
+            context.getString(com.rasmi.purevon.R.string.notification_channel_sms),
+            NotificationManager.IMPORTANCE_HIGH
+        ).apply {
+            description = context.getString(com.rasmi.purevon.R.string.notification_channel_sms_desc)
+            enableVibration(true)
+            vibrationPattern = longArrayOf(0, 250, 250, 250)
+            enableLights(true)
+            setShowBadge(true)
+            lockscreenVisibility = Notification.VISIBILITY_PUBLIC
+            setSound(customSound, android.media.AudioAttributes.Builder()
+                .setUsage(android.media.AudioAttributes.USAGE_NOTIFICATION)
+                .setContentType(android.media.AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .build())
+        }
+        
+        // قناة الرسائل المهمة
+        val importantChannel = NotificationChannel(
+            CHANNEL_ID_IMPORTANT,
+            context.getString(com.rasmi.purevon.R.string.notification_channel_important),
+            NotificationManager.IMPORTANCE_HIGH
+        ).apply {
+            description = context.getString(com.rasmi.purevon.R.string.notification_channel_important_desc)
+            enableVibration(true)
+            vibrationPattern = longArrayOf(0, 250, 250, 250)
+            enableLights(true)
+            setShowBadge(true)
+        }
+        
+        notificationManager.createNotificationChannel(messagesChannel)
+        notificationManager.createNotificationChannel(importantChannel)
     }
     
     /**
@@ -550,10 +548,8 @@ class EnhancedNotificationManager @Inject constructor(
     
     /**
      * Update summary notification for grouped messages
-     * ✅ Fixed: Added API check for Android M+
      * ✅ Fixed: Better error handling
      */
-    @RequiresApi(Build.VERSION_CODES.M)
     private fun updateSummaryNotification() {
         try {
             // Get all active notifications
@@ -577,7 +573,7 @@ class EnhancedNotificationManager @Inject constructor(
             // Create summary notification
             val summaryText = when {
                 activeNotifications.size == 2 -> context.getString(R.string.notification_summary_2_messages)
-                activeNotifications.size <= 9 -> context.getString(R.string.notification_summary_n_messages, activeNotifications.size)
+                activeNotifications.size <= 9 -> context.resources.getQuantityString(R.plurals.notification_summary_n_messages, activeNotifications.size, activeNotifications.size)
                 else -> context.getString(R.string.notification_summary_many_messages)
             }
             
@@ -627,9 +623,7 @@ class EnhancedNotificationManager @Inject constructor(
             Log.d(TAG, "Notification cancelled for thread $threadId")
             
             // Update summary after cancelling a notification
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                updateSummaryNotification()
-            }
+            updateSummaryNotification()
         } catch (e: Exception) {
             Log.e(TAG, "Error cancelling notification for thread $threadId", e)
         }

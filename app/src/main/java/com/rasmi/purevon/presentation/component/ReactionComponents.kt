@@ -27,8 +27,8 @@ import com.rasmi.purevon.data.local.entity.ReactionEmojis
 fun ReactionPicker(
     onReactionSelected: (String) -> Unit,
     onDismiss: () -> Unit,
-    currentReaction: String? = null,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    currentReaction: String? = null
 ) {
     var selectedEmoji by remember { mutableStateOf(currentReaction) }
     

@@ -86,8 +86,8 @@ fun generateWaveformData(audioData: FloatArray, targetBars: Int = 40): List<Floa
 @Composable
 fun SimpleAudioWaveform(
     isPlaying: Boolean,
-    progress: Float = 0f,
     modifier: Modifier = Modifier,
+    progress: Float = 0f,
     isOutgoing: Boolean = false
 ) {
     // Generate simple random-ish waveform

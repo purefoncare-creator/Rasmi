@@ -225,7 +225,7 @@ class ApnManager @Inject constructor(
             Log.w(TAG, "   [1] Querying system MMS APNs for MCC/MNC=$mccMnc, subId=$subId")
 
             // Query all current APNs, then filter for MMS type
-            val uri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && subId != null) {
+            val uri = if (subId != null) {
                 Uri.parse("content://telephony/carriers/subId/$subId")
             } else {
                 Telephony.Carriers.CONTENT_URI
@@ -282,7 +282,7 @@ class ApnManager @Inject constructor(
 
     private fun getPreferredApn(subId: Int?): ApnSettings? {
         return try {
-            val uri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && subId != null) {
+            val uri = if (subId != null) {
                 Uri.parse("content://telephony/carriers/preferapn/subId/$subId")
             } else {
                 Uri.parse("content://telephony/carriers/preferapn")
@@ -353,10 +353,23 @@ class ApnManager @Inject constructor(
     // ─── HARDCODED FALLBACK ───
 
     private fun getFallbackApn(subId: Int?): ApnSettings? {
-        val mccMnc = getCarrierMccMnc(subId)
-        return FALLBACK_APNS[mccMnc]?.also {
-            Log.w(TAG, "   [4] Hardcoded fallback for $mccMnc: ${it.carrier}")
+        val raw = getCarrierMccMncRaw(subId) ?: return null
+        val mcc = raw.substring(0, 3)
+        val mnc = raw.substring(3)
+        // MNC can be 2 or 3 digits. Try the exact form first, then the 2-digit form
+        // (some networks report a 3-digit MNC whose 2-digit equivalent is listed).
+        val candidates = if (mnc.length == 3) {
+            listOf("$mcc:$mnc", "$mcc:${mnc.substring(1)}")
+        } else {
+            listOf("$mcc:$mnc")
         }
+        for (key in candidates) {
+            FALLBACK_APNS[key]?.let {
+                Log.w(TAG, "   [4] Hardcoded fallback for $key: ${it.carrier}")
+                return it
+            }
+        }
+        return null
     }
 
     // ─── UTILITY ───
@@ -393,25 +406,17 @@ class ApnManager @Inject constructor(
     private fun getCarrierMccMncRaw(subId: Int?): String? {
         return try {
             val telephonyManager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-            val operator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && subId != null) {
+            val operator = if (subId != null) {
                 val tm = telephonyManager.createForSubscriptionId(subId)
                 tm.simOperator
             } else {
                 telephonyManager.simOperator
             }
-            operator?.takeIf { it.length >= 5 }
+            // simOperator is MCC (3 digits) + MNC (2 or 3 digits) = 5 or 6 characters.
+            operator?.takeIf { it.length == 5 || it.length == 6 }
         } catch (e: Exception) {
             Log.e(TAG, "Error getting raw MCC+MNC", e)
             null
-        }
-    }
-
-    /**
-     * Get carrier MCC:MNC code (formatted as "420:03")
-     */
-    private fun getCarrierMccMnc(subId: Int?): String? {
-        return getCarrierMccMncRaw(subId)?.let { raw ->
-            "${raw.substring(0, 3)}:${raw.substring(3)}"
         }
     }
 
@@ -423,7 +428,6 @@ class ApnManager @Inject constructor(
     }
 
     fun getAvailableSubscriptions(): List<SubscriptionInfo> {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1) return emptyList()
         // ✅ FIX #55: Check READ_PHONE_STATE permission before accessing subscriptions
         if (context.checkSelfPermission(android.Manifest.permission.READ_PHONE_STATE) != android.content.pm.PackageManager.PERMISSION_GRANTED) {
             Log.w(TAG, "READ_PHONE_STATE permission not granted — cannot list subscriptions")

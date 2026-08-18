@@ -153,7 +153,7 @@ class AddContactViewModel @Inject constructor(
     fun onPhoneChanged() {
         val state = _uiState.value
         val phone = state.phoneEntries.firstOrNull()?.number ?: ""
-        if (phone.length >= 7 && state.firstName.isBlank()) {
+        if (isValidPhone(phone) && state.firstName.isBlank()) {
             viewModelScope.launch {
                 delay(600)
                 if (_uiState.value.firstName.isBlank()) {
@@ -285,7 +285,9 @@ class AddContactViewModel @Inject constructor(
         _uiState.update { it.copy(phoneErrors = errors) }
     }
 
-    private fun isValidPhone(p: String) = p.replace(NON_PHONE_CHARS, "").let { it.length >= 7 && it.all { c -> c.isDigit() } }
+    private fun isValidPhone(p: String) = p.replace(NON_PHONE_CHARS, "").let {
+        it.length in 3..20 && it.all { c -> c.isDigit() }
+    }
     private fun isValidEmail(e: String) = e.isBlank() || android.util.Patterns.EMAIL_ADDRESS.matcher(e).matches()
     private fun hasContactsWritePermission() = ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_CONTACTS) == PackageManager.PERMISSION_GRANTED
 }

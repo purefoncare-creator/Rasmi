@@ -29,7 +29,7 @@ fun FastScrollIndex(
     modifier: Modifier = Modifier
 ) {
     var selectedLetter by remember { mutableStateOf<Char?>(null) }
-    var indexHeight by remember { mutableStateOf(0f) }
+    var indexHeight by remember { mutableFloatStateOf(0f) }
 
     Box(
         modifier = modifier

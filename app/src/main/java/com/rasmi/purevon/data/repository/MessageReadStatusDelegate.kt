@@ -21,6 +21,7 @@ internal class MessageReadStatusDelegate(
 ) {
     companion object {
         private const val TAG = "MessageRepository"
+        private const val MMS_ID_OFFSET = 2_000_000_000L
     }
 
     /**
@@ -31,17 +32,32 @@ internal class MessageReadStatusDelegate(
             // Optimistically update cached message immediately
             cachedMessageDao.markMessageAsRead(messageId)
 
-            val values = ContentValues().apply {
-                put(Telephony.Sms.READ, 1)
-                put(Telephony.Sms.SEEN, 1)
-            }
+            // Determine SMS vs MMS from Room cache to use correct ContentProvider URI
+            val cached = cachedMessageDao.getMessageById(messageId)
+            val isMms = cached?.isMms ?: false
 
-            context.contentResolver.update(
-                Telephony.Sms.CONTENT_URI,
-                values,
-                "${Telephony.Sms._ID} = ?",
-                arrayOf(messageId.toString())
-            )
+            if (isMms) {
+                val rawId = if (messageId >= MMS_ID_OFFSET) messageId - MMS_ID_OFFSET else messageId
+                val values = ContentValues().apply {
+                    put("read", 1)
+                    put("seen", 1)
+                }
+                context.contentResolver.update(
+                    Uri.parse("content://mms/$rawId"),
+                    values, null, null
+                )
+            } else {
+                val values = ContentValues().apply {
+                    put(Telephony.Sms.READ, 1)
+                    put(Telephony.Sms.SEEN, 1)
+                }
+                context.contentResolver.update(
+                    Telephony.Sms.CONTENT_URI,
+                    values,
+                    "${Telephony.Sms._ID} = ?",
+                    arrayOf(messageId.toString())
+                )
+            }
         } catch (e: Exception) {
             Log.e("MessageRepository", "Error marking message as read: $messageId", e)
         }

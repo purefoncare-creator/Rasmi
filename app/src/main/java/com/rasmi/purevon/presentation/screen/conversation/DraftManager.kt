@@ -1,5 +1,6 @@
 package com.rasmi.purevon.presentation.screen.conversation
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
@@ -48,6 +49,7 @@ internal class DraftManager(context: Context) {
      * ✅ FIXED: Save draft synchronously — used in onCleared() where viewModelScope is already cancelled.
      * Uses commit() instead of apply() to guarantee write completes before the method returns.
      */
+    @SuppressLint("ApplySharedPref")
     fun saveDraftSync(key: String, text: String) {
         try {
             if (text.isBlank()) {

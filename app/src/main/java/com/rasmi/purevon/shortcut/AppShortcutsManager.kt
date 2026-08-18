@@ -7,7 +7,6 @@ import android.content.pm.ShortcutManager
 import android.graphics.drawable.Icon
 import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
 import com.rasmi.purevon.MainActivity
 import com.rasmi.purevon.R
 import com.rasmi.purevon.domain.model.Conversation
@@ -16,7 +15,6 @@ import com.rasmi.purevon.domain.model.Conversation
  * App Shortcuts Manager
  * إدارة اختصارات التطبيق (الاختصارات طويلة الضغط على أيقونة التطبيق)
  */
-@RequiresApi(Build.VERSION_CODES.N_MR1)
 class AppShortcutsManager(private val context: Context) {
     
     private val shortcutManager = context.getSystemService(ShortcutManager::class.java)
@@ -33,8 +31,6 @@ class AppShortcutsManager(private val context: Context) {
      * يعرض أحدث المحادثات كاختصارات
      */
     fun updateDynamicShortcuts(recentConversations: List<Conversation>) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N_MR1) return
-        
         try {
             val shortcuts = mutableListOf<ShortcutInfo>()
             
@@ -92,8 +88,6 @@ class AppShortcutsManager(private val context: Context) {
      * إزالة اختصار معين
      */
     fun removeShortcut(threadId: Long) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N_MR1) return
-        
         try {
             shortcutManager?.removeDynamicShortcuts(
                 listOf("$SHORTCUT_ID_RECENT_PREFIX$threadId")
@@ -107,8 +101,6 @@ class AppShortcutsManager(private val context: Context) {
      * إزالة كل الاختصارات الديناميكية
      */
     fun removeAllShortcuts() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N_MR1) return
-        
         try {
             shortcutManager?.removeAllDynamicShortcuts()
         } catch (e: Exception) {
@@ -122,7 +114,6 @@ class AppShortcutsManager(private val context: Context) {
      * On API 25-29, NoSuchMethodError (which is an Error, not Exception) would crash
      * without being caught by the generic catch block.
      */
-    @RequiresApi(Build.VERSION_CODES.N_MR1)
     fun pushConversationShortcut(conversation: Conversation) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) return // API 30
         try {
@@ -137,6 +128,6 @@ class AppShortcutsManager(private val context: Context) {
      * التحقق من دعم الاختصارات
      */
     fun areShortcutsSupported(): Boolean {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1
+        return true
     }
 }

@@ -9,7 +9,6 @@
     <string name="template_title">Malli pealkiri</string>
     <string name="template_content">Malli sisu</string>
     <string name="save">Salvesta</string>
-    <string name="app_name" translatable="false">Purevon</string>
     <string name="perm_setup_title">Seadistusõigused</string>
     <string name="perm_welcome_title">Tere tulemast Purevonisse</string>
     <string name="perm_welcome_message">Telefoni ja SMS-i vaikerakenduste asendamiseks vajame järgmisi õigusi</string>
@@ -60,8 +59,14 @@
     <string name="action_number_copied">Number kopeeriti lõikelauale</string>
     <string name="callback_reminder_title">Tagasihelistamise meeldetuletus</string>
     <string name="callback_select_duration">Vali kestus:</string>
-    <string name="callback_minutes">%dminutit</string>
-    <string name="callback_hour">%dtund</string>
+    <plurals name="callback_minutes">
+        <item quantity="one">%dminutit</item>
+        <item quantity="other">%dminutit</item>
+    </plurals>
+    <plurals name="callback_hour">
+        <item quantity="one">%dtund</item>
+        <item quantity="other">%dtund</item>
+    </plurals>
     <string name="callback_set">Määra</string>
     <string name="callback_reminder_alert_title">Tagasihelistamise meeldetuletus</string>
     <string name="callback_call_now">Helista kohe</string>
@@ -71,8 +76,10 @@
     <string name="incall_end_call">Lõpeta kõne</string>
     <string name="contacts_search_placeholder">Otsi</string>
     <string name="contacts_no_contacts">Kontakte pole</string>
-    <string name="contacts_stat_blocked">Blokeeritud</string>
-    <string name="contacts_selected">%dvalitud</string>
+    <plurals name="contacts_selected">
+        <item quantity="one">%1$dvalitud</item>
+        <item quantity="other">%1$dvalitud</item>
+    </plurals>
     <string name="contacts_select_all">Valige Kõik</string>
     <string name="contacts_deselect_all">Tühistage valik Kõik</string>
     <string name="contacts_action_favorite">Lemmik</string>
@@ -80,7 +87,10 @@
     <string name="contacts_action_block">Blokeeri</string>
     <string name="contacts_action_unblock">Deblokeerige</string>
     <string name="contacts_action_delete">Kustuta</string>
-    <string name="contacts_delete_multiple">Kas kustutada%dkontakti?</string>
+    <plurals name="contacts_delete_multiple">
+        <item quantity="one">Kas kustutada%1$dkontakti?</item>
+        <item quantity="other">Kas kustutada%1$dkontakti?</item>
+    </plurals>
     <string name="contacts_delete_warning">Seda toimingut ei saa tagasi võtta.</string>
     <string name="contacts_cd_add_contact">Lisa uus kontakt</string>
     <string name="contacts_cd_clear_search">Tühjenda otsing</string>
@@ -121,7 +131,7 @@
     <string name="contact_detail_no_history">Kõneajalugu veel pole</string>
     <string name="contact_detail_no_notes">Märkmeid veel pole</string>
     <string name="contact_detail_delete_title">Kustuta kontakt</string>
-    <string name="contact_detail_delete_message">Kas olete kindel, et soovite%skustutada?</string>
+    <string name="contact_detail_delete_message">Kas olete kindel, et soovite%1$skustutada?</string>
     <string name="contact_detail_delete_confirm">Kustuta</string>
     <string name="contact_detail_first_name">Eesnimi</string>
     <string name="contact_detail_last_name">Perekonnanimi</string>
@@ -150,8 +160,6 @@
     <string name="add_contact_group">Grupp</string>
     <string name="add_contact_save_changes">Salvesta muudatused</string>
     <string name="add_contact_save">Salvesta kontakt</string>
-    <string name="add_contact_saved">✓ Kontakt salvestatud</string>
-    <string name="add_contact_updated">✓ Kontakt on uuendatud</string>
     <string name="add_contact_failed">Salvestamine ebaõnnestus. Kontrolli õigusi.</string>
     <string name="add_contact_favorite">Lemmik</string>
     <string name="add_contact_type_mobile">Mobiilne</string>
@@ -160,26 +168,17 @@
     <string name="add_contact_type_other">muud</string>
     <string name="add_contact_save_to">Salvesta asukohta</string>
     <string name="add_contact_account_device">Seade</string>
-    <string name="add_contact_account_sim">SIM%1$d(%2$s)</string>
     <string name="add_contact_account_google">Google</string>
     <string name="add_contact_select_account">Valige, kuhu see kontakt salvestada</string>
     <string name="messages_no_messages">Sõnumeid pole</string>
     <string name="messages_delete_conversation">Kustuta vestlus</string>
     <string name="history_missed">Jäi vahele</string>
     <string name="history_duration">Kestus:%s</string>
-    <string name="settings_title">Seaded</string>
     <string name="settings_appearance">Välimus</string>
-    <string name="settings_notifications">Märguanded</string>
-    <string name="settings_theme">Teema</string>
     <string name="settings_theme_dark">Tume</string>
     <string name="settings_theme_system">Süsteemi vaikeseade</string>
-    <string name="settings_rtl_title">Paigutus paremalt vasakule</string>
-    <string name="settings_rtl_subtitle">Peegeldage liidest paremalt vasakule lugemiseks</string>
     <string name="settings_language">Keel</string>
-    <string name="settings_language_summary">Muutke käsitsi rakenduse keelt</string>
     <string name="language_system">Süsteemi vaikeseade</string>
-    <string name="language_ar">العربية (araabia)</string>
-    <string name="language_en">inglise keel (inglise)</string>
     <string name="dialer_add_to_contacts">Lisa kontaktidesse</string>
     <string name="messages_all">Kõik</string>
     <string name="messages_starred_tab">Tärniga tähistatud</string>
@@ -187,11 +186,8 @@
     <string name="messages_no_starred">Tärniga tähistatud sõnumeid pole</string>
     <string name="messages_starred_hint">Lemmikutesse lisamiseks vajutage pikalt mis tahes sõnumit</string>
     <string name="messages_archive">Arhiiv</string>
-    <string name="messages_unarchive">Tühista arhiveerimine</string>
     <string name="messages_mark_as_read">Märgi loetuks</string>
-    <string name="messages_mark_as_unread">Märgi mitteloetuks</string>
     <string name="messages_archived_tab">Arhiveeritud</string>
-    <string name="history_call_will_be_deleted">Kõne kustutatakse</string>
     <string name="history_number_will_be_blocked">Number blokeeritakse</string>
     <string name="history_undo">Võta tagasi</string>
     <string name="history_no_history">Kõneajalugu veel pole</string>
@@ -219,40 +215,50 @@
     <string name="history_delete_from_history">Kustuta kõik ajaloost</string>
     <string name="history_delete_all_calls_title">Kas kustutada kõik selle numbri kõned?</string>
     <string name="history_delete_all_calls_message">Eemaldage oma kõneajaloost kõik%skirjed. Seda ei saa tagasi võtta.</string>
-    <string name="history_delete_selected_numbers">Kas eemaldada%dnumbri ajalugu?</string>
-    <string name="history_group_missed_count">%djäi vahele</string>
+    <plurals name="history_delete_selected_numbers">
+        <item quantity="one">Kas eemaldada%dnumbri ajalugu?</item>
+        <item quantity="other">Kas eemaldada%dnumbri ajalugu?</item>
+    </plurals>
     <string name="history_notes_cd_has_note">Omab märkmeid</string>
-    <string name="history_delete_call_title">Kas kustutada kõne?</string>
-    <string name="history_delete_call_message">Kas olete kindel, et soovite selle kõne oma ajaloost kustutada? Seda toimingut ei saa tagasi võtta.</string>
     <string name="history_block_number_title">Kas blokeerida number?</string>
     <string name="history_block_number_message">Kas olete kindel, et soovite kasutaja%sblokeerida? Te ei saa sellelt numbrilt kõnesid\'.</string>
     <string name="history_search_calls">Otsige kõnesid</string>
     <string name="history_clear">Selge</string>
     <string name="history_today">Täna</string>
     <string name="history_yesterday">eile</string>
-    <string name="history_calls">%dkõnet</string>
+    <plurals name="history_calls">
+        <item quantity="one">%dkõnet</item>
+        <item quantity="other">%dkõnet</item>
+    </plurals>
     <string name="history_total">Kokku</string>
     <string name="history_permission_name">READ_CALL_LOG</string>
     <string name="history_permission_rationale">See rakendus vajab juurdepääsu teie kõnelogidele, et kuvada teie kõneajalugu, jälgida vastamata kõnesid ja esitada kõnestatistikat.</string>
     <string name="history_action_call">Helista</string>
     <string name="history_action_message">Sõnum</string>
     <string name="history_notes">Märkmed (%d)</string>
-    <string name="history_more_notes">+%dveel märkmeid</string>
+    <plurals name="history_more_notes">
+        <item quantity="one">+%dveel märkmeid</item>
+        <item quantity="other">+%dveel märkmeid</item>
+    </plurals>
     <string name="history_note_today">Täna</string>
     <string name="history_note_yesterday">eile</string>
     <string name="note_dialog_title">Märkused%skohta</string>
-    <string name="note_dialog_count">%dmärkus</string>
+    <plurals name="note_dialog_count">
+        <item quantity="one">%dmärkus</item>
+        <item quantity="other">%dmärkus</item>
+    </plurals>
     <string name="note_dialog_empty">Märkmeid pole</string>
     <string name="note_delete_cd">Kustuta märge</string>
-    <string name="note_icon_cd">Kontaktandmed</string>
     <string name="note_dialog_close">Sule</string>
     <string name="history_sim">SIM%d</string>
-    <string name="history_selected_count">%dvalitud</string>
+    <plurals name="history_selected_count">
+        <item quantity="one">%dvalitud</item>
+        <item quantity="other">%dvalitud</item>
+    </plurals>
     <string name="history_select_all">Valige Kõik</string>
     <string name="history_deselect_all">Tühistage valik Kõik</string>
     <string name="history_action_block">Blokeeri</string>
     <string name="history_action_delete">Kustuta</string>
-    <string name="history_delete_selected">Kas kustutada%dkõnet?</string>
     <string name="history_delete_selected_warning">Seda toimingut ei saa tagasi võtta.</string>
     <string name="otp_settings_title">OTP seaded</string>
     <string name="about_title">Umbes</string>
@@ -268,26 +274,8 @@
     <string name="about_feature_bubble_desc">Juhtige kõnesid ujuva mulli ülekattega</string>
     <string name="about_feature_sim">Kahe SIM-kaardi tugi</string>
     <string name="about_feature_sim_desc">Kahe SIM-kaardi seadmete täielik tugi</string>
-    <string name="about_feature_backup">Varundamine ja taastamine</string>
-    <string name="about_feature_backup_desc">Hoidke oma andmeid automaatse varundamise abil turvaliselt</string>
     <string name="about_contact_us">Võtke meiega ühendust:</string>
     <string name="about_copyright">© 2026 Purevon. Kõik õigused kaitstud.</string>
-    <string name="ai_model_title">AI funktsioonid</string>
-    <string name="ai_model_download">Laadige alla Gemma 3 (1B)</string>
-    <string name="ai_model_download_desc">Laadige alla Gemma 3 1B mudel (~555 MB) võrguühenduseta AI-vestluse jaoks</string>
-    <string name="ai_model_downloading">Allalaadimine…%1$d%%</string>
-    <string name="ai_model_extracting">Mudeli salvestamine…</string>
-    <string name="ai_model_downloaded">Mudel alla laaditud</string>
-    <string name="ai_model_delete">Kustutage AI mudel</string>
-    <string name="ai_model_delete_desc">Ruumi vabastamiseks eemaldage allalaaditud Gemma mudel</string>
-    <string name="ai_chat_title">Gemma AI vestlus</string>
-    <string name="ai_chat_model_loading">Mudeli laadimine…</string>
-    <string name="ai_chat_model_error">Mudeli laadimine ebaõnnestus</string>
-    <string name="ai_chat_model_ready">Valmis</string>
-    <string name="ai_chat_hint">Küsi Gemmalt midagi…</string>
-    <string name="ai_hf_token_label">HuggingFace Token</string>
-    <string name="ai_hf_token_placeholder">hf_xxxxxxxxxxxxxxxxxxxxx</string>
-    <string name="ai_hf_token_desc">Nõutav Gemma allalaadimiseks (tasuta saidil huggingface.co)</string>
     <string name="conversation_no_messages">Sõnumeid pole veel</string>
     <string name="conversation_start_hint">Vestluse alustamiseks saatke sõnum</string>
     <string name="conversation_message_hint">Sõnum</string>
@@ -319,12 +307,7 @@
     <string name="msg_attachment_file">Fail</string>
     <string name="msg_attachment_contact">Võtke ühendust</string>
     <string name="msg_attachment_location">Asukoht</string>
-    <string name="msg_attachment_schedule">Ajakava</string>
-    <string name="location_fetching">Asukoha toomine…</string>
-    <string name="location_error">Asukohta ei õnnestunud määrata</string>
     <string name="location_permission_denied">Asukoha jagamiseks on vaja asukohaluba</string>
-    <string name="location_my_current">Minu praegune asukoht</string>
-    <string name="location_coordinates">Koordinaadid</string>
     <string name="location_view_map">Vaata kaardil:</string>
     <string name="msg_cd_attached_image">Lisatud pilt</string>
     <string name="msg_cd_scheduled">Planeeritud</string>
@@ -342,7 +325,6 @@
     <string name="msg_cd_retry">Proovige uuesti saata</string>
     <string name="msg_cd_attachment_type">Manuse tüüp</string>
     <string name="msg_cd_open_location">Ava asukoht kaardil</string>
-    <string name="msg_cd_playback_speed">Taasesituse kiirus</string>
     <string name="msg_cd_play">Mängi</string>
     <string name="msg_cd_pause">Paus</string>
     <string name="msg_cd_send">Saada</string>
@@ -350,14 +332,16 @@
     <string name="msg_cd_conversation_options">Vestlusvalikud</string>
     <string name="msg_cd_delete_recording">Salvestise kustutamine</string>
     <string name="msg_cd_send_recording">Saada salvestis</string>
-    <string name="msg_fetching_location">Otsimine…</string>
     <string name="msg_date_today">Täna</string>
     <string name="msg_date_yesterday">eile</string>
     <string name="msg_no_results">Tulemusi pole</string>
     <string name="msg_no_archived_conversations">Arhiivitud vestlusi pole</string>
     <string name="msg_search_try_different">Proovige teist märksõna kui\"%s\"</string>
     <string name="msg_archive_hint">Vestluse arhiivimiseks vajutage pikalt</string>
-    <string name="msg_delete_conversations_title">Kas kustutada%dvestlust?</string>
+    <plurals name="msg_delete_conversations_title">
+        <item quantity="one">Kas kustutada%dvestlust?</item>
+        <item quantity="other">Kas kustutada%dvestlust?</item>
+    </plurals>
     <string name="msg_sim_ask_me">Küsi minult</string>
     <string name="msg_phone_number_missing">Telefoninumber puudub</string>
     <string name="msg_scheduled_cancelled">Ajastatud sõnum tühistati</string>
@@ -380,10 +364,12 @@
     <string name="templates_title">Sõnumimallid</string>
     <string name="templates_empty">Malle veel pole</string>
     <string name="templates_create">Loo mall</string>
-    <string name="templates_use_count">Kasutatud%dkorda</string>
+    <plurals name="templates_use_count">
+        <item quantity="one">Kasutatud%dkorda</item>
+        <item quantity="other">Kasutatud%dkorda</item>
+    </plurals>
     <string name="templates_delete_title">Kustuta mall</string>
     <string name="templates_delete_message">Kas olete kindel, et soovite \"%s\" kustutada?</string>
-    <string name="cleanup_creating_backup">جاري إنشاء نسخة احتياطية...</string>
     <string name="system_perm_title">Lisaseaded</string>
     <string name="system_perm_device">Teie seade:%1$s</string>
     <string name="system_perm_subtitle">Rakenduse korrektseks tööks on vaja lisaseadeid</string>
@@ -427,11 +413,8 @@
     <string name="manufacturer_vivo">Vivo (Funtouch OS)</string>
     <string name="manufacturer_oneplus">OnePlus (OxygenOS)</string>
     <string name="manufacturer_stock">Android</string>
-    <string name="appearance_theme_system_follow">Järgige süsteemi teemat</string>
     <string name="spam_privacy_title">Privaatsus</string>
-    <string name="otp_settings_desc">Automaatne kopeerimine, teatised, usaldusväärsed saatjad</string>
     <string name="privacy_hide_notifications">Peida tundlikud teatised</string>
-    <string name="privacy_hide_notifications_desc">Peida sõnumi sisu märguannetes</string>
     <string name="about_version">Versioon%s</string>
     <string name="close">Sule</string>
     <string name="remove">Eemalda</string>
@@ -444,11 +427,8 @@
     <string name="sim_all">Kõik SIM-id</string>
     <string name="sim_select_for_blocking">Valige kõne blokeerimiseks SIM-kaart</string>
     <string name="sim_slot_format">Rakendatud:%1$s</string>
-    <string name="call_blocking_desc">Blokeeri soovimatud kõned</string>
     <string name="call_blocking_blocked_list">Blokeeritud numbrid</string>
-    <string name="call_blocking_manage_blocked">Blokeeritud numbrite loendi haldamine</string>
     <string name="call_blocking_whitelist">Valge nimekiri</string>
-    <string name="call_blocking_manage_whitelist">Valge nimekirja haldamine</string>
     <string name="blocked_list_title">Blokeeritud numbrid</string>
     <string name="blocked_list_count">Blokeeritud (%d)</string>
     <string name="blocked_search_hint">Otsige kontakte või hiljutisi kõnesid</string>
@@ -467,7 +447,10 @@
     <string name="call_status_calling">Helistamine…</string>
     <string name="conference_call_title">Konverentskõne</string>
     <string name="conference_label">Konverents</string>
-    <string name="conference_participants_count">%dosalejat</string>
+    <plurals name="conference_participants_count">
+        <item quantity="one">%dosalejat</item>
+        <item quantity="other">%dosalejat</item>
+    </plurals>
     <string name="overlay_status_hold">Hoia</string>
     <string name="overlay_status_incoming">Sissetulevad</string>
     <string name="fake_call_title">Võltskõne</string>
@@ -485,20 +468,25 @@
     <string name="fake_call_incoming">Sissetulev kõne…</string>
     <string name="fake_call_answer">Vastus</string>
     <string name="fake_call_decline">Keeldumine</string>
-    <string name="fake_call_end">Lõpeta kõne</string>
     <string name="fake_call_name_required">Sisestage helistaja nimi</string>
     <string name="fake_call_delay_required">Valige kõne aeg</string>
-    <string name="fake_call_scheduled">Võltskõne on kavandatud pärast%s</string>
+    <string name="fake_call_scheduled">Võltskõne on kavandatud pärast%1$s</string>
     <string name="fake_call_schedule_error">Võltskõne ajastamine ebaõnnestus</string>
     <string name="fake_call_manage_title">Plaanitud võltskõned</string>
-    <string name="fake_call_active_count">%dkõne(d) on planeeritud</string>
+    <plurals name="fake_call_active_count">
+        <item quantity="one">%dkõne(d) on planeeritud</item>
+        <item quantity="other">%dkõne(d) on planeeritud</item>
+    </plurals>
     <string name="fake_call_no_scheduled">Plaanitud võltskõnesid pole</string>
     <string name="fake_call_cancel_all">Tühista kõik</string>
     <string name="fake_call_cancel_call">Tühista kõne</string>
     <string name="fake_call_inexact_alarm_warning">Märkus. Kõne ei pruugi saabuda täpselt õigel ajal. Täpsuse suurendamiseks andke seadetes luba „Alarms &amp; meeldetuletused”.</string>
     <string name="refresh">Värskenda</string>
     <string name="callback_reminders_manage_title">Plaanitud tagasihelistamise meeldetuletused</string>
-    <string name="callback_reminder_active_count">%dmeeldetuletus(t) on ajastatud</string>
+    <plurals name="callback_reminder_active_count">
+        <item quantity="one">%dmeeldetuletus(t) on ajastatud</item>
+        <item quantity="other">%dmeeldetuletus(t) on ajastatud</item>
+    </plurals>
     <string name="callback_reminder_no_scheduled">Ajastatud meeldetuletusi pole</string>
     <string name="callback_reminder_cancel_all">Tühista kõik</string>
     <string name="callback_reminder_cancel_item">Tühista meeldetuletus</string>
@@ -507,13 +495,10 @@
     <string name="scheduled_message_failed_body">Kellele%1$s:%2$s</string>
     <string name="scheduled_message_cancel">Tühista</string>
     <string name="scheduled_message_edit">Muuda</string>
-    <string name="scheduled_message_cancelled">Ajastatud sõnum tühistati</string>
     <string name="scheduled_status_pending">Ootel</string>
     <string name="scheduled_status_sent">Saadetud</string>
     <string name="scheduled_status_failed">Ebaõnnestunud</string>
     <string name="scheduled_status_cancelled">Tühistatud</string>
-    <string name="msg_send_failure_title">Sõnumi saatmine ebaõnnestus</string>
-    <string name="msg_send_failure_text">Kellele%1$s:%2$s</string>
     <string name="search_messages_hint">Otsi sõnumeid</string>
     <string name="search_clear">Selge</string>
     <string name="call_state_calling">Helistamine…</string>
@@ -589,17 +574,18 @@
     <string name="sim_picker_call_title">Valige helistamiseks SIM-kaart</string>
     <string name="msg_unexpected_error">Ootamatu viga:%1$s</string>
     <string name="msg_suggestion_prefix">Soovitus:%1$s</string>
-    <string name="msg_send_attachments_lost">Saatmine ebaõnnestus. Teie manused säilitatakse – uuesti proovimiseks puudutage ebaõnnestunud sõnumit.</string>
     <string name="msg_retry_unexpected_error">Ootamatu viga:%1$s</string>
     <string name="msg_forward_partial_success">Saadetud%1$d-le%2$d-st adressaadist.%3$debaõnnestus.</string>
-    <string name="msg_scheduled_load_error">Ajastatud sõnumite laadimine ebaõnnestus</string>
     <string name="msg_error_network_wifi">📶 MMS nõuab Wi-Fi või mobiilset andmesidet. Palun kontrollige oma ühendust.</string>
     <string name="msg_error_network">📶 Interneti-ühendus puudub. Kontrollige oma võrguseadeid.</string>
     <string name="msg_error_permission">🔒 Nõutav luba:%1$s. Luba seadetes.</string>
     <string name="msg_error_balance">💳 Ebapiisav SMS-saldo. Palun laadige oma SIM-kaart uuesti.</string>
     <string name="msg_error_invalid_number">📱 Kehtetu telefoninumber. Kontrollige ja proovige uuesti.</string>
     <string name="msg_error_storage_full">💾 Panipaik on täis. Palun vabastage ruumi.</string>
-    <string name="msg_error_rate_limit">⏱️ Liiga palju sõnumeid on saadetud. Palun oodake%1$dsekundit.</string>
+    <plurals name="msg_error_rate_limit">
+        <item quantity="one">⏱️ Liiga palju sõnumeid on saadetud. Palun oodake%1$dsekundit.</item>
+        <item quantity="other">⏱️ Liiga palju sõnumeid on saadetud. Palun oodake%1$dsekundit.</item>
+    </plurals>
     <string name="msg_error_mms">📎 MMS-i viga:%1$s. Palun proovi uuesti.</string>
     <string name="msg_error_too_large">📏 Sõnum on liiga suur. Maksimaalne suurus on%1$dKB.</string>
     <string name="msg_error_attachment">📎 Ei saa lisada%1$s:%2$s</string>
@@ -631,7 +617,6 @@
     <string name="sms_error_radio_off">Lennurežiim lubatud (raadio väljas)</string>
     <string name="sms_error_limit_exceeded">Saatmislimiit on ületatud</string>
     <string name="sms_error_unknown">Tundmatu viga</string>
-    <string name="otp_copied_toast">Kinnituskood kopeeritud:%1$s✓</string>
     <string name="otp_bubble_channel_name">Ujuvad kinnituskoodid</string>
     <string name="otp_bubble_channel_desc">Märguanded ujuva kinnituskoodi mullide kohta</string>
     <string name="otp_bubble_notification_title">Kinnituskood</string>
@@ -640,7 +625,10 @@
     <string name="settings_incoming_call_banner_desc">Sissetulevate kõnede puhul kuvage täisekraani asemel ujuv bänner</string>
     <string name="notification_summary_title">Sõnumid</string>
     <string name="notification_summary_2_messages">2 uut sõnumit</string>
-    <string name="notification_summary_n_messages">%1$duut sõnumit</string>
+    <plurals name="notification_summary_n_messages">
+        <item quantity="one">%1$duut sõnumit</item>
+        <item quantity="other">%1$duut sõnumit</item>
+    </plurals>
     <string name="notification_summary_many_messages">9+ uut sõnumit</string>
     <string name="notification_action_reply">Vasta</string>
     <string name="notification_action_mark_read_short">Märgi loetuks</string>
@@ -658,39 +646,17 @@
     <string name="error_failed_update_favorite">Lemmiku oleku värskendamine ebaõnnestus</string>
     <string name="error_failed_delete_contact">Kontakti kustutamine ebaõnnestus:%1$s</string>
     <string name="success_contact_deleted">Kontakt kustutatud</string>
-    <string name="success_contacts_blocked">%1$dkontaktid on blokeeritud</string>
-    <string name="success_contacts_added_favorites">%1$dkontaktid lisati lemmikute hulka</string>
+    <plurals name="success_contacts_blocked">
+        <item quantity="one">%1$dkontaktid on blokeeritud</item>
+        <item quantity="other">%1$dkontaktid on blokeeritud</item>
+    </plurals>
+    <plurals name="success_contacts_added_favorites">
+        <item quantity="one">%1$dkontaktid lisati lemmikute hulka</item>
+        <item quantity="other">%1$dkontaktid lisati lemmikute hulka</item>
+    </plurals>
     <string name="success_added_to_favorites">Lisatud lemmikute hulka</string>
     <string name="success_removed_from_favorites">Lemmikutest eemaldatud</string>
     <string name="msg_contact_will_be_deleted">\"%1$s\"kustutatakse</string>
-    <string name="backup_encrypt_dialog_title">Varukoopia krüpteerimine</string>
-    <string name="backup_encrypt_dialog_desc">Sisestage varukoopia krüptimiseks parool või jätke tühjaks, et salvestada tavalise JSON-ina.</string>
-    <string name="backup_encrypt_password_hint">Parool (valikuline)</string>
-    <string name="backup_encrypt_confirm">Ekspordi</string>
-    <string name="restore_decrypt_dialog_title">Krüpteeritud varukoopia</string>
-    <string name="restore_decrypt_dialog_desc">See varukoopia on krüptitud. Sisestage selle loomisel kasutatud parool.</string>
-    <string name="restore_decrypt_password_hint">Parool</string>
-    <string name="restore_decrypt_confirm">Taasta</string>
-    <string name="backup_wrong_password">Vale parool – varukoopiat ei saanud dekrüpteerida.</string>
-    <string name="backup_encrypted_badge">🔒 Krüpteeritud</string>
-    <string name="backup_created_success">Varundamine õnnestus</string>
-    <string name="backup_created_failure">Varukoopia loomine ebaõnnestus</string>
-    <string name="backup_saved_success">✅ Varukoopia salvestamine õnnestus</string>
-    <string name="backup_saved_failure">❌ Salvestamine ebaõnnestus:%1$s</string>
-    <string name="restore_success">✅ Andmed taastati edukalt</string>
-    <string name="restore_failure">Taastamine ebaõnnestus</string>
-    <string name="restore_error">Taastamise viga:%1$s</string>
-    <string name="backup_restore_success">✅ Varukoopia taastamine õnnestus</string>
-    <string name="backup_restore_failure">❌ Taastamine ebaõnnestus:%1$s</string>
-    <string name="generic_error">Viga:%1$s</string>
-    <string name="export_calls_success">✅ Eksporditud kõned:%1$s</string>
-    <string name="export_messages_success">✅ Eksporditud sõnumid:%1$s</string>
-    <string name="export_all_success">✅ Kõik eksporditud andmed:%1$s</string>
-    <string name="export_failure">❌ Eksport ebaõnnestus</string>
-    <string name="import_success">✅ Andmed imporditi edukalt</string>
-    <string name="import_failure">Import ebaõnnestus</string>
-    <string name="import_error">Impordi viga:%1$s</string>
-    <string name="import_restore_failure">❌ Import ebaõnnestus:%1$s</string>
     <string name="disclosure_title">Teie privaatsus</string>
     <string name="disclosure_subtitle">Enne jätkamist vaadake üle</string>
     <string name="disclosure_intro">Purevon asendab teie vaiketelefonivalija ja SMS-i/MMS-i vaikerakenduse. Helistamise, SMS-i/MMS-i, rämpspostikaitse ja seotud funktsioonide pakkumiseks vajab see allpool kirjeldatud lubasid. Valikulisi üksusi (kaamera, mikrofon, asukoht) kasutatakse ainult siis, kui valite need toimingud (nt foto lisamine või asukoha jagamine). Andmed jäävad teie seadmesse alles, välja arvatud juhul, kui kasutate võrgufunktsiooni (nt MMS-i) või laadite veebilingi eelvaadet.</string>
@@ -729,8 +695,6 @@
     <string name="incall_error_reject_failed">Kõnest keeldumine ebaõnnestus</string>
     <string name="incall_error_merge_not_supported">Kõnesid ei saa ühendada – ei toetata</string>
     <string name="incall_error_merge_failed">Kõnede liitmine ebaõnnestus</string>
-    <string name="incall_error_add_call_unavailable">Kõnet ei saa praegu lisada</string>
-    <string name="incall_error_sim_unknown">SIM-kaarti ei õnnestunud määrata</string>
     <string name="incall_error_no_call_permission">Helistamiseks pole luba</string>
     <string name="incall_error_add_call_failed">Kõne lisamine ebaõnnestus:%1$s</string>
     <string name="incall_error_note_save_invalid_number">Märkme salvestamine ebaõnnestus – vale number</string>
@@ -741,13 +705,54 @@
     <string name="incall_msg_number_unblocked">Number deblokeeritud</string>
     <string name="incall_msg_number_blocked">Number blokeeritud</string>
     <string name="incall_msg_note_saved">✅ Salvestatud</string>
-    <string name="incall_msg_reminder_set_hours">✅ Meeldetuletus seatud%1$dtunni pärast</string>
-    <string name="incall_msg_reminder_set_minutes">✅ Meeldetuletus seatakse%1$dminuti pärast</string>
+    <plurals name="incall_msg_reminder_set_hours">
+        <item quantity="one">✅ Meeldetuletus seatud%1$dtunni pärast</item>
+        <item quantity="other">✅ Meeldetuletus seatud%1$dtunni pärast</item>
+    </plurals>
+    <plurals name="incall_msg_reminder_set_minutes">
+        <item quantity="one">✅ Meeldetuletus seatakse%1$dminuti pärast</item>
+        <item quantity="other">✅ Meeldetuletus seatakse%1$dminuti pärast</item>
+    </plurals>
     <string name="incall_msg_reminder_approximate_warning">(Märkus: ligikaudne ajastus)</string>
     <string name="incall_msg_location_coming_soon">Asukoha saatmine peagi</string>
     <string name="incall_msg_image_sharing_coming_soon">Piltide jagamine varsti</string>
     <string name="incall_block_reason_incall">Blokeeritud InCall Screen kaudu</string>
     <string name="shortcut_new_message">Uus sõnum</string>
     <string name="shortcut_create_new_message">Loo uus sõnum</string>
-    <string name="btn_ai_scan">Skannige AI-ga</string>
+
+    <string name="action_add_note">Add note</string>
+    <string name="action_view">View</string>
+    <string name="blocked_call_bubble_call">اتصال</string>
+    <string name="blocked_call_bubble_channel_desc">إشعارات حظر المكالمات</string>
+    <string name="blocked_call_bubble_channel_name">قناة حظر المكالمات</string>
+    <string name="blocked_call_bubble_content_title">مكالمة محظورة</string>
+    <string name="blocked_call_bubble_dismiss">إلغاء</string>
+    <string name="blocked_call_bubble_notification_text">تم حظر مكالمة واردة من رقم مشبوه</string>
+    <string name="blocked_call_bubble_notification_title">تم حظر مكالمة</string>
+    <string name="blocked_call_bubble_whitelist">إضافة لقائمة السماح</string>
+    <string name="blocked_call_bubble_whitelisted">تمت الإضافة إلى قائمة السماح</string>
+    <string name="mms_fg_channel_desc">Shows when MMS messages are being sent or downloaded</string>
+    <string name="mms_fg_channel_name">MMS Operations</string>
+    <string name="mms_fg_downloading">Downloading MMS</string>
+    <string name="mms_fg_in_progress">MMS operation in progress…</string>
+    <string name="mms_fg_processing">Processing MMS</string>
+    <string name="mms_fg_sending">Sending MMS</string>
+    <string name="mms_fg_to">To %1$s</string>
+    <string name="msg_action_cancel">Cancel</string>
+    <string name="msg_send_cancelled">Message send cancelled</string>
+    <string name="notification_channel_fake_call">Fake Calls</string>
+    <string name="notification_channel_fake_call_desc">Notifications for scheduled fake incoming calls</string>
+    <string name="notification_channel_incoming_calls">Incoming Calls</string>
+    <string name="notification_channel_incoming_calls_desc">Incoming call notifications - shows on lock screen</string>
+    <string name="notification_channel_incoming_call_unlocked">Incoming Call (Unlocked)</string>
+    <string name="notification_channel_incoming_call_unlocked_desc">Silent foreground service notification when screen is on and call activity is shown directly</string>
+    <string name="notification_fake_call_incoming">Incoming call</string>
+    <string name="notification_spam_call_text">%1$s - %2$s</string>
+    <string name="notification_spam_call_title">⚠️ Spam Call Detected</string>
+    <string name="otp_copied_generic">Verification code copied ✓</string>
+    <string name="otp_missed_notification_text">New message from %1$s — open inbox to view</string>
+    <string name="otp_missed_notification_title">Verification code received</string>
+    <string name="risk_high">High Risk</string>
+    <string name="risk_low">Low Risk</string>
+    <string name="risk_medium">Medium Risk</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.rasmi.purevon.presentation.component
 
+import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
@@ -372,6 +373,7 @@ enum class FakeCallDelay(val seconds: Long) {
  * جدولة الاتصال الوهمي باستخدام AlarmManager
  * تعيد الدالة true إذا كان التوقيت دقيقاً ، false إذا كان غير دقيق (Android 12+)
  */
+@SuppressLint("MissingPermission")
 private fun scheduleFakeCall(
     context: Context,
     callerName: String,

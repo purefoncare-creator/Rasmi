@@ -1,5 +1,6 @@
 package com.rasmi.purevon.presentation.screen.incall
 
+import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
@@ -91,6 +92,7 @@ internal fun InCallViewModel.loadExistingNotesImpl(phoneNumber: String) {
 
 // ─── Callback Reminder ───────────────────────────────────
 
+@SuppressLint("MissingPermission")
 internal fun InCallViewModel.setCallbackReminderImpl(minutes: Int) {
     Log.d(TAG, "Setting callback reminder for $minutes minutes")
 
@@ -145,8 +147,8 @@ internal fun InCallViewModel.setCallbackReminderImpl(minutes: Int) {
 
         viewModelScope.launch {
             delay(200)
-            val label = if (minutes >= 60) context.getString(R.string.incall_msg_reminder_set_hours, minutes / 60)
-                         else context.getString(R.string.incall_msg_reminder_set_minutes, minutes)
+            val label = if (minutes >= 60) context.resources.getQuantityString(R.plurals.incall_msg_reminder_set_hours, minutes / 60, minutes / 60)
+                         else context.resources.getQuantityString(R.plurals.incall_msg_reminder_set_minutes, minutes, minutes)
             val warning = if (!isExact) context.getString(R.string.incall_msg_reminder_approximate_warning) else ""
             uiEventEmitter.emit(UiEvent.ShowSnackbar(label + warning))
         }
@@ -168,6 +170,7 @@ internal fun InCallViewModel.changeMiddleCardTabImpl(tab: Int) {
 
 // ─── Silence Call ─────────────────────────────────────────
 
+@SuppressLint("MissingPermission")
 internal fun InCallViewModel.silenceCallImpl() {
     Log.d(TAG, "Silencing call - muting THIS call only and going to background")
     try {

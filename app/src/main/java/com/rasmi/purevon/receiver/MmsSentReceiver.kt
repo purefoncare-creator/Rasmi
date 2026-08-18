@@ -127,7 +127,7 @@ class MmsSentReceiver : BroadcastReceiver() {
                             Log.e(TAG, "  MMS_ERROR_RETRY = ${SmsManager.MMS_ERROR_RETRY}")
                             Log.e(TAG, "  MMS_ERROR_CONFIGURATION_ERROR = ${SmsManager.MMS_ERROR_CONFIGURATION_ERROR}")
                             Log.e(TAG, "  MMS_ERROR_NO_DATA_NETWORK = ${SmsManager.MMS_ERROR_NO_DATA_NETWORK}")
-                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
                                 Log.e(TAG, "  MMS_ERROR_DATA_DISABLED = ${SmsManager.MMS_ERROR_DATA_DISABLED}")
                             }
                             Log.e(TAG, "---")

@@ -9,7 +9,6 @@
     <string name="template_title">Tajuk Templat</string>
     <string name="template_content">Kandungan Templat</string>
     <string name="save">Jimat</string>
-    <string name="app_name" translatable="false">Purevon</string>
     <string name="perm_setup_title">Kebenaran Persediaan</string>
     <string name="perm_welcome_title">Selamat datang ke Purevon</string>
     <string name="perm_welcome_message">Untuk menggantikan apl Telefon dan SMS lalai anda, kami memerlukan kebenaran berikut</string>
@@ -60,8 +59,14 @@
     <string name="action_number_copied">Nombor disalin ke papan keratan</string>
     <string name="callback_reminder_title">Peringatan Panggilan Balik</string>
     <string name="callback_select_duration">Pilih tempoh:</string>
-    <string name="callback_minutes">%dminit</string>
-    <string name="callback_hour">%djam</string>
+    <plurals name="callback_minutes">
+        <item quantity="one">%dminit</item>
+        <item quantity="other">%dminit</item>
+    </plurals>
+    <plurals name="callback_hour">
+        <item quantity="one">%djam</item>
+        <item quantity="other">%djam</item>
+    </plurals>
     <string name="callback_set">Tetapkan</string>
     <string name="callback_reminder_alert_title">Peringatan Panggilan Balik</string>
     <string name="callback_call_now">Hubungi Sekarang</string>
@@ -71,8 +76,10 @@
     <string name="incall_end_call">Tamatkan Panggilan</string>
     <string name="contacts_search_placeholder">Cari</string>
     <string name="contacts_no_contacts">Tiada kenalan</string>
-    <string name="contacts_stat_blocked">Disekat</string>
-    <string name="contacts_selected">%ddipilih</string>
+    <plurals name="contacts_selected">
+        <item quantity="one">%1$ddipilih</item>
+        <item quantity="other">%1$ddipilih</item>
+    </plurals>
     <string name="contacts_select_all">Pilih Semua</string>
     <string name="contacts_deselect_all">Nyahpilih Semua</string>
     <string name="contacts_action_favorite">Kegemaran</string>
@@ -80,7 +87,10 @@
     <string name="contacts_action_block">Sekat</string>
     <string name="contacts_action_unblock">Nyahsekat</string>
     <string name="contacts_action_delete">Padam</string>
-    <string name="contacts_delete_multiple">Padamkan%dkenalan?</string>
+    <plurals name="contacts_delete_multiple">
+        <item quantity="one">Padamkan%1$dkenalan?</item>
+        <item quantity="other">Padamkan%1$dkenalan?</item>
+    </plurals>
     <string name="contacts_delete_warning">Tindakan ini tidak boleh dibuat asal.</string>
     <string name="contacts_cd_add_contact">Tambah kenalan baharu</string>
     <string name="contacts_cd_clear_search">Kosongkan carian</string>
@@ -121,7 +131,7 @@
     <string name="contact_detail_no_history">Tiada sejarah panggilan lagi</string>
     <string name="contact_detail_no_notes">Tiada nota lagi</string>
     <string name="contact_detail_delete_title">Padam Kenalan</string>
-    <string name="contact_detail_delete_message">Adakah anda pasti mahu memadamkan%s?</string>
+    <string name="contact_detail_delete_message">Adakah anda pasti mahu memadamkan%1$s?</string>
     <string name="contact_detail_delete_confirm">Padam</string>
     <string name="contact_detail_first_name">nama pertama</string>
     <string name="contact_detail_last_name">nama keluarga</string>
@@ -150,8 +160,6 @@
     <string name="add_contact_group">Kumpulan</string>
     <string name="add_contact_save_changes">Simpan Perubahan</string>
     <string name="add_contact_save">Simpan Kenalan</string>
-    <string name="add_contact_saved">✓ Kenalan disimpan</string>
-    <string name="add_contact_updated">✓ Kenalan dikemas kini</string>
     <string name="add_contact_failed">Gagal menyimpan. Semak kebenaran.</string>
     <string name="add_contact_favorite">Kegemaran</string>
     <string name="add_contact_type_mobile">Mudah alih</string>
@@ -160,26 +168,17 @@
     <string name="add_contact_type_other">Lain-lain</string>
     <string name="add_contact_save_to">Simpan ke</string>
     <string name="add_contact_account_device">Peranti</string>
-    <string name="add_contact_account_sim">SIM%1$d(%2$s)</string>
     <string name="add_contact_account_google">Google</string>
     <string name="add_contact_select_account">Pilih tempat untuk menyimpan kenalan ini</string>
     <string name="messages_no_messages">Tiada mesej</string>
     <string name="messages_delete_conversation">Padamkan Perbualan</string>
     <string name="history_missed">terlepas</string>
     <string name="history_duration">Tempoh:%s</string>
-    <string name="settings_title">tetapan</string>
     <string name="settings_appearance">Penampilan</string>
-    <string name="settings_notifications">Pemberitahuan</string>
-    <string name="settings_theme">Tema</string>
     <string name="settings_theme_dark">Gelap</string>
     <string name="settings_theme_system">Lalai Sistem</string>
-    <string name="settings_rtl_title">Reka Letak Kanan-ke-Kiri</string>
-    <string name="settings_rtl_subtitle">Cerminkan antara muka untuk bacaan kanan ke kiri</string>
     <string name="settings_language">Bahasa</string>
-    <string name="settings_language_summary">Tukar bahasa apl manual</string>
     <string name="language_system">Lalai Sistem</string>
-    <string name="language_ar">العربية (Bahasa Arab)</string>
-    <string name="language_en">Inggeris (Bahasa Inggeris)</string>
     <string name="dialer_add_to_contacts">Tambahkan pada kenalan</string>
     <string name="messages_all">Semua</string>
     <string name="messages_starred_tab">Dibintangi</string>
@@ -187,11 +186,8 @@
     <string name="messages_no_starred">Tiada Mesej Berbintang</string>
     <string name="messages_starred_hint">Tekan lama pada sebarang mesej untuk menambah pada kegemaran</string>
     <string name="messages_archive">Arkib</string>
-    <string name="messages_unarchive">Nyahrkib</string>
     <string name="messages_mark_as_read">Tandakan sebagai dibaca</string>
-    <string name="messages_mark_as_unread">Tandai sebagai belum dibaca</string>
     <string name="messages_archived_tab">Diarkibkan</string>
-    <string name="history_call_will_be_deleted">Panggilan akan dipadamkan</string>
     <string name="history_number_will_be_blocked">Nombor akan disekat</string>
     <string name="history_undo">Buat asal</string>
     <string name="history_no_history">Tiada sejarah panggilan lagi</string>
@@ -219,40 +215,50 @@
     <string name="history_delete_from_history">Padam semua daripada sejarah</string>
     <string name="history_delete_all_calls_title">Padamkan semua panggilan untuk nombor ini?</string>
     <string name="history_delete_all_calls_message">Alih keluar setiap entri untuk%sdaripada sejarah panggilan anda. Ini tidak boleh dibuat asal.</string>
-    <string name="history_delete_selected_numbers">Alih keluar sejarah untuk%dnombor?</string>
-    <string name="history_group_missed_count">%dterlepas</string>
+    <plurals name="history_delete_selected_numbers">
+        <item quantity="one">Alih keluar sejarah untuk%dnombor?</item>
+        <item quantity="other">Alih keluar sejarah untuk%dnombor?</item>
+    </plurals>
     <string name="history_notes_cd_has_note">Mempunyai nota</string>
-    <string name="history_delete_call_title">Padamkan Panggilan?</string>
-    <string name="history_delete_call_message">Adakah anda pasti mahu memadamkan panggilan ini daripada sejarah anda? Tindakan ini tidak boleh dibuat asal.</string>
     <string name="history_block_number_title">Nombor Blok?</string>
     <string name="history_block_number_message">Adakah anda pasti mahu menyekat%s? Anda menang\'t menerima panggilan daripada nombor ini.</string>
     <string name="history_search_calls">Cari panggilan</string>
     <string name="history_clear">Jelas</string>
     <string name="history_today">Hari ini</string>
     <string name="history_yesterday">Semalam</string>
-    <string name="history_calls">%dpanggilan</string>
+    <plurals name="history_calls">
+        <item quantity="one">%dpanggilan</item>
+        <item quantity="other">%dpanggilan</item>
+    </plurals>
     <string name="history_total">Jumlah</string>
     <string name="history_permission_name">READ_CALL_LOG</string>
     <string name="history_permission_rationale">Apl ini memerlukan akses kepada log panggilan anda untuk memaparkan sejarah panggilan anda, menjejaki panggilan terlepas dan menyediakan statistik panggilan.</string>
     <string name="history_action_call">Panggil</string>
     <string name="history_action_message">Mesej</string>
     <string name="history_notes">Nota (%d)</string>
-    <string name="history_more_notes">+%dlagi nota</string>
+    <plurals name="history_more_notes">
+        <item quantity="one">+%dlagi nota</item>
+        <item quantity="other">+%dlagi nota</item>
+    </plurals>
     <string name="history_note_today">Hari ini</string>
     <string name="history_note_yesterday">Semalam</string>
     <string name="note_dialog_title">Nota untuk%s</string>
-    <string name="note_dialog_count">%dnota</string>
+    <plurals name="note_dialog_count">
+        <item quantity="one">%dnota</item>
+        <item quantity="other">%dnota</item>
+    </plurals>
     <string name="note_dialog_empty">Tiada nota</string>
     <string name="note_delete_cd">Padam nota</string>
-    <string name="note_icon_cd">Nota kenalan</string>
     <string name="note_dialog_close">tutup</string>
     <string name="history_sim">SIM%d</string>
-    <string name="history_selected_count">%ddipilih</string>
+    <plurals name="history_selected_count">
+        <item quantity="one">%ddipilih</item>
+        <item quantity="other">%ddipilih</item>
+    </plurals>
     <string name="history_select_all">Pilih Semua</string>
     <string name="history_deselect_all">Nyahpilih Semua</string>
     <string name="history_action_block">Sekat</string>
     <string name="history_action_delete">Padam</string>
-    <string name="history_delete_selected">Padamkan%dpanggilan?</string>
     <string name="history_delete_selected_warning">Tindakan ini tidak boleh dibuat asal.</string>
     <string name="otp_settings_title">Tetapan OTP</string>
     <string name="about_title">Tentang</string>
@@ -268,26 +274,8 @@
     <string name="about_feature_bubble_desc">Kawal panggilan dengan tindanan gelembung terapung</string>
     <string name="about_feature_sim">Sokongan Dwi SIM</string>
     <string name="about_feature_sim_desc">Sokongan penuh untuk peranti dwi SIM</string>
-    <string name="about_feature_backup">Sandaran &amp; Pulihkan</string>
-    <string name="about_feature_backup_desc">Pastikan data anda selamat dengan sandaran automatik</string>
     <string name="about_contact_us">Hubungi kami:</string>
     <string name="about_copyright">© 2026 Purevon. Semua hak terpelihara.</string>
-    <string name="ai_model_title">Ciri AI</string>
-    <string name="ai_model_download">Muat turun Gemma 3 (1B)</string>
-    <string name="ai_model_download_desc">Muat turun model Gemma 3 1B (~555 MB) untuk sembang AI luar talian</string>
-    <string name="ai_model_downloading">Memuat turun…%1$d%%</string>
-    <string name="ai_model_extracting">Menyimpan model…</string>
-    <string name="ai_model_downloaded">Model dimuat turun</string>
-    <string name="ai_model_delete">Padamkan Model AI</string>
-    <string name="ai_model_delete_desc">Alih keluar model Gemma yang dimuat turun untuk mengosongkan ruang</string>
-    <string name="ai_chat_title">Sembang AI Gemma</string>
-    <string name="ai_chat_model_loading">Memuatkan model…</string>
-    <string name="ai_chat_model_error">Model gagal dimuatkan</string>
-    <string name="ai_chat_model_ready">sedia</string>
-    <string name="ai_chat_hint">Tanya Gemma apa sahaja…</string>
-    <string name="ai_hf_token_label">Token HuggingFace</string>
-    <string name="ai_hf_token_placeholder">hf_xxxxxxxxxxxxxxxxxxxxx</string>
-    <string name="ai_hf_token_desc">Diperlukan untuk memuat turun Gemma (percuma di huggingface.co)</string>
     <string name="conversation_no_messages">Tiada mesej lagi</string>
     <string name="conversation_start_hint">Hantar mesej untuk memulakan perbualan</string>
     <string name="conversation_message_hint">Mesej</string>
@@ -319,12 +307,7 @@
     <string name="msg_attachment_file">Fail</string>
     <string name="msg_attachment_contact">Kenalan</string>
     <string name="msg_attachment_location">Lokasi</string>
-    <string name="msg_attachment_schedule">Jadual</string>
-    <string name="location_fetching">Mengambil lokasi…</string>
-    <string name="location_error">Tidak dapat menentukan lokasi</string>
     <string name="location_permission_denied">Kebenaran lokasi diperlukan untuk berkongsi lokasi anda</string>
-    <string name="location_my_current">Lokasi semasa saya</string>
-    <string name="location_coordinates">Koordinat</string>
     <string name="location_view_map">Lihat pada peta:</string>
     <string name="msg_cd_attached_image">Imej yang dilampirkan</string>
     <string name="msg_cd_scheduled">Dijadualkan</string>
@@ -342,7 +325,6 @@
     <string name="msg_cd_retry">Cuba hantar semula</string>
     <string name="msg_cd_attachment_type">Jenis lampiran</string>
     <string name="msg_cd_open_location">Buka lokasi pada peta</string>
-    <string name="msg_cd_playback_speed">Kelajuan main balik</string>
     <string name="msg_cd_play">Main</string>
     <string name="msg_cd_pause">jeda</string>
     <string name="msg_cd_send">Hantar</string>
@@ -350,14 +332,16 @@
     <string name="msg_cd_conversation_options">Pilihan perbualan</string>
     <string name="msg_cd_delete_recording">Padamkan rakaman</string>
     <string name="msg_cd_send_recording">Hantar rakaman</string>
-    <string name="msg_fetching_location">Mengesan…</string>
     <string name="msg_date_today">Hari ini</string>
     <string name="msg_date_yesterday">Semalam</string>
     <string name="msg_no_results">Tiada hasil</string>
     <string name="msg_no_archived_conversations">Tiada perbualan yang diarkibkan</string>
     <string name="msg_search_try_different">Cuba kata kunci yang berbeza daripada\"%s\"</string>
     <string name="msg_archive_hint">Tekan lama pada perbualan untuk mengarkibkannya</string>
-    <string name="msg_delete_conversations_title">Padamkan%dperbualan?</string>
+    <plurals name="msg_delete_conversations_title">
+        <item quantity="one">Padamkan%dperbualan?</item>
+        <item quantity="other">Padamkan%dperbualan?</item>
+    </plurals>
     <string name="msg_sim_ask_me">Tanya Saya</string>
     <string name="msg_phone_number_missing">Nombor telefon tiada</string>
     <string name="msg_scheduled_cancelled">Mesej yang dijadualkan dibatalkan</string>
@@ -380,10 +364,12 @@
     <string name="templates_title">Templat Mesej</string>
     <string name="templates_empty">Tiada templat lagi</string>
     <string name="templates_create">Cipta Templat</string>
-    <string name="templates_use_count">Digunakan%dkali</string>
+    <plurals name="templates_use_count">
+        <item quantity="one">Digunakan%dkali</item>
+        <item quantity="other">Digunakan%dkali</item>
+    </plurals>
     <string name="templates_delete_title">Padam Templat</string>
     <string name="templates_delete_message">Adakah anda pasti mahu memadamkan \"%s\"?</string>
-    <string name="cleanup_creating_backup">جاري إنشاء نسخة احتياطية...</string>
     <string name="system_perm_title">Tetapan Tambahan</string>
     <string name="system_perm_device">Peranti anda:%1$s</string>
     <string name="system_perm_subtitle">Memerlukan tetapan tambahan untuk apl berfungsi dengan betul</string>
@@ -427,11 +413,8 @@
     <string name="manufacturer_vivo">Vivo (OS Funtouch)</string>
     <string name="manufacturer_oneplus">OnePlus (OxygenOS)</string>
     <string name="manufacturer_stock">Android</string>
-    <string name="appearance_theme_system_follow">Ikut tema sistem</string>
     <string name="spam_privacy_title">Privasi</string>
-    <string name="otp_settings_desc">Salin automatik, pemberitahuan, penghantar yang dipercayai</string>
     <string name="privacy_hide_notifications">Sembunyikan Pemberitahuan Sensitif</string>
-    <string name="privacy_hide_notifications_desc">Sembunyikan kandungan mesej dalam pemberitahuan</string>
     <string name="about_version">Versi%s</string>
     <string name="close">tutup</string>
     <string name="remove">Alih keluar</string>
@@ -444,11 +427,8 @@
     <string name="sim_all">Semua SIM</string>
     <string name="sim_select_for_blocking">Pilih SIM untuk menyekat panggilan</string>
     <string name="sim_slot_format">Digunakan untuk:%1$s</string>
-    <string name="call_blocking_desc">Sekat panggilan yang tidak diingini</string>
     <string name="call_blocking_blocked_list">Nombor Tersekat</string>
-    <string name="call_blocking_manage_blocked">Urus senarai nombor yang disekat</string>
     <string name="call_blocking_whitelist">Senarai putih</string>
-    <string name="call_blocking_manage_whitelist">Urus senarai putih</string>
     <string name="blocked_list_title">Nombor Tersekat</string>
     <string name="blocked_list_count">Disekat (%d)</string>
     <string name="blocked_search_hint">Cari kenalan atau panggilan terbaru</string>
@@ -467,7 +447,10 @@
     <string name="call_status_calling">Memanggil…</string>
     <string name="conference_call_title">Panggilan Persidangan</string>
     <string name="conference_label">Persidangan</string>
-    <string name="conference_participants_count">%dpeserta</string>
+    <plurals name="conference_participants_count">
+        <item quantity="one">%dpeserta</item>
+        <item quantity="other">%dpeserta</item>
+    </plurals>
     <string name="overlay_status_hold">tahan</string>
     <string name="overlay_status_incoming">masuk</string>
     <string name="fake_call_title">Panggilan Palsu</string>
@@ -485,20 +468,25 @@
     <string name="fake_call_incoming">Panggilan masuk…</string>
     <string name="fake_call_answer">Jawab</string>
     <string name="fake_call_decline">Tolak</string>
-    <string name="fake_call_end">Tamatkan Panggilan</string>
     <string name="fake_call_name_required">Sila masukkan nama pemanggil</string>
     <string name="fake_call_delay_required">Sila pilih masa panggilan</string>
-    <string name="fake_call_scheduled">Panggilan palsu dijadualkan selepas%s</string>
+    <string name="fake_call_scheduled">Panggilan palsu dijadualkan selepas%1$s</string>
     <string name="fake_call_schedule_error">Gagal menjadualkan panggilan palsu</string>
     <string name="fake_call_manage_title">Panggilan Palsu Berjadual</string>
-    <string name="fake_call_active_count">%dpanggilan dijadualkan</string>
+    <plurals name="fake_call_active_count">
+        <item quantity="one">%dpanggilan dijadualkan</item>
+        <item quantity="other">%dpanggilan dijadualkan</item>
+    </plurals>
     <string name="fake_call_no_scheduled">Tiada panggilan palsu yang dijadualkan</string>
     <string name="fake_call_cancel_all">Batalkan Semua</string>
     <string name="fake_call_cancel_call">Batalkan panggilan</string>
     <string name="fake_call_inexact_alarm_warning">Nota: Panggilan mungkin tidak tiba pada masa yang tepat. Berikan kebenaran \"Penggera &amp; peringatan\" dalam tetapan untuk ketepatan yang lebih baik.</string>
     <string name="refresh">Segarkan semula</string>
     <string name="callback_reminders_manage_title">Peringatan Panggilan Balik Berjadual</string>
-    <string name="callback_reminder_active_count">%dperingatan dijadualkan</string>
+    <plurals name="callback_reminder_active_count">
+        <item quantity="one">%dperingatan dijadualkan</item>
+        <item quantity="other">%dperingatan dijadualkan</item>
+    </plurals>
     <string name="callback_reminder_no_scheduled">Tiada peringatan berjadual</string>
     <string name="callback_reminder_cancel_all">Batalkan Semua</string>
     <string name="callback_reminder_cancel_item">Batalkan peringatan</string>
@@ -507,13 +495,10 @@
     <string name="scheduled_message_failed_body">Kepada%1$s:%2$s</string>
     <string name="scheduled_message_cancel">Batal</string>
     <string name="scheduled_message_edit">Sunting</string>
-    <string name="scheduled_message_cancelled">Mesej yang dijadualkan dibatalkan</string>
     <string name="scheduled_status_pending">Belum selesai</string>
     <string name="scheduled_status_sent">Dihantar</string>
     <string name="scheduled_status_failed">gagal</string>
     <string name="scheduled_status_cancelled">Dibatalkan</string>
-    <string name="msg_send_failure_title">Hantar Mesej Gagal</string>
-    <string name="msg_send_failure_text">Kepada%1$s:%2$s</string>
     <string name="search_messages_hint">Cari mesej</string>
     <string name="search_clear">Jelas</string>
     <string name="call_state_calling">Memanggil…</string>
@@ -589,17 +574,18 @@
     <string name="sim_picker_call_title">Pilih SIM untuk panggilan</string>
     <string name="msg_unexpected_error">Ralat tidak dijangka:%1$s</string>
     <string name="msg_suggestion_prefix">Cadangan:%1$s</string>
-    <string name="msg_send_attachments_lost">Hantar gagal. Lampiran anda disimpan — ketik mesej yang gagal untuk mencuba semula.</string>
     <string name="msg_retry_unexpected_error">Ralat tidak dijangka:%1$s</string>
     <string name="msg_forward_partial_success">Dihantar kepada%1$ddaripada%2$dpenerima.%3$dgagal.</string>
-    <string name="msg_scheduled_load_error">Gagal memuatkan mesej yang dijadualkan</string>
     <string name="msg_error_network_wifi">📶 MMS memerlukan Wi-Fi atau data mudah alih. Sila semak sambungan anda.</string>
     <string name="msg_error_network">📶 Tiada sambungan internet. Sila semak tetapan rangkaian anda.</string>
     <string name="msg_error_permission">🔒 Kebenaran diperlukan:%1$s. Sila berikan dalam tetapan.</string>
     <string name="msg_error_balance">💳 Baki SMS tidak mencukupi. Sila cas semula kad SIM anda.</string>
     <string name="msg_error_invalid_number">📱 Nombor telefon tidak sah. Sila semak dan cuba lagi.</string>
     <string name="msg_error_storage_full">💾 Storan penuh. Sila kosongkan sedikit ruang.</string>
-    <string name="msg_error_rate_limit">⏱️ Terlalu banyak mesej yang dihantar. Sila tunggu%1$dsaat.</string>
+    <plurals name="msg_error_rate_limit">
+        <item quantity="one">⏱️ Terlalu banyak mesej yang dihantar. Sila tunggu%1$dsaat.</item>
+        <item quantity="other">⏱️ Terlalu banyak mesej yang dihantar. Sila tunggu%1$dsaat.</item>
+    </plurals>
     <string name="msg_error_mms">📎 Ralat MMS:%1$s. Sila cuba lagi.</string>
     <string name="msg_error_too_large">📏 Mesej terlalu besar. Saiz maksimum ialah%1$dKB.</string>
     <string name="msg_error_attachment">📎 Tidak boleh lampirkan%1$s:%2$s</string>
@@ -631,7 +617,6 @@
     <string name="sms_error_radio_off">Mod pesawat didayakan (Radio dimatikan)</string>
     <string name="sms_error_limit_exceeded">Melebihi had penghantaran</string>
     <string name="sms_error_unknown">Ralat tidak diketahui</string>
-    <string name="otp_copied_toast">Kod pengesahan disalin:%1$s✓</string>
     <string name="otp_bubble_channel_name">Kod pengesahan terapung</string>
     <string name="otp_bubble_channel_desc">Pemberitahuan untuk buih kod pengesahan terapung</string>
     <string name="otp_bubble_notification_title">Kod pengesahan</string>
@@ -640,7 +625,10 @@
     <string name="settings_incoming_call_banner_desc">Tunjukkan sepanduk terapung dan bukannya skrin penuh untuk panggilan masuk</string>
     <string name="notification_summary_title">Mesej</string>
     <string name="notification_summary_2_messages">2 mesej baharu</string>
-    <string name="notification_summary_n_messages">%1$dmesej baharu</string>
+    <plurals name="notification_summary_n_messages">
+        <item quantity="one">%1$dmesej baharu</item>
+        <item quantity="other">%1$dmesej baharu</item>
+    </plurals>
     <string name="notification_summary_many_messages">9+ mesej baharu</string>
     <string name="notification_action_reply">Balas</string>
     <string name="notification_action_mark_read_short">Tanda baca</string>
@@ -658,39 +646,17 @@
     <string name="error_failed_update_favorite">Gagal mengemas kini status kegemaran</string>
     <string name="error_failed_delete_contact">Gagal memadamkan kenalan:%1$s</string>
     <string name="success_contact_deleted">Kenalan dipadamkan</string>
-    <string name="success_contacts_blocked">%1$dkenalan disekat</string>
-    <string name="success_contacts_added_favorites">%1$dkenalan ditambahkan pada kegemaran</string>
+    <plurals name="success_contacts_blocked">
+        <item quantity="one">%1$dkenalan disekat</item>
+        <item quantity="other">%1$dkenalan disekat</item>
+    </plurals>
+    <plurals name="success_contacts_added_favorites">
+        <item quantity="one">%1$dkenalan ditambahkan pada kegemaran</item>
+        <item quantity="other">%1$dkenalan ditambahkan pada kegemaran</item>
+    </plurals>
     <string name="success_added_to_favorites">Ditambah pada kegemaran</string>
     <string name="success_removed_from_favorites">Dialih keluar daripada kegemaran</string>
     <string name="msg_contact_will_be_deleted">\"%1$s\"akan dipadamkan</string>
-    <string name="backup_encrypt_dialog_title">Sulitkan Sandaran</string>
-    <string name="backup_encrypt_dialog_desc">Masukkan kata laluan untuk menyulitkan sandaran, atau biarkan kosong untuk disimpan sebagai JSON biasa.</string>
-    <string name="backup_encrypt_password_hint">Kata laluan (pilihan)</string>
-    <string name="backup_encrypt_confirm">Eksport</string>
-    <string name="restore_decrypt_dialog_title">Sandaran yang disulitkan</string>
-    <string name="restore_decrypt_dialog_desc">Sandaran ini disulitkan. Masukkan kata laluan yang digunakan semasa ia dibuat.</string>
-    <string name="restore_decrypt_password_hint">Kata laluan</string>
-    <string name="restore_decrypt_confirm">Pulihkan</string>
-    <string name="backup_wrong_password">Kata laluan salah — tidak dapat menyahsulit sandaran.</string>
-    <string name="backup_encrypted_badge">🔒 Disulitkan</string>
-    <string name="backup_created_success">Sandaran berjaya dibuat</string>
-    <string name="backup_created_failure">Gagal membuat sandaran</string>
-    <string name="backup_saved_success">✅ Sandaran berjaya disimpan</string>
-    <string name="backup_saved_failure">❌ Gagal menyimpan:%1$s</string>
-    <string name="restore_success">✅ Data berjaya dipulihkan</string>
-    <string name="restore_failure">Pemulihan gagal</string>
-    <string name="restore_error">Pulihkan ralat:%1$s</string>
-    <string name="backup_restore_success">✅ Sandaran berjaya dipulihkan</string>
-    <string name="backup_restore_failure">❌ Pemulihan gagal:%1$s</string>
-    <string name="generic_error">Ralat:%1$s</string>
-    <string name="export_calls_success">✅ Panggilan dieksport:%1$s</string>
-    <string name="export_messages_success">✅ Mesej dieksport:%1$s</string>
-    <string name="export_all_success">✅ Semua data dieksport:%1$s</string>
-    <string name="export_failure">❌ Eksport gagal</string>
-    <string name="import_success">✅ Data berjaya diimport</string>
-    <string name="import_failure">Import gagal</string>
-    <string name="import_error">Ralat import:%1$s</string>
-    <string name="import_restore_failure">❌ Import gagal:%1$s</string>
     <string name="disclosure_title">Privasi Anda</string>
     <string name="disclosure_subtitle">Sila semak sebelum meneruskan</string>
     <string name="disclosure_intro">Purevon menggantikan pendail Telefon lalai anda dan apl pemesejan SMS/MMS lalai anda. Untuk menyediakan panggilan, SMS/MMS, perlindungan spam dan ciri yang berkaitan, ia memerlukan kebenaran yang dijelaskan di bawah. Item pilihan (kamera, mikrofon, lokasi) digunakan hanya apabila anda memilih tindakan tersebut (contohnya melampirkan foto atau berkongsi lokasi anda). Data kekal pada peranti anda melainkan anda secara eksplisit menggunakan ciri rangkaian seperti MMS atau memuatkan pratonton pautan web.</string>
@@ -729,8 +695,6 @@
     <string name="incall_error_reject_failed">Gagal menolak panggilan</string>
     <string name="incall_error_merge_not_supported">Tidak boleh menggabungkan panggilan - tidak disokong</string>
     <string name="incall_error_merge_failed">Gagal menggabungkan panggilan</string>
-    <string name="incall_error_add_call_unavailable">Tidak dapat menambah panggilan sekarang</string>
-    <string name="incall_error_sim_unknown">Tidak dapat menentukan SIM</string>
     <string name="incall_error_no_call_permission">Tiada kebenaran untuk membuat panggilan</string>
     <string name="incall_error_add_call_failed">Gagal menambah panggilan:%1$s</string>
     <string name="incall_error_note_save_invalid_number">Gagal menyimpan nota - nombor tidak sah</string>
@@ -741,13 +705,54 @@
     <string name="incall_msg_number_unblocked">Nombor dinyahsekat</string>
     <string name="incall_msg_number_blocked">Nombor disekat</string>
     <string name="incall_msg_note_saved">✅ Disimpan</string>
-    <string name="incall_msg_reminder_set_hours">✅ Peringatan ditetapkan selepas%1$djam</string>
-    <string name="incall_msg_reminder_set_minutes">✅ Peringatan ditetapkan selepas%1$dminit</string>
+    <plurals name="incall_msg_reminder_set_hours">
+        <item quantity="one">✅ Peringatan ditetapkan selepas%1$djam</item>
+        <item quantity="other">✅ Peringatan ditetapkan selepas%1$djam</item>
+    </plurals>
+    <plurals name="incall_msg_reminder_set_minutes">
+        <item quantity="one">✅ Peringatan ditetapkan selepas%1$dminit</item>
+        <item quantity="other">✅ Peringatan ditetapkan selepas%1$dminit</item>
+    </plurals>
     <string name="incall_msg_reminder_approximate_warning">(Nota: anggaran masa)</string>
     <string name="incall_msg_location_coming_soon">Penghantaran lokasi akan datang tidak lama lagi</string>
     <string name="incall_msg_image_sharing_coming_soon">Perkongsian imej akan datang tidak lama lagi</string>
     <string name="incall_block_reason_incall">Disekat melalui Skrin InCall</string>
     <string name="shortcut_new_message">Mesej Baru</string>
     <string name="shortcut_create_new_message">Buat mesej baharu</string>
-    <string name="btn_ai_scan">Imbas dengan AI</string>
+
+    <string name="action_add_note">Add note</string>
+    <string name="action_view">View</string>
+    <string name="blocked_call_bubble_call">اتصال</string>
+    <string name="blocked_call_bubble_channel_desc">إشعارات حظر المكالمات</string>
+    <string name="blocked_call_bubble_channel_name">قناة حظر المكالمات</string>
+    <string name="blocked_call_bubble_content_title">مكالمة محظورة</string>
+    <string name="blocked_call_bubble_dismiss">إلغاء</string>
+    <string name="blocked_call_bubble_notification_text">تم حظر مكالمة واردة من رقم مشبوه</string>
+    <string name="blocked_call_bubble_notification_title">تم حظر مكالمة</string>
+    <string name="blocked_call_bubble_whitelist">إضافة لقائمة السماح</string>
+    <string name="blocked_call_bubble_whitelisted">تمت الإضافة إلى قائمة السماح</string>
+    <string name="mms_fg_channel_desc">Shows when MMS messages are being sent or downloaded</string>
+    <string name="mms_fg_channel_name">MMS Operations</string>
+    <string name="mms_fg_downloading">Downloading MMS</string>
+    <string name="mms_fg_in_progress">MMS operation in progress…</string>
+    <string name="mms_fg_processing">Processing MMS</string>
+    <string name="mms_fg_sending">Sending MMS</string>
+    <string name="mms_fg_to">To %1$s</string>
+    <string name="msg_action_cancel">Cancel</string>
+    <string name="msg_send_cancelled">Message send cancelled</string>
+    <string name="notification_channel_fake_call">Fake Calls</string>
+    <string name="notification_channel_fake_call_desc">Notifications for scheduled fake incoming calls</string>
+    <string name="notification_channel_incoming_calls">Incoming Calls</string>
+    <string name="notification_channel_incoming_calls_desc">Incoming call notifications - shows on lock screen</string>
+    <string name="notification_channel_incoming_call_unlocked">Incoming Call (Unlocked)</string>
+    <string name="notification_channel_incoming_call_unlocked_desc">Silent foreground service notification when screen is on and call activity is shown directly</string>
+    <string name="notification_fake_call_incoming">Incoming call</string>
+    <string name="notification_spam_call_text">%1$s - %2$s</string>
+    <string name="notification_spam_call_title">⚠️ Spam Call Detected</string>
+    <string name="otp_copied_generic">Verification code copied ✓</string>
+    <string name="otp_missed_notification_text">New message from %1$s — open inbox to view</string>
+    <string name="otp_missed_notification_title">Verification code received</string>
+    <string name="risk_high">High Risk</string>
+    <string name="risk_low">Low Risk</string>
+    <string name="risk_medium">Medium Risk</string>
 </resources>

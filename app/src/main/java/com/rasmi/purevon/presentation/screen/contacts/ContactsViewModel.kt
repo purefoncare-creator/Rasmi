@@ -214,7 +214,7 @@ class ContactsViewModel @Inject constructor(
                                 isSelectionMode = false,
                                 selectedContactIds = emptySet(),
                                 snackbarMessage = SnackbarMessage(
-                                    message = context.getString(R.string.success_contacts_blocked, contacts.size),
+                                    message = context.resources.getQuantityString(R.plurals.success_contacts_blocked, contacts.size, contacts.size),
                                     type = SnackbarType.SUCCESS
                                 )
                             ) 
@@ -246,7 +246,7 @@ class ContactsViewModel @Inject constructor(
                                 isSelectionMode = false,
                                 selectedContactIds = emptySet(),
                                 snackbarMessage = SnackbarMessage(
-                                    message = context.getString(R.string.success_contacts_added_favorites, selectedIds.size),
+                                    message = context.resources.getQuantityString(R.plurals.success_contacts_added_favorites, selectedIds.size, selectedIds.size),
                                     type = SnackbarType.SUCCESS
                                 )
                             ) 

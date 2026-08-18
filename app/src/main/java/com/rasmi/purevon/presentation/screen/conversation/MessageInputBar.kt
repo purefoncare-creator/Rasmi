@@ -134,7 +134,7 @@ fun MessageInputBar(
 
                     // Timer
                     Text(
-                        text = String.format(
+                        text = String.format(java.util.Locale.getDefault(), 
                             "%d:%02d",
                             (recordingDuration / 1000) / 60,
                             (recordingDuration / 1000) % 60

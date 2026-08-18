@@ -1,5 +1,6 @@
 package com.rasmi.purevon.util.sim
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import android.os.Handler
@@ -8,7 +9,6 @@ import android.telephony.SubscriptionInfo
 import android.telephony.SubscriptionManager
 import android.telephony.TelephonyManager
 import android.util.Log
-import androidx.annotation.RequiresApi
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -32,26 +32,24 @@ class SimManager @Inject constructor(
     private var subscriptionListener: SubscriptionManager.OnSubscriptionsChangedListener? = null
     
     init {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-            try {
-                subscriptionListener = object : SubscriptionManager.OnSubscriptionsChangedListener() {
-                    override fun onSubscriptionsChanged() {
-                        Log.d("SimManager", "Subscriptions changed — invalidating cache")
-                        invalidateCache()
-                    }
+        try {
+            subscriptionListener = object : SubscriptionManager.OnSubscriptionsChangedListener() {
+                override fun onSubscriptionsChanged() {
+                    Log.d("SimManager", "Subscriptions changed — invalidating cache")
+                    invalidateCache()
                 }
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    subscriptionManager?.addOnSubscriptionsChangedListener(
-                        context.mainExecutor,
-                        subscriptionListener!!
-                    )
-                } else {
-                    @Suppress("DEPRECATION")
-                    subscriptionManager?.addOnSubscriptionsChangedListener(subscriptionListener)
-                }
-            } catch (e: Exception) {
-                Log.w("SimManager", "Failed to register subscription listener", e)
             }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                subscriptionManager?.addOnSubscriptionsChangedListener(
+                    context.mainExecutor,
+                    subscriptionListener!!
+                )
+            } else {
+                @Suppress("DEPRECATION")
+                subscriptionManager?.addOnSubscriptionsChangedListener(subscriptionListener)
+            }
+        } catch (e: Exception) {
+            Log.w("SimManager", "Failed to register subscription listener", e)
         }
     }
     
@@ -60,12 +58,8 @@ class SimManager @Inject constructor(
      */
     fun isDualSim(): Boolean {
         return try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-                val activeSubscriptions = getActiveSubscriptions()
-                activeSubscriptions.size >= 2
-            } else {
-                false
-            }
+            val activeSubscriptions = getActiveSubscriptions()
+            activeSubscriptions.size >= 2
         } catch (e: Exception) {
             false
         }
@@ -74,7 +68,6 @@ class SimManager @Inject constructor(
     /**
      * Get available SIM cards
      */
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP_MR1)
     fun getAvailableSims(): List<SimInfo> {
         return try {
             val activeSubscriptions = getActiveSubscriptions()
@@ -102,7 +95,7 @@ class SimManager @Inject constructor(
      * Try to get phone number for a subscription
      * Note: This may not work on all devices and requires READ_PHONE_NUMBERS permission
      */
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP_MR1)
+    @SuppressLint("HardwareIds")
     @Suppress("DEPRECATION")
     private fun getPhoneNumberForSubscription(info: SubscriptionInfo): String? {
         return try {
@@ -147,7 +140,6 @@ class SimManager @Inject constructor(
     /**
      * Get active subscriptions
      */
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP_MR1)
     private fun getActiveSubscriptions(): List<SubscriptionInfo> {
         return try {
             subscriptionManager?.activeSubscriptionInfoList ?: emptyList()
@@ -159,14 +151,9 @@ class SimManager @Inject constructor(
     /**
      * Get default subscription ID for voice calls
      */
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP_MR1)
     fun getDefaultSubscriptionId(): Int {
         return try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                SubscriptionManager.getDefaultVoiceSubscriptionId()
-            } else {
-                SubscriptionManager.INVALID_SUBSCRIPTION_ID
-            }
+            SubscriptionManager.getDefaultVoiceSubscriptionId()
         } catch (e: Exception) {
             SubscriptionManager.INVALID_SUBSCRIPTION_ID
         }
@@ -175,7 +162,6 @@ class SimManager @Inject constructor(
     /**
      * Get SIM info by slot index
      */
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP_MR1)
     fun getSimBySlot(slotIndex: Int): SimInfo? {
         return getAvailableSims().firstOrNull { it.slotIndex == slotIndex }
     }
@@ -183,7 +169,6 @@ class SimManager @Inject constructor(
     /**
      * Get SIM info by subscription ID
      */
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP_MR1)
     fun getSimBySubscriptionId(subscriptionId: Int): SimInfo? {
         return getAvailableSims().firstOrNull { it.subscriptionId == subscriptionId }
     }
@@ -197,16 +182,13 @@ class SimManager @Inject constructor(
     @Volatile
     private var subscriptionSlotCache: Map<Int, Int>? = null
 
+    @SuppressLint("MissingPermission")
     private fun buildSubscriptionSlotCache(): Map<Int, Int> {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-            try {
-                subscriptionManager?.activeSubscriptionInfoList
-                    ?.associate { it.subscriptionId to it.simSlotIndex }
-                    ?: emptyMap()
-            } catch (e: Exception) {
-                emptyMap()
-            }
-        } else {
+        return try {
+            subscriptionManager?.activeSubscriptionInfoList
+                ?.associate { it.subscriptionId to it.simSlotIndex }
+                ?: emptyMap()
+        } catch (e: Exception) {
             emptyMap()
         }
     }
@@ -240,7 +222,6 @@ class SimManager @Inject constructor(
     /**
      * Get number of active SIMs
      */
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP_MR1)
     fun getActiveSimCount(): Int {
         return try {
             getActiveSubscriptions().size
@@ -256,9 +237,9 @@ class SimManager @Inject constructor(
      *
      * @return subscriptionId أو null إذا تعذّر التحديد.
      */
+    @SuppressLint("MissingPermission")
     fun getSubscriptionIdForPhoneAccount(handle: android.telecom.PhoneAccountHandle?): Int? {
         if (handle == null) return null
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return null
         return try {
             // API 30+: TelephonyManager.getSubscriptionId(PhoneAccountHandle)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -276,17 +257,15 @@ class SimManager @Inject constructor(
             if (subFromExtras != SubscriptionManager.INVALID_SUBSCRIPTION_ID) return subFromExtras
 
             // Fallback أخير: مطابقة id برقم subscription لكل شريحة نشطة
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-                val handleId = handle.id
-                getActiveSubscriptions().firstOrNull { sub ->
-                    val subIdStr = sub.subscriptionId.toString()
-                    // تطابق دقيق أو محاط بفواصل غير رقمية لتفادي 1 يطابق 21
-                    handleId == subIdStr ||
-                        handleId.endsWith("/$subIdStr") ||
-                        handleId.endsWith(";$subIdStr") ||
-                        Regex("(^|[^0-9])$subIdStr([^0-9]|$)").containsMatchIn(handleId)
-                }?.subscriptionId
-            } else null
+            val handleId = handle.id
+            getActiveSubscriptions().firstOrNull { sub ->
+                val subIdStr = sub.subscriptionId.toString()
+                // تطابق دقيق أو محاط بفواصل غير رقمية لتفادي 1 يطابق 21
+                handleId == subIdStr ||
+                    handleId.endsWith("/$subIdStr") ||
+                    handleId.endsWith(";$subIdStr") ||
+                    Regex("(^|[^0-9])$subIdStr([^0-9]|$)").containsMatchIn(handleId)
+            }?.subscriptionId
         } catch (e: Exception) {
             Log.w("SimManager", "getSubscriptionIdForPhoneAccount failed", e)
             null

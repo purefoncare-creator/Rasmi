@@ -377,8 +377,14 @@
     <string name="action_number_copied">Number copied to clipboard</string>
     <string name="callback_reminder_title">Call Back Reminder</string>
     <string name="callback_select_duration">Select duration:</string>
-    <string name="callback_minutes">%d minutes</string>
-    <string name="callback_hour">%d hour</string>
+    <plurals name="callback_minutes">
+        <item quantity="one">%d minute</item>
+        <item quantity="other">%d minutes</item>
+    </plurals>
+    <plurals name="callback_hour">
+        <item quantity="one">%d hour</item>
+        <item quantity="other">%d hours</item>
+    </plurals>
     <string name="callback_set">Set</string>
     <string name="callback_reminder_alert_title">Call Back Reminder</string>
     <string name="callback_call_now">Call Now</string>
@@ -388,8 +394,10 @@
     <string name="incall_end_call">End Call</string>
     <string name="contacts_search_placeholder">Search</string>
     <string name="contacts_no_contacts">No contacts</string>
-    <string name="contacts_stat_blocked">Blocked</string>
-    <string name="contacts_selected">%d selected</string>
+    <plurals name="contacts_selected">
+        <item quantity="one">%1$d selected</item>
+        <item quantity="other">%1$d selected</item>
+    </plurals>
     <string name="contacts_select_all">Select All</string>
     <string name="contacts_deselect_all">Deselect All</string>
     <string name="contacts_action_favorite">Favorite</string>
@@ -397,7 +405,10 @@
     <string name="contacts_action_block">Block</string>
     <string name="contacts_action_unblock">Unblock</string>
     <string name="contacts_action_delete">Delete</string>
-    <string name="contacts_delete_multiple">Delete %d contacts?</string>
+    <plurals name="contacts_delete_multiple">
+        <item quantity="one">Delete %1$d contact?</item>
+        <item quantity="other">Delete %1$d contacts?</item>
+    </plurals>
     <string name="contacts_delete_warning">This action cannot be undone.</string>
     <string name="contacts_cd_add_contact">Add new contact</string>
     <string name="contacts_cd_clear_search">Clear search</string>
@@ -438,7 +449,7 @@
     <string name="contact_detail_no_history">No call history yet</string>
     <string name="contact_detail_no_notes">No notes yet</string>
     <string name="contact_detail_delete_title">Delete Contact</string>
-    <string name="contact_detail_delete_message">Are you sure you want to delete %s?</string>
+    <string name="contact_detail_delete_message">Are you sure you want to delete %1$s?</string>
     <string name="contact_detail_delete_confirm">Delete</string>
     <string name="contact_detail_first_name">First name</string>
     <string name="contact_detail_last_name">Last name</string>
@@ -469,8 +480,6 @@
     <string name="add_contact_group">Group</string>
     <string name="add_contact_save_changes">Save Changes</string>
     <string name="add_contact_save">Save Contact</string>
-    <string name="add_contact_saved">✓ Contact saved</string>
-    <string name="add_contact_updated">✓ Contact updated</string>
     <string name="add_contact_failed">Failed to save. Check permissions.</string>
     <string name="add_contact_favorite">Favorite</string>
     <string name="add_contact_type_mobile">Mobile</string>
@@ -479,7 +488,6 @@
     <string name="add_contact_type_other">Other</string>
     <string name="add_contact_save_to">Save to</string>
     <string name="add_contact_account_device">Device</string>
-    <string name="add_contact_account_sim">SIM %1$d (%2$s)</string>
     <string name="add_contact_account_google">Google</string>
     <string name="add_contact_select_account">Select where to save this contact</string>
 
@@ -487,19 +495,11 @@
     <string name="messages_delete_conversation">Delete Conversation</string>
     <string name="history_missed">Missed</string>
     <string name="history_duration">Duration: %s</string>
-    <string name="settings_title">Settings</string>
     <string name="settings_appearance">Appearance</string>
-    <string name="settings_notifications">Notifications</string>
-    <string name="settings_theme">Theme</string>
     <string name="settings_theme_dark">Dark</string>
     <string name="settings_theme_system">System Default</string>
-    <string name="settings_rtl_title">Right-to-Left Layout</string>
-    <string name="settings_rtl_subtitle">Mirror the interface for right-to-left reading</string>
     <string name="settings_language">Language</string>
-    <string name="settings_language_summary">Change the manual app language</string>
     <string name="language_system">System Default</string>
-    <string name="language_ar">العربية (Arabic)</string>
-    <string name="language_en">English (English)</string>
     <string name="dialer_add_to_contacts">Add to contacts</string>
     <string name="messages_all">All</string>
     <string name="messages_starred_tab">Starred</string>
@@ -507,11 +507,8 @@
     <string name="messages_no_starred">No Starred Messages</string>
     <string name="messages_starred_hint">Long press on any message to add to favorites</string>
     <string name="messages_archive">Archive</string>
-    <string name="messages_unarchive">Unarchive</string>
     <string name="messages_mark_as_read">Mark as read</string>
-    <string name="messages_mark_as_unread">Mark as unread</string>
     <string name="messages_archived_tab">Archived</string>
-    <string name="history_call_will_be_deleted">Call will be deleted</string>
     <string name="history_number_will_be_blocked">Number will be blocked</string>
     <string name="history_undo">Undo</string>
     <string name="history_no_history">No call history yet</string>
@@ -539,42 +536,52 @@
     <string name="history_delete_from_history">Delete all from history</string>
     <string name="history_delete_all_calls_title">Delete all calls for this number?</string>
     <string name="history_delete_all_calls_message">Remove every entry for %s from your call history. This cannot be undone.</string>
-    <string name="history_delete_selected_numbers">Remove history for %d numbers?</string>
-    <string name="history_group_missed_count">%d missed</string>
+    <plurals name="history_delete_selected_numbers">
+        <item quantity="one">Remove history for %d number?</item>
+        <item quantity="other">Remove history for %d numbers?</item>
+    </plurals>
     <string name="history_notes_cd_has_note">Has notes</string>
-    <string name="history_delete_call_title">Delete Call?</string>
-    <string name="history_delete_call_message">Are you sure you want to delete this call from your history? This action cannot be undone.</string>
     <string name="history_block_number_title">Block Number?</string>
     <string name="history_block_number_message">Are you sure you want to block %s? You won\'t receive calls from this number.</string>
     <string name="history_search_calls">Search calls</string>
     <string name="history_clear">Clear</string>
     <string name="history_today">Today</string>
     <string name="history_yesterday">Yesterday</string>
-    <string name="history_calls">%d calls</string>
+    <plurals name="history_calls">
+        <item quantity="one">%d call</item>
+        <item quantity="other">%d calls</item>
+    </plurals>
     <string name="history_total">Total</string>
     <string name="history_permission_name">READ_CALL_LOG</string>
     <string name="history_permission_rationale">This app needs access to your call logs to display your call history, track missed calls, and provide call statistics.</string>
     <string name="history_action_call">Call</string>
     <string name="history_action_message">Message</string>
     <string name="history_notes">Notes (%d)</string>
-    <string name="history_more_notes">+%d more notes</string>
+    <plurals name="history_more_notes">
+        <item quantity="one">+%d more note</item>
+        <item quantity="other">+%d more notes</item>
+    </plurals>
     <string name="history_note_today">Today</string>
     <string name="history_note_yesterday">Yesterday</string>
     <string name="note_dialog_title">Notes for %s</string>
-    <string name="note_dialog_count">%d note</string>
+    <plurals name="note_dialog_count">
+        <item quantity="one">%d note</item>
+        <item quantity="other">%d notes</item>
+    </plurals>
     <string name="note_dialog_empty">No notes</string>
     <string name="note_delete_cd">Delete note</string>
-    <string name="note_icon_cd">Contact notes</string>
     <string name="note_dialog_close">Close</string>
     <string name="history_sim">SIM %d</string>
     
     <!-- History Selection Mode -->
-    <string name="history_selected_count">%d selected</string>
+    <plurals name="history_selected_count">
+        <item quantity="one">%d selected</item>
+        <item quantity="other">%d selected</item>
+    </plurals>
     <string name="history_select_all">Select All</string>
     <string name="history_deselect_all">Deselect All</string>
     <string name="history_action_block">Block</string>
     <string name="history_action_delete">Delete</string>
-    <string name="history_delete_selected">Delete %d calls?</string>
     <string name="history_delete_selected_warning">This action cannot be undone.</string>
     
     <string name="otp_settings_title">OTP Settings</string>
@@ -591,28 +598,10 @@
     <string name="about_feature_bubble_desc">Control calls with floating bubble overlay</string>
     <string name="about_feature_sim">Dual SIM Support</string>
     <string name="about_feature_sim_desc">Full support for dual SIM devices</string>
-    <string name="about_feature_backup">Backup &amp; Restore</string>
-    <string name="about_feature_backup_desc">Keep your data safe with automatic backups</string>
     <string name="about_contact_us">Contact us:</string>
     <string name="about_copyright">© 2026 Purevon. All rights reserved.</string>
     
     <!-- AI Model Settings -->
-    <string name="ai_model_title">AI Features</string>
-    <string name="ai_model_download">Download Gemma 3 (1B)</string>
-    <string name="ai_model_download_desc">Download Gemma 3 1B model (~555 MB) for offline AI chat</string>
-    <string name="ai_model_downloading">Downloading… %1$d%%</string>
-    <string name="ai_model_extracting">Saving model…</string>
-    <string name="ai_model_downloaded">Model downloaded</string>
-    <string name="ai_model_delete">Delete AI Model</string>
-    <string name="ai_model_delete_desc">Remove the downloaded Gemma model to free up space</string>
-    <string name="ai_chat_title">Gemma AI Chat</string>
-    <string name="ai_chat_model_loading">Loading model…</string>
-    <string name="ai_chat_model_error">Model failed to load</string>
-    <string name="ai_chat_model_ready">Ready</string>
-    <string name="ai_chat_hint">Ask Gemma anything…</string>
-    <string name="ai_hf_token_label">HuggingFace Token</string>
-    <string name="ai_hf_token_placeholder">hf_xxxxxxxxxxxxxxxxxxxx</string>
-    <string name="ai_hf_token_desc">Required to download Gemma (free at huggingface.co)</string>
     <string name="conversation_no_messages">No messages yet</string>
     <string name="conversation_start_hint">Send a message to start the conversation</string>
     <string name="conversation_message_hint">Message</string>
@@ -646,12 +635,7 @@
     <string name="msg_attachment_file">File</string>
     <string name="msg_attachment_contact">Contact</string>
     <string name="msg_attachment_location">Location</string>
-    <string name="msg_attachment_schedule">Schedule</string>
-    <string name="location_fetching">Fetching location…</string>
-    <string name="location_error">Could not determine location</string>
     <string name="location_permission_denied">Location permission is required to share your location</string>
-    <string name="location_my_current">My current location</string>
-    <string name="location_coordinates">Coordinates</string>
     <string name="location_view_map">View on map:</string>
     <string name="msg_cd_attached_image">Attached image</string>
     <string name="msg_cd_scheduled">Scheduled</string>
@@ -669,7 +653,6 @@
     <string name="msg_cd_retry">Retry sending</string>
     <string name="msg_cd_attachment_type">Attachment type</string>
     <string name="msg_cd_open_location">Open location on map</string>
-    <string name="msg_cd_playback_speed">Playback speed</string>
     <string name="msg_cd_play">Play</string>
     <string name="msg_cd_pause">Pause</string>
     <string name="msg_cd_send">Send</string>
@@ -677,14 +660,16 @@
     <string name="msg_cd_conversation_options">Conversation options</string>
     <string name="msg_cd_delete_recording">Delete recording</string>
     <string name="msg_cd_send_recording">Send recording</string>
-    <string name="msg_fetching_location">Locating…</string>
     <string name="msg_date_today">Today</string>
     <string name="msg_date_yesterday">Yesterday</string>
     <string name="msg_no_results">No results</string>
     <string name="msg_no_archived_conversations">No archived conversations</string>
     <string name="msg_search_try_different">Try a different keyword than \"%s\"</string>
     <string name="msg_archive_hint">Long press on a conversation to archive it</string>
-    <string name="msg_delete_conversations_title">Delete %d conversations?</string>
+    <plurals name="msg_delete_conversations_title">
+        <item quantity="one">Delete %d conversation?</item>
+        <item quantity="other">Delete %d conversations?</item>
+    </plurals>
     <string name="msg_sim_ask_me">Ask Me</string>
     <string name="msg_phone_number_missing">Phone number is missing</string>
     <string name="msg_scheduled_cancelled">Scheduled message cancelled</string>
@@ -707,10 +692,12 @@
     <string name="templates_title">Message Templates</string>
     <string name="templates_empty">No templates yet</string>
     <string name="templates_create">Create Template</string>
-    <string name="templates_use_count">Used %d times</string>
+    <plurals name="templates_use_count">
+        <item quantity="one">Used %d time</item>
+        <item quantity="other">Used %d times</item>
+    </plurals>
     <string name="templates_delete_title">Delete Template</string>
     <string name="templates_delete_message">Are you sure you want to delete "%s"?</string>
-    <string name="cleanup_creating_backup">جاري إنشاء نسخة احتياطية...</string>
     <string name="system_perm_title">Additional Settings</string>
     <string name="system_perm_device">Your device: %1$s</string>
     <string name="system_perm_subtitle">Requires additional settings for the app to work properly</string>
@@ -754,11 +741,8 @@
     <string name="manufacturer_vivo">Vivo (Funtouch OS)</string>
     <string name="manufacturer_oneplus">OnePlus (OxygenOS)</string>
     <string name="manufacturer_stock">Android</string>
-    <string name="appearance_theme_system_follow">Follow system theme</string>
     <string name="spam_privacy_title">Privacy</string>
-    <string name="otp_settings_desc">Auto copy, notifications, trusted senders</string>
     <string name="privacy_hide_notifications">Hide Sensitive Notifications</string>
-    <string name="privacy_hide_notifications_desc">Hide message content in notifications</string>
     <string name="about_version">Version %s</string>
     <string name="close">Close</string>
     <string name="remove">Remove</string>
@@ -771,11 +755,8 @@
     <string name="sim_all">All SIMs</string>
     <string name="sim_select_for_blocking">Select SIM for call blocking</string>
     <string name="sim_slot_format">Applied to: %1$s</string>
-    <string name="call_blocking_desc">Block unwanted calls</string>
     <string name="call_blocking_blocked_list">Blocked Numbers</string>
-    <string name="call_blocking_manage_blocked">Manage blocked numbers list</string>
     <string name="call_blocking_whitelist">Whitelist</string>
-    <string name="call_blocking_manage_whitelist">Manage whitelist</string>
     <string name="blocked_list_title">Blocked Numbers</string>
     <string name="blocked_list_count">Blocked (%d)</string>
     <string name="blocked_search_hint">Search contacts or recent calls</string>
@@ -794,7 +775,10 @@
     <string name="call_status_calling">Calling…</string>
     <string name="conference_call_title">Conference Call</string>
     <string name="conference_label">Conference</string>
-    <string name="conference_participants_count">%d participants</string>
+    <plurals name="conference_participants_count">
+        <item quantity="one">%d participant</item>
+        <item quantity="other">%d participants</item>
+    </plurals>
     <string name="overlay_status_hold">Hold</string>
     <string name="overlay_status_incoming">Incoming</string>
     <string name="fake_call_title">Fake Call</string>
@@ -812,20 +796,25 @@
     <string name="fake_call_incoming">Incoming call…</string>
     <string name="fake_call_answer">Answer</string>
     <string name="fake_call_decline">Decline</string>
-    <string name="fake_call_end">End Call</string>
     <string name="fake_call_name_required">Please enter caller name</string>
     <string name="fake_call_delay_required">Please select call timing</string>
-    <string name="fake_call_scheduled">Fake call scheduled after %s</string>
+    <string name="fake_call_scheduled">Fake call scheduled after %1$s</string>
     <string name="fake_call_schedule_error">Failed to schedule fake call</string>
     <string name="fake_call_manage_title">Scheduled Fake Calls</string>
-    <string name="fake_call_active_count">%d call(s) scheduled</string>
+    <plurals name="fake_call_active_count">
+        <item quantity="one">%d call scheduled</item>
+        <item quantity="other">%d calls scheduled</item>
+    </plurals>
     <string name="fake_call_no_scheduled">No scheduled fake calls</string>
     <string name="fake_call_cancel_all">Cancel All</string>
     <string name="fake_call_cancel_call">Cancel call</string>
     <string name="fake_call_inexact_alarm_warning">Note: The call may not arrive at the exact time. Grant "Alarms &amp; reminders" permission in settings for better accuracy.</string>
     <string name="refresh">Refresh</string>
     <string name="callback_reminders_manage_title">Scheduled Call Back Reminders</string>
-    <string name="callback_reminder_active_count">%d reminder(s) scheduled</string>
+    <plurals name="callback_reminder_active_count">
+        <item quantity="one">%d reminder scheduled</item>
+        <item quantity="other">%d reminders scheduled</item>
+    </plurals>
     <string name="callback_reminder_no_scheduled">No scheduled reminders</string>
     <string name="callback_reminder_cancel_all">Cancel All</string>
     <string name="callback_reminder_cancel_item">Cancel reminder</string>
@@ -834,15 +823,12 @@
     <string name="scheduled_message_failed_body">To %1$s: %2$s</string>
     <string name="scheduled_message_cancel">Cancel</string>
     <string name="scheduled_message_edit">Edit</string>
-    <string name="scheduled_message_cancelled">Scheduled message cancelled</string>
     <string name="scheduled_status_pending">Pending</string>
     <string name="scheduled_status_sent">Sent</string>
     <string name="scheduled_status_failed">Failed</string>
     <string name="scheduled_status_cancelled">Cancelled</string>
     
     <!-- Message Notification Strings -->
-    <string name="msg_send_failure_title">Message Send Failed</string>
-    <string name="msg_send_failure_text">To %1$s: %2$s</string>
 
     <!-- Search -->
     <string name="search_messages_hint">Search messages</string>
@@ -955,10 +941,8 @@
     <!-- Error Messages -->
     <string name="msg_unexpected_error">Unexpected error: %1$s</string>
     <string name="msg_suggestion_prefix">Suggestion: %1$s</string>
-    <string name="msg_send_attachments_lost">Send failed. Your attachments are preserved — tap the failed message to retry.</string>
     <string name="msg_retry_unexpected_error">Unexpected error: %1$s</string>
     <string name="msg_forward_partial_success">Sent to %1$d of %2$d recipients. %3$d failed.</string>
-    <string name="msg_scheduled_load_error">Failed to load scheduled messages</string>
 
     <!-- MessageError User Messages -->
     <string name="msg_error_network_wifi">📶 MMS requires Wi-Fi or mobile data. Please check your connection.</string>
@@ -967,7 +951,10 @@
     <string name="msg_error_balance">💳 Insufficient SMS balance. Please recharge your SIM card.</string>
     <string name="msg_error_invalid_number">📱 Invalid phone number. Please check and try again.</string>
     <string name="msg_error_storage_full">💾 Storage full. Please free up some space.</string>
-    <string name="msg_error_rate_limit">⏱️ Too many messages sent. Please wait %1$d seconds.</string>
+    <plurals name="msg_error_rate_limit">
+        <item quantity="one">⏱️ Too many messages sent. Please wait %1$d second.</item>
+        <item quantity="other">⏱️ Too many messages sent. Please wait %1$d seconds.</item>
+    </plurals>
     <string name="msg_error_mms">📎 MMS error: %1$s. Please try again.</string>
     <string name="msg_error_too_large">📏 Message too large. Maximum size is %1$dKB.</string>
     <string name="msg_error_attachment">📎 Cannot attach %1$s: %2$s</string>
@@ -1007,7 +994,6 @@
     <string name="sms_error_unknown">Unknown error</string>
 
     <!-- OTP Bubble Service -->
-    <string name="otp_copied_toast">Verification code copied: %1$s ✓</string>
     <string name="otp_copied_generic">Verification code copied ✓</string>
     <string name="otp_missed_notification_title">Verification code received</string>
     <string name="otp_missed_notification_text">New message from %1$s — open inbox to view</string>
@@ -1023,7 +1009,10 @@
     <!-- Notification Summary -->
     <string name="notification_summary_title">Messages</string>
     <string name="notification_summary_2_messages">2 new messages</string>
-    <string name="notification_summary_n_messages">%1$d new messages</string>
+    <plurals name="notification_summary_n_messages">
+        <item quantity="one">%1$d new message</item>
+        <item quantity="other">%1$d new messages</item>
+    </plurals>
     <string name="notification_summary_many_messages">9+ new messages</string>
     <string name="notification_action_reply">Reply</string>
     <string name="notification_action_mark_read_short">Mark read</string>
@@ -1045,45 +1034,23 @@
     <string name="error_failed_update_favorite">Failed to update favorite status</string>
     <string name="error_failed_delete_contact">Failed to delete contact: %1$s</string>
     <string name="success_contact_deleted">Contact deleted</string>
-    <string name="success_contacts_blocked">%1$d contacts blocked</string>
-    <string name="success_contacts_added_favorites">%1$d contacts added to favorites</string>
+    <plurals name="success_contacts_blocked">
+        <item quantity="one">%1$d contact blocked</item>
+        <item quantity="other">%1$d contacts blocked</item>
+    </plurals>
+    <plurals name="success_contacts_added_favorites">
+        <item quantity="one">%1$d contact added to favorites</item>
+        <item quantity="other">%1$d contacts added to favorites</item>
+    </plurals>
     <string name="success_added_to_favorites">Added to favorites</string>
     <string name="success_removed_from_favorites">Removed from favorites</string>
     <string name="msg_contact_will_be_deleted">\"%1$s\" will be deleted</string>
 
     <!-- Backup Encryption -->
-    <string name="backup_encrypt_dialog_title">Encrypt Backup</string>
-    <string name="backup_encrypt_dialog_desc">Enter a password to encrypt the backup, or leave empty to save as plain JSON.</string>
-    <string name="backup_encrypt_password_hint">Password (optional)</string>
-    <string name="backup_encrypt_confirm">Export</string>
-    <string name="restore_decrypt_dialog_title">Encrypted Backup</string>
-    <string name="restore_decrypt_dialog_desc">This backup is encrypted. Enter the password used when it was created.</string>
-    <string name="restore_decrypt_password_hint">Password</string>
-    <string name="restore_decrypt_confirm">Restore</string>
-    <string name="backup_wrong_password">Wrong password — could not decrypt backup.</string>
-    <string name="backup_encrypted_badge">🔒 Encrypted</string>
 
     <!-- Backup & Restore -->
-    <string name="backup_created_success">Backup created successfully</string>
-    <string name="backup_created_failure">Failed to create backup</string>
-    <string name="backup_saved_success">✅ Backup saved successfully</string>
-    <string name="backup_saved_failure">❌ Save failed: %1$s</string>
-    <string name="restore_success">✅ Data restored successfully</string>
-    <string name="restore_failure">Restore failed</string>
-    <string name="restore_error">Restore error: %1$s</string>
-    <string name="backup_restore_success">✅ Backup restored successfully</string>
-    <string name="backup_restore_failure">❌ Restore failed: %1$s</string>
-    <string name="generic_error">Error: %1$s</string>
 
     <!-- Export & Import -->
-    <string name="export_calls_success">✅ Calls exported: %1$s</string>
-    <string name="export_messages_success">✅ Messages exported: %1$s</string>
-    <string name="export_all_success">✅ All data exported: %1$s</string>
-    <string name="export_failure">❌ Export failed</string>
-    <string name="import_success">✅ Data imported successfully</string>
-    <string name="import_failure">Import failed</string>
-    <string name="import_error">Import error: %1$s</string>
-    <string name="import_restore_failure">❌ Import failed: %1$s</string>
 
     <!-- ======================== -->
     <!-- 25. DATA DISCLOSURE      -->
@@ -1128,8 +1095,6 @@
     <string name="incall_error_reject_failed">Failed to reject call</string>
     <string name="incall_error_merge_not_supported">Cannot merge calls - not supported</string>
     <string name="incall_error_merge_failed">Failed to merge calls</string>
-    <string name="incall_error_add_call_unavailable">Cannot add call right now</string>
-    <string name="incall_error_sim_unknown">Could not determine SIM</string>
     <string name="incall_error_no_call_permission">No permission to make calls</string>
     <string name="incall_error_add_call_failed">Failed to add call: %1$s</string>
     <string name="incall_error_note_save_invalid_number">Failed to save note - invalid number</string>
@@ -1140,8 +1105,14 @@
     <string name="incall_msg_number_unblocked">Number unblocked</string>
     <string name="incall_msg_number_blocked">Number blocked</string>
     <string name="incall_msg_note_saved">✅ Saved</string>
-    <string name="incall_msg_reminder_set_hours">✅ Reminder set after %1$d hour(s)</string>
-    <string name="incall_msg_reminder_set_minutes">✅ Reminder set after %1$d minute(s)</string>
+    <plurals name="incall_msg_reminder_set_hours">
+        <item quantity="one">✅ Reminder set after %1$d hour</item>
+        <item quantity="other">✅ Reminder set after %1$d hours</item>
+    </plurals>
+    <plurals name="incall_msg_reminder_set_minutes">
+        <item quantity="one">✅ Reminder set after %1$d minute</item>
+        <item quantity="other">✅ Reminder set after %1$d minutes</item>
+    </plurals>
     <string name="incall_msg_reminder_approximate_warning"> (Note: approximate timing)</string>
     <string name="incall_msg_location_coming_soon">Location sending coming soon</string>
     <string name="incall_msg_image_sharing_coming_soon">Image sharing coming soon</string>
@@ -1150,7 +1121,6 @@
     <string name="shortcut_create_new_message">Create new message</string>
 
     <!-- AI Settings -->
-    <string name="btn_ai_scan">Scan with AI</string>
 
     <!-- MMS Foreground Service -->
     <string name="mms_fg_channel_name">MMS Operations</string>
@@ -1159,6 +1129,17 @@
     <string name="mms_fg_downloading">Downloading MMS</string>
     <string name="mms_fg_processing">Processing MMS</string>
     <string name="mms_fg_in_progress">MMS operation in progress…</string>
-    <string name="mms_fg_to">To %s</string>
+    <string name="mms_fg_to">To %1$s</string>
+
+    <!-- Blocked Call Bubble -->
+    <string name="blocked_call_bubble_whitelist">Add to whitelist</string>
+    <string name="blocked_call_bubble_whitelisted">Added to whitelist</string>
+    <string name="blocked_call_bubble_content_title">Blocked call</string>
+    <string name="blocked_call_bubble_call">Call</string>
+    <string name="blocked_call_bubble_dismiss">Dismiss</string>
+    <string name="blocked_call_bubble_channel_name">Call blocking</string>
+    <string name="blocked_call_bubble_channel_desc">Blocked call notifications</string>
+    <string name="blocked_call_bubble_notification_title">Call blocked</string>
+    <string name="blocked_call_bubble_notification_text">Incoming call from a suspected number was blocked</string>
 
 </resources>

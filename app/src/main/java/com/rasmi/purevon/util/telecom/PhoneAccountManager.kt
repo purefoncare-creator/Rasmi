@@ -3,12 +3,11 @@ package com.rasmi.purevon.util.telecom
 import android.content.ComponentName
 import android.content.Context
 import android.graphics.drawable.Icon
-import android.os.Build
 import android.telecom.PhoneAccount
 import android.telecom.PhoneAccountHandle
 import android.telecom.TelecomManager
 import android.util.Log
-import androidx.annotation.RequiresApi
+import android.annotation.SuppressLint
 import com.rasmi.purevon.R
 import com.rasmi.purevon.service.PurevonConnectionService
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -19,7 +18,6 @@ import javax.inject.Singleton
  * Manager for registering and managing PhoneAccount with TelecomManager
  * Required for handling outgoing and incoming calls
  */
-@RequiresApi(Build.VERSION_CODES.M)
 @Singleton
 class PhoneAccountManager @Inject constructor(
     @ApplicationContext private val context: Context
@@ -147,6 +145,7 @@ class PhoneAccountManager @Inject constructor(
     /**
      * Get all call capable phone accounts
      */
+    @SuppressLint("MissingPermission")
     fun getCallCapablePhoneAccounts(): List<PhoneAccountHandle> {
         return try {
             telecomManager?.callCapablePhoneAccounts ?: emptyList()

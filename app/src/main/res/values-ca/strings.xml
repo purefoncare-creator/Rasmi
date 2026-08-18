@@ -9,7 +9,6 @@
     <string name="template_title">Títol de la plantilla</string>
     <string name="template_content">Contingut de la plantilla</string>
     <string name="save">Desa</string>
-    <string name="app_name" translatable="false">Purevon</string>
     <string name="perm_setup_title">Permisos de configuració</string>
     <string name="perm_welcome_title">Benvingut a Purevon</string>
     <string name="perm_welcome_message">Per substituir les vostres aplicacions de telèfon i SMS predeterminades, necessitem els permisos següents</string>
@@ -60,8 +59,22 @@
     <string name="action_number_copied">Número copiat al porta-retalls</string>
     <string name="callback_reminder_title">Recordatori de tornada de trucada</string>
     <string name="callback_select_duration">Seleccioneu la durada:</string>
-    <string name="callback_minutes">%dminuts</string>
-    <string name="callback_hour">%dhora</string>
+    <plurals name="callback_minutes">
+        <item quantity="one">%dminuts</item>
+        <item quantity="other">%dminuts</item>
+    
+        <item quantity="few">%dminuts</item>
+    
+        <item quantity="many">%dminuts</item>
+    </plurals>
+    <plurals name="callback_hour">
+        <item quantity="one">%dhora</item>
+        <item quantity="other">%dhora</item>
+    
+        <item quantity="few">%dhora</item>
+    
+        <item quantity="many">%dhora</item>
+    </plurals>
     <string name="callback_set">Set</string>
     <string name="callback_reminder_alert_title">Recordatori de tornada de trucada</string>
     <string name="callback_call_now">Truca ara</string>
@@ -71,8 +84,14 @@
     <string name="incall_end_call">Finalitzar la trucada</string>
     <string name="contacts_search_placeholder">Cerca</string>
     <string name="contacts_no_contacts">Sense contactes</string>
-    <string name="contacts_stat_blocked">Bloquejat</string>
-    <string name="contacts_selected">%dseleccionat</string>
+    <plurals name="contacts_selected">
+        <item quantity="one">%1$dseleccionat</item>
+        <item quantity="other">%1$dseleccionat</item>
+    
+        <item quantity="few">%1$dseleccionat</item>
+    
+        <item quantity="many">%1$dseleccionat</item>
+    </plurals>
     <string name="contacts_select_all">Seleccioneu Tot</string>
     <string name="contacts_deselect_all">Desseleccioneu-ho tot</string>
     <string name="contacts_action_favorite">Favorit</string>
@@ -80,7 +99,14 @@
     <string name="contacts_action_block">Bloc</string>
     <string name="contacts_action_unblock">Desbloqueja</string>
     <string name="contacts_action_delete">Suprimeix</string>
-    <string name="contacts_delete_multiple">Vols suprimir%dcontactes?</string>
+    <plurals name="contacts_delete_multiple">
+        <item quantity="one">Vols suprimir%1$dcontactes?</item>
+        <item quantity="other">Vols suprimir%1$dcontactes?</item>
+    
+        <item quantity="few">Vols suprimir%1$dcontactes?</item>
+    
+        <item quantity="many">Vols suprimir%1$dcontactes?</item>
+    </plurals>
     <string name="contacts_delete_warning">Aquesta acció no es pot desfer.</string>
     <string name="contacts_cd_add_contact">Afegeix un contacte nou</string>
     <string name="contacts_cd_clear_search">Esborra la cerca</string>
@@ -121,7 +147,7 @@
     <string name="contact_detail_no_history">Encara no hi ha historial de trucades</string>
     <string name="contact_detail_no_notes">Encara no hi ha notes</string>
     <string name="contact_detail_delete_title">Suprimeix el contacte</string>
-    <string name="contact_detail_delete_message">Esteu segur que voleu suprimir%s?</string>
+    <string name="contact_detail_delete_message">Esteu segur que voleu suprimir%1$s?</string>
     <string name="contact_detail_delete_confirm">Suprimeix</string>
     <string name="contact_detail_first_name">Nom de pila</string>
     <string name="contact_detail_last_name">Cognom</string>
@@ -150,8 +176,6 @@
     <string name="add_contact_group">Grup</string>
     <string name="add_contact_save_changes">Desa els canvis</string>
     <string name="add_contact_save">Desa el contacte</string>
-    <string name="add_contact_saved">✓ Contacte guardat</string>
-    <string name="add_contact_updated">✓ Contacte actualitzat</string>
     <string name="add_contact_failed">No s\'ha pogut desar. Comproveu els permisos.</string>
     <string name="add_contact_favorite">Favorit</string>
     <string name="add_contact_type_mobile">Mòbil</string>
@@ -160,26 +184,17 @@
     <string name="add_contact_type_other">Altres</string>
     <string name="add_contact_save_to">Desa a</string>
     <string name="add_contact_account_device">Dispositiu</string>
-    <string name="add_contact_account_sim">SIM%1$d(%2$s)</string>
     <string name="add_contact_account_google">Google</string>
     <string name="add_contact_select_account">Seleccioneu on voleu desar aquest contacte</string>
     <string name="messages_no_messages">Sense missatges</string>
     <string name="messages_delete_conversation">Suprimeix la conversa</string>
     <string name="history_missed">Faltat</string>
     <string name="history_duration">Durada:%s</string>
-    <string name="settings_title">Configuració</string>
     <string name="settings_appearance">Aparença</string>
-    <string name="settings_notifications">Notificacions</string>
-    <string name="settings_theme">Tema</string>
     <string name="settings_theme_dark">fosc</string>
     <string name="settings_theme_system">Sistema per defecte</string>
-    <string name="settings_rtl_title">Disseny de dreta a esquerra</string>
-    <string name="settings_rtl_subtitle">Refresca la interfície per llegir de dreta a esquerra</string>
     <string name="settings_language">Llengua</string>
-    <string name="settings_language_summary">Canvia l\'idioma de l\'aplicació manual</string>
     <string name="language_system">Sistema per defecte</string>
-    <string name="language_ar">العربية (àrab)</string>
-    <string name="language_en">Anglès (anglès)</string>
     <string name="dialer_add_to_contacts">Afegeix als contactes</string>
     <string name="messages_all">Tots</string>
     <string name="messages_starred_tab">Destacat</string>
@@ -187,11 +202,8 @@
     <string name="messages_no_starred">No hi ha missatges destacats</string>
     <string name="messages_starred_hint">Premeu llargament qualsevol missatge per afegir-lo als preferits</string>
     <string name="messages_archive">Arxiu</string>
-    <string name="messages_unarchive">Desarxivar</string>
     <string name="messages_mark_as_read">Marca com a llegit</string>
-    <string name="messages_mark_as_unread">Marca com a no llegit</string>
     <string name="messages_archived_tab">Arxivat</string>
-    <string name="history_call_will_be_deleted">La trucada se suprimirà</string>
     <string name="history_number_will_be_blocked">El número es bloquejarà</string>
     <string name="history_undo">Desfer</string>
     <string name="history_no_history">Encara no hi ha historial de trucades</string>
@@ -219,40 +231,70 @@
     <string name="history_delete_from_history">Suprimeix-ho tot de l\'historial</string>
     <string name="history_delete_all_calls_title">Vols suprimir totes les trucades d\'aquest número?</string>
     <string name="history_delete_all_calls_message">Elimina totes les entrades de%sdel teu historial de trucades. Això no es pot desfer.</string>
-    <string name="history_delete_selected_numbers">Vols suprimir l\'historial dels números%d?</string>
-    <string name="history_group_missed_count">%ds\'ha perdut</string>
+    <plurals name="history_delete_selected_numbers">
+        <item quantity="one">Vols suprimir l\'historial dels números%d?</item>
+        <item quantity="other">Vols suprimir l\'historial dels números%d?</item>
+    
+        <item quantity="few">Vols suprimir l\'historial dels números%d?</item>
+    
+        <item quantity="many">Vols suprimir l\'historial dels números%d?</item>
+    </plurals>
     <string name="history_notes_cd_has_note">Té notes</string>
-    <string name="history_delete_call_title">Vols suprimir la trucada?</string>
-    <string name="history_delete_call_message">Confirmes que vols suprimir aquesta trucada del teu historial? Aquesta acció no es pot desfer.</string>
     <string name="history_block_number_title">Número de bloc?</string>
     <string name="history_block_number_message">Esteu segur que voleu bloquejar%s? No rebràs\'trucades d\'aquest número.</string>
     <string name="history_search_calls">Cerca trucades</string>
     <string name="history_clear">Clar</string>
     <string name="history_today">Avui</string>
     <string name="history_yesterday">Ahir</string>
-    <string name="history_calls">%dtrucades</string>
+    <plurals name="history_calls">
+        <item quantity="one">%dtrucades</item>
+        <item quantity="other">%dtrucades</item>
+    
+        <item quantity="few">%dtrucades</item>
+    
+        <item quantity="many">%dtrucades</item>
+    </plurals>
     <string name="history_total">Total</string>
     <string name="history_permission_name">READ_CALL_LOG</string>
     <string name="history_permission_rationale">Aquesta aplicació necessita accedir als vostres registres de trucades per mostrar el vostre historial de trucades, fer un seguiment de les trucades perdudes i proporcionar estadístiques de trucades.</string>
     <string name="history_action_call">Truca</string>
     <string name="history_action_message">Missatge</string>
     <string name="history_notes">Notes (%d)</string>
-    <string name="history_more_notes">+%dnotes més</string>
+    <plurals name="history_more_notes">
+        <item quantity="one">+%dnotes més</item>
+        <item quantity="other">+%dnotes més</item>
+    
+        <item quantity="few">+%dnotes més</item>
+    
+        <item quantity="many">+%dnotes més</item>
+    </plurals>
     <string name="history_note_today">Avui</string>
     <string name="history_note_yesterday">Ahir</string>
     <string name="note_dialog_title">Notes per a%s</string>
-    <string name="note_dialog_count">%dnota</string>
+    <plurals name="note_dialog_count">
+        <item quantity="one">%dnota</item>
+        <item quantity="other">%dnota</item>
+    
+        <item quantity="few">%dnota</item>
+    
+        <item quantity="many">%dnota</item>
+    </plurals>
     <string name="note_dialog_empty">Sense notes</string>
     <string name="note_delete_cd">Suprimeix la nota</string>
-    <string name="note_icon_cd">Notes de contacte</string>
     <string name="note_dialog_close">Tancar</string>
     <string name="history_sim">SIM%d</string>
-    <string name="history_selected_count">%dseleccionat</string>
+    <plurals name="history_selected_count">
+        <item quantity="one">%dseleccionat</item>
+        <item quantity="other">%dseleccionat</item>
+    
+        <item quantity="few">%dseleccionat</item>
+    
+        <item quantity="many">%dseleccionat</item>
+    </plurals>
     <string name="history_select_all">Seleccioneu Tot</string>
     <string name="history_deselect_all">Desseleccioneu-ho tot</string>
     <string name="history_action_block">Bloc</string>
     <string name="history_action_delete">Suprimeix</string>
-    <string name="history_delete_selected">Vols suprimir%dtrucades?</string>
     <string name="history_delete_selected_warning">Aquesta acció no es pot desfer.</string>
     <string name="otp_settings_title">Configuració OTP</string>
     <string name="about_title">Sobre</string>
@@ -268,26 +310,8 @@
     <string name="about_feature_bubble_desc">Controla les trucades amb una superposició de bombolles flotants</string>
     <string name="about_feature_sim">Suport Dual SIM</string>
     <string name="about_feature_sim_desc">Suport total per a dispositius de doble SIM</string>
-    <string name="about_feature_backup">Còpia de seguretat i restauració</string>
-    <string name="about_feature_backup_desc">Manteniu les vostres dades segures amb còpies de seguretat automàtiques</string>
     <string name="about_contact_us">Contacta amb nosaltres:</string>
     <string name="about_copyright">© 2026 Purevon. Tots els drets reservats.</string>
-    <string name="ai_model_title">Característiques de l\'IA</string>
-    <string name="ai_model_download">Descarrega Gemma 3 (1B)</string>
-    <string name="ai_model_download_desc">Baixeu el model Gemma 3 1B (~555 MB) per al xat d\'IA fora de línia</string>
-    <string name="ai_model_downloading">S\'està baixant...%1$d%%</string>
-    <string name="ai_model_extracting">S\'està desant el model...</string>
-    <string name="ai_model_downloaded">Model descarregat</string>
-    <string name="ai_model_delete">Suprimeix el model d\'IA</string>
-    <string name="ai_model_delete_desc">Elimina el model Gemma descarregat per alliberar espai</string>
-    <string name="ai_chat_title">Gemma AI Xat</string>
-    <string name="ai_chat_model_loading">S\'està carregant el model...</string>
-    <string name="ai_chat_model_error">No s\'ha pogut carregar el model</string>
-    <string name="ai_chat_model_ready">A punt</string>
-    <string name="ai_chat_hint">Pregunteu qualsevol cosa a la Gemma...</string>
-    <string name="ai_hf_token_label">Token HuggingFace</string>
-    <string name="ai_hf_token_placeholder">hf_xxxxxxxxxxxxxxxxxxxxx</string>
-    <string name="ai_hf_token_desc">Necessari per descarregar Gemma (gratuït a huggingface.co)</string>
     <string name="conversation_no_messages">Encara no hi ha missatges</string>
     <string name="conversation_start_hint">Envia un missatge per iniciar la conversa</string>
     <string name="conversation_message_hint">Missatge</string>
@@ -303,7 +327,7 @@
     <string name="schedule_today">Avui</string>
     <string name="schedule_send_at">Envia%1$sa%2$s</string>
     <string name="service_incoming_call">Trucada entrant</string>
-    <string name="service_calling">S\'està trucant...</string>
+    <string name="service_calling">S\'està trucant…</string>
     <string name="service_ongoing_call">Trucada en curs</string>
     <string name="service_ongoing_calls_channel">Trucades en curs</string>
     <string name="service_status_bar_chip_desc">Mostra l\'estat de la trucada en curs a la barra d\'estat</string>
@@ -319,12 +343,7 @@
     <string name="msg_attachment_file">Fitxer</string>
     <string name="msg_attachment_contact">Contacte</string>
     <string name="msg_attachment_location">Ubicació</string>
-    <string name="msg_attachment_schedule">Horari</string>
-    <string name="location_fetching">S\'està obtenint la ubicació…</string>
-    <string name="location_error">No s\'ha pogut determinar la ubicació</string>
     <string name="location_permission_denied">Es requereix permís d\'ubicació per compartir la teva ubicació</string>
-    <string name="location_my_current">La meva ubicació actual</string>
-    <string name="location_coordinates">Coordenades</string>
     <string name="location_view_map">Veure al mapa:</string>
     <string name="msg_cd_attached_image">Imatge adjunta</string>
     <string name="msg_cd_scheduled">Programat</string>
@@ -342,7 +361,6 @@
     <string name="msg_cd_retry">Torna a provar d\'enviar</string>
     <string name="msg_cd_attachment_type">Tipus d\'annex</string>
     <string name="msg_cd_open_location">Obre la ubicació al mapa</string>
-    <string name="msg_cd_playback_speed">Velocitat de reproducció</string>
     <string name="msg_cd_play">Jugar</string>
     <string name="msg_cd_pause">Pausa</string>
     <string name="msg_cd_send">Enviar</string>
@@ -350,14 +368,20 @@
     <string name="msg_cd_conversation_options">Opcions de conversa</string>
     <string name="msg_cd_delete_recording">Suprimeix la gravació</string>
     <string name="msg_cd_send_recording">Enviar gravació</string>
-    <string name="msg_fetching_location">Localitzant…</string>
     <string name="msg_date_today">Avui</string>
     <string name="msg_date_yesterday">Ahir</string>
     <string name="msg_no_results">Sense resultats</string>
     <string name="msg_no_archived_conversations">No hi ha converses arxivades</string>
     <string name="msg_search_try_different">Proveu una paraula clau diferent de\"%s\"</string>
     <string name="msg_archive_hint">Premeu llargament una conversa per arxivar-la</string>
-    <string name="msg_delete_conversations_title">Vols suprimir%dconverses?</string>
+    <plurals name="msg_delete_conversations_title">
+        <item quantity="one">Vols suprimir%dconverses?</item>
+        <item quantity="other">Vols suprimir%dconverses?</item>
+    
+        <item quantity="few">Vols suprimir%dconverses?</item>
+    
+        <item quantity="many">Vols suprimir%dconverses?</item>
+    </plurals>
     <string name="msg_sim_ask_me">Pregunta\'m</string>
     <string name="msg_phone_number_missing">Falta el número de telèfon</string>
     <string name="msg_scheduled_cancelled">S\'ha cancel·lat el missatge programat</string>
@@ -380,10 +404,16 @@
     <string name="templates_title">Plantilles de missatges</string>
     <string name="templates_empty">Encara no hi ha plantilles</string>
     <string name="templates_create">Crea plantilla</string>
-    <string name="templates_use_count">S\'ha utilitzat%dvegades</string>
+    <plurals name="templates_use_count">
+        <item quantity="one">S\'ha utilitzat%dvegades</item>
+        <item quantity="other">S\'ha utilitzat%dvegades</item>
+    
+        <item quantity="few">S\'ha utilitzat%dvegades</item>
+    
+        <item quantity="many">S\'ha utilitzat%dvegades</item>
+    </plurals>
     <string name="templates_delete_title">Suprimeix la plantilla</string>
     <string name="templates_delete_message">Esteu segur que voleu suprimir \"%s\"?</string>
-    <string name="cleanup_creating_backup">جاري إنشاء نسخة احتياطية...</string>
     <string name="system_perm_title">Configuració addicional</string>
     <string name="system_perm_device">El vostre dispositiu:%1$s</string>
     <string name="system_perm_subtitle">Requereix una configuració addicional perquè l\'aplicació funcioni correctament</string>
@@ -427,11 +457,8 @@
     <string name="manufacturer_vivo">Vivo (SO Funtouch)</string>
     <string name="manufacturer_oneplus">OnePlus (OxygenOS)</string>
     <string name="manufacturer_stock">Android</string>
-    <string name="appearance_theme_system_follow">Seguiu el tema del sistema</string>
     <string name="spam_privacy_title">Privadesa</string>
-    <string name="otp_settings_desc">Còpia automàtica, notificacions, remitents de confiança</string>
     <string name="privacy_hide_notifications">Amaga les notificacions sensibles</string>
-    <string name="privacy_hide_notifications_desc">Amaga el contingut del missatge a les notificacions</string>
     <string name="about_version">Versió%s</string>
     <string name="close">Tancar</string>
     <string name="remove">Eliminar</string>
@@ -444,11 +471,8 @@
     <string name="sim_all">Totes les SIM</string>
     <string name="sim_select_for_blocking">Seleccioneu SIM per bloquejar trucades</string>
     <string name="sim_slot_format">Aplicat a:%1$s</string>
-    <string name="call_blocking_desc">Bloqueja les trucades no desitjades</string>
     <string name="call_blocking_blocked_list">Números bloquejats</string>
-    <string name="call_blocking_manage_blocked">Gestioneu la llista de números bloquejats</string>
     <string name="call_blocking_whitelist">Llista blanca</string>
-    <string name="call_blocking_manage_whitelist">Gestiona la llista blanca</string>
     <string name="blocked_list_title">Números bloquejats</string>
     <string name="blocked_list_count">Bloquejat (%d)</string>
     <string name="blocked_search_hint">Cerca contactes o trucades recents</string>
@@ -462,12 +486,19 @@
     <string name="action_swap">Canviar</string>
     <string name="action_merge">Fusionar</string>
     <string name="action_end">Final</string>
-    <string name="call_status_incoming">Entrant...</string>
+    <string name="call_status_incoming">Entrant…</string>
     <string name="call_status_on_hold">En espera</string>
-    <string name="call_status_calling">S\'està trucant...</string>
+    <string name="call_status_calling">S\'està trucant…</string>
     <string name="conference_call_title">Conferència trucada</string>
     <string name="conference_label">Conferència</string>
-    <string name="conference_participants_count">%dparticipants</string>
+    <plurals name="conference_participants_count">
+        <item quantity="one">%dparticipants</item>
+        <item quantity="other">%dparticipants</item>
+    
+        <item quantity="few">%dparticipants</item>
+    
+        <item quantity="many">%dparticipants</item>
+    </plurals>
     <string name="overlay_status_hold">Aguanta</string>
     <string name="overlay_status_incoming">Entrant</string>
     <string name="fake_call_title">Trucada falsa</string>
@@ -482,23 +513,36 @@
     <string name="fake_call_delay_30m">30 min</string>
     <string name="fake_call_start">Comença</string>
     <string name="fake_call_close">Tancar</string>
-    <string name="fake_call_incoming">Trucada entrant...</string>
+    <string name="fake_call_incoming">Trucada entrant…</string>
     <string name="fake_call_answer">Respon</string>
     <string name="fake_call_decline">Declinar</string>
-    <string name="fake_call_end">Finalitzar la trucada</string>
     <string name="fake_call_name_required">Introduïu el nom de la persona que truca</string>
     <string name="fake_call_delay_required">Seleccioneu l\'hora de la trucada</string>
-    <string name="fake_call_scheduled">Trucada falsa programada després del%s</string>
+    <string name="fake_call_scheduled">Trucada falsa programada després del%1$s</string>
     <string name="fake_call_schedule_error">No s\'ha pogut programar una trucada falsa</string>
     <string name="fake_call_manage_title">Trucades falses programades</string>
-    <string name="fake_call_active_count">%dtrucades programades</string>
+    <plurals name="fake_call_active_count">
+        <item quantity="one">%dtrucades programades</item>
+        <item quantity="other">%dtrucades programades</item>
+    
+        <item quantity="few">%dtrucades programades</item>
+    
+        <item quantity="many">%dtrucades programades</item>
+    </plurals>
     <string name="fake_call_no_scheduled">No hi ha trucades falses programades</string>
     <string name="fake_call_cancel_all">Cancel·la-ho tot</string>
     <string name="fake_call_cancel_call">Cancel·la la trucada</string>
     <string name="fake_call_inexact_alarm_warning">Nota: és possible que la trucada no arribi a l\'hora exacta. Concediu el permís \"Alarmes i recordatoris\" a la configuració per a una millor precisió.</string>
     <string name="refresh">Actualitza</string>
     <string name="callback_reminders_manage_title">Recordatoris de devolució de trucades programats</string>
-    <string name="callback_reminder_active_count">%drecordatoris programats</string>
+    <plurals name="callback_reminder_active_count">
+        <item quantity="one">%drecordatoris programats</item>
+        <item quantity="other">%drecordatoris programats</item>
+    
+        <item quantity="few">%drecordatoris programats</item>
+    
+        <item quantity="many">%drecordatoris programats</item>
+    </plurals>
     <string name="callback_reminder_no_scheduled">No hi ha recordatoris programats</string>
     <string name="callback_reminder_cancel_all">Cancel·la-ho tot</string>
     <string name="callback_reminder_cancel_item">Cancel·la el recordatori</string>
@@ -507,18 +551,15 @@
     <string name="scheduled_message_failed_body">A%1$s:%2$s</string>
     <string name="scheduled_message_cancel">Cancel·la</string>
     <string name="scheduled_message_edit">Edita</string>
-    <string name="scheduled_message_cancelled">S\'ha cancel·lat el missatge programat</string>
     <string name="scheduled_status_pending">Pendent</string>
     <string name="scheduled_status_sent">Enviat</string>
     <string name="scheduled_status_failed">Ha fallat</string>
     <string name="scheduled_status_cancelled">Cancel·lat</string>
-    <string name="msg_send_failure_title">L\'enviament del missatge ha fallat</string>
-    <string name="msg_send_failure_text">A%1$s:%2$s</string>
     <string name="search_messages_hint">Cerca missatges</string>
     <string name="search_clear">Clar</string>
-    <string name="call_state_calling">S\'està trucant...</string>
-    <string name="call_state_ringing">Sonant...</string>
-    <string name="call_state_selecting_sim">S\'està seleccionant la SIM...</string>
+    <string name="call_state_calling">S\'està trucant…</string>
+    <string name="call_state_ringing">Sonant…</string>
+    <string name="call_state_selecting_sim">S\'està seleccionant la SIM…</string>
     <string name="call_state_connected">Connectat</string>
     <string name="call_state_on_hold">En espera</string>
     <string name="call_state_ended">Trucada finalitzada</string>
@@ -549,7 +590,7 @@
     <string name="quick_reply_on_my_way">En el meu camí</string>
     <string name="quick_reply_give_me_5">Dóna\'m 5 minuts</string>
     <string name="quick_reply_custom">Escriu missatge personalitzat</string>
-    <string name="quick_reply_type_hint">Escriu el teu missatge...</string>
+    <string name="quick_reply_type_hint">Escriu el teu missatge…</string>
     <string name="quick_reply_send">Enviar</string>
     <string name="quick_reply_back">Enrere</string>
     <string name="contact_share_title">Comparteix contacte</string>
@@ -561,7 +602,7 @@
     <string name="contact_picker_search">Cerca contactes</string>
     <string name="contact_picker_search_or_number">Cerca contactes o introdueix el número</string>
     <string name="contact_picker_no_results">No s\'han trobat contactes</string>
-    <string name="contact_picker_loading">S\'estan carregant els contactes...</string>
+    <string name="contact_picker_loading">S\'estan carregant els contactes…</string>
     <string name="action_add_contact">Afegeix a Contactes</string>
     <string name="notification_channel_sms">Missatges SMS</string>
     <string name="notification_channel_sms_desc">Notificacions de missatges de text entrants</string>
@@ -589,17 +630,22 @@
     <string name="sim_picker_call_title">Trieu SIM per trucar</string>
     <string name="msg_unexpected_error">Error inesperat:%1$s</string>
     <string name="msg_suggestion_prefix">Suggeriment:%1$s</string>
-    <string name="msg_send_attachments_lost">L\'enviament ha fallat. Els vostres fitxers adjunts es conserven: toqueu el missatge fallit per tornar-ho a provar.</string>
     <string name="msg_retry_unexpected_error">Error inesperat:%1$s</string>
     <string name="msg_forward_partial_success">Enviat a%1$ddels%2$ddestinataris.%3$dha fallat.</string>
-    <string name="msg_scheduled_load_error">No s\'han pogut carregar els missatges programats</string>
     <string name="msg_error_network_wifi">📶 L\'MMS requereix Wi-Fi o dades mòbils. Comproveu la vostra connexió.</string>
     <string name="msg_error_network">📶 Sense connexió a Internet. Comproveu la configuració de la vostra xarxa.</string>
     <string name="msg_error_permission">🔒 Cal permís:%1$s. Si us plau, concediu a la configuració.</string>
     <string name="msg_error_balance">💳 Saldo insuficient d\'SMS. Si us plau, recarregueu la targeta SIM.</string>
     <string name="msg_error_invalid_number">📱 Número de telèfon no vàlid. Comprova i torna-ho a provar.</string>
     <string name="msg_error_storage_full">💾 Emmagatzematge ple. Si us plau, allibereu una mica d\'espai.</string>
-    <string name="msg_error_rate_limit">⏱️ Massa missatges enviats. Espereu%1$dsegons.</string>
+    <plurals name="msg_error_rate_limit">
+        <item quantity="one">⏱️ Massa missatges enviats. Espereu%1$dsegons.</item>
+        <item quantity="other">⏱️ Massa missatges enviats. Espereu%1$dsegons.</item>
+    
+        <item quantity="few">⏱️ Massa missatges enviats. Espereu%1$dsegons.</item>
+    
+        <item quantity="many">⏱️ Massa missatges enviats. Espereu%1$dsegons.</item>
+    </plurals>
     <string name="msg_error_mms">📎 Error de MMS:%1$s. Si us plau, torna-ho a provar.</string>
     <string name="msg_error_too_large">📏 Missatge massa gran. La mida màxima és de%1$dKB.</string>
     <string name="msg_error_attachment">📎 No es pot adjuntar%1$s:%2$s</string>
@@ -631,7 +677,6 @@
     <string name="sms_error_radio_off">Mode avió activat (ràdio desactivada)</string>
     <string name="sms_error_limit_exceeded">S\'ha superat el límit d\'enviament</string>
     <string name="sms_error_unknown">Error desconegut</string>
-    <string name="otp_copied_toast">Codi de verificació copiat:%1$s✓</string>
     <string name="otp_bubble_channel_name">Codis de verificació flotants</string>
     <string name="otp_bubble_channel_desc">Notificacions de bombolles de codi de verificació flotants</string>
     <string name="otp_bubble_notification_title">Codi de verificació</string>
@@ -640,7 +685,14 @@
     <string name="settings_incoming_call_banner_desc">Mostra un bàner flotant en lloc de pantalla completa per a les trucades entrants</string>
     <string name="notification_summary_title">Missatges</string>
     <string name="notification_summary_2_messages">2 missatges nous</string>
-    <string name="notification_summary_n_messages">%1$dmissatges nous</string>
+    <plurals name="notification_summary_n_messages">
+        <item quantity="one">%1$dmissatges nous</item>
+        <item quantity="other">%1$dmissatges nous</item>
+    
+        <item quantity="few">%1$dmissatges nous</item>
+    
+        <item quantity="many">%1$dmissatges nous</item>
+    </plurals>
     <string name="notification_summary_many_messages">Més de 9 missatges nous</string>
     <string name="notification_action_reply">Respon</string>
     <string name="notification_action_mark_read_short">Mark va llegir</string>
@@ -658,39 +710,25 @@
     <string name="error_failed_update_favorite">No s\'ha pogut actualitzar l\'estat dels preferits</string>
     <string name="error_failed_delete_contact">No s\'ha pogut suprimir el contacte:%1$s</string>
     <string name="success_contact_deleted">S\'ha suprimit el contacte</string>
-    <string name="success_contacts_blocked">%1$dcontactes bloquejats</string>
-    <string name="success_contacts_added_favorites">%1$dcontactes afegits als preferits</string>
+    <plurals name="success_contacts_blocked">
+        <item quantity="one">%1$dcontactes bloquejats</item>
+        <item quantity="other">%1$dcontactes bloquejats</item>
+    
+        <item quantity="few">%1$dcontactes bloquejats</item>
+    
+        <item quantity="many">%1$dcontactes bloquejats</item>
+    </plurals>
+    <plurals name="success_contacts_added_favorites">
+        <item quantity="one">%1$dcontactes afegits als preferits</item>
+        <item quantity="other">%1$dcontactes afegits als preferits</item>
+    
+        <item quantity="few">%1$dcontactes afegits als preferits</item>
+    
+        <item quantity="many">%1$dcontactes afegits als preferits</item>
+    </plurals>
     <string name="success_added_to_favorites">S\'ha afegit als preferits</string>
     <string name="success_removed_from_favorites">S\'ha eliminat dels preferits</string>
     <string name="msg_contact_will_be_deleted">\"%1$s\"se suprimirà</string>
-    <string name="backup_encrypt_dialog_title">Còpia de seguretat xifrada</string>
-    <string name="backup_encrypt_dialog_desc">Introduïu una contrasenya per xifrar la còpia de seguretat o deixeu-la en blanc per desar-la com a JSON normal.</string>
-    <string name="backup_encrypt_password_hint">Contrasenya (opcional)</string>
-    <string name="backup_encrypt_confirm">Exporta</string>
-    <string name="restore_decrypt_dialog_title">Còpia de seguretat xifrada</string>
-    <string name="restore_decrypt_dialog_desc">Aquesta còpia de seguretat està xifrada. Introduïu la contrasenya utilitzada quan es va crear.</string>
-    <string name="restore_decrypt_password_hint">Contrasenya</string>
-    <string name="restore_decrypt_confirm">Restaurar</string>
-    <string name="backup_wrong_password">Contrasenya incorrecta: no s\'ha pogut desxifrar la còpia de seguretat.</string>
-    <string name="backup_encrypted_badge">🔒 Encriptat</string>
-    <string name="backup_created_success">Còpia de seguretat creada correctament</string>
-    <string name="backup_created_failure">No s\'ha pogut crear una còpia de seguretat</string>
-    <string name="backup_saved_success">✅ Còpia de seguretat desada correctament</string>
-    <string name="backup_saved_failure">❌ No s\'ha pogut desar:%1$s</string>
-    <string name="restore_success">✅ Dades restaurades correctament</string>
-    <string name="restore_failure">La restauració ha fallat</string>
-    <string name="restore_error">Error de restauració:%1$s</string>
-    <string name="backup_restore_success">✅ La còpia de seguretat s\'ha restaurat correctament</string>
-    <string name="backup_restore_failure">❌ La restauració ha fallat:%1$s</string>
-    <string name="generic_error">Error:%1$s</string>
-    <string name="export_calls_success">✅ Trucades exportades:%1$s</string>
-    <string name="export_messages_success">✅ Missatges exportats:%1$s</string>
-    <string name="export_all_success">✅ Totes les dades exportades:%1$s</string>
-    <string name="export_failure">❌ L\'exportació ha fallat</string>
-    <string name="import_success">✅ Dades importades correctament</string>
-    <string name="import_failure">La importació ha fallat</string>
-    <string name="import_error">Error d\'importació:%1$s</string>
-    <string name="import_restore_failure">❌ La importació ha fallat:%1$s</string>
     <string name="disclosure_title">La teva privadesa</string>
     <string name="disclosure_subtitle">Si us plau, revisa abans de continuar</string>
     <string name="disclosure_intro">Purevon substitueix el vostre marcador de telèfon predeterminat i la vostra aplicació de missatgeria SMS/MMS predeterminada. Per oferir trucades, SMS/MMS, protecció contra correu brossa i funcions relacionades, necessita els permisos que s\'expliquen a continuació. Els elements opcionals (càmera, micròfon, ubicació) només s\'utilitzen quan trieu aquestes accions (per exemple, adjuntar una foto o compartir la vostra ubicació). Les dades es mantenen al dispositiu tret que utilitzeu explícitament una funció de xarxa com ara MMS o carregueu una vista prèvia d\'enllaç web.</string>
@@ -729,8 +767,6 @@
     <string name="incall_error_reject_failed">No s\'ha pogut rebutjar la trucada</string>
     <string name="incall_error_merge_not_supported">No es poden combinar les trucades; no és compatible</string>
     <string name="incall_error_merge_failed">No s\'han pogut combinar les trucades</string>
-    <string name="incall_error_add_call_unavailable">No es pot afegir la trucada ara mateix</string>
-    <string name="incall_error_sim_unknown">No s\'ha pogut determinar la SIM</string>
     <string name="incall_error_no_call_permission">No hi ha permís per fer trucades</string>
     <string name="incall_error_add_call_failed">No s\'ha pogut afegir la trucada:%1$s</string>
     <string name="incall_error_note_save_invalid_number">No s\'ha pogut desar la nota: número no vàlid</string>
@@ -741,13 +777,62 @@
     <string name="incall_msg_number_unblocked">Número desbloquejat</string>
     <string name="incall_msg_number_blocked">Número bloquejat</string>
     <string name="incall_msg_note_saved">✅ Desat</string>
-    <string name="incall_msg_reminder_set_hours">✅ Recordatori establert després de%1$dhores</string>
-    <string name="incall_msg_reminder_set_minutes">✅ Recordatori establert després de%1$dminut(s)</string>
+    <plurals name="incall_msg_reminder_set_hours">
+        <item quantity="one">✅ Recordatori establert després de%1$dhores</item>
+        <item quantity="other">✅ Recordatori establert després de%1$dhores</item>
+    
+        <item quantity="few">✅ Recordatori establert després de%1$dhores</item>
+    
+        <item quantity="many">✅ Recordatori establert després de%1$dhores</item>
+    </plurals>
+    <plurals name="incall_msg_reminder_set_minutes">
+        <item quantity="one">✅ Recordatori establert després de%1$dminut(s)</item>
+        <item quantity="other">✅ Recordatori establert després de%1$dminut(s)</item>
+    
+        <item quantity="few">✅ Recordatori establert després de%1$dminut(s)</item>
+    
+        <item quantity="many">✅ Recordatori establert després de%1$dminut(s)</item>
+    </plurals>
     <string name="incall_msg_reminder_approximate_warning">(Nota: temps aproximat)</string>
     <string name="incall_msg_location_coming_soon">S\'enviarà la ubicació aviat</string>
     <string name="incall_msg_image_sharing_coming_soon">Compartiment d\'imatges properament</string>
     <string name="incall_block_reason_incall">Bloquejat mitjançant la pantalla InCall</string>
     <string name="shortcut_new_message">Nou missatge</string>
     <string name="shortcut_create_new_message">Crea un missatge nou</string>
-    <string name="btn_ai_scan">Escaneja amb IA</string>
+
+    <string name="action_add_note">Add note</string>
+    <string name="action_view">View</string>
+    <string name="blocked_call_bubble_call">اتصال</string>
+    <string name="blocked_call_bubble_channel_desc">إشعارات حظر المكالمات</string>
+    <string name="blocked_call_bubble_channel_name">قناة حظر المكالمات</string>
+    <string name="blocked_call_bubble_content_title">مكالمة محظورة</string>
+    <string name="blocked_call_bubble_dismiss">إلغاء</string>
+    <string name="blocked_call_bubble_notification_text">تم حظر مكالمة واردة من رقم مشبوه</string>
+    <string name="blocked_call_bubble_notification_title">تم حظر مكالمة</string>
+    <string name="blocked_call_bubble_whitelist">إضافة لقائمة السماح</string>
+    <string name="blocked_call_bubble_whitelisted">تمت الإضافة إلى قائمة السماح</string>
+    <string name="mms_fg_channel_desc">Shows when MMS messages are being sent or downloaded</string>
+    <string name="mms_fg_channel_name">MMS Operations</string>
+    <string name="mms_fg_downloading">Downloading MMS</string>
+    <string name="mms_fg_in_progress">MMS operation in progress…</string>
+    <string name="mms_fg_processing">Processing MMS</string>
+    <string name="mms_fg_sending">Sending MMS</string>
+    <string name="mms_fg_to">To %1$s</string>
+    <string name="msg_action_cancel">Cancel</string>
+    <string name="msg_send_cancelled">Message send cancelled</string>
+    <string name="notification_channel_fake_call">Fake Calls</string>
+    <string name="notification_channel_fake_call_desc">Notifications for scheduled fake incoming calls</string>
+    <string name="notification_channel_incoming_calls">Incoming Calls</string>
+    <string name="notification_channel_incoming_calls_desc">Incoming call notifications - shows on lock screen</string>
+    <string name="notification_channel_incoming_call_unlocked">Incoming Call (Unlocked)</string>
+    <string name="notification_channel_incoming_call_unlocked_desc">Silent foreground service notification when screen is on and call activity is shown directly</string>
+    <string name="notification_fake_call_incoming">Incoming call</string>
+    <string name="notification_spam_call_text">%1$s - %2$s</string>
+    <string name="notification_spam_call_title">⚠️ Spam Call Detected</string>
+    <string name="otp_copied_generic">Verification code copied ✓</string>
+    <string name="otp_missed_notification_text">New message from %1$s — open inbox to view</string>
+    <string name="otp_missed_notification_title">Verification code received</string>
+    <string name="risk_high">High Risk</string>
+    <string name="risk_low">Low Risk</string>
+    <string name="risk_medium">Medium Risk</string>
 </resources>

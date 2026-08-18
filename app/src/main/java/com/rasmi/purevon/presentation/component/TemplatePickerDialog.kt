@@ -13,6 +13,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -183,7 +184,7 @@ private fun TemplateItem(
                 )
                 if (template.useCount > 0) {
                     Text(
-                        text = stringResource(R.string.templates_use_count, template.useCount),
+                        text = pluralStringResource(R.plurals.templates_use_count, template.useCount, template.useCount),
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
                     )

@@ -8,8 +8,8 @@ import android.os.Build
 import android.telecom.Call
 import android.telecom.CallAudioState
 import android.telecom.TelecomManager
+import android.telecom.VideoProfile
 import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rasmi.purevon.domain.model.Contact
@@ -52,7 +52,6 @@ import javax.inject.Inject
 /**
  * ViewModel for InCall Screen
  */
-@RequiresApi(Build.VERSION_CODES.M)
 @HiltViewModel
 class InCallViewModel @Inject constructor(
     @ApplicationContext internal val context: Context,
@@ -139,7 +138,12 @@ class InCallViewModel @Inject constructor(
      */
     private fun updateCallState(call: Call) {
         val phoneNumber = call.details?.handle?.schemeSpecificPart ?: "Unknown"
-        val state = call.details?.state ?: Call.STATE_NEW
+        val state = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            call.details?.state ?: Call.STATE_NEW
+        } else {
+            @Suppress("DEPRECATION")
+            call.state
+        }
         
         // Handle Disconnection
         if (state == Call.STATE_DISCONNECTED) {
@@ -192,7 +196,11 @@ class InCallViewModel @Inject constructor(
         }
 
         // Check if outgoing (Call.Details.DIRECTION_OUTGOING = 1)
-        val isOutgoing = call.details?.callDirection == Call.Details.DIRECTION_OUTGOING
+        val isOutgoing = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            call.details?.callDirection == Call.Details.DIRECTION_OUTGOING
+        } else {
+            call.state == Call.STATE_DIALING || call.state == Call.STATE_CONNECTING
+        }
         
         // معلومات المكالمات الأخرى (انتظار / احتجاز)
         val heldCall = inCallBridge.getHeldCall()
@@ -588,7 +596,7 @@ class InCallViewModel @Inject constructor(
             // Get current call from InCallService - NOT local variable
             val call = inCallBridge.getCurrentCall()
             if (call != null) {
-                call.answer(0) // 0 = video state AUDIO_ONLY
+                call.answer(VideoProfile.STATE_AUDIO_ONLY)
                 Log.d(TAG, "Call answered successfully")
                 
                 // Update UI immediately to show call is being answered
@@ -1028,5 +1036,3 @@ class InCallViewModel @Inject constructor(
         }
     }
 }
-
-

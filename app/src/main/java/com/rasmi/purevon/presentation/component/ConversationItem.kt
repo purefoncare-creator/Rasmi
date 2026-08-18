@@ -62,11 +62,11 @@ import com.rasmi.purevon.util.DateTimeUtils
 fun ConversationItem(
     conversation: Conversation,
     onClick: () -> Unit,
+    modifier: Modifier = Modifier,
     onLongClick: (() -> Unit)? = null,
     isSelectionMode: Boolean = false,
     isSelected: Boolean = false,
-    showBottomDivider: Boolean = true,
-    modifier: Modifier = Modifier
+    showBottomDivider: Boolean = true
 ) {
     val context = LocalContext.current
     val isUnread = conversation.unreadCount > 0

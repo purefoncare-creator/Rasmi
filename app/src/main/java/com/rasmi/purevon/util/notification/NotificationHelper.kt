@@ -1,5 +1,6 @@
 package com.rasmi.purevon.util.notification
 
+import android.annotation.SuppressLint
 import android.Manifest
 import android.app.Notification
 import android.app.NotificationChannel
@@ -86,64 +87,62 @@ class NotificationHelper @Inject constructor(
      * Create all notification channels
      */
     private fun createNotificationChannels() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-            // Clean up legacy channels (older sound settings can't be changed in place).
-            OLD_CHANNEL_IDS.forEach { runCatching { manager.deleteNotificationChannel(it) } }
+        // Clean up legacy channels (older sound settings can't be changed in place).
+        OLD_CHANNEL_IDS.forEach { runCatching { manager.deleteNotificationChannel(it) } }
 
-            // Unified custom notification sound for all app channels (recieve.mp3).
-            val customSoundUri = Uri.parse(
-                "android.resource://" + context.packageName + "/" + com.rasmi.purevon.R.raw.recieve
-            )
-            val soundAttrs = android.media.AudioAttributes.Builder()
-                .setUsage(android.media.AudioAttributes.USAGE_NOTIFICATION)
-                .setContentType(android.media.AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                .build()
+        // Unified custom notification sound for all app channels (recieve.mp3).
+        val customSoundUri = Uri.parse(
+            "android.resource://" + context.packageName + "/" + com.rasmi.purevon.R.raw.recieve
+        )
+        val soundAttrs = android.media.AudioAttributes.Builder()
+            .setUsage(android.media.AudioAttributes.USAGE_NOTIFICATION)
+            .setContentType(android.media.AudioAttributes.CONTENT_TYPE_SONIFICATION)
+            .build()
 
-            // CHANNEL_MESSAGES is created by EnhancedNotificationManager with custom sound —
-            // do NOT recreate it here (Android only applies settings on first creation).
-            val channels = listOf(
-                NotificationChannel(
-                    CHANNEL_CALLS,
-                    context.getString(com.rasmi.purevon.R.string.notification_channel_calls),
-                    NotificationManager.IMPORTANCE_HIGH
-                ).apply {
-                    description = context.getString(com.rasmi.purevon.R.string.notification_channel_calls_desc)
-                    enableLights(true)
-                    lightColor = Color.BLUE
-                    enableVibration(true)
-                    vibrationPattern = longArrayOf(0, 300, 200, 300)
-                    setShowBadge(true)
-                    lockscreenVisibility = Notification.VISIBILITY_PUBLIC
-                    setSound(customSoundUri, soundAttrs)
-                },
-                
-                NotificationChannel(
-                    CHANNEL_SPAM,
-                    context.getString(com.rasmi.purevon.R.string.notification_channel_spam),
-                    NotificationManager.IMPORTANCE_DEFAULT
-                ).apply {
-                    description = context.getString(com.rasmi.purevon.R.string.notification_channel_spam_desc)
-                    enableLights(true)
-                    lightColor = Color.RED
-                    setShowBadge(false)
-                    setSound(customSoundUri, soundAttrs)
-                },
-                
-                NotificationChannel(
-                    CHANNEL_GENERAL,
-                    context.getString(com.rasmi.purevon.R.string.notification_channel_general),
-                    NotificationManager.IMPORTANCE_LOW
-                ).apply {
-                    description = context.getString(com.rasmi.purevon.R.string.notification_channel_general_desc)
-                    setShowBadge(false)
-                    setSound(customSoundUri, soundAttrs)
-                }
-            )
+        // CHANNEL_MESSAGES is created by EnhancedNotificationManager with custom sound —
+        // do NOT recreate it here (Android only applies settings on first creation).
+        val channels = listOf(
+            NotificationChannel(
+                CHANNEL_CALLS,
+                context.getString(com.rasmi.purevon.R.string.notification_channel_calls),
+                NotificationManager.IMPORTANCE_HIGH
+            ).apply {
+                description = context.getString(com.rasmi.purevon.R.string.notification_channel_calls_desc)
+                enableLights(true)
+                lightColor = Color.BLUE
+                enableVibration(true)
+                vibrationPattern = longArrayOf(0, 300, 200, 300)
+                setShowBadge(true)
+                lockscreenVisibility = Notification.VISIBILITY_PUBLIC
+                setSound(customSoundUri, soundAttrs)
+            },
             
-            channels.forEach { manager.createNotificationChannel(it) }
-        }
+            NotificationChannel(
+                CHANNEL_SPAM,
+                context.getString(com.rasmi.purevon.R.string.notification_channel_spam),
+                NotificationManager.IMPORTANCE_DEFAULT
+            ).apply {
+                description = context.getString(com.rasmi.purevon.R.string.notification_channel_spam_desc)
+                enableLights(true)
+                lightColor = Color.RED
+                setShowBadge(false)
+                setSound(customSoundUri, soundAttrs)
+            },
+            
+            NotificationChannel(
+                CHANNEL_GENERAL,
+                context.getString(com.rasmi.purevon.R.string.notification_channel_general),
+                NotificationManager.IMPORTANCE_LOW
+            ).apply {
+                description = context.getString(com.rasmi.purevon.R.string.notification_channel_general_desc)
+                setShowBadge(false)
+                setSound(customSoundUri, soundAttrs)
+            }
+        )
+        
+        channels.forEach { manager.createNotificationChannel(it) }
     }
     
     /**
@@ -297,11 +296,9 @@ class NotificationHelper @Inject constructor(
             Intent(Intent.ACTION_CALL).apply {
                 data = android.net.Uri.fromParts("tel", phoneNumber, null)
                 // Attach SIM info via TelecomManager phone account
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    val phoneAccountHandle = com.rasmi.purevon.util.PhoneUtil.getPhoneAccountForSubscription(context, subscriptionId)
-                    if (phoneAccountHandle != null) {
-                        putExtra(android.telecom.TelecomManager.EXTRA_PHONE_ACCOUNT_HANDLE, phoneAccountHandle)
-                    }
+                val phoneAccountHandle = com.rasmi.purevon.util.PhoneUtil.getPhoneAccountForSubscription(context, subscriptionId)
+                if (phoneAccountHandle != null) {
+                    putExtra(android.telecom.TelecomManager.EXTRA_PHONE_ACCOUNT_HANDLE, phoneAccountHandle)
                 }
             }
         } else {
@@ -398,6 +395,7 @@ class NotificationHelper @Inject constructor(
      * Show notification for spam call
      * ✅ Added error handling
      */
+    @SuppressLint("MissingPermission")
     fun showSpamCallNotification(phoneNumber: String, spamScore: Float) {
         if (!hasNotificationPermission()) {
             Log.w(TAG, "Notification permission not granted")

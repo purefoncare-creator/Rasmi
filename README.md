@@ -1,6 +1,6 @@
-# Purefon
+# Purevon
 
-A full-featured, privacy-focused Android dialer and messaging app built with modern Android architecture. Purefon replaces your default phone app with a powerful, encrypted alternative that supports SMS, MMS, calls, call screening, and more.
+A full-featured, privacy-focused Android dialer and messaging app built with modern Android architecture. Purevon replaces your default phone app with a powerful, encrypted alternative that supports SMS, MMS, calls, call screening, and more.
 
 ## Download
 
@@ -47,7 +47,6 @@ A full-featured, privacy-focused Android dialer and messaging app built with mod
 
 ### Privacy & Security
 - **Encrypted Database** — SQLCipher encryption for all local data
-- **Biometric Lock** — Fingerprint/face authentication to open the app
 - **Encrypted Export** — AES-256-GCM encryption for exported files
 - **Block/Whitelist** — Block unwanted callers and whitelist VIP contacts
 - **OTP Auto-Delete** — Automatic one-time password message cleanup
@@ -61,7 +60,7 @@ A full-featured, privacy-focused Android dialer and messaging app built with mod
 
 ## Architecture
 
-Purefon follows **Clean Architecture** with clear separation of concerns:
+Purevon follows **Clean Architecture** with clear separation of concerns:
 
 ```
 com.rasmi.purevon/
@@ -87,7 +86,7 @@ com.rasmi.purevon/
 │   │   ├── incall/         # In-call UI
 │   │   ├── messages/       # Messages inbox
 │   │   ├── scheduled/      # Scheduled messages manager
-│   │   ├── security/       # Biometric lock screen
+│   │   ├── security/       # Security-related screens
 │   │   ├── settings/       # App settings
 │   │   └── statistics/     # Usage statistics
 │   └── viewmodel/          # ViewModels
@@ -106,7 +105,7 @@ com.rasmi.purevon/
     ├── export/             # Encrypted export/import manager
     ├── mms/                # APN manager, MMS helpers
     ├── media/              # Media codec, compression utilities
-    ├── security/           # Encryption, biometric auth
+    ├── security/           # Encryption and key management
     └── ... (20+ utility files)
 ```
 
@@ -127,7 +126,7 @@ com.rasmi.purevon/
 | **MMS** | Klinker android-smsmms library |
 | **HTML Parsing** | Jsoup |
 | **WorkManager** | Background scheduling |
-| **Security** | AndroidX Biometric + Security-Crypto |
+| **Security** | Security-Crypto |
 | **Telecom** | Android ConnectionService |
 | **Min SDK** | 26 (Android 8.0) |
 | **Target SDK** | 36 |
@@ -181,7 +180,7 @@ For automated builds, set these environment variables:
 
 ## Permissions
 
-Purefon requires the following permissions to function:
+Purevon requires the following permissions to function:
 
 | Permission | Purpose |
 |---|---|
@@ -216,10 +215,6 @@ Contributions are welcome! Please follow these steps:
 - Use meaningful variable and function names
 - Add KDoc comments for public APIs
 - Write unit tests for new features
-
-## Known Issues
-
-See `fix.md` in the repository for tracked issues and technical debt.
 
 ## License
 

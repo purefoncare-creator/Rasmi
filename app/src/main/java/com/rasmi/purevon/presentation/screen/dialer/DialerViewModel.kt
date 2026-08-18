@@ -173,37 +173,35 @@ class DialerViewModel @Inject constructor(
     private fun loadAvailableSims() {
         viewModelScope.launch {
             try {
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP_MR1) {
-                    val sims = simManager.getAvailableSims()
-                    Log.d(TAG, "Available SIMs: ${sims.size}")
-                    sims.forEachIndexed { index, sim ->
-                        Log.d(TAG, "  SIM $index: ${sim.displayName} (ID: ${sim.subscriptionId})")
-                    }
-                    
-                    // حفظ الشرائح في الـ State لاستخدامها في حوار ASK
-                    _uiState.update { it.copy(availableSims = sims) }
-                    
-                    // ✅ قراءة القيمة المحفوظة مباشرة من DataStore لتجنب race condition
-                    val savedSubId = settingsDataStore.defaultSimSubscriptionId.first()
-                    val savedAskMode = settingsDataStore.isSimAskMode.first()
-                    defaultSimSubscriptionId = savedSubId
-                    isAskMode = savedAskMode
-                    
-                    // Set current SIM index based on default subscription ID
-                    if (savedSubId > 0) {
-                        val simIndex = sims.indexOfFirst { it.subscriptionId == savedSubId }
-                        if (simIndex >= 0) {
-                            currentSimIndex = simIndex
-                        } else if (sims.isNotEmpty()) {
-                            // الشريحة المحفوظة لم تعد موجودة — نعيد التعيين للشريحة الأولى المتاحة
-                            currentSimIndex = 0
-                            settingsDataStore.setDefaultSimSubscriptionId(sims[0].subscriptionId)
-                            Log.w(TAG, "Saved SIM (id=$savedSubId) not found, reset to ${sims[0].displayName}")
-                        }
-                    }
-                    
-                    updateSimLabel()
+                val sims = simManager.getAvailableSims()
+                Log.d(TAG, "Available SIMs: ${sims.size}")
+                sims.forEachIndexed { index, sim ->
+                    Log.d(TAG, "  SIM $index: ${sim.displayName} (ID: ${sim.subscriptionId})")
                 }
+                
+                // حفظ الشرائح في الـ State لاستخدامها في حوار ASK
+                _uiState.update { it.copy(availableSims = sims) }
+                
+                // ✅ قراءة القيمة المحفوظة مباشرة من DataStore لتجنب race condition
+                val savedSubId = settingsDataStore.defaultSimSubscriptionId.first()
+                val savedAskMode = settingsDataStore.isSimAskMode.first()
+                defaultSimSubscriptionId = savedSubId
+                isAskMode = savedAskMode
+                
+                // Set current SIM index based on default subscription ID
+                if (savedSubId > 0) {
+                    val simIndex = sims.indexOfFirst { it.subscriptionId == savedSubId }
+                    if (simIndex >= 0) {
+                        currentSimIndex = simIndex
+                    } else if (sims.isNotEmpty()) {
+                        // الشريحة المحفوظة لم تعد موجودة — نعيد التعيين للشريحة الأولى المتاحة
+                        currentSimIndex = 0
+                        settingsDataStore.setDefaultSimSubscriptionId(sims[0].subscriptionId)
+                        Log.w(TAG, "Saved SIM (id=$savedSubId) not found, reset to ${sims[0].displayName}")
+                    }
+                }
+                
+                updateSimLabel()
             } catch (e: Exception) {
                 Log.e(TAG, "Error loading SIMs", e)
             }

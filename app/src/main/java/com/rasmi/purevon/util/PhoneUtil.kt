@@ -1,11 +1,11 @@
 package com.rasmi.purevon.util
 
+import android.annotation.SuppressLint
 import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
-import android.os.Build
 import android.telecom.PhoneAccountHandle
 import android.telecom.TelecomManager
 import android.telephony.SubscriptionManager
@@ -68,6 +68,7 @@ object PhoneUtil {
      * Initiate a phone call or USSD request
      * @param subscriptionId The subscription ID for dual SIM devices (-1 or null for default)
      */
+    @SuppressLint("MissingPermission")
     fun makeCall(context: Context, phoneNumber: String, subscriptionId: Int? = null) {
         if (!hasCallPermission(context)) return
         
@@ -80,17 +81,15 @@ object PhoneUtil {
 
             // Resolve effective subscription ID: use provided value or fall back to system default voice SIM.
             // This prevents Android from showing the SIM-selection dialog on dual-SIM devices.
-            val effectiveSubId: Int = when {
-                subscriptionId != null && subscriptionId >= 0 -> subscriptionId
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1 -> {
-                    val defaultSubId = SubscriptionManager.getDefaultVoiceSubscriptionId()
-                    if (defaultSubId != SubscriptionManager.INVALID_SUBSCRIPTION_ID) defaultSubId else -1
-                }
-                else -> -1
+            val effectiveSubId: Int = if (subscriptionId != null && subscriptionId >= 0) {
+                subscriptionId
+            } else {
+                val defaultSubId = SubscriptionManager.getDefaultVoiceSubscriptionId()
+                if (defaultSubId != SubscriptionManager.INVALID_SUBSCRIPTION_ID) defaultSubId else -1
             }
             
             // Use TelecomManager for Android M+ with a valid subscriptionId
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && effectiveSubId >= 0) {
+            if (effectiveSubId >= 0) {
                 val telecomManager = context.getSystemService(Context.TELECOM_SERVICE) as TelecomManager
                 val phoneAccountHandle = getPhoneAccountHandleForSubscription(context, effectiveSubId)
                 
@@ -111,7 +110,7 @@ object PhoneUtil {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 
                 // Add subscription ID as extras (some OEMs use these)
-                if (effectiveSubId >= 0 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+                if (effectiveSubId >= 0) {
                     putExtra("com.android.phone.extra.slot", getSlotForSubscription(context, effectiveSubId))
                     putExtra("slot", getSlotForSubscription(context, effectiveSubId))
                 }
@@ -128,19 +127,18 @@ object PhoneUtil {
      * Uses TelecomManager.placeCall() with PhoneAccountHandle to avoid the system SIM picker
      * on dual-SIM devices — same approach as regular calls in [makeCall].
      */
+    @SuppressLint("MissingPermission")
     fun sendUssdRequest(context: Context, ussdCode: String, subscriptionId: Int? = null) {
         if (!hasCallPermission(context)) return
         
         try {
             // Resolve effective subscription ID: use provided value or fall back to system default voice SIM.
             // This prevents Android from showing the SIM-selection dialog on dual-SIM devices.
-            val effectiveSubId: Int = when {
-                subscriptionId != null && subscriptionId >= 0 -> subscriptionId
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1 -> {
-                    val defaultSubId = SubscriptionManager.getDefaultVoiceSubscriptionId()
-                    if (defaultSubId != SubscriptionManager.INVALID_SUBSCRIPTION_ID) defaultSubId else -1
-                }
-                else -> -1
+            val effectiveSubId: Int = if (subscriptionId != null && subscriptionId >= 0) {
+                subscriptionId
+            } else {
+                val defaultSubId = SubscriptionManager.getDefaultVoiceSubscriptionId()
+                if (defaultSubId != SubscriptionManager.INVALID_SUBSCRIPTION_ID) defaultSubId else -1
             }
             
             // USSD URI — Uri.fromParts encodes '#' as '%23' automatically
@@ -149,7 +147,7 @@ object PhoneUtil {
             android.util.Log.d("PhoneUtil", "Sending USSD request: $ussdCode, effectiveSubId=$effectiveSubId")
             
             // Use TelecomManager for Android M+ with a valid subscriptionId
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && effectiveSubId >= 0) {
+            if (effectiveSubId >= 0) {
                 val telecomManager = context.getSystemService(Context.TELECOM_SERVICE) as TelecomManager
                 val phoneAccountHandle = getPhoneAccountHandleForSubscription(context, effectiveSubId)
                 
@@ -167,7 +165,7 @@ object PhoneUtil {
                 data = ussdUri
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 
-                if (effectiveSubId >= 0 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+                if (effectiveSubId >= 0) {
                     putExtra("com.android.phone.extra.slot", getSlotForSubscription(context, effectiveSubId))
                     putExtra("slot", getSlotForSubscription(context, effectiveSubId))
                 }
@@ -191,23 +189,18 @@ object PhoneUtil {
      * Get PhoneAccountHandle for a subscription ID
      */
     @Suppress("DEPRECATION")
+    @SuppressLint("MissingPermission")
     private fun getPhoneAccountHandleForSubscription(context: Context, subscriptionId: Int): PhoneAccountHandle? {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return null
         
         return try {
             val telecomManager = context.getSystemService(Context.TELECOM_SERVICE) as TelecomManager
             val accounts = telecomManager.callCapablePhoneAccounts
             
             for (account in accounts) {
-                val subId = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    telecomManager.getPhoneAccount(account)?.extras?.getInt(
-                        "android.telecom.extra.SUBSCRIPTION_ID",
-                        SubscriptionManager.INVALID_SUBSCRIPTION_ID
-                    )
-                } else {
-                    // Try to match by id containing subscription
-                    if (account.id.contains(subscriptionId.toString())) subscriptionId else null
-                }
+                val subId = telecomManager.getPhoneAccount(account)?.extras?.getInt(
+                    "android.telecom.extra.SUBSCRIPTION_ID",
+                    SubscriptionManager.INVALID_SUBSCRIPTION_ID
+                )
                 
                 if (subId == subscriptionId) {
                     return account
@@ -225,8 +218,8 @@ object PhoneUtil {
     /**
      * Get SIM slot index for subscription ID
      */
+    @SuppressLint("MissingPermission")
     private fun getSlotForSubscription(context: Context, subscriptionId: Int): Int {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP_MR1) return 0
         
         return try {
             val subscriptionManager = context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE) as SubscriptionManager
@@ -279,7 +272,7 @@ object PhoneUtil {
         }
         
         val digits = number.filter { it.isDigit() }
-        return digits.length in 7..15
+        return digits.length in 3..15
     }
     
     /**

@@ -9,7 +9,6 @@
     <string name="template_title">Tiêu đề mẫu</string>
     <string name="template_content">Nội dung mẫu</string>
     <string name="save">Cứu</string>
-    <string name="app_name" translatable="false">Purevon</string>
     <string name="perm_setup_title">Quyền thiết lập</string>
     <string name="perm_welcome_title">Chào mừng đến với Purevon</string>
     <string name="perm_welcome_message">Để thay thế ứng dụng Điện thoại và SMS mặc định của bạn, chúng tôi cần có các quyền sau</string>
@@ -60,8 +59,14 @@
     <string name="action_number_copied">Đã sao chép số vào bảng nhớ tạm</string>
     <string name="callback_reminder_title">Nhắc nhở gọi lại</string>
     <string name="callback_select_duration">Chọn thời lượng:</string>
-    <string name="callback_minutes">%dphút</string>
-    <string name="callback_hour">%dgiờ</string>
+    <plurals name="callback_minutes">
+        <item quantity="one">%dphút</item>
+        <item quantity="other">%dphút</item>
+    </plurals>
+    <plurals name="callback_hour">
+        <item quantity="one">%dgiờ</item>
+        <item quantity="other">%dgiờ</item>
+    </plurals>
     <string name="callback_set">Bộ</string>
     <string name="callback_reminder_alert_title">Nhắc nhở gọi lại</string>
     <string name="callback_call_now">Gọi ngay</string>
@@ -71,8 +76,10 @@
     <string name="incall_end_call">Kết thúc cuộc gọi</string>
     <string name="contacts_search_placeholder">Tìm kiếm</string>
     <string name="contacts_no_contacts">Không có liên hệ</string>
-    <string name="contacts_stat_blocked">Bị chặn</string>
-    <string name="contacts_selected">%dđã chọn</string>
+    <plurals name="contacts_selected">
+        <item quantity="one">%1$dđã chọn</item>
+        <item quantity="other">%1$dđã chọn</item>
+    </plurals>
     <string name="contacts_select_all">Chọn tất cả</string>
     <string name="contacts_deselect_all">Bỏ chọn tất cả</string>
     <string name="contacts_action_favorite">Yêu thích</string>
@@ -80,7 +87,10 @@
     <string name="contacts_action_block">Khối</string>
     <string name="contacts_action_unblock">Bỏ chặn</string>
     <string name="contacts_action_delete">Xóa bỏ</string>
-    <string name="contacts_delete_multiple">Xóa liên hệ%d?</string>
+    <plurals name="contacts_delete_multiple">
+        <item quantity="one">Xóa liên hệ%1$d?</item>
+        <item quantity="other">Xóa liên hệ%1$d?</item>
+    </plurals>
     <string name="contacts_delete_warning">Không thể hoàn tác hành động này.</string>
     <string name="contacts_cd_add_contact">Thêm liên hệ mới</string>
     <string name="contacts_cd_clear_search">Xóa tìm kiếm</string>
@@ -121,7 +131,7 @@
     <string name="contact_detail_no_history">Chưa có lịch sử cuộc gọi</string>
     <string name="contact_detail_no_notes">Chưa có ghi chú nào</string>
     <string name="contact_detail_delete_title">Xóa liên hệ</string>
-    <string name="contact_detail_delete_message">Bạn có chắc chắn muốn xóa%skhông?</string>
+    <string name="contact_detail_delete_message">Bạn có chắc chắn muốn xóa%1$skhông?</string>
     <string name="contact_detail_delete_confirm">Xóa bỏ</string>
     <string name="contact_detail_first_name">Tên</string>
     <string name="contact_detail_last_name">Họ</string>
@@ -150,8 +160,6 @@
     <string name="add_contact_group">Nhóm</string>
     <string name="add_contact_save_changes">Lưu thay đổi</string>
     <string name="add_contact_save">Lưu liên hệ</string>
-    <string name="add_contact_saved">✓ Đã lưu liên hệ</string>
-    <string name="add_contact_updated">✓ Cập nhật liên hệ</string>
     <string name="add_contact_failed">Không lưu được. Kiểm tra quyền.</string>
     <string name="add_contact_favorite">Yêu thích</string>
     <string name="add_contact_type_mobile">Điện thoại di động</string>
@@ -160,26 +168,17 @@
     <string name="add_contact_type_other">Khác</string>
     <string name="add_contact_save_to">Lưu vào</string>
     <string name="add_contact_account_device">Thiết bị</string>
-    <string name="add_contact_account_sim">SIM%1$d(%2$s)</string>
     <string name="add_contact_account_google">Google</string>
     <string name="add_contact_select_account">Chọn nơi lưu liên hệ này</string>
     <string name="messages_no_messages">Không có tin nhắn</string>
     <string name="messages_delete_conversation">Xóa cuộc trò chuyện</string>
     <string name="history_missed">Bỏ lỡ</string>
     <string name="history_duration">Thời lượng:%s</string>
-    <string name="settings_title">Cài đặt</string>
     <string name="settings_appearance">Vẻ bề ngoài</string>
-    <string name="settings_notifications">Thông báo</string>
-    <string name="settings_theme">chủ đề</string>
     <string name="settings_theme_dark">Tối tăm</string>
     <string name="settings_theme_system">Mặc định hệ thống</string>
-    <string name="settings_rtl_title">Bố cục từ phải sang trái</string>
-    <string name="settings_rtl_subtitle">Phản chiếu giao diện để đọc từ phải sang trái</string>
     <string name="settings_language">Ngôn ngữ</string>
-    <string name="settings_language_summary">Thay đổi ngôn ngữ ứng dụng thủ công</string>
     <string name="language_system">Mặc định hệ thống</string>
-    <string name="language_ar">العربية (tiếng Ả Rập)</string>
-    <string name="language_en">Tiếng Anh (Tiếng Anh)</string>
     <string name="dialer_add_to_contacts">Thêm vào danh bạ</string>
     <string name="messages_all">Tất cả</string>
     <string name="messages_starred_tab">Được gắn dấu sao</string>
@@ -187,11 +186,8 @@
     <string name="messages_no_starred">Không có tin nhắn được gắn dấu sao</string>
     <string name="messages_starred_hint">Nhấn và giữ bất kỳ tin nhắn nào để thêm vào mục yêu thích</string>
     <string name="messages_archive">Lưu trữ</string>
-    <string name="messages_unarchive">Hủy lưu trữ</string>
     <string name="messages_mark_as_read">Đánh dấu là đã đọc</string>
-    <string name="messages_mark_as_unread">Đánh dấu là chưa đọc</string>
     <string name="messages_archived_tab">Đã lưu trữ</string>
-    <string name="history_call_will_be_deleted">Cuộc gọi sẽ bị xóa</string>
     <string name="history_number_will_be_blocked">Số sẽ bị chặn</string>
     <string name="history_undo">Hoàn tác</string>
     <string name="history_no_history">Chưa có lịch sử cuộc gọi</string>
@@ -219,40 +215,50 @@
     <string name="history_delete_from_history">Xóa tất cả khỏi lịch sử</string>
     <string name="history_delete_all_calls_title">Xóa tất cả cuộc gọi cho số này?</string>
     <string name="history_delete_all_calls_message">Xóa mọi mục nhập cho%skhỏi lịch sử cuộc gọi của bạn. Điều này không thể hoàn tác được.</string>
-    <string name="history_delete_selected_numbers">Xóa lịch sử của số%d?</string>
-    <string name="history_group_missed_count">%dđã bỏ lỡ</string>
+    <plurals name="history_delete_selected_numbers">
+        <item quantity="one">Xóa lịch sử của số%d?</item>
+        <item quantity="other">Xóa lịch sử của số%d?</item>
+    </plurals>
     <string name="history_notes_cd_has_note">Có ghi chú</string>
-    <string name="history_delete_call_title">Xóa cuộc gọi?</string>
-    <string name="history_delete_call_message">Bạn có chắc chắn muốn xóa cuộc gọi này khỏi lịch sử của mình không? Không thể hoàn tác hành động này.</string>
     <string name="history_block_number_title">Số khối?</string>
     <string name="history_block_number_message">Bạn có chắc chắn muốn chặn%skhông? Bạn sẽ\'không nhận được cuộc gọi từ số này.</string>
     <string name="history_search_calls">Tìm kiếm cuộc gọi</string>
     <string name="history_clear">Thông thoáng</string>
     <string name="history_today">Hôm nay</string>
     <string name="history_yesterday">Hôm qua</string>
-    <string name="history_calls">%dcuộc gọi</string>
+    <plurals name="history_calls">
+        <item quantity="one">%dcuộc gọi</item>
+        <item quantity="other">%dcuộc gọi</item>
+    </plurals>
     <string name="history_total">Tổng cộng</string>
     <string name="history_permission_name">READ_CALL_LOG</string>
     <string name="history_permission_rationale">Ứng dụng này cần quyền truy cập vào nhật ký cuộc gọi của bạn để hiển thị lịch sử cuộc gọi, theo dõi cuộc gọi nhỡ và cung cấp số liệu thống kê cuộc gọi.</string>
     <string name="history_action_call">Gọi</string>
     <string name="history_action_message">Tin nhắn</string>
     <string name="history_notes">Ghi chú (%d)</string>
-    <string name="history_more_notes">+%dghi chú khác</string>
+    <plurals name="history_more_notes">
+        <item quantity="one">+%dghi chú khác</item>
+        <item quantity="other">+%dghi chú khác</item>
+    </plurals>
     <string name="history_note_today">Hôm nay</string>
     <string name="history_note_yesterday">Hôm qua</string>
     <string name="note_dialog_title">Ghi chú cho%s</string>
-    <string name="note_dialog_count">%dlưu ý</string>
+    <plurals name="note_dialog_count">
+        <item quantity="one">%dlưu ý</item>
+        <item quantity="other">%dlưu ý</item>
+    </plurals>
     <string name="note_dialog_empty">Không có ghi chú</string>
     <string name="note_delete_cd">Xóa ghi chú</string>
-    <string name="note_icon_cd">Ghi chú liên hệ</string>
     <string name="note_dialog_close">Đóng</string>
     <string name="history_sim">SIM%d</string>
-    <string name="history_selected_count">%dđã chọn</string>
+    <plurals name="history_selected_count">
+        <item quantity="one">%dđã chọn</item>
+        <item quantity="other">%dđã chọn</item>
+    </plurals>
     <string name="history_select_all">Chọn tất cả</string>
     <string name="history_deselect_all">Bỏ chọn tất cả</string>
     <string name="history_action_block">Khối</string>
     <string name="history_action_delete">Xóa bỏ</string>
-    <string name="history_delete_selected">Xóa cuộc gọi%d?</string>
     <string name="history_delete_selected_warning">Không thể hoàn tác hành động này.</string>
     <string name="otp_settings_title">Cài đặt OTP</string>
     <string name="about_title">Về</string>
@@ -268,26 +274,8 @@
     <string name="about_feature_bubble_desc">Kiểm soát cuộc gọi với lớp phủ bong bóng nổi</string>
     <string name="about_feature_sim">Hỗ trợ hai SIM</string>
     <string name="about_feature_sim_desc">Hỗ trợ đầy đủ cho các thiết bị hai SIM</string>
-    <string name="about_feature_backup">Sao lưu &amp; Khôi phục</string>
-    <string name="about_feature_backup_desc">Giữ dữ liệu của bạn an toàn với tính năng sao lưu tự động</string>
     <string name="about_contact_us">Liên hệ với chúng tôi:</string>
     <string name="about_copyright">© 2026 Purevon. Mọi quyền được bảo lưu.</string>
-    <string name="ai_model_title">Tính năng AI</string>
-    <string name="ai_model_download">Tải xuống Gemma 3 (1B)</string>
-    <string name="ai_model_download_desc">Tải xuống mẫu Gemma 3 1B (~555 MB) để trò chuyện AI ngoại tuyến</string>
-    <string name="ai_model_downloading">Đang tải xuống…%1$d%%</string>
-    <string name="ai_model_extracting">Đang lưu mô hình…</string>
-    <string name="ai_model_downloaded">Đã tải mô hình xuống</string>
-    <string name="ai_model_delete">Xóa mô hình AI</string>
-    <string name="ai_model_delete_desc">Xóa mô hình Gemma đã tải xuống để giải phóng dung lượng</string>
-    <string name="ai_chat_title">Trò chuyện AI của Gemma</string>
-    <string name="ai_chat_model_loading">Đang tải mô hình…</string>
-    <string name="ai_chat_model_error">Không tải được mô hình</string>
-    <string name="ai_chat_model_ready">Sẵn sàng</string>
-    <string name="ai_chat_hint">Hãy hỏi Gemma bất cứ điều gì…</string>
-    <string name="ai_hf_token_label">Mã thông báo ôm mặt</string>
-    <string name="ai_hf_token_placeholder">hf_xxxxxxxxxxxxxxxxxxxxx</string>
-    <string name="ai_hf_token_desc">Bắt buộc phải tải xuống Gemma (miễn phí tại ôm mặt.co)</string>
     <string name="conversation_no_messages">Chưa có tin nhắn nào</string>
     <string name="conversation_start_hint">Gửi tin nhắn để bắt đầu cuộc trò chuyện</string>
     <string name="conversation_message_hint">Tin nhắn</string>
@@ -319,12 +307,7 @@
     <string name="msg_attachment_file">Tài liệu</string>
     <string name="msg_attachment_contact">Liên hệ</string>
     <string name="msg_attachment_location">Vị trí</string>
-    <string name="msg_attachment_schedule">Lịch trình</string>
-    <string name="location_fetching">Đang tìm nạp vị trí…</string>
-    <string name="location_error">Không thể xác định vị trí</string>
     <string name="location_permission_denied">Cần có quyền vị trí để chia sẻ vị trí của bạn</string>
-    <string name="location_my_current">Vị trí hiện tại của tôi</string>
-    <string name="location_coordinates">tọa độ</string>
     <string name="location_view_map">Xem trên bản đồ:</string>
     <string name="msg_cd_attached_image">Hình ảnh đính kèm</string>
     <string name="msg_cd_scheduled">Đã lên lịch</string>
@@ -342,7 +325,6 @@
     <string name="msg_cd_retry">Thử gửi lại</string>
     <string name="msg_cd_attachment_type">Loại tệp đính kèm</string>
     <string name="msg_cd_open_location">Mở vị trí trên bản đồ</string>
-    <string name="msg_cd_playback_speed">Tốc độ phát lại</string>
     <string name="msg_cd_play">Chơi</string>
     <string name="msg_cd_pause">Tạm dừng</string>
     <string name="msg_cd_send">Gửi</string>
@@ -350,14 +332,16 @@
     <string name="msg_cd_conversation_options">Tùy chọn hội thoại</string>
     <string name="msg_cd_delete_recording">Xóa bản ghi</string>
     <string name="msg_cd_send_recording">Gửi bản ghi âm</string>
-    <string name="msg_fetching_location">Đang định vị…</string>
     <string name="msg_date_today">Hôm nay</string>
     <string name="msg_date_yesterday">Hôm qua</string>
     <string name="msg_no_results">Không có kết quả</string>
     <string name="msg_no_archived_conversations">Không có cuộc trò chuyện nào được lưu trữ</string>
     <string name="msg_search_try_different">Hãy thử từ khóa khác với\"%s\"</string>
     <string name="msg_archive_hint">Nhấn và giữ cuộc trò chuyện để lưu trữ nó</string>
-    <string name="msg_delete_conversations_title">Xóa cuộc trò chuyện%d?</string>
+    <plurals name="msg_delete_conversations_title">
+        <item quantity="one">Xóa cuộc trò chuyện%d?</item>
+        <item quantity="other">Xóa cuộc trò chuyện%d?</item>
+    </plurals>
     <string name="msg_sim_ask_me">Hỏi tôi</string>
     <string name="msg_phone_number_missing">Số điện thoại bị thiếu</string>
     <string name="msg_scheduled_cancelled">Đã hủy tin nhắn theo lịch trình</string>
@@ -380,10 +364,12 @@
     <string name="templates_title">Mẫu tin nhắn</string>
     <string name="templates_empty">Chưa có mẫu nào</string>
     <string name="templates_create">Tạo mẫu</string>
-    <string name="templates_use_count">Đã sử dụng%dlần</string>
+    <plurals name="templates_use_count">
+        <item quantity="one">Đã sử dụng%dlần</item>
+        <item quantity="other">Đã sử dụng%dlần</item>
+    </plurals>
     <string name="templates_delete_title">Xóa mẫu</string>
     <string name="templates_delete_message">Bạn có chắc chắn muốn xóa \"%s\" không?</string>
-    <string name="cleanup_creating_backup">جاري إنشاء نسخة احتياطية...</string>
     <string name="system_perm_title">Cài đặt bổ sung</string>
     <string name="system_perm_device">Thiết bị của bạn:%1$s</string>
     <string name="system_perm_subtitle">Yêu cầu cài đặt bổ sung để ứng dụng hoạt động bình thường</string>
@@ -427,11 +413,8 @@
     <string name="manufacturer_vivo">Vivo (Hệ điều hành Funtouch)</string>
     <string name="manufacturer_oneplus">OnePlus (OxygenOS)</string>
     <string name="manufacturer_stock">Android</string>
-    <string name="appearance_theme_system_follow">Theo chủ đề hệ thống</string>
     <string name="spam_privacy_title">Sự riêng tư</string>
-    <string name="otp_settings_desc">Tự động sao chép, thông báo, người gửi đáng tin cậy</string>
     <string name="privacy_hide_notifications">Ẩn thông báo nhạy cảm</string>
-    <string name="privacy_hide_notifications_desc">Ẩn nội dung tin nhắn trong thông báo</string>
     <string name="about_version">Phiên bản%s</string>
     <string name="close">Đóng</string>
     <string name="remove">Di dời</string>
@@ -444,11 +427,8 @@
     <string name="sim_all">Tất cả SIM</string>
     <string name="sim_select_for_blocking">Chọn SIM để chặn cuộc gọi</string>
     <string name="sim_slot_format">Áp dụng cho:%1$s</string>
-    <string name="call_blocking_desc">Chặn các cuộc gọi không mong muốn</string>
     <string name="call_blocking_blocked_list">Số bị chặn</string>
-    <string name="call_blocking_manage_blocked">Quản lý danh sách số bị chặn</string>
     <string name="call_blocking_whitelist">Danh sách trắng</string>
-    <string name="call_blocking_manage_whitelist">Quản lý danh sách trắng</string>
     <string name="blocked_list_title">Số bị chặn</string>
     <string name="blocked_list_count">Đã chặn (%d)</string>
     <string name="blocked_search_hint">Tìm kiếm danh bạ hoặc cuộc gọi gần đây</string>
@@ -467,7 +447,10 @@
     <string name="call_status_calling">Đang gọi…</string>
     <string name="conference_call_title">Cuộc gọi hội nghị</string>
     <string name="conference_label">Hội nghị</string>
-    <string name="conference_participants_count">%dngười tham gia</string>
+    <plurals name="conference_participants_count">
+        <item quantity="one">%dngười tham gia</item>
+        <item quantity="other">%dngười tham gia</item>
+    </plurals>
     <string name="overlay_status_hold">Giữ</string>
     <string name="overlay_status_incoming">Đang đến</string>
     <string name="fake_call_title">Cuộc gọi giả</string>
@@ -485,20 +468,25 @@
     <string name="fake_call_incoming">Cuộc gọi đến…</string>
     <string name="fake_call_answer">Trả lời</string>
     <string name="fake_call_decline">Sự suy sụp</string>
-    <string name="fake_call_end">Kết thúc cuộc gọi</string>
     <string name="fake_call_name_required">Vui lòng nhập tên người gọi</string>
     <string name="fake_call_delay_required">Vui lòng chọn thời gian gọi</string>
-    <string name="fake_call_scheduled">Cuộc gọi giả được lên lịch sau%s</string>
+    <string name="fake_call_scheduled">Cuộc gọi giả được lên lịch sau%1$s</string>
     <string name="fake_call_schedule_error">Không thể lên lịch cuộc gọi giả</string>
     <string name="fake_call_manage_title">Cuộc gọi giả theo lịch trình</string>
-    <string name="fake_call_active_count">%dcuộc gọi đã được lên lịch</string>
+    <plurals name="fake_call_active_count">
+        <item quantity="one">%dcuộc gọi đã được lên lịch</item>
+        <item quantity="other">%dcuộc gọi đã được lên lịch</item>
+    </plurals>
     <string name="fake_call_no_scheduled">Không có cuộc gọi giả theo lịch trình</string>
     <string name="fake_call_cancel_all">Hủy tất cả</string>
     <string name="fake_call_cancel_call">Hủy cuộc gọi</string>
     <string name="fake_call_inexact_alarm_warning">Lưu ý: Cuộc gọi có thể không đến vào thời điểm chính xác. Cấp quyền \"Báo thức và lời nhắc\" trong cài đặt để có độ chính xác cao hơn.</string>
     <string name="refresh">Làm cho khỏe lại</string>
     <string name="callback_reminders_manage_title">Lời nhắc gọi lại theo lịch trình</string>
-    <string name="callback_reminder_active_count">%dlời nhắc đã được lên lịch</string>
+    <plurals name="callback_reminder_active_count">
+        <item quantity="one">%dlời nhắc đã được lên lịch</item>
+        <item quantity="other">%dlời nhắc đã được lên lịch</item>
+    </plurals>
     <string name="callback_reminder_no_scheduled">Không có lời nhắc theo lịch trình</string>
     <string name="callback_reminder_cancel_all">Hủy tất cả</string>
     <string name="callback_reminder_cancel_item">Hủy lời nhắc</string>
@@ -507,13 +495,10 @@
     <string name="scheduled_message_failed_body">Tới%1$s:%2$s</string>
     <string name="scheduled_message_cancel">Hủy bỏ</string>
     <string name="scheduled_message_edit">Biên tập</string>
-    <string name="scheduled_message_cancelled">Đã hủy tin nhắn theo lịch trình</string>
     <string name="scheduled_status_pending">Chưa giải quyết</string>
     <string name="scheduled_status_sent">Đã gửi</string>
     <string name="scheduled_status_failed">Thất bại</string>
     <string name="scheduled_status_cancelled">Đã hủy</string>
-    <string name="msg_send_failure_title">Gửi tin nhắn không thành công</string>
-    <string name="msg_send_failure_text">Tới%1$s:%2$s</string>
     <string name="search_messages_hint">Tìm kiếm tin nhắn</string>
     <string name="search_clear">Thông thoáng</string>
     <string name="call_state_calling">Đang gọi…</string>
@@ -589,17 +574,18 @@
     <string name="sim_picker_call_title">Chọn SIM để gọi</string>
     <string name="msg_unexpected_error">Lỗi không mong muốn:%1$s</string>
     <string name="msg_suggestion_prefix">Đề xuất:%1$s</string>
-    <string name="msg_send_attachments_lost">Gửi không thành công. Tệp đính kèm của bạn được giữ nguyên — hãy nhấn vào tin nhắn không thành công để thử lại.</string>
     <string name="msg_retry_unexpected_error">Lỗi không mong muốn:%1$s</string>
     <string name="msg_forward_partial_success">Đã gửi tới%1$dtrong số%2$dngười nhận.%3$dkhông thành công.</string>
-    <string name="msg_scheduled_load_error">Không thể tải tin nhắn đã lên lịch</string>
     <string name="msg_error_network_wifi">📶 MMS yêu cầu Wi-Fi hoặc dữ liệu di động. Vui lòng kiểm tra kết nối của bạn.</string>
     <string name="msg_error_network">📶 Không có kết nối internet. Vui lòng kiểm tra cài đặt mạng của bạn.</string>
     <string name="msg_error_permission">🔒 Cần có sự cho phép:%1$s. Vui lòng cấp trong cài đặt.</string>
     <string name="msg_error_balance">💳 Số dư SMS không đủ. Vui lòng nạp tiền vào thẻ SIM của bạn.</string>
     <string name="msg_error_invalid_number">📱 Số điện thoại không hợp lệ. Vui lòng kiểm tra và thử lại.</string>
     <string name="msg_error_storage_full">💾 Kho lưu trữ đầy. Hãy giải phóng một số không gian.</string>
-    <string name="msg_error_rate_limit">⏱️ Gửi quá nhiều tin nhắn. Vui lòng đợi%1$dgiây.</string>
+    <plurals name="msg_error_rate_limit">
+        <item quantity="one">⏱️ Gửi quá nhiều tin nhắn. Vui lòng đợi%1$dgiây.</item>
+        <item quantity="other">⏱️ Gửi quá nhiều tin nhắn. Vui lòng đợi%1$dgiây.</item>
+    </plurals>
     <string name="msg_error_mms">📎 Lỗi MMS:%1$s. Vui lòng thử lại.</string>
     <string name="msg_error_too_large">📏 Tin nhắn quá lớn. Kích thước tối đa là%1$dKB.</string>
     <string name="msg_error_attachment">📎 Không thể đính kèm%1$s:%2$s</string>
@@ -631,7 +617,6 @@
     <string name="sms_error_radio_off">Đã bật chế độ trên máy bay (Tắt radio)</string>
     <string name="sms_error_limit_exceeded">Đã vượt quá giới hạn gửi</string>
     <string name="sms_error_unknown">Lỗi không xác định</string>
-    <string name="otp_copied_toast">Mã xác minh đã sao chép:%1$s✓</string>
     <string name="otp_bubble_channel_name">Mã xác minh nổi</string>
     <string name="otp_bubble_channel_desc">Thông báo về bong bóng mã xác minh nổi</string>
     <string name="otp_bubble_notification_title">Mã xác minh</string>
@@ -640,7 +625,10 @@
     <string name="settings_incoming_call_banner_desc">Hiển thị biểu ngữ nổi thay vì toàn màn hình cho cuộc gọi đến</string>
     <string name="notification_summary_title">Tin nhắn</string>
     <string name="notification_summary_2_messages">2 tin nhắn mới</string>
-    <string name="notification_summary_n_messages">%1$dtin nhắn mới</string>
+    <plurals name="notification_summary_n_messages">
+        <item quantity="one">%1$dtin nhắn mới</item>
+        <item quantity="other">%1$dtin nhắn mới</item>
+    </plurals>
     <string name="notification_summary_many_messages">Hơn 9 tin nhắn mới</string>
     <string name="notification_action_reply">Hồi đáp</string>
     <string name="notification_action_mark_read_short">Đánh dấu đã đọc</string>
@@ -658,39 +646,17 @@
     <string name="error_failed_update_favorite">Không cập nhật được trạng thái yêu thích</string>
     <string name="error_failed_delete_contact">Không xóa được liên hệ:%1$s</string>
     <string name="success_contact_deleted">Đã xóa liên hệ</string>
-    <string name="success_contacts_blocked">%1$dliên hệ bị chặn</string>
-    <string name="success_contacts_added_favorites">%1$dđịa chỉ liên hệ được thêm vào mục yêu thích</string>
+    <plurals name="success_contacts_blocked">
+        <item quantity="one">%1$dliên hệ bị chặn</item>
+        <item quantity="other">%1$dliên hệ bị chặn</item>
+    </plurals>
+    <plurals name="success_contacts_added_favorites">
+        <item quantity="one">%1$dđịa chỉ liên hệ được thêm vào mục yêu thích</item>
+        <item quantity="other">%1$dđịa chỉ liên hệ được thêm vào mục yêu thích</item>
+    </plurals>
     <string name="success_added_to_favorites">Đã thêm vào mục yêu thích</string>
     <string name="success_removed_from_favorites">Đã xóa khỏi mục yêu thích</string>
     <string name="msg_contact_will_be_deleted">\"%1$s\"sẽ bị xóa</string>
-    <string name="backup_encrypt_dialog_title">Mã hóa sao lưu</string>
-    <string name="backup_encrypt_dialog_desc">Nhập mật khẩu để mã hóa bản sao lưu hoặc để trống để lưu dưới dạng JSON thuần túy.</string>
-    <string name="backup_encrypt_password_hint">Mật khẩu (tùy chọn)</string>
-    <string name="backup_encrypt_confirm">Xuất khẩu</string>
-    <string name="restore_decrypt_dialog_title">Sao lưu được mã hóa</string>
-    <string name="restore_decrypt_dialog_desc">Bản sao lưu này được mã hóa. Nhập mật khẩu được sử dụng khi nó được tạo.</string>
-    <string name="restore_decrypt_password_hint">Mật khẩu</string>
-    <string name="restore_decrypt_confirm">Khôi phục</string>
-    <string name="backup_wrong_password">Mật khẩu sai - không thể giải mã bản sao lưu.</string>
-    <string name="backup_encrypted_badge">🔒 Đã mã hóa</string>
-    <string name="backup_created_success">Sao lưu được tạo thành công</string>
-    <string name="backup_created_failure">Không tạo được bản sao lưu</string>
-    <string name="backup_saved_success">✅ Đã lưu bản sao lưu thành công</string>
-    <string name="backup_saved_failure">❌ Lưu không thành công:%1$s</string>
-    <string name="restore_success">✅ Khôi phục dữ liệu thành công</string>
-    <string name="restore_failure">Khôi phục không thành công</string>
-    <string name="restore_error">Khôi phục lỗi:%1$s</string>
-    <string name="backup_restore_success">✅ Sao lưu được khôi phục thành công</string>
-    <string name="backup_restore_failure">❌ Khôi phục không thành công:%1$s</string>
-    <string name="generic_error">Lỗi:%1$s</string>
-    <string name="export_calls_success">✅ Xuất cuộc gọi:%1$s</string>
-    <string name="export_messages_success">✅ Tin nhắn đã xuất:%1$s</string>
-    <string name="export_all_success">✅ Tất cả dữ liệu được xuất:%1$s</string>
-    <string name="export_failure">❌ Xuất không thành công</string>
-    <string name="import_success">✅ Nhập dữ liệu thành công</string>
-    <string name="import_failure">Nhập không thành công</string>
-    <string name="import_error">Lỗi nhập:%1$s</string>
-    <string name="import_restore_failure">❌ Nhập không thành công:%1$s</string>
     <string name="disclosure_title">Quyền riêng tư của bạn</string>
     <string name="disclosure_subtitle">Vui lòng xem lại trước khi tiếp tục</string>
     <string name="disclosure_intro">Purevon thay thế Trình quay số điện thoại mặc định và ứng dụng nhắn tin SMS/MMS mặc định của bạn. Để cung cấp tính năng gọi điện, SMS/MMS, chống spam và các tính năng liên quan, nó cần có các quyền được giải thích bên dưới. Các mục tùy chọn (máy ảnh, micrô, vị trí) chỉ được sử dụng khi bạn chọn những hành động đó (ví dụ: đính kèm ảnh hoặc chia sẻ vị trí của bạn). Dữ liệu vẫn còn trên thiết bị của bạn trừ khi bạn sử dụng rõ ràng tính năng mạng như MMS hoặc tải bản xem trước liên kết web.</string>
@@ -729,8 +695,6 @@
     <string name="incall_error_reject_failed">Không thể từ chối cuộc gọi</string>
     <string name="incall_error_merge_not_supported">Không thể hợp nhất cuộc gọi - không được hỗ trợ</string>
     <string name="incall_error_merge_failed">Không thể hợp nhất cuộc gọi</string>
-    <string name="incall_error_add_call_unavailable">Không thể thêm cuộc gọi ngay bây giờ</string>
-    <string name="incall_error_sim_unknown">Không thể xác định SIM</string>
     <string name="incall_error_no_call_permission">Không có quyền thực hiện cuộc gọi</string>
     <string name="incall_error_add_call_failed">Không thêm được cuộc gọi:%1$s</string>
     <string name="incall_error_note_save_invalid_number">Không lưu được ghi chú - số không hợp lệ</string>
@@ -741,13 +705,54 @@
     <string name="incall_msg_number_unblocked">Đã bỏ chặn số</string>
     <string name="incall_msg_number_blocked">Số bị chặn</string>
     <string name="incall_msg_note_saved">✅ Đã lưu</string>
-    <string name="incall_msg_reminder_set_hours">✅ Đặt lời nhắc sau%1$dgiờ</string>
-    <string name="incall_msg_reminder_set_minutes">✅ Đặt lời nhắc sau%1$dphút</string>
+    <plurals name="incall_msg_reminder_set_hours">
+        <item quantity="one">✅ Đặt lời nhắc sau%1$dgiờ</item>
+        <item quantity="other">✅ Đặt lời nhắc sau%1$dgiờ</item>
+    </plurals>
+    <plurals name="incall_msg_reminder_set_minutes">
+        <item quantity="one">✅ Đặt lời nhắc sau%1$dphút</item>
+        <item quantity="other">✅ Đặt lời nhắc sau%1$dphút</item>
+    </plurals>
     <string name="incall_msg_reminder_approximate_warning">(Lưu ý: thời gian gần đúng)</string>
     <string name="incall_msg_location_coming_soon">Sắp gửi vị trí</string>
     <string name="incall_msg_image_sharing_coming_soon">Chia sẻ hình ảnh sắp ra mắt</string>
     <string name="incall_block_reason_incall">Bị chặn qua màn hình cuộc gọi</string>
     <string name="shortcut_new_message">Tin nhắn mới</string>
     <string name="shortcut_create_new_message">Tạo tin nhắn mới</string>
-    <string name="btn_ai_scan">Quét bằng AI</string>
+
+    <string name="action_add_note">Add note</string>
+    <string name="action_view">View</string>
+    <string name="blocked_call_bubble_call">اتصال</string>
+    <string name="blocked_call_bubble_channel_desc">إشعارات حظر المكالمات</string>
+    <string name="blocked_call_bubble_channel_name">قناة حظر المكالمات</string>
+    <string name="blocked_call_bubble_content_title">مكالمة محظورة</string>
+    <string name="blocked_call_bubble_dismiss">إلغاء</string>
+    <string name="blocked_call_bubble_notification_text">تم حظر مكالمة واردة من رقم مشبوه</string>
+    <string name="blocked_call_bubble_notification_title">تم حظر مكالمة</string>
+    <string name="blocked_call_bubble_whitelist">إضافة لقائمة السماح</string>
+    <string name="blocked_call_bubble_whitelisted">تمت الإضافة إلى قائمة السماح</string>
+    <string name="mms_fg_channel_desc">Shows when MMS messages are being sent or downloaded</string>
+    <string name="mms_fg_channel_name">MMS Operations</string>
+    <string name="mms_fg_downloading">Downloading MMS</string>
+    <string name="mms_fg_in_progress">MMS operation in progress…</string>
+    <string name="mms_fg_processing">Processing MMS</string>
+    <string name="mms_fg_sending">Sending MMS</string>
+    <string name="mms_fg_to">To %1$s</string>
+    <string name="msg_action_cancel">Cancel</string>
+    <string name="msg_send_cancelled">Message send cancelled</string>
+    <string name="notification_channel_fake_call">Fake Calls</string>
+    <string name="notification_channel_fake_call_desc">Notifications for scheduled fake incoming calls</string>
+    <string name="notification_channel_incoming_calls">Incoming Calls</string>
+    <string name="notification_channel_incoming_calls_desc">Incoming call notifications - shows on lock screen</string>
+    <string name="notification_channel_incoming_call_unlocked">Incoming Call (Unlocked)</string>
+    <string name="notification_channel_incoming_call_unlocked_desc">Silent foreground service notification when screen is on and call activity is shown directly</string>
+    <string name="notification_fake_call_incoming">Incoming call</string>
+    <string name="notification_spam_call_text">%1$s - %2$s</string>
+    <string name="notification_spam_call_title">⚠️ Spam Call Detected</string>
+    <string name="otp_copied_generic">Verification code copied ✓</string>
+    <string name="otp_missed_notification_text">New message from %1$s — open inbox to view</string>
+    <string name="otp_missed_notification_title">Verification code received</string>
+    <string name="risk_high">High Risk</string>
+    <string name="risk_low">Low Risk</string>
+    <string name="risk_medium">Medium Risk</string>
 </resources>

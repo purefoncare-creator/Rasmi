@@ -1,6 +1,7 @@
 package com.rasmi.purevon.util.location
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Geocoder
@@ -62,6 +63,7 @@ class CallLocationManager @Inject constructor(
      * Get current location using Android LocationManager.
      * Tries GPS first, then falls back to network provider.
      */
+    @SuppressLint("MissingPermission")
     private suspend fun getCurrentLocationInternal(): Location? =
         suspendCancellableCoroutine { continuation ->
             if (!hasLocationPermission()) {
@@ -155,7 +157,7 @@ class CallLocationManager @Inject constructor(
      * Format location for display
      */
     fun formatLocation(callLocation: CallLocation): String {
-        return callLocation.address ?: String.format(
+        return callLocation.address ?: String.format(java.util.Locale.getDefault(), 
             "%.6f, %.6f",
             callLocation.latitude,
             callLocation.longitude

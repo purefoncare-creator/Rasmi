@@ -201,12 +201,7 @@ class FakeInCallActivity : AppCompatActivity() {
             }
 
             val pattern = longArrayOf(0, 800, 400, 800, 400, 800, 400)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                vibrator?.vibrate(VibrationEffect.createWaveform(pattern, 0))
-            } else {
-                @Suppress("DEPRECATION")
-                vibrator?.vibrate(pattern, 0)
-            }
+            vibrator?.vibrate(VibrationEffect.createWaveform(pattern, 0))
         } catch (e: Exception) {
             android.util.Log.e(TAG, "Error starting fake ringtone: ${e.message}")
         }

@@ -1,6 +1,7 @@
 package com.rasmi.purevon.service
 
 import android.telecom.Call
+import android.telecom.VideoProfile
 import android.util.Log
 import com.rasmi.purevon.service.InCallServiceConstants.TAG
 
@@ -138,7 +139,7 @@ internal fun PurevonInCallService.answerAndHold(): Boolean {
                 Log.d(TAG, "[ANSWER_HOLD] Answering waiting call and holding current")
                 bridge.isManagingCalls = true
                 callToHold.hold()
-                callToAnswer.answer(0)
+                callToAnswer.answer(VideoProfile.STATE_AUDIO_ONLY)
                 bridge.heldCall = callToHold
                 bridge.currentCall = callToAnswer
                 bridge.waitingCall = null
@@ -148,7 +149,7 @@ internal fun PurevonInCallService.answerAndHold(): Boolean {
                 return true
             } else if (callToAnswer != null) {
                 bridge.isManagingCalls = true
-                callToAnswer.answer(0)
+                callToAnswer.answer(VideoProfile.STATE_AUDIO_ONLY)
                 bridge.currentCall = callToAnswer
                 bridge.waitingCall = null
                 bridge.isManagingCalls = false

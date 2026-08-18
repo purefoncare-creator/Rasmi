@@ -20,7 +20,7 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.filled.Send
+import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
@@ -33,6 +33,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -58,8 +59,8 @@ import kotlinx.coroutines.delay
 fun AudioPlayerComponent(
     audioUri: String,
     durationMs: Long,
-    isOutgoing: Boolean = false,
     modifier: Modifier = Modifier,
+    isOutgoing: Boolean = false,
     compact: Boolean = false
 ) {
     val context = LocalContext.current
@@ -67,7 +68,7 @@ fun AudioPlayerComponent(
     
     var isPlaying by remember { mutableStateOf(false) }
     var progress by remember { mutableFloatStateOf(0f) }
-    var currentPositionMs by remember { mutableStateOf(0L) }
+    var currentPositionMs by remember { mutableLongStateOf(0L) }
     
     val animatedProgress by animateFloatAsState(
         targetValue = progress,
@@ -102,8 +103,8 @@ fun AudioPlayerComponent(
         }
     }
     
-    // Cleanup
-    DisposableEffect(Unit) {
+    // Cleanup — re-runs when audioUri changes so old player is released
+    DisposableEffect(audioUri) {
         onDispose {
             audioPlayer.release()
         }
@@ -271,8 +272,8 @@ fun AudioPreviewPlayer(
         }
     }
     
-    // Cleanup
-    DisposableEffect(Unit) {
+    // Cleanup — re-runs when audioUri changes so old player is released
+    DisposableEffect(audioUri) {
         onDispose {
             audioPlayer.release()
         }
@@ -372,7 +373,7 @@ fun AudioPreviewPlayer(
                     .background(iOSBlue, CircleShape)
             ) {
                 Icon(
-                    Icons.Filled.Send,
+                    Icons.AutoMirrored.Filled.Send,
                     contentDescription = stringResource(R.string.msg_cd_send),
                     tint = Color.White,
                     modifier = Modifier.size(18.dp)
@@ -386,6 +387,5 @@ private fun formatDuration(ms: Long): String {
     val totalSeconds = ms / 1000
     val minutes = totalSeconds / 60
     val seconds = totalSeconds % 60
-    return String.format("%02d:%02d", minutes, seconds)
+    return String.format(java.util.Locale.getDefault(), "%02d:%02d", minutes, seconds)
 }
-

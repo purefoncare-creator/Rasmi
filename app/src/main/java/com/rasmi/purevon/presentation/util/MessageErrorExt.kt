@@ -18,7 +18,7 @@ fun MessageError.getLocalizedMessage(context: Context): String = when (this) {
     is MessageError.InsufficientBalanceError -> context.getString(R.string.msg_error_balance)
     is MessageError.InvalidNumberError -> context.getString(R.string.msg_error_invalid_number)
     is MessageError.StorageFullError -> context.getString(R.string.msg_error_storage_full)
-    is MessageError.RateLimitError -> context.getString(R.string.msg_error_rate_limit, retryAfterSeconds.toInt())
+    is MessageError.RateLimitError -> context.resources.getQuantityString(R.plurals.msg_error_rate_limit, retryAfterSeconds.toInt(), retryAfterSeconds.toInt())
     is MessageError.MmsError -> context.getString(R.string.msg_error_mms, reason)
     is MessageError.MessageTooLargeError -> context.getString(R.string.msg_error_too_large, (maxSize / 1024).toInt())
     is MessageError.AttachmentError -> context.getString(R.string.msg_error_attachment, filename, reason)

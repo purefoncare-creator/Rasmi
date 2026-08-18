@@ -9,7 +9,6 @@
     <string name="template_title">Sablon címe</string>
     <string name="template_content">Sablon tartalma</string>
     <string name="save">Megtakarítás</string>
-    <string name="app_name" translatable="false">Purevon</string>
     <string name="perm_setup_title">Beállítási engedélyek</string>
     <string name="perm_welcome_title">Üdvözöljük Purevonban</string>
     <string name="perm_welcome_message">Az alapértelmezett telefon- és SMS-alkalmazások lecseréléséhez a következő engedélyekre van szükségünk</string>
@@ -60,8 +59,14 @@
     <string name="action_number_copied">A szám a vágólapra másolva</string>
     <string name="callback_reminder_title">Visszahívási emlékeztető</string>
     <string name="callback_select_duration">Időtartam kiválasztása:</string>
-    <string name="callback_minutes">%dperc</string>
-    <string name="callback_hour">%dóra</string>
+    <plurals name="callback_minutes">
+        <item quantity="one">%dperc</item>
+        <item quantity="other">%dperc</item>
+    </plurals>
+    <plurals name="callback_hour">
+        <item quantity="one">%dóra</item>
+        <item quantity="other">%dóra</item>
+    </plurals>
     <string name="callback_set">Készlet</string>
     <string name="callback_reminder_alert_title">Visszahívási emlékeztető</string>
     <string name="callback_call_now">Hívjon most</string>
@@ -71,8 +76,10 @@
     <string name="incall_end_call">Hívás befejezése</string>
     <string name="contacts_search_placeholder">Keresés</string>
     <string name="contacts_no_contacts">Nincsenek elérhetőségek</string>
-    <string name="contacts_stat_blocked">Zárolt</string>
-    <string name="contacts_selected">%dkiválasztva</string>
+    <plurals name="contacts_selected">
+        <item quantity="one">%1$dkiválasztva</item>
+        <item quantity="other">%1$dkiválasztva</item>
+    </plurals>
     <string name="contacts_select_all">Válassza az Összes lehetőséget</string>
     <string name="contacts_deselect_all">Törölje az Összes kijelölését</string>
     <string name="contacts_action_favorite">Kedvenc</string>
@@ -80,7 +87,10 @@
     <string name="contacts_action_block">Tömb</string>
     <string name="contacts_action_unblock">Blokkolás feloldása</string>
     <string name="contacts_action_delete">Töröl</string>
-    <string name="contacts_delete_multiple">Törli a%dnévjegyet?</string>
+    <plurals name="contacts_delete_multiple">
+        <item quantity="one">Törli a%1$dnévjegyet?</item>
+        <item quantity="other">Törli a%1$dnévjegyet?</item>
+    </plurals>
     <string name="contacts_delete_warning">Ez a művelet nem vonható vissza.</string>
     <string name="contacts_cd_add_contact">Új névjegy hozzáadása</string>
     <string name="contacts_cd_clear_search">Keresés törlése</string>
@@ -121,7 +131,7 @@
     <string name="contact_detail_no_history">Még nincs hívástörténet</string>
     <string name="contact_detail_no_notes">Még nincsenek jegyzetek</string>
     <string name="contact_detail_delete_title">Névjegy törlése</string>
-    <string name="contact_detail_delete_message">Biztosan törli a következőt:%s?</string>
+    <string name="contact_detail_delete_message">Biztosan törli a következőt:%1$s?</string>
     <string name="contact_detail_delete_confirm">Töröl</string>
     <string name="contact_detail_first_name">Keresztnév</string>
     <string name="contact_detail_last_name">Vezetéknév</string>
@@ -150,8 +160,6 @@
     <string name="add_contact_group">Csoport</string>
     <string name="add_contact_save_changes">Módosítások mentése</string>
     <string name="add_contact_save">Névjegy mentése</string>
-    <string name="add_contact_saved">✓ Kapcsolat mentve</string>
-    <string name="add_contact_updated">✓ Kapcsolattartó frissítve</string>
     <string name="add_contact_failed">Nem sikerült menteni. Ellenőrizze az engedélyeket.</string>
     <string name="add_contact_favorite">Kedvenc</string>
     <string name="add_contact_type_mobile">Mozgó</string>
@@ -160,26 +168,17 @@
     <string name="add_contact_type_other">Más</string>
     <string name="add_contact_save_to">Mentés ide</string>
     <string name="add_contact_account_device">Eszköz</string>
-    <string name="add_contact_account_sim">SIM%1$d(%2$s)</string>
     <string name="add_contact_account_google">Google</string>
     <string name="add_contact_select_account">Válassza ki a névjegy mentési helyét</string>
     <string name="messages_no_messages">Nincsenek üzenetek</string>
     <string name="messages_delete_conversation">Beszélgetés törlése</string>
     <string name="history_missed">Elmaradt</string>
     <string name="history_duration">Időtartam:%s</string>
-    <string name="settings_title">Beállítások elemre</string>
     <string name="settings_appearance">Megjelenés</string>
-    <string name="settings_notifications">Értesítések</string>
-    <string name="settings_theme">Téma</string>
     <string name="settings_theme_dark">Sötét</string>
     <string name="settings_theme_system">Rendszer alapértelmezett</string>
-    <string name="settings_rtl_title">Jobbról balra elrendezés</string>
-    <string name="settings_rtl_subtitle">A felület tükrözése a jobbról balra haladáshoz</string>
     <string name="settings_language">Nyelv</string>
-    <string name="settings_language_summary">Módosítsa a kézi alkalmazás nyelvét</string>
     <string name="language_system">Rendszer alapértelmezett</string>
-    <string name="language_ar">العربية (arab)</string>
-    <string name="language_en">angol (angol)</string>
     <string name="dialer_add_to_contacts">Hozzáadás a névjegyekhez</string>
     <string name="messages_all">Minden</string>
     <string name="messages_starred_tab">Csillagos</string>
@@ -187,11 +186,8 @@
     <string name="messages_no_starred">Nincsenek csillagozott üzenetek</string>
     <string name="messages_starred_hint">Nyomja meg hosszan bármelyik üzenetet, hogy hozzáadja a kedvencekhez</string>
     <string name="messages_archive">Archívum</string>
-    <string name="messages_unarchive">Archiválás megszüntetése</string>
     <string name="messages_mark_as_read">Megjelölés olvasottként</string>
-    <string name="messages_mark_as_unread">Megjelölés olvasatlanként</string>
     <string name="messages_archived_tab">Archivált</string>
-    <string name="history_call_will_be_deleted">A hívás törlésre kerül</string>
     <string name="history_number_will_be_blocked">A szám blokkolva lesz</string>
     <string name="history_undo">Visszavonás</string>
     <string name="history_no_history">Még nincs hívástörténet</string>
@@ -219,40 +215,50 @@
     <string name="history_delete_from_history">Az összes törlése az előzményekből</string>
     <string name="history_delete_all_calls_title">Törli az összes hívást erről a számról?</string>
     <string name="history_delete_all_calls_message">Távolítsa el a%sösszes bejegyzését a híváslistából. Ezt nem lehet visszavonni.</string>
-    <string name="history_delete_selected_numbers">Eltávolítja a%dszám előzményeit?</string>
-    <string name="history_group_missed_count">%dkimaradt</string>
+    <plurals name="history_delete_selected_numbers">
+        <item quantity="one">Eltávolítja a%dszám előzményeit?</item>
+        <item quantity="other">Eltávolítja a%dszám előzményeit?</item>
+    </plurals>
     <string name="history_notes_cd_has_note">Jegyzetei vannak</string>
-    <string name="history_delete_call_title">Törli a hívást?</string>
-    <string name="history_delete_call_message">Biztosan törli ezt a hívást az előzményei közül? Ez a művelet nem vonható vissza.</string>
     <string name="history_block_number_title">Szám blokkolása?</string>
     <string name="history_block_number_message">Biztosan letiltja a következőt:%s? Erről a számról\'nem fog hívni.</string>
     <string name="history_search_calls">Hívások keresése</string>
     <string name="history_clear">Világos</string>
     <string name="history_today">Ma</string>
     <string name="history_yesterday">Tegnap</string>
-    <string name="history_calls">%dhívást</string>
+    <plurals name="history_calls">
+        <item quantity="one">%dhívást</item>
+        <item quantity="other">%dhívást</item>
+    </plurals>
     <string name="history_total">Teljes</string>
     <string name="history_permission_name">READ_CALL_LOG</string>
     <string name="history_permission_rationale">Ennek az alkalmazásnak hozzá kell férnie a hívásnaplóihoz, hogy megjelenítse a híváslistát, nyomon követhesse a nem fogadott hívásokat, és hívásstatisztikát biztosítson.</string>
     <string name="history_action_call">Hívás</string>
     <string name="history_action_message">Üzenet</string>
     <string name="history_notes">Jegyzetek (%d)</string>
-    <string name="history_more_notes">+%dtovábbi megjegyzés</string>
+    <plurals name="history_more_notes">
+        <item quantity="one">+%dtovábbi megjegyzés</item>
+        <item quantity="other">+%dtovábbi megjegyzés</item>
+    </plurals>
     <string name="history_note_today">Ma</string>
     <string name="history_note_yesterday">Tegnap</string>
     <string name="note_dialog_title">Megjegyzések a következőhöz:%s</string>
-    <string name="note_dialog_count">%dmegjegyzés</string>
+    <plurals name="note_dialog_count">
+        <item quantity="one">%dmegjegyzés</item>
+        <item quantity="other">%dmegjegyzés</item>
+    </plurals>
     <string name="note_dialog_empty">Nincsenek jegyzetek</string>
     <string name="note_delete_cd">Jegyzet törlése</string>
-    <string name="note_icon_cd">Kapcsolatfelvételi jegyzetek</string>
     <string name="note_dialog_close">Közeli</string>
     <string name="history_sim">SIM%d</string>
-    <string name="history_selected_count">%dkiválasztva</string>
+    <plurals name="history_selected_count">
+        <item quantity="one">%dkiválasztva</item>
+        <item quantity="other">%dkiválasztva</item>
+    </plurals>
     <string name="history_select_all">Válassza az Összes lehetőséget</string>
     <string name="history_deselect_all">Törölje az Összes kijelölését</string>
     <string name="history_action_block">Tömb</string>
     <string name="history_action_delete">Töröl</string>
-    <string name="history_delete_selected">Törli a%dhívást?</string>
     <string name="history_delete_selected_warning">Ez a művelet nem vonható vissza.</string>
     <string name="otp_settings_title">OTP beállítások</string>
     <string name="about_title">Körülbelül</string>
@@ -268,26 +274,8 @@
     <string name="about_feature_bubble_desc">Hívások vezérlése lebegő buborékfedéssel</string>
     <string name="about_feature_sim">Dual SIM támogatás</string>
     <string name="about_feature_sim_desc">Teljes támogatás a két SIM-kártyás eszközökhöz</string>
-    <string name="about_feature_backup">Biztonsági mentés és visszaállítás</string>
-    <string name="about_feature_backup_desc">Tartsa biztonságban adatait automatikus biztonsági mentésekkel</string>
     <string name="about_contact_us">Lépjen kapcsolatba velünk:</string>
     <string name="about_copyright">© 2026 Purevon. Minden jog fenntartva.</string>
-    <string name="ai_model_title">AI jellemzők</string>
-    <string name="ai_model_download">A Gemma 3 (1B) letöltése</string>
-    <string name="ai_model_download_desc">Töltse le a Gemma 3 1B modellt (~555 MB) az offline AI-csevegéshez</string>
-    <string name="ai_model_downloading">Letöltés…%1$d%%</string>
-    <string name="ai_model_extracting">Modell mentése…</string>
-    <string name="ai_model_downloaded">Modell letöltve</string>
-    <string name="ai_model_delete">AI modell törlése</string>
-    <string name="ai_model_delete_desc">Távolítsa el a letöltött Gemma modellt, hogy helyet szabadítson fel</string>
-    <string name="ai_chat_title">Gemma AI Chat</string>
-    <string name="ai_chat_model_loading">Modell betöltése…</string>
-    <string name="ai_chat_model_error">A modell betöltése nem sikerült</string>
-    <string name="ai_chat_model_ready">Kész</string>
-    <string name="ai_chat_hint">Kérdezz bármit Gemmától…</string>
-    <string name="ai_hf_token_label">HuggingFace Token</string>
-    <string name="ai_hf_token_placeholder">hf_xxxxxxxxxxxxxxxxxxxxx</string>
-    <string name="ai_hf_token_desc">A Gemma letöltéséhez szükséges (ingyenes a huggingface.co oldalon)</string>
     <string name="conversation_no_messages">Még nincsenek üzenetek</string>
     <string name="conversation_start_hint">A beszélgetés elindításához küldjön üzenetet</string>
     <string name="conversation_message_hint">Üzenet</string>
@@ -319,12 +307,7 @@
     <string name="msg_attachment_file">Fájl</string>
     <string name="msg_attachment_contact">Érintkezés</string>
     <string name="msg_attachment_location">Elhelyezkedés</string>
-    <string name="msg_attachment_schedule">Menetrend</string>
-    <string name="location_fetching">Hely lekérése…</string>
-    <string name="location_error">Nem sikerült meghatározni a helyet</string>
     <string name="location_permission_denied">Helymeghatározási engedély szükséges a helyzet megosztásához</string>
-    <string name="location_my_current">Jelenlegi tartózkodási helyem</string>
-    <string name="location_coordinates">Koordináták</string>
     <string name="location_view_map">Megtekintés a térképen:</string>
     <string name="msg_cd_attached_image">Mellékelt kép</string>
     <string name="msg_cd_scheduled">Ütemezett</string>
@@ -342,7 +325,6 @@
     <string name="msg_cd_retry">Próbálja újra a küldést</string>
     <string name="msg_cd_attachment_type">Csatolás típusa</string>
     <string name="msg_cd_open_location">Hely megnyitása a térképen</string>
-    <string name="msg_cd_playback_speed">Lejátszási sebesség</string>
     <string name="msg_cd_play">Játék</string>
     <string name="msg_cd_pause">Szünet</string>
     <string name="msg_cd_send">Elküld</string>
@@ -350,14 +332,16 @@
     <string name="msg_cd_conversation_options">Beszélgetési lehetőségek</string>
     <string name="msg_cd_delete_recording">Felvétel törlése</string>
     <string name="msg_cd_send_recording">Felvétel elküldése</string>
-    <string name="msg_fetching_location">Helymeghatározás…</string>
     <string name="msg_date_today">Ma</string>
     <string name="msg_date_yesterday">Tegnap</string>
     <string name="msg_no_results">Nincs eredmény</string>
     <string name="msg_no_archived_conversations">Nincsenek archivált beszélgetések</string>
     <string name="msg_search_try_different">Próbáljon más kulcsszót, mint\"%s\"</string>
     <string name="msg_archive_hint">Nyomja meg hosszan a beszélgetést az archiválásához</string>
-    <string name="msg_delete_conversations_title">Töröl%dbeszélgetést?</string>
+    <plurals name="msg_delete_conversations_title">
+        <item quantity="one">Töröl%dbeszélgetést?</item>
+        <item quantity="other">Töröl%dbeszélgetést?</item>
+    </plurals>
     <string name="msg_sim_ask_me">Kérdezz engem</string>
     <string name="msg_phone_number_missing">A telefonszám hiányzik</string>
     <string name="msg_scheduled_cancelled">Ütemezett üzenet törölve</string>
@@ -380,10 +364,12 @@
     <string name="templates_title">Üzenet sablonok</string>
     <string name="templates_empty">Még nincsenek sablonok</string>
     <string name="templates_create">Sablon létrehozása</string>
-    <string name="templates_use_count">%dalkalommal használva</string>
+    <plurals name="templates_use_count">
+        <item quantity="one">%dalkalommal használva</item>
+        <item quantity="other">%dalkalommal használva</item>
+    </plurals>
     <string name="templates_delete_title">Sablon törlése</string>
     <string name="templates_delete_message">Biztosan törli a következőt: \"%s\"?</string>
-    <string name="cleanup_creating_backup">جاري إنشاء نسخة احتياطية...</string>
     <string name="system_perm_title">További beállítások</string>
     <string name="system_perm_device">Az Ön készüléke:%1$s</string>
     <string name="system_perm_subtitle">Az alkalmazás megfelelő működéséhez további beállítások szükségesek</string>
@@ -427,11 +413,8 @@
     <string name="manufacturer_vivo">Vivo (Funtouch OS)</string>
     <string name="manufacturer_oneplus">OnePlus (OxygenOS)</string>
     <string name="manufacturer_stock">Android</string>
-    <string name="appearance_theme_system_follow">Kövesse a rendszertémát</string>
     <string name="spam_privacy_title">Magánélet</string>
-    <string name="otp_settings_desc">Automatikus másolás, értesítések, megbízható feladók</string>
     <string name="privacy_hide_notifications">Érzékeny értesítések elrejtése</string>
-    <string name="privacy_hide_notifications_desc">Az üzenetek tartalmának elrejtése az értesítésekben</string>
     <string name="about_version">%sverzió</string>
     <string name="close">Közeli</string>
     <string name="remove">Távolítsa el</string>
@@ -444,11 +427,8 @@
     <string name="sim_all">Minden SIM</string>
     <string name="sim_select_for_blocking">Válassza ki a SIM-kártyát a hívásblokkoláshoz</string>
     <string name="sim_slot_format">Alkalmazva:%1$s</string>
-    <string name="call_blocking_desc">Blokkolja a nem kívánt hívásokat</string>
     <string name="call_blocking_blocked_list">Blokkolt számok</string>
-    <string name="call_blocking_manage_blocked">A blokkolt számok listájának kezelése</string>
     <string name="call_blocking_whitelist">Fehérlista</string>
-    <string name="call_blocking_manage_whitelist">Engedélyezőlista kezelése</string>
     <string name="blocked_list_title">Blokkolt számok</string>
     <string name="blocked_list_count">Letiltva (%d)</string>
     <string name="blocked_search_hint">Névjegyek vagy legutóbbi hívások keresése</string>
@@ -467,7 +447,10 @@
     <string name="call_status_calling">Hívás…</string>
     <string name="conference_call_title">Konferenciahívás</string>
     <string name="conference_label">Konferencia</string>
-    <string name="conference_participants_count">%drésztvevő</string>
+    <plurals name="conference_participants_count">
+        <item quantity="one">%drésztvevő</item>
+        <item quantity="other">%drésztvevő</item>
+    </plurals>
     <string name="overlay_status_hold">Tart</string>
     <string name="overlay_status_incoming">Bejövő</string>
     <string name="fake_call_title">Hamis hívás</string>
@@ -485,20 +468,25 @@
     <string name="fake_call_incoming">Bejövő hívás…</string>
     <string name="fake_call_answer">Válasz</string>
     <string name="fake_call_decline">Hanyatlás</string>
-    <string name="fake_call_end">Hívás befejezése</string>
     <string name="fake_call_name_required">Kérjük, adja meg a hívó nevét</string>
     <string name="fake_call_delay_required">Kérjük, válassza ki a hívásidőt</string>
-    <string name="fake_call_scheduled">Álhívás ütemezve%sután</string>
+    <string name="fake_call_scheduled">Álhívás ütemezve%1$sután</string>
     <string name="fake_call_schedule_error">Nem sikerült az álhívás ütemezése</string>
     <string name="fake_call_manage_title">Ütemezett hamis hívások</string>
-    <string name="fake_call_active_count">%dhívás ütemezve</string>
+    <plurals name="fake_call_active_count">
+        <item quantity="one">%dhívás ütemezve</item>
+        <item quantity="other">%dhívás ütemezve</item>
+    </plurals>
     <string name="fake_call_no_scheduled">Nincs ütemezett hamis hívás</string>
     <string name="fake_call_cancel_all">Összes törlése</string>
     <string name="fake_call_cancel_call">Hívás megszakítása</string>
     <string name="fake_call_inexact_alarm_warning">Megjegyzés: Előfordulhat, hogy a hívás nem a pontos időpontban érkezik. Adjon „Riasztások és emlékeztetők” engedélyt a beállításokban a nagyobb pontosság érdekében.</string>
     <string name="refresh">Frissítés</string>
     <string name="callback_reminders_manage_title">Ütemezett visszahívási emlékeztetők</string>
-    <string name="callback_reminder_active_count">%demlékeztető ütemezve</string>
+    <plurals name="callback_reminder_active_count">
+        <item quantity="one">%demlékeztető ütemezve</item>
+        <item quantity="other">%demlékeztető ütemezve</item>
+    </plurals>
     <string name="callback_reminder_no_scheduled">Nincsenek ütemezett emlékeztetők</string>
     <string name="callback_reminder_cancel_all">Összes törlése</string>
     <string name="callback_reminder_cancel_item">Emlékeztető visszavonása</string>
@@ -507,13 +495,10 @@
     <string name="scheduled_message_failed_body">Címzett%1$s:%2$s</string>
     <string name="scheduled_message_cancel">Mégsem</string>
     <string name="scheduled_message_edit">Szerkesztés</string>
-    <string name="scheduled_message_cancelled">Ütemezett üzenet törölve</string>
     <string name="scheduled_status_pending">Függőben levő</string>
     <string name="scheduled_status_sent">Küldött</string>
     <string name="scheduled_status_failed">Sikertelen</string>
     <string name="scheduled_status_cancelled">Törölve</string>
-    <string name="msg_send_failure_title">Az üzenetküldés sikertelen</string>
-    <string name="msg_send_failure_text">Címzett%1$s:%2$s</string>
     <string name="search_messages_hint">Üzenetek keresése</string>
     <string name="search_clear">Világos</string>
     <string name="call_state_calling">Hívás…</string>
@@ -589,17 +574,18 @@
     <string name="sim_picker_call_title">Híváshoz válassza a SIM-kártyát</string>
     <string name="msg_unexpected_error">Váratlan hiba:%1$s</string>
     <string name="msg_suggestion_prefix">Javaslat:%1$s</string>
-    <string name="msg_send_attachments_lost">A küldés sikertelen. A mellékletek megmaradnak – érintse meg a sikertelen üzenetet az újrapróbálkozáshoz.</string>
     <string name="msg_retry_unexpected_error">Váratlan hiba:%1$s</string>
     <string name="msg_forward_partial_success">%2$d/%1$dcímzettnek elküldve.%3$dnem sikerült.</string>
-    <string name="msg_scheduled_load_error">Nem sikerült betölteni az ütemezett üzeneteket</string>
     <string name="msg_error_network_wifi">📶 Az MMS-hez Wi-Fi vagy mobil adatkapcsolat szükséges. Kérjük, ellenőrizze a kapcsolatot.</string>
     <string name="msg_error_network">📶 Nincs internetkapcsolat. Kérjük, ellenőrizze a hálózati beállításokat.</string>
     <string name="msg_error_permission">🔒 Engedély szükséges:%1$s. Kérjük, engedélyezze a beállításokban.</string>
     <string name="msg_error_balance">💳 Elégtelen SMS-egyenleg. Kérjük, töltse fel SIM-kártyáját.</string>
     <string name="msg_error_invalid_number">📱 Érvénytelen telefonszám. Kérjük, ellenőrizze, és próbálja újra.</string>
     <string name="msg_error_storage_full">💾 A tárhely megtelt. Kérjük, szabadítson fel egy kis helyet.</string>
-    <string name="msg_error_rate_limit">⏱️ Túl sok üzenetet küldtek. Kérjük, várjon%1$dmásodpercet.</string>
+    <plurals name="msg_error_rate_limit">
+        <item quantity="one">⏱️ Túl sok üzenetet küldtek. Kérjük, várjon%1$dmásodpercet.</item>
+        <item quantity="other">⏱️ Túl sok üzenetet küldtek. Kérjük, várjon%1$dmásodpercet.</item>
+    </plurals>
     <string name="msg_error_mms">📎 MMS hiba:%1$s. Kérjük, próbálja újra.</string>
     <string name="msg_error_too_large">📏 Az üzenet túl nagy. A maximális méret%1$dKB.</string>
     <string name="msg_error_attachment">📎 Nem csatolható%1$s:%2$s</string>
@@ -631,7 +617,6 @@
     <string name="sms_error_radio_off">Repülőgép üzemmód engedélyezve (rádió kikapcsolva)</string>
     <string name="sms_error_limit_exceeded">A küldési korlát túllépve</string>
     <string name="sms_error_unknown">Ismeretlen hiba</string>
-    <string name="otp_copied_toast">Ellenőrző kód kimásolva:%1$s✓</string>
     <string name="otp_bubble_channel_name">Lebegő ellenőrző kódok</string>
     <string name="otp_bubble_channel_desc">Értesítések lebegő ellenőrző kód buborékokról</string>
     <string name="otp_bubble_notification_title">Ellenőrző kód</string>
@@ -640,7 +625,10 @@
     <string name="settings_incoming_call_banner_desc">Lebegő szalaghirdetés megjelenítése a teljes képernyő helyett a bejövő hívásoknál</string>
     <string name="notification_summary_title">Üzenetek</string>
     <string name="notification_summary_2_messages">2 új üzenet</string>
-    <string name="notification_summary_n_messages">%1$dúj üzenet</string>
+    <plurals name="notification_summary_n_messages">
+        <item quantity="one">%1$dúj üzenet</item>
+        <item quantity="other">%1$dúj üzenet</item>
+    </plurals>
     <string name="notification_summary_many_messages">9+ új üzenet</string>
     <string name="notification_action_reply">Válasz</string>
     <string name="notification_action_mark_read_short">Mark olvasott</string>
@@ -658,39 +646,17 @@
     <string name="error_failed_update_favorite">Nem sikerült frissíteni a kedvenc állapotát</string>
     <string name="error_failed_delete_contact">Nem sikerült törölni a névjegyet:%1$s</string>
     <string name="success_contact_deleted">Kapcsolat törölve</string>
-    <string name="success_contacts_blocked">%1$dnévjegy blokkolva</string>
-    <string name="success_contacts_added_favorites">%1$dnévjegy hozzáadva a kedvencekhez</string>
+    <plurals name="success_contacts_blocked">
+        <item quantity="one">%1$dnévjegy blokkolva</item>
+        <item quantity="other">%1$dnévjegy blokkolva</item>
+    </plurals>
+    <plurals name="success_contacts_added_favorites">
+        <item quantity="one">%1$dnévjegy hozzáadva a kedvencekhez</item>
+        <item quantity="other">%1$dnévjegy hozzáadva a kedvencekhez</item>
+    </plurals>
     <string name="success_added_to_favorites">Hozzáadva a kedvencekhez</string>
     <string name="success_removed_from_favorites">Eltávolítva a kedvencek közül</string>
     <string name="msg_contact_will_be_deleted">\"%1$s\"törlésre kerül</string>
-    <string name="backup_encrypt_dialog_title">Biztonsági mentés titkosítása</string>
-    <string name="backup_encrypt_dialog_desc">Adjon meg egy jelszót a biztonsági másolat titkosításához, vagy hagyja üresen, ha egyszerű JSON-ként szeretné menteni.</string>
-    <string name="backup_encrypt_password_hint">Jelszó (nem kötelező)</string>
-    <string name="backup_encrypt_confirm">Export</string>
-    <string name="restore_decrypt_dialog_title">Titkosított biztonsági mentés</string>
-    <string name="restore_decrypt_dialog_desc">Ez a biztonsági másolat titkosított. Adja meg a létrehozásakor használt jelszót.</string>
-    <string name="restore_decrypt_password_hint">Jelszó</string>
-    <string name="restore_decrypt_confirm">Visszaállítás</string>
-    <string name="backup_wrong_password">Hibás jelszó – a biztonsági másolat visszafejtése nem sikerült.</string>
-    <string name="backup_encrypted_badge">🔒 Titkosított</string>
-    <string name="backup_created_success">A biztonsági mentés sikeresen létrehozva</string>
-    <string name="backup_created_failure">Nem sikerült biztonsági másolatot készíteni</string>
-    <string name="backup_saved_success">✅ A biztonsági mentés sikeresen mentve</string>
-    <string name="backup_saved_failure">❌ Sikertelen mentés:%1$s</string>
-    <string name="restore_success">✅ Az adatok visszaállítása sikeres volt</string>
-    <string name="restore_failure">A visszaállítás nem sikerült</string>
-    <string name="restore_error">Visszaállítási hiba:%1$s</string>
-    <string name="backup_restore_success">✅ A biztonsági mentés sikeresen visszaállítva</string>
-    <string name="backup_restore_failure">❌ A visszaállítás sikertelen:%1$s</string>
-    <string name="generic_error">Hiba:%1$s</string>
-    <string name="export_calls_success">✅ Exportált hívások:%1$s</string>
-    <string name="export_messages_success">✅ Exportált üzenetek:%1$s</string>
-    <string name="export_all_success">✅ Minden exportált adat:%1$s</string>
-    <string name="export_failure">❌ Nem sikerült exportálni</string>
-    <string name="import_success">✅ Az adatok sikeresen importálva</string>
-    <string name="import_failure">Az importálás sikertelen</string>
-    <string name="import_error">Importálási hiba:%1$s</string>
-    <string name="import_restore_failure">❌ Sikertelen importálás:%1$s</string>
     <string name="disclosure_title">Az Ön adatvédelme</string>
     <string name="disclosure_subtitle">Kérjük, tekintse át a folytatás előtt</string>
     <string name="disclosure_intro">A Purevon leváltja az alapértelmezett telefontárcsázót és az alapértelmezett SMS/MMS üzenetküldő alkalmazást. A hívások, SMS/MMS, spamvédelem és kapcsolódó szolgáltatások biztosításához az alábbiakban ismertetett engedélyekre van szüksége. Az opcionális elemek (kamera, mikrofon, hely) csak akkor használatosak, ha Ön választja ezeket a műveleteket (például fénykép csatolása vagy helymegosztása). Az adatok az eszközön maradnak, kivéve, ha kifejezetten használ egy hálózati funkciót, például MMS-t, vagy nem tölt be egy internetes hivatkozás előnézetét.</string>
@@ -729,8 +695,6 @@
     <string name="incall_error_reject_failed">Nem sikerült elutasítani a hívást</string>
     <string name="incall_error_merge_not_supported">Nem lehet egyesíteni a hívásokat – nem támogatott</string>
     <string name="incall_error_merge_failed">Nem sikerült egyesíteni a hívásokat</string>
-    <string name="incall_error_add_call_unavailable">Jelenleg nem lehet hívást hozzáadni</string>
-    <string name="incall_error_sim_unknown">Nem sikerült meghatározni a SIM-kártyát</string>
     <string name="incall_error_no_call_permission">Nincs engedélye hívások kezdeményezésére</string>
     <string name="incall_error_add_call_failed">Nem sikerült hozzáadni a hívást:%1$s</string>
     <string name="incall_error_note_save_invalid_number">Nem sikerült menteni a jegyzetet – érvénytelen szám</string>
@@ -741,13 +705,54 @@
     <string name="incall_msg_number_unblocked">Szám feloldva</string>
     <string name="incall_msg_number_blocked">A szám blokkolva</string>
     <string name="incall_msg_note_saved">✅ Mentve</string>
-    <string name="incall_msg_reminder_set_hours">✅ Emlékeztető beállítva%1$dóra után</string>
-    <string name="incall_msg_reminder_set_minutes">✅ Emlékeztető beállítva%1$dperc után</string>
+    <plurals name="incall_msg_reminder_set_hours">
+        <item quantity="one">✅ Emlékeztető beállítva%1$dóra után</item>
+        <item quantity="other">✅ Emlékeztető beállítva%1$dóra után</item>
+    </plurals>
+    <plurals name="incall_msg_reminder_set_minutes">
+        <item quantity="one">✅ Emlékeztető beállítva%1$dperc után</item>
+        <item quantity="other">✅ Emlékeztető beállítva%1$dperc után</item>
+    </plurals>
     <string name="incall_msg_reminder_approximate_warning">(Megjegyzés: hozzávetőleges időzítés)</string>
     <string name="incall_msg_location_coming_soon">Helyszín küldés hamarosan</string>
     <string name="incall_msg_image_sharing_coming_soon">Képmegosztás hamarosan</string>
     <string name="incall_block_reason_incall">Letiltva az InCall képernyőn keresztül</string>
     <string name="shortcut_new_message">Új üzenet</string>
     <string name="shortcut_create_new_message">Új üzenet létrehozása</string>
-    <string name="btn_ai_scan">Szkennelés AI-val</string>
+
+    <string name="action_add_note">Add note</string>
+    <string name="action_view">View</string>
+    <string name="blocked_call_bubble_call">اتصال</string>
+    <string name="blocked_call_bubble_channel_desc">إشعارات حظر المكالمات</string>
+    <string name="blocked_call_bubble_channel_name">قناة حظر المكالمات</string>
+    <string name="blocked_call_bubble_content_title">مكالمة محظورة</string>
+    <string name="blocked_call_bubble_dismiss">إلغاء</string>
+    <string name="blocked_call_bubble_notification_text">تم حظر مكالمة واردة من رقم مشبوه</string>
+    <string name="blocked_call_bubble_notification_title">تم حظر مكالمة</string>
+    <string name="blocked_call_bubble_whitelist">إضافة لقائمة السماح</string>
+    <string name="blocked_call_bubble_whitelisted">تمت الإضافة إلى قائمة السماح</string>
+    <string name="mms_fg_channel_desc">Shows when MMS messages are being sent or downloaded</string>
+    <string name="mms_fg_channel_name">MMS Operations</string>
+    <string name="mms_fg_downloading">Downloading MMS</string>
+    <string name="mms_fg_in_progress">MMS operation in progress…</string>
+    <string name="mms_fg_processing">Processing MMS</string>
+    <string name="mms_fg_sending">Sending MMS</string>
+    <string name="mms_fg_to">To %1$s</string>
+    <string name="msg_action_cancel">Cancel</string>
+    <string name="msg_send_cancelled">Message send cancelled</string>
+    <string name="notification_channel_fake_call">Fake Calls</string>
+    <string name="notification_channel_fake_call_desc">Notifications for scheduled fake incoming calls</string>
+    <string name="notification_channel_incoming_calls">Incoming Calls</string>
+    <string name="notification_channel_incoming_calls_desc">Incoming call notifications - shows on lock screen</string>
+    <string name="notification_channel_incoming_call_unlocked">Incoming Call (Unlocked)</string>
+    <string name="notification_channel_incoming_call_unlocked_desc">Silent foreground service notification when screen is on and call activity is shown directly</string>
+    <string name="notification_fake_call_incoming">Incoming call</string>
+    <string name="notification_spam_call_text">%1$s - %2$s</string>
+    <string name="notification_spam_call_title">⚠️ Spam Call Detected</string>
+    <string name="otp_copied_generic">Verification code copied ✓</string>
+    <string name="otp_missed_notification_text">New message from %1$s — open inbox to view</string>
+    <string name="otp_missed_notification_title">Verification code received</string>
+    <string name="risk_high">High Risk</string>
+    <string name="risk_low">Low Risk</string>
+    <string name="risk_medium">Medium Risk</string>
 </resources>

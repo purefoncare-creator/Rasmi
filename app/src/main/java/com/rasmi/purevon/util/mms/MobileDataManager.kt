@@ -3,7 +3,6 @@ package com.rasmi.purevon.util.mms
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import android.os.Build
 import android.util.Log
 
 /**
@@ -20,8 +19,6 @@ object MobileDataManager {
      * @return true if an active cellular connection exists, false otherwise, null if unknown
      */
     fun isMobileDataEnabled(context: Context): Boolean? {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return null
-
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
             ?: return null
 

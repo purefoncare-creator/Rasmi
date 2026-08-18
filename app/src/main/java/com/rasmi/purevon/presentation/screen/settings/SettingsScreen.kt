@@ -1,6 +1,5 @@
 package com.rasmi.purevon.presentation.screen.settings
 
-import android.os.Build
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -22,6 +21,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -189,7 +189,7 @@ fun SettingsScreen(
                         icon = Icons.Default.PhoneCallback,
                         title = stringResource(R.string.fake_call_manage_title),
                         subtitle = if (uiState.scheduledFakeCalls.isEmpty()) ""
-                                   else stringResource(R.string.fake_call_active_count, uiState.scheduledFakeCalls.size),
+                                   else pluralStringResource(R.plurals.fake_call_active_count, uiState.scheduledFakeCalls.size, uiState.scheduledFakeCalls.size),
                         onClick = { viewModel.onEvent(SettingsUiEvent.ShowFakeCalls) },
                         iconTint = MaterialCyan400
                     )
@@ -199,7 +199,7 @@ fun SettingsScreen(
                         icon = Icons.Default.Alarm,
                         title = stringResource(R.string.callback_reminders_manage_title),
                         subtitle = if (uiState.scheduledCallbackReminders.isEmpty()) ""
-                                   else stringResource(R.string.callback_reminder_active_count, uiState.scheduledCallbackReminders.size),
+                                   else pluralStringResource(R.plurals.callback_reminder_active_count, uiState.scheduledCallbackReminders.size, uiState.scheduledCallbackReminders.size),
                         onClick = { viewModel.onEvent(SettingsUiEvent.ShowCallbackReminders) },
                         iconTint = MaterialOrange
                     )
@@ -285,9 +285,7 @@ fun SettingsScreen(
     }
 
     // ✅ حوار اختيار شريحة الـ SIM لتطبيق حظر المكالمات عليها
-    if (uiState.showCallBlockingSimSelectorDialog &&
-        android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP_MR1
-    ) {
+    if (uiState.showCallBlockingSimSelectorDialog) {
         SimSelectorDialog(
             availableSims = uiState.availableSims,
             selectedSimId = uiState.callBlockingSimSubscriptionId,

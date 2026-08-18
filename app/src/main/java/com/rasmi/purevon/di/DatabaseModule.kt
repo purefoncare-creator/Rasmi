@@ -1,5 +1,6 @@
 package com.rasmi.purevon.di
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import androidx.room.Room
@@ -24,8 +25,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
 import net.sqlcipher.database.SupportFactory
 import javax.inject.Singleton
 
@@ -51,27 +50,25 @@ object DatabaseModule {
 
         val passphrase = DatabasePassphraseManager.getPassphrase(context)
         try {
-            // Run one-time migrations on IO thread to prevent ANR on Main Thread
+            // Run the one-time encryption migration on an IO-friendly policy. The database is
+            // created directly with a raw 256-bit key (hex key) below, so no separate re-key
+            // step is needed.
             val prefs = context.getSharedPreferences("purevon_db_cipher", Context.MODE_PRIVATE)
             val needsMigration = !prefs.getBoolean("migration_done", false)
-            val needsRekey = !prefs.getBoolean("rekey_to_raw", false)
-            
-            if (needsMigration || needsRekey) {
+
+            if (needsMigration) {
                 val oldPolicy = android.os.StrictMode.allowThreadDiskWrites()
                 try {
-                    if (needsMigration) {
-                        migrateToEncrypted(context, passphrase)
-                        prefs.edit().putBoolean("migration_done", true).commit()
+                    check(migrateToEncrypted(context, passphrase)) {
+                        "Database encryption migration failed"
                     }
-                    if (needsRekey) {
-                        rekeyToRawKey(context, passphrase)
-                        prefs.edit().putBoolean("rekey_to_raw", true).commit()
-                    }
+                    @SuppressLint("ApplySharedPref")
+                    prefs.edit().putBoolean("migration_done", true).commit()
                 } finally {
                     android.os.StrictMode.setThreadPolicy(oldPolicy)
                 }
             }
-            
+
             // Use raw 256-bit key format — skips PBKDF2 entirely
             val hexKey = "x'" + passphrase.joinToString("") { "%02x".format(it) } + "'"
             val factory = SupportFactory(hexKey.toByteArray(Charsets.US_ASCII))
@@ -108,47 +105,12 @@ object DatabaseModule {
     }
     
     /**
-     * Re-key an existing PBKDF2-encrypted database to use a raw 256-bit key.
-     * This eliminates the ~1-2s PBKDF2 key derivation on every app launch.
-     * Runs once after the initial encryption migration.
-     */
-    private fun rekeyToRawKey(context: Context, passphrase: ByteArray) {
-        val dbFile = context.getDatabasePath(PurevonDatabase.DATABASE_NAME)
-        if (!dbFile.exists()) return
-        
-        try {
-            System.loadLibrary("sqlcipher")
-            
-            // Open with old PBKDF2 passphrase
-            val db = net.sqlcipher.database.SQLiteDatabase.openDatabase(
-                dbFile.absolutePath,
-                passphrase.toString(Charsets.UTF_8),
-                null,
-                net.sqlcipher.database.SQLiteDatabase.OPEN_READWRITE
-            )
-            
-            // ✅ FIX #10: Wrap in try-finally to ensure db.close() on exception
-            try {
-                // Re-key to raw 256-bit key (skips PBKDF2 on future opens)
-                val hexKey = "x'" + passphrase.joinToString("") { "%02x".format(it) } + "'"
-                db.execSQL("PRAGMA rekey = \"$hexKey\"")
-            } finally {
-                db.close()
-            }
-            
-            Log.d("DatabaseModule", "Database re-keyed to raw key format (fast open)")
-        } catch (e: Exception) {
-            Log.e("DatabaseModule", "Re-key failed (non-fatal, will use PBKDF2)", e)
-        }
-    }
-    
-    /**
      * Migrate an existing unencrypted database to SQLCipher encrypted format.
      * This runs once — on subsequent launches the DB is already encrypted.
      */
-    private fun migrateToEncrypted(context: Context, passphrase: ByteArray) {
+    private fun migrateToEncrypted(context: Context, passphrase: ByteArray): Boolean {
         val dbFile = context.getDatabasePath(PurevonDatabase.DATABASE_NAME)
-        if (!dbFile.exists()) return // Fresh install, nothing to migrate
+        if (!dbFile.exists()) return true // Fresh install, nothing to migrate
         
         // Quick check: try to open as unencrypted SQLite
         // If it succeeds, the DB needs encryption migration
@@ -161,7 +123,7 @@ object DatabaseModule {
             testDb.close()
         } catch (e: Exception) {
             // Already encrypted or corrupt — skip migration
-            return
+            return true
         }
         
         Log.d("DatabaseModule", "Migrating unencrypted database to SQLCipher...")
@@ -192,15 +154,18 @@ object DatabaseModule {
             walFile.delete()
             shmFile.delete()
             dbFile.delete()
-            tempFile.renameTo(dbFile)
+            check(tempFile.renameTo(dbFile)) {
+                "Could not replace the database with the encrypted copy"
+            }
             
             Log.d("DatabaseModule", "Database encryption migration completed successfully")
+            return true
         } catch (e: Exception) {
             Log.e("DatabaseModule", "Database encryption migration failed", e)
             tempFile.delete()
             // ✅ FIX #7: Do NOT delete original dbFile on migration failure.
-            // Leaving the unencrypted DB is safer than losing all user data.
-            // The next app launch will retry the migration.
+            // Keep the original file for a retry, but do not allow the app to open it as plaintext.
+            return false
         }
     }
     

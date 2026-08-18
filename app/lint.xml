@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="PluralsCandidate" severity="Ignore" />
+    <issue id="MissingQuantity" severity="Ignore" />
+    <issue id="UnusedQuantity" severity="Ignore" />
+    <issue id="IconLauncherShape" severity="Ignore" />
+    <issue id="IconDipSize" severity="Ignore" />
+    <issue id="IconLocation" severity="Ignore" />
+    <issue id="IconDuplicates" severity="Ignore" />
+    <issue id="VectorPath" severity="Ignore" />
+    <issue id="OldTargetApi" severity="Ignore" />
+    <issue id="ChromeOsAbiSupport" severity="Ignore" />
+    <issue id="BatteryLife" severity="Ignore" />
+</lint>

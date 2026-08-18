@@ -30,12 +30,8 @@ class DefaultAppManager @Inject constructor(
         }
         
         // Fallback for older versions
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val telecomManager = context.getSystemService(Context.TELECOM_SERVICE) as TelecomManager
-            context.packageName == telecomManager.defaultDialerPackage
-        } else {
-            false
-        }
+        val telecomManager = context.getSystemService(Context.TELECOM_SERVICE) as TelecomManager
+        return context.packageName == telecomManager.defaultDialerPackage
     }
     
     /**
@@ -57,14 +53,12 @@ class DefaultAppManager @Inject constructor(
      * Use with ActivityResultLauncher
      */
     fun requestDefaultDialer(launcher: ActivityResultLauncher<Intent>) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val telecomManager = context.getSystemService(Context.TELECOM_SERVICE) as TelecomManager
-            if (context.packageName != telecomManager.defaultDialerPackage) {
-                val intent = Intent(TelecomManager.ACTION_CHANGE_DEFAULT_DIALER).apply {
-                    putExtra(TelecomManager.EXTRA_CHANGE_DEFAULT_DIALER_PACKAGE_NAME, context.packageName)
-                }
-                launcher.launch(intent)
+        val telecomManager = context.getSystemService(Context.TELECOM_SERVICE) as TelecomManager
+        if (context.packageName != telecomManager.defaultDialerPackage) {
+            val intent = Intent(TelecomManager.ACTION_CHANGE_DEFAULT_DIALER).apply {
+                putExtra(TelecomManager.EXTRA_CHANGE_DEFAULT_DIALER_PACKAGE_NAME, context.packageName)
             }
+            launcher.launch(intent)
         }
     }
     
@@ -111,14 +105,12 @@ class DefaultAppManager @Inject constructor(
      * Legacy method for requesting default dialer
      */
     private fun requestDefaultDialerLegacy(activity: Activity, requestCode: Int) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val telecomManager = activity.getSystemService(Context.TELECOM_SERVICE) as TelecomManager
-            if (activity.packageName != telecomManager.defaultDialerPackage) {
-                val intent = Intent(TelecomManager.ACTION_CHANGE_DEFAULT_DIALER).apply {
-                    putExtra(TelecomManager.EXTRA_CHANGE_DEFAULT_DIALER_PACKAGE_NAME, activity.packageName)
-                }
-                activity.startActivityForResult(intent, requestCode)
+        val telecomManager = activity.getSystemService(Context.TELECOM_SERVICE) as TelecomManager
+        if (activity.packageName != telecomManager.defaultDialerPackage) {
+            val intent = Intent(TelecomManager.ACTION_CHANGE_DEFAULT_DIALER).apply {
+                putExtra(TelecomManager.EXTRA_CHANGE_DEFAULT_DIALER_PACKAGE_NAME, activity.packageName)
             }
+            activity.startActivityForResult(intent, requestCode)
         }
     }
     

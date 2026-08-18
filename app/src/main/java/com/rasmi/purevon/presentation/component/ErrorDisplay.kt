@@ -20,11 +20,11 @@ import com.rasmi.purevon.util.error.ErrorType
 @Composable
 fun ErrorDisplay(
     error: AppError,
+    modifier: Modifier = Modifier,
     onRetry: () -> Unit = {},
     onDismiss: () -> Unit = {},
     onRequestPermission: () -> Unit = {},
-    onGoToSettings: () -> Unit = {},
-    modifier: Modifier = Modifier
+    onGoToSettings: () -> Unit = {}
 ) {
     Card(
         modifier = modifier
@@ -136,8 +136,8 @@ fun ErrorDisplay(
 fun ErrorSnackbar(
     @Suppress("UNUSED_PARAMETER") error: AppError,
     snackbarHostState: SnackbarHostState,
-    @Suppress("UNUSED_PARAMETER") onActionClick: () -> Unit = {},
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    @Suppress("UNUSED_PARAMETER") onActionClick: () -> Unit = {}
 ) {
     SnackbarHost(
         hostState = snackbarHostState,
@@ -158,8 +158,8 @@ fun ErrorSnackbar(
 @Composable
 fun FullScreenError(
     error: AppError,
-    onRetry: () -> Unit = {},
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onRetry: () -> Unit = {}
 ) {
     Box(
         modifier = modifier.fillMaxSize(),

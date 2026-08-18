@@ -261,6 +261,62 @@ class DataEncryptionManager(private val context: Context) {
     }
     
     /**
+     * Encrypt plain text directly to an arbitrary output file using EncryptedFile.
+     * Returns success if the file was written, or failure with the cause.
+     */
+    suspend fun encryptToFile(plainText: String, outputFile: File): Result<Unit> {
+        return withContext(Dispatchers.IO) {
+            try {
+                outputFile.delete()
+                val encryptedFile = EncryptedFile.Builder(
+                    context,
+                    outputFile,
+                    masterKey,
+                    EncryptedFile.FileEncryptionScheme.AES256_GCM_HKDF_4KB
+                ).build()
+
+                encryptedFile.openFileOutput().use { outputStream ->
+                    outputStream.write(plainText.toByteArray(StandardCharsets.UTF_8))
+                }
+                Result.success(Unit)
+            } catch (e: Exception) {
+                Log.e(TAG, "encryptToFile failed", e)
+                Result.failure(e)
+            }
+        }
+    }
+
+    /**
+     * Decrypt the content of an arbitrary encrypted file.
+     * Returns failure on any decryption error — never falls back to plaintext.
+     */
+    suspend fun decryptFromFile(inputFile: File): Result<String> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val encryptedFile = EncryptedFile.Builder(
+                    context,
+                    inputFile,
+                    masterKey,
+                    EncryptedFile.FileEncryptionScheme.AES256_GCM_HKDF_4KB
+                ).build()
+
+                val byteArrayOutputStream = ByteArrayOutputStream()
+                encryptedFile.openFileInput().use { inputStream ->
+                    val buffer = ByteArray(1024)
+                    var bytesRead: Int
+                    while (inputStream.read(buffer).also { bytesRead = it } != -1) {
+                        byteArrayOutputStream.write(buffer, 0, bytesRead)
+                    }
+                }
+                Result.success(String(byteArrayOutputStream.toByteArray(), StandardCharsets.UTF_8))
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to decrypt file ${inputFile.name}", e)
+                Result.failure(e)
+            }
+        }
+    }
+
+    /**
      * Clear all encrypted data (for logout or app reset)
      */
     suspend fun clearAllEncryptedData() {

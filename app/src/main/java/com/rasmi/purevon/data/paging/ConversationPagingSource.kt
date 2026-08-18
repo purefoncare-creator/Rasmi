@@ -184,8 +184,8 @@ class ConversationPagingSource(
             context.contentResolver.query(
                 threadsUri,
                 arrayOf("_id", "date", "message_count"),
-                null,
-                null,
+                selection,
+                selectionArgs,
                 "date DESC LIMIT $limit OFFSET $offset"
             )?.use { cursor ->
                 while (cursor.moveToNext()) {
@@ -282,7 +282,7 @@ class ConversationPagingSource(
             
             // Get messages sorted by date, then group by thread_id
             // ✅ FIX M21: Add LIMIT to prevent full table scan with many messages
-            val limitPerThread = threadIds.size
+            val limitPerThread = threadIds.size * 2
             context.contentResolver.query(
                 Telephony.Sms.CONTENT_URI,
                 arrayOf(

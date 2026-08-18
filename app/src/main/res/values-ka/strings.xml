@@ -9,7 +9,6 @@
     <string name="template_title">შაბლონის სათაური</string>
     <string name="template_content">შაბლონის შინაარსი</string>
     <string name="save">შენახვა</string>
-    <string name="app_name" translatable="false">Purevon</string>
     <string name="perm_setup_title">დაყენების ნებართვები</string>
     <string name="perm_welcome_title">კეთილი იყოს თქვენი მობრძანება Purevon-ში</string>
     <string name="perm_welcome_message">თქვენი ნაგულისხმევი ტელეფონისა და SMS აპების ჩასანაცვლებლად, გვჭირდება შემდეგი ნებართვები</string>
@@ -60,8 +59,14 @@
     <string name="action_number_copied">ნომერი კოპირებულია ბუფერში</string>
     <string name="callback_reminder_title">დარეკვის შეხსენება</string>
     <string name="callback_select_duration">აირჩიეთ ხანგრძლივობა:</string>
-    <string name="callback_minutes">%dწუთი</string>
-    <string name="callback_hour">%dსაათი</string>
+    <plurals name="callback_minutes">
+        <item quantity="one">%dწუთი</item>
+        <item quantity="other">%dწუთი</item>
+    </plurals>
+    <plurals name="callback_hour">
+        <item quantity="one">%dსაათი</item>
+        <item quantity="other">%dსაათი</item>
+    </plurals>
     <string name="callback_set">კომპლექტი</string>
     <string name="callback_reminder_alert_title">დარეკვის შეხსენება</string>
     <string name="callback_call_now">დარეკე ახლავე</string>
@@ -71,8 +76,10 @@
     <string name="incall_end_call">ზარის დასრულება</string>
     <string name="contacts_search_placeholder">ძიება</string>
     <string name="contacts_no_contacts">არანაირი კონტაქტები</string>
-    <string name="contacts_stat_blocked">დაბლოკილია</string>
-    <string name="contacts_selected">არჩეულია%d</string>
+    <plurals name="contacts_selected">
+        <item quantity="one">არჩეულია%1$d</item>
+        <item quantity="other">არჩეულია%1$d</item>
+    </plurals>
     <string name="contacts_select_all">აირჩიეთ ყველა</string>
     <string name="contacts_deselect_all">გააუქმეთ ყველა</string>
     <string name="contacts_action_favorite">საყვარელი</string>
@@ -80,7 +87,10 @@
     <string name="contacts_action_block">ბლოკირება</string>
     <string name="contacts_action_unblock">განბლოკვა</string>
     <string name="contacts_action_delete">წაშლა</string>
-    <string name="contacts_delete_multiple">წაშალოთ%dკონტაქტი?</string>
+    <plurals name="contacts_delete_multiple">
+        <item quantity="one">წაშალოთ%1$dკონტაქტი?</item>
+        <item quantity="other">წაშალოთ%1$dკონტაქტი?</item>
+    </plurals>
     <string name="contacts_delete_warning">ამ მოქმედების გაუქმება შეუძლებელია.</string>
     <string name="contacts_cd_add_contact">დაამატეთ ახალი კონტაქტი</string>
     <string name="contacts_cd_clear_search">ძიების გასუფთავება</string>
@@ -121,7 +131,7 @@
     <string name="contact_detail_no_history">ზარის ისტორია ჯერ არ არის</string>
     <string name="contact_detail_no_notes">ჯერ არ არის შენიშვნები</string>
     <string name="contact_detail_delete_title">კონტაქტის წაშლა</string>
-    <string name="contact_detail_delete_message">დარწმუნებული ხართ, რომ გსურთ წაშალოთ%s?</string>
+    <string name="contact_detail_delete_message">დარწმუნებული ხართ, რომ გსურთ წაშალოთ%1$s?</string>
     <string name="contact_detail_delete_confirm">წაშლა</string>
     <string name="contact_detail_first_name">სახელი</string>
     <string name="contact_detail_last_name">გვარი</string>
@@ -150,8 +160,6 @@
     <string name="add_contact_group">ჯგუფი</string>
     <string name="add_contact_save_changes">ცვლილებების შენახვა</string>
     <string name="add_contact_save">კონტაქტის შენახვა</string>
-    <string name="add_contact_saved">✓ კონტაქტი შენახულია</string>
-    <string name="add_contact_updated">✓ კონტაქტი განახლებულია</string>
     <string name="add_contact_failed">შენახვა ვერ მოხერხდა. შეამოწმეთ ნებართვები.</string>
     <string name="add_contact_favorite">საყვარელი</string>
     <string name="add_contact_type_mobile">მობილური</string>
@@ -160,26 +168,17 @@
     <string name="add_contact_type_other">სხვა</string>
     <string name="add_contact_save_to">შენახვა</string>
     <string name="add_contact_account_device">მოწყობილობა</string>
-    <string name="add_contact_account_sim">SIM%1$d(%2$s)</string>
     <string name="add_contact_account_google">Google</string>
     <string name="add_contact_select_account">აირჩიეთ სად შეინახოთ ეს კონტაქტი</string>
     <string name="messages_no_messages">არანაირი შეტყობინებები</string>
     <string name="messages_delete_conversation">წაშალეთ საუბარი</string>
     <string name="history_missed">გაუშვა</string>
     <string name="history_duration">ხანგრძლივობა:%s</string>
-    <string name="settings_title">პარამეტრები</string>
     <string name="settings_appearance">გარეგნობა</string>
-    <string name="settings_notifications">შეტყობინებები</string>
-    <string name="settings_theme">თემა</string>
     <string name="settings_theme_dark">ბნელი</string>
     <string name="settings_theme_system">სისტემის ნაგულისხმევი</string>
-    <string name="settings_rtl_title">განლაგება მარჯვნიდან მარცხნივ</string>
-    <string name="settings_rtl_subtitle">აკრიფეთ ინტერფეისი მარჯვნიდან მარცხნივ წასაკითხად</string>
     <string name="settings_language">ენა</string>
-    <string name="settings_language_summary">შეცვალეთ ხელით აპლიკაციის ენა</string>
     <string name="language_system">სისტემის ნაგულისხმევი</string>
-    <string name="language_ar">العربية (არაბული)</string>
-    <string name="language_en">ინგლისური (ინგლისური)</string>
     <string name="dialer_add_to_contacts">კონტაქტებში დამატება</string>
     <string name="messages_all">ყველა</string>
     <string name="messages_starred_tab">ვარსკვლავიანი</string>
@@ -187,11 +186,8 @@
     <string name="messages_no_starred">ვარსკვლავიანი შეტყობინებები არ არის</string>
     <string name="messages_starred_hint">დიდხანს დააჭირეთ ნებისმიერ შეტყობინებას რჩეულებში დასამატებლად</string>
     <string name="messages_archive">არქივი</string>
-    <string name="messages_unarchive">არქივი</string>
     <string name="messages_mark_as_read">წაკითხულად მონიშვნა</string>
-    <string name="messages_mark_as_unread">წაუკითხავად მონიშვნა</string>
     <string name="messages_archived_tab">დაარქივებულია</string>
-    <string name="history_call_will_be_deleted">ზარი წაიშლება</string>
     <string name="history_number_will_be_blocked">ნომერი დაიბლოკება</string>
     <string name="history_undo">გაუქმება</string>
     <string name="history_no_history">ზარის ისტორია ჯერ არ არის</string>
@@ -219,40 +215,50 @@
     <string name="history_delete_from_history">წაშალეთ ყველაფერი ისტორიიდან</string>
     <string name="history_delete_all_calls_title">წაშალოთ ყველა ზარი ამ ნომრისთვის?</string>
     <string name="history_delete_all_calls_message">წაშალეთ ყველა ჩანაწერი%s-ისთვის თქვენი ზარის ისტორიიდან. ამის გაუქმება შეუძლებელია.</string>
-    <string name="history_delete_selected_numbers">წაშალოთ ისტორია%dნომრისთვის?</string>
-    <string name="history_group_missed_count">%dგამოტოვა</string>
+    <plurals name="history_delete_selected_numbers">
+        <item quantity="one">წაშალოთ ისტორია%dნომრისთვის?</item>
+        <item quantity="other">წაშალოთ ისტორია%dნომრისთვის?</item>
+    </plurals>
     <string name="history_notes_cd_has_note">აქვს შენიშვნები</string>
-    <string name="history_delete_call_title">წაშალოთ ზარი?</string>
-    <string name="history_delete_call_message">დარწმუნებული ხართ, რომ გსურთ ამ ზარის წაშლა თქვენი ისტორიიდან? ამ მოქმედების გაუქმება შეუძლებელია.</string>
     <string name="history_block_number_title">ბლოკის ნომერი?</string>
     <string name="history_block_number_message">დარწმუნებული ხართ, რომ გსურთ დაბლოკოთ%s? თქვენ\'_არ მიიღებთ ზარებს ამ ნომრიდან.</string>
     <string name="history_search_calls">მოძებნეთ ზარები</string>
     <string name="history_clear">წმინდა</string>
     <string name="history_today">დღეს</string>
     <string name="history_yesterday">გუშინ</string>
-    <string name="history_calls">%dრეკავს</string>
+    <plurals name="history_calls">
+        <item quantity="one">%dრეკავს</item>
+        <item quantity="other">%dრეკავს</item>
+    </plurals>
     <string name="history_total">სულ</string>
     <string name="history_permission_name">READ_CALL_LOG</string>
     <string name="history_permission_rationale">ამ აპს სჭირდება წვდომა თქვენს ზარების ჟურნალებზე, რათა აჩვენოს თქვენი ზარების ისტორია, თვალყური ადევნოს გამოტოვებულ ზარებს და უზრუნველყოს ზარების სტატისტიკა.</string>
     <string name="history_action_call">დარეკეთ</string>
     <string name="history_action_message">შეტყობინება</string>
     <string name="history_notes">შენიშვნები (%d)</string>
-    <string name="history_more_notes">+%dმეტი შენიშვნა</string>
+    <plurals name="history_more_notes">
+        <item quantity="one">+%dმეტი შენიშვნა</item>
+        <item quantity="other">+%dმეტი შენიშვნა</item>
+    </plurals>
     <string name="history_note_today">დღეს</string>
     <string name="history_note_yesterday">გუშინ</string>
     <string name="note_dialog_title">შენიშვნები%s-ისთვის</string>
-    <string name="note_dialog_count">%dშენიშვნა</string>
+    <plurals name="note_dialog_count">
+        <item quantity="one">%dშენიშვნა</item>
+        <item quantity="other">%dშენიშვნა</item>
+    </plurals>
     <string name="note_dialog_empty">არანაირი შენიშვნა</string>
     <string name="note_delete_cd">შენიშვნის წაშლა</string>
-    <string name="note_icon_cd">საკონტაქტო შენიშვნები</string>
     <string name="note_dialog_close">დახურვა</string>
     <string name="history_sim">SIM%d</string>
-    <string name="history_selected_count">არჩეულია%d</string>
+    <plurals name="history_selected_count">
+        <item quantity="one">არჩეულია%d</item>
+        <item quantity="other">არჩეულია%d</item>
+    </plurals>
     <string name="history_select_all">აირჩიეთ ყველა</string>
     <string name="history_deselect_all">გააუქმეთ ყველა</string>
     <string name="history_action_block">ბლოკირება</string>
     <string name="history_action_delete">წაშლა</string>
-    <string name="history_delete_selected">წაშალოთ%dზარი?</string>
     <string name="history_delete_selected_warning">ამ მოქმედების გაუქმება შეუძლებელია.</string>
     <string name="otp_settings_title">OTP პარამეტრები</string>
     <string name="about_title">შესახებ</string>
@@ -268,26 +274,8 @@
     <string name="about_feature_bubble_desc">აკონტროლეთ ზარები მცურავი ბუშტის გადაფარვით</string>
     <string name="about_feature_sim">ორმაგი SIM-ის მხარდაჭერა</string>
     <string name="about_feature_sim_desc">სრული მხარდაჭერა ორ SIM მოწყობილობებისთვის</string>
-    <string name="about_feature_backup">სარეზერვო და აღდგენა</string>
-    <string name="about_feature_backup_desc">შეინახეთ თქვენი მონაცემები უსაფრთხო ავტომატური სარეზერვო ასლებით</string>
     <string name="about_contact_us">დაგვიკავშირდით:</string>
     <string name="about_copyright">© 2026 Purevon. ყველა უფლება დაცულია.</string>
-    <string name="ai_model_title">AI მახასიათებლები</string>
-    <string name="ai_model_download">ჩამოტვირთეთ Gemma 3 (1B)</string>
-    <string name="ai_model_download_desc">ჩამოტვირთეთ Gemma 3 1B მოდელი (~555 MB) ოფლაინ AI ჩეთისთვის</string>
-    <string name="ai_model_downloading">მიმდინარეობს ჩამოტვირთვა…%1$d%%</string>
-    <string name="ai_model_extracting">მოდელის შენახვა…</string>
-    <string name="ai_model_downloaded">მოდელი გადმოწერილია</string>
-    <string name="ai_model_delete">AI მოდელის წაშლა</string>
-    <string name="ai_model_delete_desc">ამოიღეთ ჩამოტვირთული Gemma მოდელი სივრცის გასათავისუფლებლად</string>
-    <string name="ai_chat_title">Gemma AI ჩატი</string>
-    <string name="ai_chat_model_loading">მოდელის ჩატვირთვა…</string>
-    <string name="ai_chat_model_error">მოდელი ვერ ჩაიტვირთა</string>
-    <string name="ai_chat_model_ready">მზადაა</string>
-    <string name="ai_chat_hint">ჰკითხეთ ჯემას რამე…</string>
-    <string name="ai_hf_token_label">HuggingFace ჟეტონი</string>
-    <string name="ai_hf_token_placeholder">hf_xxxxxxxxxxxxxxxxxxxxx</string>
-    <string name="ai_hf_token_desc">საჭიროა Gemma-ს ჩამოტვირთვა (უფასო huggingface.co-ზე)</string>
     <string name="conversation_no_messages">ჯერ არ არის შეტყობინებები</string>
     <string name="conversation_start_hint">გაგზავნეთ შეტყობინება საუბრის დასაწყებად</string>
     <string name="conversation_message_hint">შეტყობინება</string>
@@ -319,12 +307,7 @@
     <string name="msg_attachment_file">ფაილი</string>
     <string name="msg_attachment_contact">კონტაქტი</string>
     <string name="msg_attachment_location">მდებარეობა</string>
-    <string name="msg_attachment_schedule">განრიგი</string>
-    <string name="location_fetching">მიმდინარეობს მდებარეობის მიღება…</string>
-    <string name="location_error">მდებარეობის დადგენა ვერ მოხერხდა</string>
     <string name="location_permission_denied">თქვენი მდებარეობის გასაზიარებლად საჭიროა მდებარეობის ნებართვა</string>
-    <string name="location_my_current">ჩემი ამჟამინდელი მდებარეობა</string>
-    <string name="location_coordinates">კოორდინატები</string>
     <string name="location_view_map">იხილეთ რუკაზე:</string>
     <string name="msg_cd_attached_image">მიმაგრებული სურათი</string>
     <string name="msg_cd_scheduled">დაგეგმილი</string>
@@ -342,7 +325,6 @@
     <string name="msg_cd_retry">ხელახლა სცადეთ გაგზავნა</string>
     <string name="msg_cd_attachment_type">დანართის ტიპი</string>
     <string name="msg_cd_open_location">გახსენით მდებარეობა რუკაზე</string>
-    <string name="msg_cd_playback_speed">დაკვრის სიჩქარე</string>
     <string name="msg_cd_play">ითამაშეთ</string>
     <string name="msg_cd_pause">პაუზა</string>
     <string name="msg_cd_send">გაგზავნა</string>
@@ -350,14 +332,16 @@
     <string name="msg_cd_conversation_options">საუბრის ვარიანტები</string>
     <string name="msg_cd_delete_recording">ჩანაწერის წაშლა</string>
     <string name="msg_cd_send_recording">ჩანაწერის გაგზავნა</string>
-    <string name="msg_fetching_location">მიმდინარეობს მდებარეობა…</string>
     <string name="msg_date_today">დღეს</string>
     <string name="msg_date_yesterday">გუშინ</string>
     <string name="msg_no_results">არანაირი შედეგი</string>
     <string name="msg_no_archived_conversations">არ არის დაარქივებული საუბრები</string>
     <string name="msg_search_try_different">სცადეთ სხვა საკვანძო სიტყვა, ვიდრე\"%s\"</string>
     <string name="msg_archive_hint">დიდხანს დააჭირეთ მიმოწერას, რომ დაარქივოთ იგი</string>
-    <string name="msg_delete_conversations_title">წაშალოთ%dმიმოწერა?</string>
+    <plurals name="msg_delete_conversations_title">
+        <item quantity="one">წაშალოთ%dმიმოწერა?</item>
+        <item quantity="other">წაშალოთ%dმიმოწერა?</item>
+    </plurals>
     <string name="msg_sim_ask_me">მკითხე</string>
     <string name="msg_phone_number_missing">ტელეფონის ნომერი აკლია</string>
     <string name="msg_scheduled_cancelled">დაგეგმილი შეტყობინება გაუქმდა</string>
@@ -380,10 +364,12 @@
     <string name="templates_title">შეტყობინებების შაბლონები</string>
     <string name="templates_empty">შაბლონები ჯერ არ არის</string>
     <string name="templates_create">შაბლონის შექმნა</string>
-    <string name="templates_use_count">გამოყენებულია%dჯერ</string>
+    <plurals name="templates_use_count">
+        <item quantity="one">გამოყენებულია%dჯერ</item>
+        <item quantity="other">გამოყენებულია%dჯერ</item>
+    </plurals>
     <string name="templates_delete_title">შაბლონის წაშლა</string>
     <string name="templates_delete_message">დარწმუნებული ხართ, რომ გსურთ წაშალოთ \"%s\"?</string>
-    <string name="cleanup_creating_backup">جاري إنشاء نسخة احتياطية...</string>
     <string name="system_perm_title">დამატებითი პარამეტრები</string>
     <string name="system_perm_device">თქვენი მოწყობილობა:%1$s</string>
     <string name="system_perm_subtitle">აპის გამართულად მუშაობისთვის საჭიროებს დამატებით პარამეტრებს</string>
@@ -427,11 +413,8 @@
     <string name="manufacturer_vivo">Vivo (Funtouch OS)</string>
     <string name="manufacturer_oneplus">OnePlus (OxygenOS)</string>
     <string name="manufacturer_stock">Android</string>
-    <string name="appearance_theme_system_follow">მიჰყევით სისტემის თემას</string>
     <string name="spam_privacy_title">კონფიდენციალურობა</string>
-    <string name="otp_settings_desc">ავტომატური კოპირება, შეტყობინებები, სანდო გამომგზავნი</string>
     <string name="privacy_hide_notifications">სენსიტიური შეტყობინებების დამალვა</string>
-    <string name="privacy_hide_notifications_desc">შეტყობინებებში შეტყობინების შინაარსის დამალვა</string>
     <string name="about_version">ვერსია%s</string>
     <string name="close">დახურვა</string>
     <string name="remove">ამოღება</string>
@@ -444,11 +427,8 @@
     <string name="sim_all">ყველა SIM</string>
     <string name="sim_select_for_blocking">აირჩიეთ SIM ზარის დაბლოკვისთვის</string>
     <string name="sim_slot_format">მიმართა:%1$s</string>
-    <string name="call_blocking_desc">დაბლოკეთ არასასურველი ზარები</string>
     <string name="call_blocking_blocked_list">დაბლოკილი ნომრები</string>
-    <string name="call_blocking_manage_blocked">დაბლოკილი ნომრების სიის მართვა</string>
     <string name="call_blocking_whitelist">თეთრი სია</string>
-    <string name="call_blocking_manage_whitelist">თეთრი სიის მართვა</string>
     <string name="blocked_list_title">დაბლოკილი ნომრები</string>
     <string name="blocked_list_count">დაბლოკილია (%d)</string>
     <string name="blocked_search_hint">მოძებნეთ კონტაქტები ან ბოლო ზარები</string>
@@ -467,7 +447,10 @@
     <string name="call_status_calling">ირეკება…</string>
     <string name="conference_call_title">საკონფერენციო ზარი</string>
     <string name="conference_label">კონფერენცია</string>
-    <string name="conference_participants_count">%dმონაწილე</string>
+    <plurals name="conference_participants_count">
+        <item quantity="one">%dმონაწილე</item>
+        <item quantity="other">%dმონაწილე</item>
+    </plurals>
     <string name="overlay_status_hold">გამართავს</string>
     <string name="overlay_status_incoming">შემომავალი</string>
     <string name="fake_call_title">ყალბი ზარი</string>
@@ -485,20 +468,25 @@
     <string name="fake_call_incoming">შემომავალი ზარი…</string>
     <string name="fake_call_answer">უპასუხე</string>
     <string name="fake_call_decline">უარყოფა</string>
-    <string name="fake_call_end">ზარის დასრულება</string>
     <string name="fake_call_name_required">გთხოვთ, შეიყვანოთ აბონენტის სახელი</string>
     <string name="fake_call_delay_required">გთხოვთ, აირჩიოთ ზარის დრო</string>
-    <string name="fake_call_scheduled">ყალბი ზარი დაგეგმილია%s-ის შემდეგ</string>
+    <string name="fake_call_scheduled">ყალბი ზარი დაგეგმილია%1$s-ის შემდეგ</string>
     <string name="fake_call_schedule_error">ყალბი ზარის დაგეგმვა ვერ მოხერხდა</string>
     <string name="fake_call_manage_title">დაგეგმილი ყალბი ზარები</string>
-    <string name="fake_call_active_count">დაგეგმილია%dზარი</string>
+    <plurals name="fake_call_active_count">
+        <item quantity="one">დაგეგმილია%dზარი</item>
+        <item quantity="other">დაგეგმილია%dზარი</item>
+    </plurals>
     <string name="fake_call_no_scheduled">არ არის დაგეგმილი ყალბი ზარები</string>
     <string name="fake_call_cancel_all">გააუქმეთ ყველა</string>
     <string name="fake_call_cancel_call">ზარის გაუქმება</string>
     <string name="fake_call_inexact_alarm_warning">შენიშვნა: ზარი შეიძლება არ ჩამოვიდეს ზუსტ დროს. მიანიჭეთ „სიგნალიზაცია და შეხსენებების“ ნებართვა პარამეტრებში უკეთესი სიზუსტისთვის.</string>
     <string name="refresh">განაახლეთ</string>
     <string name="callback_reminders_manage_title">დაგეგმილი ზარის შეხსენებები</string>
-    <string name="callback_reminder_active_count">დაგეგმილია%dშეხსენება</string>
+    <plurals name="callback_reminder_active_count">
+        <item quantity="one">დაგეგმილია%dშეხსენება</item>
+        <item quantity="other">დაგეგმილია%dშეხსენება</item>
+    </plurals>
     <string name="callback_reminder_no_scheduled">არ არის დაგეგმილი შეხსენებები</string>
     <string name="callback_reminder_cancel_all">გააუქმეთ ყველა</string>
     <string name="callback_reminder_cancel_item">შეხსენების გაუქმება</string>
@@ -507,13 +495,10 @@
     <string name="scheduled_message_failed_body">%1$s-მდე:%2$s</string>
     <string name="scheduled_message_cancel">გაუქმება</string>
     <string name="scheduled_message_edit">რედაქტირება</string>
-    <string name="scheduled_message_cancelled">დაგეგმილი შეტყობინება გაუქმდა</string>
     <string name="scheduled_status_pending">მომლოდინე</string>
     <string name="scheduled_status_sent">გაგზავნილი</string>
     <string name="scheduled_status_failed">ვერ მოხერხდა</string>
     <string name="scheduled_status_cancelled">გაუქმდა</string>
-    <string name="msg_send_failure_title">შეტყობინების გაგზავნა ვერ მოხერხდა</string>
-    <string name="msg_send_failure_text">%1$s-მდე:%2$s</string>
     <string name="search_messages_hint">მოძებნეთ შეტყობინებები</string>
     <string name="search_clear">წმინდა</string>
     <string name="call_state_calling">ირეკება…</string>
@@ -589,17 +574,18 @@
     <string name="sim_picker_call_title">აირჩიეთ SIM ზარისთვის</string>
     <string name="msg_unexpected_error">მოულოდნელი შეცდომა:%1$s</string>
     <string name="msg_suggestion_prefix">შემოთავაზება:%1$s</string>
-    <string name="msg_send_attachments_lost">გაგზავნა ვერ მოხერხდა. თქვენი დანართები შენახულია — შეეხეთ წარუმატებელ შეტყობინებას ხელახლა საცდელად.</string>
     <string name="msg_retry_unexpected_error">მოულოდნელი შეცდომა:%1$s</string>
     <string name="msg_forward_partial_success">გაიგზავნა%1$d%2$dმიმღებიდან.%3$dვერ მოხერხდა.</string>
-    <string name="msg_scheduled_load_error">დაგეგმილი შეტყობინებების ჩატვირთვა ვერ მოხერხდა</string>
     <string name="msg_error_network_wifi">📶 MMS საჭიროებს Wi-Fi ან მობილური ინტერნეტს. გთხოვთ, შეამოწმოთ თქვენი კავშირი.</string>
     <string name="msg_error_network">📶 არ არის ინტერნეტი. გთხოვთ, შეამოწმოთ თქვენი ქსელის პარამეტრები.</string>
     <string name="msg_error_permission">🔒 საჭიროა ნებართვა:%1$s. გთხოვთ, გასცეთ პარამეტრებში.</string>
     <string name="msg_error_balance">💳 არასაკმარისი SMS ბალანსი. გთხოვთ, გადატვირთოთ თქვენი SIM ბარათი.</string>
     <string name="msg_error_invalid_number">📱 ტელეფონის ნომერი არასწორია. გთხოვთ, შეამოწმოთ და სცადოთ ხელახლა.</string>
     <string name="msg_error_storage_full">💾 საცავი სავსეა. გთხოვთ, გაათავისუფლოთ ადგილი.</string>
-    <string name="msg_error_rate_limit">⏱️ გაიგზავნა ძალიან ბევრი შეტყობინება. გთხოვთ დაელოდოთ%1$dწამს.</string>
+    <plurals name="msg_error_rate_limit">
+        <item quantity="one">⏱️ გაიგზავნა ძალიან ბევრი შეტყობინება. გთხოვთ დაელოდოთ%1$dწამს.</item>
+        <item quantity="other">⏱️ გაიგზავნა ძალიან ბევრი შეტყობინება. გთხოვთ დაელოდოთ%1$dწამს.</item>
+    </plurals>
     <string name="msg_error_mms">📎 MMS შეცდომა:%1$s. გთხოვთ, სცადოთ ხელახლა.</string>
     <string name="msg_error_too_large">📏 შეტყობინება ძალიან დიდია. მაქსიმალური ზომაა%1$dKB.</string>
     <string name="msg_error_attachment">📎 ვერ მიმაგრდება%1$s:%2$s</string>
@@ -631,7 +617,6 @@
     <string name="sms_error_radio_off">თვითმფრინავის რეჟიმი ჩართულია (რადიო გამორთულია)</string>
     <string name="sms_error_limit_exceeded">გაგზავნის ლიმიტი გადაჭარბებულია</string>
     <string name="sms_error_unknown">უცნობი შეცდომა</string>
-    <string name="otp_copied_toast">დამადასტურებელი კოდი დაკოპირებულია:%1$s✓</string>
     <string name="otp_bubble_channel_name">მცურავი დამადასტურებელი კოდები</string>
     <string name="otp_bubble_channel_desc">შეტყობინებები მცურავი დამადასტურებელი კოდის ბუშტებისთვის</string>
     <string name="otp_bubble_notification_title">დამადასტურებელი კოდი</string>
@@ -640,7 +625,10 @@
     <string name="settings_incoming_call_banner_desc">შემომავალი ზარებისთვის სრული ეკრანის ნაცვლად მცურავი ბანერის ჩვენება</string>
     <string name="notification_summary_title">შეტყობინებები</string>
     <string name="notification_summary_2_messages">2 ახალი შეტყობინება</string>
-    <string name="notification_summary_n_messages">%1$dახალი შეტყობინებები</string>
+    <plurals name="notification_summary_n_messages">
+        <item quantity="one">%1$dახალი შეტყობინებები</item>
+        <item quantity="other">%1$dახალი შეტყობინებები</item>
+    </plurals>
     <string name="notification_summary_many_messages">9+ ახალი შეტყობინება</string>
     <string name="notification_action_reply">პასუხი</string>
     <string name="notification_action_mark_read_short">მონიშნე წაკითხული</string>
@@ -658,39 +646,17 @@
     <string name="error_failed_update_favorite">რჩეული სტატუსის განახლება ვერ მოხერხდა</string>
     <string name="error_failed_delete_contact">კონტაქტის წაშლა ვერ მოხერხდა:%1$s</string>
     <string name="success_contact_deleted">კონტაქტი წაიშალა</string>
-    <string name="success_contacts_blocked">%1$dკონტაქტი დაბლოკილია</string>
-    <string name="success_contacts_added_favorites">%1$dკონტაქტები დაემატა რჩეულებს</string>
+    <plurals name="success_contacts_blocked">
+        <item quantity="one">%1$dკონტაქტი დაბლოკილია</item>
+        <item quantity="other">%1$dკონტაქტი დაბლოკილია</item>
+    </plurals>
+    <plurals name="success_contacts_added_favorites">
+        <item quantity="one">%1$dკონტაქტები დაემატა რჩეულებს</item>
+        <item quantity="other">%1$dკონტაქტები დაემატა რჩეულებს</item>
+    </plurals>
     <string name="success_added_to_favorites">დამატებულია რჩეულებში</string>
     <string name="success_removed_from_favorites">ამოღებულია რჩეულებიდან</string>
     <string name="msg_contact_will_be_deleted">\"%1$s\"წაიშლება</string>
-    <string name="backup_encrypt_dialog_title">სარეზერვო ასლის დაშიფვრა</string>
-    <string name="backup_encrypt_dialog_desc">შეიყვანეთ პაროლი სარეზერვო ასლის დაშიფვრისთვის, ან დატოვეთ ცარიელი, რათა შეინახოთ როგორც მარტივი JSON.</string>
-    <string name="backup_encrypt_password_hint">პაროლი (სურვილისამებრ)</string>
-    <string name="backup_encrypt_confirm">ექსპორტი</string>
-    <string name="restore_decrypt_dialog_title">დაშიფრული სარეზერვო ასლი</string>
-    <string name="restore_decrypt_dialog_desc">ეს სარეზერვო ასლი დაშიფრულია. შეიყვანეთ მისი შექმნისას გამოყენებული პაროლი.</string>
-    <string name="restore_decrypt_password_hint">პაროლი</string>
-    <string name="restore_decrypt_confirm">აღდგენა</string>
-    <string name="backup_wrong_password">არასწორი პაროლი — სარეზერვო ასლის გაშიფვრა ვერ მოხერხდა.</string>
-    <string name="backup_encrypted_badge">🔒 დაშიფრულია</string>
-    <string name="backup_created_success">სარეზერვო ასლი წარმატებით შეიქმნა</string>
-    <string name="backup_created_failure">სარეზერვო ასლის შექმნა ვერ მოხერხდა</string>
-    <string name="backup_saved_success">✅ სარეზერვო ასლი წარმატებით შენახულია</string>
-    <string name="backup_saved_failure">❌ შენახვა ვერ მოხერხდა:%1$s</string>
-    <string name="restore_success">✅ მონაცემები წარმატებით აღდგა</string>
-    <string name="restore_failure">აღდგენა ვერ მოხერხდა</string>
-    <string name="restore_error">აღდგენის შეცდომა:%1$s</string>
-    <string name="backup_restore_success">✅ სარეზერვო ასლი წარმატებით აღდგა</string>
-    <string name="backup_restore_failure">❌ აღდგენა ვერ მოხერხდა:%1$s</string>
-    <string name="generic_error">შეცდომა:%1$s</string>
-    <string name="export_calls_success">✅ ექსპორტირებული ზარები:%1$s</string>
-    <string name="export_messages_success">✅ ექსპორტირებული შეტყობინებები:%1$s</string>
-    <string name="export_all_success">✅ ყველა მონაცემი ექსპორტირებულია:%1$s</string>
-    <string name="export_failure">❌ ექსპორტი ვერ მოხერხდა</string>
-    <string name="import_success">✅ მონაცემები წარმატებით იმპორტირებულია</string>
-    <string name="import_failure">იმპორტი ვერ მოხერხდა</string>
-    <string name="import_error">იმპორტის შეცდომა:%1$s</string>
-    <string name="import_restore_failure">❌ იმპორტი ვერ მოხერხდა:%1$s</string>
     <string name="disclosure_title">თქვენი კონფიდენციალურობა</string>
     <string name="disclosure_subtitle">გთხოვთ გადახედოთ სანამ გააგრძელებთ</string>
     <string name="disclosure_intro">Purevon ცვლის თქვენი ნაგულისხმევი ტელეფონის აკრიფეს და თქვენს ნაგულისხმევ SMS/MMS შეტყობინებების აპს. დარეკვის, SMS/MMS-ის, სპამისგან დაცვისა და მასთან დაკავშირებული ფუნქციების უზრუნველსაყოფად მას სჭირდება ქვემოთ აღწერილი ნებართვები. არასავალდებულო ელემენტები (კამერა, მიკროფონი, მდებარეობა) გამოიყენება მხოლოდ ამ მოქმედებების არჩევისას (მაგალითად, ფოტოს მიმაგრება ან თქვენი მდებარეობის გაზიარება). მონაცემები დარჩება თქვენს მოწყობილობაზე, თუ ცალსახად არ იყენებთ ქსელის ფუნქციას, როგორიცაა MMS ან ვებ ბმულის გადახედვის ჩატვირთვას.</string>
@@ -729,8 +695,6 @@
     <string name="incall_error_reject_failed">ზარის უარყოფა ვერ მოხერხდა</string>
     <string name="incall_error_merge_not_supported">ზარების გაერთიანება შეუძლებელია - არ არის მხარდაჭერილი</string>
     <string name="incall_error_merge_failed">ზარების გაერთიანება ვერ მოხერხდა</string>
-    <string name="incall_error_add_call_unavailable">ზარის დამატება ამჟამად შეუძლებელია</string>
-    <string name="incall_error_sim_unknown">SIM ბარათის დადგენა ვერ მოხერხდა</string>
     <string name="incall_error_no_call_permission">ზარების განხორციელების ნებართვა არ არის</string>
     <string name="incall_error_add_call_failed">ზარის დამატება ვერ მოხერხდა:%1$s</string>
     <string name="incall_error_note_save_invalid_number">ჩანიშვნის შენახვა ვერ მოხერხდა - არასწორი ნომერი</string>
@@ -741,13 +705,54 @@
     <string name="incall_msg_number_unblocked">ნომერი განბლოკილია</string>
     <string name="incall_msg_number_blocked">ნომერი დაბლოკილია</string>
     <string name="incall_msg_note_saved">✅ შენახულია</string>
-    <string name="incall_msg_reminder_set_hours">✅ შეხსენება დაყენებულია%1$dსაათის შემდეგ</string>
-    <string name="incall_msg_reminder_set_minutes">✅ შეხსენება დაყენებულია%1$dწუთის შემდეგ</string>
+    <plurals name="incall_msg_reminder_set_hours">
+        <item quantity="one">✅ შეხსენება დაყენებულია%1$dსაათის შემდეგ</item>
+        <item quantity="other">✅ შეხსენება დაყენებულია%1$dსაათის შემდეგ</item>
+    </plurals>
+    <plurals name="incall_msg_reminder_set_minutes">
+        <item quantity="one">✅ შეხსენება დაყენებულია%1$dწუთის შემდეგ</item>
+        <item quantity="other">✅ შეხსენება დაყენებულია%1$dწუთის შემდეგ</item>
+    </plurals>
     <string name="incall_msg_reminder_approximate_warning">(შენიშვნა: სავარაუდო დრო)</string>
     <string name="incall_msg_location_coming_soon">მდებარეობის გაგზავნა მალე მოვა</string>
     <string name="incall_msg_image_sharing_coming_soon">სურათის გაზიარება მალე იქნება</string>
     <string name="incall_block_reason_incall">დაბლოკილია InCall Screen-ის საშუალებით</string>
     <string name="shortcut_new_message">ახალი შეტყობინება</string>
     <string name="shortcut_create_new_message">შექმენით ახალი შეტყობინება</string>
-    <string name="btn_ai_scan">სკანირება AI-ით</string>
+
+    <string name="action_add_note">Add note</string>
+    <string name="action_view">View</string>
+    <string name="blocked_call_bubble_call">اتصال</string>
+    <string name="blocked_call_bubble_channel_desc">إشعارات حظر المكالمات</string>
+    <string name="blocked_call_bubble_channel_name">قناة حظر المكالمات</string>
+    <string name="blocked_call_bubble_content_title">مكالمة محظورة</string>
+    <string name="blocked_call_bubble_dismiss">إلغاء</string>
+    <string name="blocked_call_bubble_notification_text">تم حظر مكالمة واردة من رقم مشبوه</string>
+    <string name="blocked_call_bubble_notification_title">تم حظر مكالمة</string>
+    <string name="blocked_call_bubble_whitelist">إضافة لقائمة السماح</string>
+    <string name="blocked_call_bubble_whitelisted">تمت الإضافة إلى قائمة السماح</string>
+    <string name="mms_fg_channel_desc">Shows when MMS messages are being sent or downloaded</string>
+    <string name="mms_fg_channel_name">MMS Operations</string>
+    <string name="mms_fg_downloading">Downloading MMS</string>
+    <string name="mms_fg_in_progress">MMS operation in progress…</string>
+    <string name="mms_fg_processing">Processing MMS</string>
+    <string name="mms_fg_sending">Sending MMS</string>
+    <string name="mms_fg_to">To %1$s</string>
+    <string name="msg_action_cancel">Cancel</string>
+    <string name="msg_send_cancelled">Message send cancelled</string>
+    <string name="notification_channel_fake_call">Fake Calls</string>
+    <string name="notification_channel_fake_call_desc">Notifications for scheduled fake incoming calls</string>
+    <string name="notification_channel_incoming_calls">Incoming Calls</string>
+    <string name="notification_channel_incoming_calls_desc">Incoming call notifications - shows on lock screen</string>
+    <string name="notification_channel_incoming_call_unlocked">Incoming Call (Unlocked)</string>
+    <string name="notification_channel_incoming_call_unlocked_desc">Silent foreground service notification when screen is on and call activity is shown directly</string>
+    <string name="notification_fake_call_incoming">Incoming call</string>
+    <string name="notification_spam_call_text">%1$s - %2$s</string>
+    <string name="notification_spam_call_title">⚠️ Spam Call Detected</string>
+    <string name="otp_copied_generic">Verification code copied ✓</string>
+    <string name="otp_missed_notification_text">New message from %1$s — open inbox to view</string>
+    <string name="otp_missed_notification_title">Verification code received</string>
+    <string name="risk_high">High Risk</string>
+    <string name="risk_low">Low Risk</string>
+    <string name="risk_medium">Medium Risk</string>
 </resources>

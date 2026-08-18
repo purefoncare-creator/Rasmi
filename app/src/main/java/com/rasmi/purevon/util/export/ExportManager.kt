@@ -20,7 +20,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
- * Manager for exporting and importing data to CSV/JSON
+ * Manager for exporting and importing data to CSV/JSON.
+ * All exports are AES-256-GCM encrypted and imports are decrypted; there is
+ * no plaintext fallback path.
  */
 @Singleton
 class ExportManager @Inject constructor(
@@ -71,7 +73,7 @@ class ExportManager @Inject constructor(
                     }
                 }
                 
-                encryptAndWrite(csvContent, outputFile)
+                encryptionManager.encryptToFile(csvContent, outputFile).getOrThrow()
                 Result.success(outputFile)
             } catch (e: Exception) {
                 Result.failure(e)
@@ -103,7 +105,7 @@ class ExportManager @Inject constructor(
                     }
                 }
                 
-                encryptAndWrite(csvContent, outputFile)
+                encryptionManager.encryptToFile(csvContent, outputFile).getOrThrow()
                 Result.success(outputFile)
             } catch (e: Exception) {
                 Result.failure(e)
@@ -122,10 +124,10 @@ class ExportManager @Inject constructor(
                 spamNumbers = spamNumberDao.getAllSpamNumbers().first(),
                 exportDate = System.currentTimeMillis()
             )
-            
+
             val jsonString = json.encodeToString(exportData)
-            encryptAndWrite(jsonString, outputFile)
-            
+            encryptionManager.encryptToFile(jsonString, outputFile).getOrThrow()
+
             Result.success(outputFile)
         } catch (e: Exception) {
             Result.failure(e)
@@ -143,7 +145,7 @@ class ExportManager @Inject constructor(
                 )
             }
             
-            val jsonString = decryptAndRead(inputFile)
+            val jsonString = encryptionManager.decryptFromFile(inputFile).getOrThrow()
             val exportData = json.decodeFromString<ExportData>(jsonString)
             
             database.withTransaction {
@@ -168,21 +170,39 @@ class ExportManager @Inject constructor(
     }
     
     /**
-     * Import data from JSON using Uri (for file picker)
-     * Falls back to plain text if decryption fails (for external files)
+     * Import data from JSON using Uri (for file picker).
+     * The selected file is an encrypted export and must be decrypted.
      */
     suspend fun importFromJSON(inputUri: Uri): Result<Unit> = withContext(Dispatchers.IO) {
+        // Copy the Uri content to a local temp file so EncryptedFile can read it.
+        val tempFile = File.createTempFile("purevon_import_", ".json", context.cacheDir)
         try {
-            val jsonString = context.contentResolver.openInputStream(inputUri)?.use { stream ->
-                stream.bufferedReader().use { it.readText() }
-            } ?: return@withContext Result.failure(Exception("Failed to read file"))
+            val inputStream = context.contentResolver.openInputStream(inputUri)
+                ?: return@withContext Result.failure(Exception("Failed to read file"))
             
-            if (jsonString.toByteArray().size > MAX_IMPORT_FILE_SIZE) {
+            inputStream.use { input ->
+                tempFile.outputStream().use { output ->
+                    val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
+                    var totalBytes = 0L
+                    while (true) {
+                        val bytesRead = input.read(buffer)
+                        if (bytesRead < 0) break
+                        totalBytes += bytesRead
+                        if (totalBytes > MAX_IMPORT_FILE_SIZE) {
+                            throw SecurityException("Import file exceeds maximum allowed size of 10 MB")
+                        }
+                        output.write(buffer, 0, bytesRead)
+                    }
+                }
+            }
+
+            if (tempFile.length() > MAX_IMPORT_FILE_SIZE) {
                 return@withContext Result.failure(
                     SecurityException("Import file exceeds maximum allowed size of 10 MB")
                 )
             }
             
+            val jsonString = encryptionManager.decryptFromFile(tempFile).getOrThrow()
             val exportData = json.decodeFromString<ExportData>(jsonString)
             
             database.withTransaction {
@@ -203,6 +223,8 @@ class ExportManager @Inject constructor(
             Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)
+        } finally {
+            tempFile.delete()
         }
     }
     
@@ -215,28 +237,6 @@ class ExportManager @Inject constructor(
         } else {
             value
         }
-    }
-    
-    /**
-     * Encrypt content and write to file
-     */
-    private suspend fun encryptAndWrite(content: String, outputFile: File) {
-        val encrypted = encryptionManager.encryptString(content, "export_temp_${outputFile.name}")
-        val tempFile = File(context.filesDir, encrypted)
-        if (tempFile.exists()) {
-            tempFile.copyTo(outputFile, overwrite = true)
-            tempFile.delete()
-        } else {
-            throw java.io.IOException("Encryption failed: temp file not found after encryption")
-        }
-    }
-    
-    /**
-     * Read and decrypt file content
-     */
-    private suspend fun decryptAndRead(inputFile: File): String {
-        return encryptionManager.decryptString("export_temp_${inputFile.name}").getOrNull()
-            ?: inputFile.readText()
     }
     
     /**

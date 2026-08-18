@@ -1,7 +1,10 @@
 package com.rasmi.purevon.util
 
+import android.annotation.SuppressLint
+
+@SuppressLint("StaticFieldLeak")
 object ActiveAudioManager {
-    
+
     private var activePlayer: AudioPlayer? = null
     
     @Synchronized

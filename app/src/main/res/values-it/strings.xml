@@ -9,7 +9,6 @@
     <string name="template_title">Titolo del modello</string>
     <string name="template_content">Contenuto del modello</string>
     <string name="save">Salva</string>
-    <string name="app_name" translatable="false">Purevon</string>
     <string name="perm_setup_title">Autorizzazioni di installazione</string>
     <string name="perm_welcome_title">Benvenuti a Purevon</string>
     <string name="perm_welcome_message">Per sostituire le app Telefono e SMS predefinite, abbiamo bisogno delle seguenti autorizzazioni</string>
@@ -60,8 +59,18 @@
     <string name="action_number_copied">Numero copiato negli appunti</string>
     <string name="callback_reminder_title">Promemoria di richiamata</string>
     <string name="callback_select_duration">Seleziona la durata:</string>
-    <string name="callback_minutes">%dminuti</string>
-    <string name="callback_hour">%dora</string>
+    <plurals name="callback_minutes">
+        <item quantity="one">%dminuti</item>
+        <item quantity="other">%dminuti</item>
+    
+        <item quantity="many">%dminuti</item>
+    </plurals>
+    <plurals name="callback_hour">
+        <item quantity="one">%dora</item>
+        <item quantity="other">%dora</item>
+    
+        <item quantity="many">%dora</item>
+    </plurals>
     <string name="callback_set">Impostato</string>
     <string name="callback_reminder_alert_title">Promemoria di richiamata</string>
     <string name="callback_call_now">Chiama ora</string>
@@ -71,8 +80,12 @@
     <string name="incall_end_call">Fine chiamata</string>
     <string name="contacts_search_placeholder">Ricerca</string>
     <string name="contacts_no_contacts">Nessun contatto</string>
-    <string name="contacts_stat_blocked">Bloccato</string>
-    <string name="contacts_selected">%dselezionato</string>
+    <plurals name="contacts_selected">
+        <item quantity="one">%1$dselezionato</item>
+        <item quantity="other">%1$dselezionato</item>
+    
+        <item quantity="many">%1$dselezionato</item>
+    </plurals>
     <string name="contacts_select_all">Seleziona tutto</string>
     <string name="contacts_deselect_all">Deseleziona tutto</string>
     <string name="contacts_action_favorite">Preferito</string>
@@ -80,7 +93,12 @@
     <string name="contacts_action_block">Bloccare</string>
     <string name="contacts_action_unblock">Sbloccare</string>
     <string name="contacts_action_delete">Eliminare</string>
-    <string name="contacts_delete_multiple">Eliminare%dcontatti?</string>
+    <plurals name="contacts_delete_multiple">
+        <item quantity="one">Eliminare%1$dcontatti?</item>
+        <item quantity="other">Eliminare%1$dcontatti?</item>
+    
+        <item quantity="many">Eliminare%1$dcontatti?</item>
+    </plurals>
     <string name="contacts_delete_warning">Questa azione non può essere annullata.</string>
     <string name="contacts_cd_add_contact">Aggiungi nuovo contatto</string>
     <string name="contacts_cd_clear_search">Cancella ricerca</string>
@@ -121,7 +139,7 @@
     <string name="contact_detail_no_history">Nessuna cronologia delle chiamate ancora</string>
     <string name="contact_detail_no_notes">Nessuna nota ancora</string>
     <string name="contact_detail_delete_title">Elimina contatto</string>
-    <string name="contact_detail_delete_message">Sei sicuro di voler eliminare%s?</string>
+    <string name="contact_detail_delete_message">Sei sicuro di voler eliminare%1$s?</string>
     <string name="contact_detail_delete_confirm">Eliminare</string>
     <string name="contact_detail_first_name">Nome di battesimo</string>
     <string name="contact_detail_last_name">Cognome</string>
@@ -150,8 +168,6 @@
     <string name="add_contact_group">Gruppo</string>
     <string name="add_contact_save_changes">Salva modifiche</string>
     <string name="add_contact_save">Salva contatto</string>
-    <string name="add_contact_saved">✓ Contatto salvato</string>
-    <string name="add_contact_updated">✓ Contatto aggiornato</string>
     <string name="add_contact_failed">Impossibile salvare. Controlla i permessi.</string>
     <string name="add_contact_favorite">Preferito</string>
     <string name="add_contact_type_mobile">Mobile</string>
@@ -160,26 +176,17 @@
     <string name="add_contact_type_other">Altro</string>
     <string name="add_contact_save_to">Salva in</string>
     <string name="add_contact_account_device">Dispositivo</string>
-    <string name="add_contact_account_sim">SIM%1$d(%2$s)</string>
     <string name="add_contact_account_google">Google</string>
     <string name="add_contact_select_account">Seleziona dove salvare questo contatto</string>
     <string name="messages_no_messages">Nessun messaggio</string>
     <string name="messages_delete_conversation">Elimina conversazione</string>
     <string name="history_missed">Mancato</string>
     <string name="history_duration">Durata:%s</string>
-    <string name="settings_title">Impostazioni</string>
     <string name="settings_appearance">Aspetto</string>
-    <string name="settings_notifications">Notifiche</string>
-    <string name="settings_theme">Tema</string>
     <string name="settings_theme_dark">Buio</string>
     <string name="settings_theme_system">Predefinito del sistema</string>
-    <string name="settings_rtl_title">Layout da destra a sinistra</string>
-    <string name="settings_rtl_subtitle">Specchia l\'interfaccia per la lettura da destra a sinistra</string>
     <string name="settings_language">Lingua</string>
-    <string name="settings_language_summary">Cambia la lingua dell\'app manuale</string>
     <string name="language_system">Predefinito del sistema</string>
-    <string name="language_ar">العربية (arabo)</string>
-    <string name="language_en">Inglese (inglese)</string>
     <string name="dialer_add_to_contacts">Aggiungi ai contatti</string>
     <string name="messages_all">Tutto</string>
     <string name="messages_starred_tab">Stellato</string>
@@ -187,11 +194,8 @@
     <string name="messages_no_starred">Nessun messaggio speciale</string>
     <string name="messages_starred_hint">Premi a lungo su qualsiasi messaggio per aggiungerlo ai preferiti</string>
     <string name="messages_archive">Archivio</string>
-    <string name="messages_unarchive">Annulla l\'archiviazione</string>
     <string name="messages_mark_as_read">Segna come letto</string>
-    <string name="messages_mark_as_unread">Segna come non letto</string>
     <string name="messages_archived_tab">Archiviato</string>
-    <string name="history_call_will_be_deleted">La chiamata verrà eliminata</string>
     <string name="history_number_will_be_blocked">Il numero verrà bloccato</string>
     <string name="history_undo">Disfare</string>
     <string name="history_no_history">Nessuna cronologia delle chiamate ancora</string>
@@ -219,40 +223,60 @@
     <string name="history_delete_from_history">Elimina tutto dalla cronologia</string>
     <string name="history_delete_all_calls_title">Eliminare tutte le chiamate per questo numero?</string>
     <string name="history_delete_all_calls_message">Rimuovi ogni voce per%sdalla cronologia delle chiamate. Questa operazione non può essere annullata.</string>
-    <string name="history_delete_selected_numbers">Rimuovere la cronologia per i numeri%d?</string>
-    <string name="history_group_missed_count">%dmancato</string>
+    <plurals name="history_delete_selected_numbers">
+        <item quantity="one">Rimuovere la cronologia per i numeri%d?</item>
+        <item quantity="other">Rimuovere la cronologia per i numeri%d?</item>
+    
+        <item quantity="many">Rimuovere la cronologia per i numeri%d?</item>
+    </plurals>
     <string name="history_notes_cd_has_note">Ha appunti</string>
-    <string name="history_delete_call_title">Elimina chiamata?</string>
-    <string name="history_delete_call_message">Sei sicuro di voler eliminare questa chiamata dalla tua cronologia? Questa azione non può essere annullata.</string>
     <string name="history_block_number_title">Numero di blocco?</string>
     <string name="history_block_number_message">Sei sicuro di voler bloccare%s? Non\'non riceverai chiamate da questo numero.</string>
     <string name="history_search_calls">Cerca chiamate</string>
     <string name="history_clear">Chiaro</string>
     <string name="history_today">Oggi</string>
     <string name="history_yesterday">Ieri</string>
-    <string name="history_calls">%dchiama</string>
+    <plurals name="history_calls">
+        <item quantity="one">%dchiama</item>
+        <item quantity="other">%dchiama</item>
+    
+        <item quantity="many">%dchiama</item>
+    </plurals>
     <string name="history_total">Totale</string>
     <string name="history_permission_name">READ_CALL_LOG</string>
     <string name="history_permission_rationale">Questa app necessita dell\'accesso ai registri delle chiamate per visualizzare la cronologia delle chiamate, tenere traccia delle chiamate perse e fornire statistiche sulle chiamate.</string>
     <string name="history_action_call">Chiamata</string>
     <string name="history_action_message">Messaggio</string>
     <string name="history_notes">Note (%d)</string>
-    <string name="history_more_notes">+%daltre note</string>
+    <plurals name="history_more_notes">
+        <item quantity="one">+%daltre note</item>
+        <item quantity="other">+%daltre note</item>
+    
+        <item quantity="many">+%daltre note</item>
+    </plurals>
     <string name="history_note_today">Oggi</string>
     <string name="history_note_yesterday">Ieri</string>
     <string name="note_dialog_title">Note per%s</string>
-    <string name="note_dialog_count">%dnota</string>
+    <plurals name="note_dialog_count">
+        <item quantity="one">%dnota</item>
+        <item quantity="other">%dnota</item>
+    
+        <item quantity="many">%dnota</item>
+    </plurals>
     <string name="note_dialog_empty">Nessuna nota</string>
     <string name="note_delete_cd">Elimina nota</string>
-    <string name="note_icon_cd">Note di contatto</string>
     <string name="note_dialog_close">Vicino</string>
     <string name="history_sim">SIM%d</string>
-    <string name="history_selected_count">%dselezionato</string>
+    <plurals name="history_selected_count">
+        <item quantity="one">%dselezionato</item>
+        <item quantity="other">%dselezionato</item>
+    
+        <item quantity="many">%dselezionato</item>
+    </plurals>
     <string name="history_select_all">Seleziona tutto</string>
     <string name="history_deselect_all">Deseleziona tutto</string>
     <string name="history_action_block">Bloccare</string>
     <string name="history_action_delete">Eliminare</string>
-    <string name="history_delete_selected">Eliminare le chiamate%d?</string>
     <string name="history_delete_selected_warning">Questa azione non può essere annullata.</string>
     <string name="otp_settings_title">Impostazioni OTP</string>
     <string name="about_title">Di</string>
@@ -268,26 +292,8 @@
     <string name="about_feature_bubble_desc">Controlla le chiamate con la sovrapposizione di bolle mobili</string>
     <string name="about_feature_sim">Supporto doppia SIM</string>
     <string name="about_feature_sim_desc">Supporto completo per dispositivi dual SIM</string>
-    <string name="about_feature_backup">Backup e ripristino</string>
-    <string name="about_feature_backup_desc">Mantieni i tuoi dati al sicuro con i backup automatici</string>
     <string name="about_contact_us">Contattaci:</string>
     <string name="about_copyright">© 2026 Purevon. Tutti i diritti riservati.</string>
-    <string name="ai_model_title">Funzionalità dell\'intelligenza artificiale</string>
-    <string name="ai_model_download">Scarica Gemma 3 (1B)</string>
-    <string name="ai_model_download_desc">Scarica il modello Gemma 3 1B (~555 MB) per la chat AI offline</string>
-    <string name="ai_model_downloading">Download in corso…%1$d%%</string>
-    <string name="ai_model_extracting">Salvataggio del modello…</string>
-    <string name="ai_model_downloaded">Modello scaricato</string>
-    <string name="ai_model_delete">Elimina modello AI</string>
-    <string name="ai_model_delete_desc">Rimuovi il modello Gemma scaricato per liberare spazio</string>
-    <string name="ai_chat_title">Chatta con l\'intelligenza artificiale di Gemma</string>
-    <string name="ai_chat_model_loading">Caricamento modello…</string>
-    <string name="ai_chat_model_error">Impossibile caricare il modello</string>
-    <string name="ai_chat_model_ready">Pronto</string>
-    <string name="ai_chat_hint">Chiedi a Gemma qualsiasi cosa...</string>
-    <string name="ai_hf_token_label">Gettone del volto abbracciato</string>
-    <string name="ai_hf_token_placeholder">hf_xxxxxxxxxxxxxxxxxxxxx</string>
-    <string name="ai_hf_token_desc">Necessario per scaricare Gemma (gratuito su Huggingface.co)</string>
     <string name="conversation_no_messages">Nessun messaggio ancora</string>
     <string name="conversation_start_hint">Invia un messaggio per avviare la conversazione</string>
     <string name="conversation_message_hint">Messaggio</string>
@@ -319,12 +325,7 @@
     <string name="msg_attachment_file">File</string>
     <string name="msg_attachment_contact">Contatto</string>
     <string name="msg_attachment_location">Posizione</string>
-    <string name="msg_attachment_schedule">Programma</string>
-    <string name="location_fetching">Recupero posizione…</string>
-    <string name="location_error">Impossibile determinare la posizione</string>
     <string name="location_permission_denied">Per condividere la tua posizione è necessaria l\'autorizzazione alla posizione</string>
-    <string name="location_my_current">La mia posizione attuale</string>
-    <string name="location_coordinates">Coordinate</string>
     <string name="location_view_map">Visualizza sulla mappa:</string>
     <string name="msg_cd_attached_image">Immagine allegata</string>
     <string name="msg_cd_scheduled">Programmato</string>
@@ -342,7 +343,6 @@
     <string name="msg_cd_retry">Riprovare a inviare</string>
     <string name="msg_cd_attachment_type">Tipo di allegato</string>
     <string name="msg_cd_open_location">Apri la posizione sulla mappa</string>
-    <string name="msg_cd_playback_speed">Velocità di riproduzione</string>
     <string name="msg_cd_play">Giocare</string>
     <string name="msg_cd_pause">Pausa</string>
     <string name="msg_cd_send">Inviare</string>
@@ -350,14 +350,18 @@
     <string name="msg_cd_conversation_options">Opzioni di conversazione</string>
     <string name="msg_cd_delete_recording">Elimina la registrazione</string>
     <string name="msg_cd_send_recording">Invia la registrazione</string>
-    <string name="msg_fetching_location">Individuazione…</string>
     <string name="msg_date_today">Oggi</string>
     <string name="msg_date_yesterday">Ieri</string>
     <string name="msg_no_results">Nessun risultato</string>
     <string name="msg_no_archived_conversations">Nessuna conversazione archiviata</string>
     <string name="msg_search_try_different">Prova una parola chiave diversa da\"%s\"</string>
     <string name="msg_archive_hint">Premi a lungo su una conversazione per archiviarla</string>
-    <string name="msg_delete_conversations_title">Eliminare le conversazioni%d?</string>
+    <plurals name="msg_delete_conversations_title">
+        <item quantity="one">Eliminare le conversazioni%d?</item>
+        <item quantity="other">Eliminare le conversazioni%d?</item>
+    
+        <item quantity="many">Eliminare le conversazioni%d?</item>
+    </plurals>
     <string name="msg_sim_ask_me">Chiedimi</string>
     <string name="msg_phone_number_missing">Manca il numero di telefono</string>
     <string name="msg_scheduled_cancelled">Messaggio programmato annullato</string>
@@ -380,10 +384,14 @@
     <string name="templates_title">Modelli di messaggio</string>
     <string name="templates_empty">Nessun modello ancora</string>
     <string name="templates_create">Crea modello</string>
-    <string name="templates_use_count">Usato%dvolte</string>
+    <plurals name="templates_use_count">
+        <item quantity="one">Usato%dvolte</item>
+        <item quantity="other">Usato%dvolte</item>
+    
+        <item quantity="many">Usato%dvolte</item>
+    </plurals>
     <string name="templates_delete_title">Elimina modello</string>
     <string name="templates_delete_message">Sei sicuro di voler eliminare \"%s\"?</string>
-    <string name="cleanup_creating_backup">جاري إنشاء نسخة احتياطية...</string>
     <string name="system_perm_title">Impostazioni aggiuntive</string>
     <string name="system_perm_device">Il tuo dispositivo:%1$s</string>
     <string name="system_perm_subtitle">Richiede impostazioni aggiuntive affinché l\'app funzioni correttamente</string>
@@ -427,11 +435,8 @@
     <string name="manufacturer_vivo">Vivo (sistema operativo Funtouch)</string>
     <string name="manufacturer_oneplus">OnePlus (OxygenOS)</string>
     <string name="manufacturer_stock">Androide</string>
-    <string name="appearance_theme_system_follow">Segui il tema del sistema</string>
     <string name="spam_privacy_title">Privacy</string>
-    <string name="otp_settings_desc">Copia automatica, notifiche, mittenti attendibili</string>
     <string name="privacy_hide_notifications">Nascondi notifiche sensibili</string>
-    <string name="privacy_hide_notifications_desc">Nascondi il contenuto del messaggio nelle notifiche</string>
     <string name="about_version">Versione%s</string>
     <string name="close">Vicino</string>
     <string name="remove">Rimuovere</string>
@@ -444,11 +449,8 @@
     <string name="sim_all">Tutte le SIM</string>
     <string name="sim_select_for_blocking">Seleziona la SIM per il blocco delle chiamate</string>
     <string name="sim_slot_format">Applicato a:%1$s</string>
-    <string name="call_blocking_desc">Blocca le chiamate indesiderate</string>
     <string name="call_blocking_blocked_list">Numeri bloccati</string>
-    <string name="call_blocking_manage_blocked">Gestisci l\'elenco dei numeri bloccati</string>
     <string name="call_blocking_whitelist">Lista bianca</string>
-    <string name="call_blocking_manage_whitelist">Gestisci la lista bianca</string>
     <string name="blocked_list_title">Numeri bloccati</string>
     <string name="blocked_list_count">Bloccato (%d)</string>
     <string name="blocked_search_hint">Cerca contatti o chiamate recenti</string>
@@ -462,12 +464,17 @@
     <string name="action_swap">Scambio</string>
     <string name="action_merge">Unisci</string>
     <string name="action_end">FINE</string>
-    <string name="call_status_incoming">In arrivo...</string>
+    <string name="call_status_incoming">In arrivo…</string>
     <string name="call_status_on_hold">In attesa</string>
     <string name="call_status_calling">Chiamando…</string>
     <string name="conference_call_title">Teleconferenza</string>
     <string name="conference_label">Conferenza</string>
-    <string name="conference_participants_count">%dpartecipanti</string>
+    <plurals name="conference_participants_count">
+        <item quantity="one">%dpartecipanti</item>
+        <item quantity="other">%dpartecipanti</item>
+    
+        <item quantity="many">%dpartecipanti</item>
+    </plurals>
     <string name="overlay_status_hold">Presa</string>
     <string name="overlay_status_incoming">In arrivo</string>
     <string name="fake_call_title">Chiamata falsa</string>
@@ -482,23 +489,32 @@
     <string name="fake_call_delay_30m">30 minuti</string>
     <string name="fake_call_start">Inizio</string>
     <string name="fake_call_close">Vicino</string>
-    <string name="fake_call_incoming">Chiamata in arrivo...</string>
+    <string name="fake_call_incoming">Chiamata in arrivo…</string>
     <string name="fake_call_answer">Risposta</string>
     <string name="fake_call_decline">Declino</string>
-    <string name="fake_call_end">Fine chiamata</string>
     <string name="fake_call_name_required">Inserisci il nome del chiamante</string>
     <string name="fake_call_delay_required">Seleziona l\'orario della chiamata</string>
-    <string name="fake_call_scheduled">Chiamata falsa programmata dopo%s</string>
+    <string name="fake_call_scheduled">Chiamata falsa programmata dopo%1$s</string>
     <string name="fake_call_schedule_error">Impossibile programmare una chiamata falsa</string>
     <string name="fake_call_manage_title">Chiamate false programmate</string>
-    <string name="fake_call_active_count">%dchiamate pianificate</string>
+    <plurals name="fake_call_active_count">
+        <item quantity="one">%dchiamate pianificate</item>
+        <item quantity="other">%dchiamate pianificate</item>
+    
+        <item quantity="many">%dchiamate pianificate</item>
+    </plurals>
     <string name="fake_call_no_scheduled">Nessuna chiamata falsa programmata</string>
     <string name="fake_call_cancel_all">Annulla tutto</string>
     <string name="fake_call_cancel_call">Annulla chiamata</string>
     <string name="fake_call_inexact_alarm_warning">Nota: la chiamata potrebbe non arrivare all\'ora esatta. Concedi l\'autorizzazione \"Allarmi e promemoria\" nelle impostazioni per una migliore precisione.</string>
     <string name="refresh">Aggiorna</string>
     <string name="callback_reminders_manage_title">Promemoria di richiamata programmati</string>
-    <string name="callback_reminder_active_count">%dpromemoria programmati</string>
+    <plurals name="callback_reminder_active_count">
+        <item quantity="one">%dpromemoria programmati</item>
+        <item quantity="other">%dpromemoria programmati</item>
+    
+        <item quantity="many">%dpromemoria programmati</item>
+    </plurals>
     <string name="callback_reminder_no_scheduled">Nessun promemoria programmato</string>
     <string name="callback_reminder_cancel_all">Annulla tutto</string>
     <string name="callback_reminder_cancel_item">Annulla promemoria</string>
@@ -507,18 +523,15 @@
     <string name="scheduled_message_failed_body">A%1$s:%2$s</string>
     <string name="scheduled_message_cancel">Cancellare</string>
     <string name="scheduled_message_edit">Modificare</string>
-    <string name="scheduled_message_cancelled">Messaggio programmato annullato</string>
     <string name="scheduled_status_pending">In attesa di</string>
     <string name="scheduled_status_sent">Inviato</string>
     <string name="scheduled_status_failed">Fallito</string>
     <string name="scheduled_status_cancelled">Annullato</string>
-    <string name="msg_send_failure_title">Invio del messaggio non riuscito</string>
-    <string name="msg_send_failure_text">A%1$s:%2$s</string>
     <string name="search_messages_hint">Cerca messaggi</string>
     <string name="search_clear">Chiaro</string>
     <string name="call_state_calling">Chiamando…</string>
-    <string name="call_state_ringing">Squillo...</string>
-    <string name="call_state_selecting_sim">Selezionando la SIM...</string>
+    <string name="call_state_ringing">Squillo…</string>
+    <string name="call_state_selecting_sim">Selezionando la SIM…</string>
     <string name="call_state_connected">Collegato</string>
     <string name="call_state_on_hold">In attesa</string>
     <string name="call_state_ended">Chiamata terminata</string>
@@ -549,7 +562,7 @@
     <string name="quick_reply_on_my_way">Sto arrivando</string>
     <string name="quick_reply_give_me_5">Dammi 5 minuti</string>
     <string name="quick_reply_custom">Scrivi un messaggio personalizzato</string>
-    <string name="quick_reply_type_hint">Scrivi il tuo messaggio...</string>
+    <string name="quick_reply_type_hint">Scrivi il tuo messaggio…</string>
     <string name="quick_reply_send">Inviare</string>
     <string name="quick_reply_back">Indietro</string>
     <string name="contact_share_title">Condividi contatto</string>
@@ -561,7 +574,7 @@
     <string name="contact_picker_search">Cerca contatti</string>
     <string name="contact_picker_search_or_number">Cerca contatti o inserisci il numero</string>
     <string name="contact_picker_no_results">Nessun contatto trovato</string>
-    <string name="contact_picker_loading">Caricamento contatti...</string>
+    <string name="contact_picker_loading">Caricamento contatti…</string>
     <string name="action_add_contact">Aggiungi ai contatti</string>
     <string name="notification_channel_sms">Messaggi SMS</string>
     <string name="notification_channel_sms_desc">Notifiche per i messaggi di testo in arrivo</string>
@@ -589,17 +602,20 @@
     <string name="sim_picker_call_title">Scegli la SIM per la chiamata</string>
     <string name="msg_unexpected_error">Errore imprevisto:%1$s</string>
     <string name="msg_suggestion_prefix">Suggerimento:%1$s</string>
-    <string name="msg_send_attachments_lost">Invio non riuscito. I tuoi allegati vengono conservati: tocca il messaggio non riuscito per riprovare.</string>
     <string name="msg_retry_unexpected_error">Errore imprevisto:%1$s</string>
     <string name="msg_forward_partial_success">Inviato a%1$ddi%2$ddestinatari.%3$dnon riuscito.</string>
-    <string name="msg_scheduled_load_error">Impossibile caricare i messaggi pianificati</string>
     <string name="msg_error_network_wifi">📶 Gli MMS richiedono Wi-Fi o dati mobili. Per favore controlla la tua connessione.</string>
     <string name="msg_error_network">📶 Nessuna connessione Internet. Controlla le impostazioni di rete.</string>
     <string name="msg_error_permission">🔒 Autorizzazione richiesta:%1$s. Si prega di concedere nelle impostazioni.</string>
     <string name="msg_error_balance">💳 Saldo SMS insufficiente. Si prega di ricaricare la scheda SIM.</string>
     <string name="msg_error_invalid_number">📱Numero di telefono non valido. Per favore controlla e riprova.</string>
     <string name="msg_error_storage_full">💾 Spazio di archiviazione pieno. Per favore libera un po\' di spazio.</string>
-    <string name="msg_error_rate_limit">⏱️ Troppi messaggi inviati. Attendi%1$dsecondi.</string>
+    <plurals name="msg_error_rate_limit">
+        <item quantity="one">⏱️ Troppi messaggi inviati. Attendi%1$dsecondi.</item>
+        <item quantity="other">⏱️ Troppi messaggi inviati. Attendi%1$dsecondi.</item>
+    
+        <item quantity="many">⏱️ Troppi messaggi inviati. Attendi%1$dsecondi.</item>
+    </plurals>
     <string name="msg_error_mms">📎 Errore MMS:%1$s. Per favore riprova.</string>
     <string name="msg_error_too_large">📏 Messaggio troppo grande. La dimensione massima è%1$dKB.</string>
     <string name="msg_error_attachment">📎 Impossibile allegare%1$s:%2$s</string>
@@ -631,7 +647,6 @@
     <string name="sms_error_radio_off">Modalità aereo abilitata (radio spenta)</string>
     <string name="sms_error_limit_exceeded">Limite di invio superato</string>
     <string name="sms_error_unknown">Errore sconosciuto</string>
-    <string name="otp_copied_toast">Codice di verifica copiato:%1$s✓</string>
     <string name="otp_bubble_channel_name">Codici di verifica mobili</string>
     <string name="otp_bubble_channel_desc">Notifiche per bolle di codici di verifica mobili</string>
     <string name="otp_bubble_notification_title">Codice di verifica</string>
@@ -640,7 +655,12 @@
     <string name="settings_incoming_call_banner_desc">Mostra un banner mobile anziché a schermo intero per le chiamate in arrivo</string>
     <string name="notification_summary_title">Messaggi</string>
     <string name="notification_summary_2_messages">2 nuovi messaggi</string>
-    <string name="notification_summary_n_messages">%1$dnuovi messaggi</string>
+    <plurals name="notification_summary_n_messages">
+        <item quantity="one">%1$dnuovi messaggi</item>
+        <item quantity="other">%1$dnuovi messaggi</item>
+    
+        <item quantity="many">%1$dnuovi messaggi</item>
+    </plurals>
     <string name="notification_summary_many_messages">9+ nuovi messaggi</string>
     <string name="notification_action_reply">Rispondere</string>
     <string name="notification_action_mark_read_short">Marco ha letto</string>
@@ -658,39 +678,21 @@
     <string name="error_failed_update_favorite">Impossibile aggiornare lo stato dei preferiti</string>
     <string name="error_failed_delete_contact">Impossibile eliminare il contatto:%1$s</string>
     <string name="success_contact_deleted">Contatto eliminato</string>
-    <string name="success_contacts_blocked">%1$dcontatti bloccati</string>
-    <string name="success_contacts_added_favorites">%1$dcontatti aggiunti ai preferiti</string>
+    <plurals name="success_contacts_blocked">
+        <item quantity="one">%1$dcontatti bloccati</item>
+        <item quantity="other">%1$dcontatti bloccati</item>
+    
+        <item quantity="many">%1$dcontatti bloccati</item>
+    </plurals>
+    <plurals name="success_contacts_added_favorites">
+        <item quantity="one">%1$dcontatti aggiunti ai preferiti</item>
+        <item quantity="other">%1$dcontatti aggiunti ai preferiti</item>
+    
+        <item quantity="many">%1$dcontatti aggiunti ai preferiti</item>
+    </plurals>
     <string name="success_added_to_favorites">Aggiunto ai preferiti</string>
     <string name="success_removed_from_favorites">Rimosso dai preferiti</string>
     <string name="msg_contact_will_be_deleted">\"%1$s\"verrà eliminato</string>
-    <string name="backup_encrypt_dialog_title">Crittografa il backup</string>
-    <string name="backup_encrypt_dialog_desc">Inserisci una password per crittografare il backup o lascia vuoto per salvare come semplice JSON.</string>
-    <string name="backup_encrypt_password_hint">Password (facoltativa)</string>
-    <string name="backup_encrypt_confirm">Esportare</string>
-    <string name="restore_decrypt_dialog_title">Backup crittografato</string>
-    <string name="restore_decrypt_dialog_desc">Questo backup è crittografato. Immettere la password utilizzata al momento della creazione.</string>
-    <string name="restore_decrypt_password_hint">Password</string>
-    <string name="restore_decrypt_confirm">Ripristinare</string>
-    <string name="backup_wrong_password">Password errata: impossibile decrittografare il backup.</string>
-    <string name="backup_encrypted_badge">🔒 Crittografato</string>
-    <string name="backup_created_success">Backup creato con successo</string>
-    <string name="backup_created_failure">Impossibile creare il backup</string>
-    <string name="backup_saved_success">✅ Backup salvato con successo</string>
-    <string name="backup_saved_failure">❌ Salvataggio non riuscito:%1$s</string>
-    <string name="restore_success">✅ Dati ripristinati con successo</string>
-    <string name="restore_failure">Ripristino non riuscito</string>
-    <string name="restore_error">Errore di ripristino:%1$s</string>
-    <string name="backup_restore_success">✅ Backup ripristinato con successo</string>
-    <string name="backup_restore_failure">❌ Ripristino non riuscito:%1$s</string>
-    <string name="generic_error">Errore:%1$s</string>
-    <string name="export_calls_success">✅ Chiamate esportate:%1$s</string>
-    <string name="export_messages_success">✅ Messaggi esportati:%1$s</string>
-    <string name="export_all_success">✅ Tutti i dati esportati:%1$s</string>
-    <string name="export_failure">❌ Esportazione non riuscita</string>
-    <string name="import_success">✅ Dati importati con successo</string>
-    <string name="import_failure">Importazione non riuscita</string>
-    <string name="import_error">Errore di importazione:%1$s</string>
-    <string name="import_restore_failure">❌ Importazione non riuscita:%1$s</string>
     <string name="disclosure_title">La tua privacy</string>
     <string name="disclosure_subtitle">Si prega di rivedere prima di continuare</string>
     <string name="disclosure_intro">Purevon sostituisce il combinatore telefonico predefinito e l\'app di messaggistica SMS/MMS predefinita. Per fornire chiamate, SMS/MMS, protezione antispam e funzionalità correlate, sono necessarie le autorizzazioni spiegate di seguito. Gli elementi opzionali (fotocamera, microfono, posizione) vengono utilizzati solo quando scegli tali azioni (ad esempio allegare una foto o condividere la tua posizione). I dati rimangono sul tuo dispositivo a meno che tu non utilizzi esplicitamente una funzionalità di rete come MMS o carichi un\'anteprima di un collegamento Web.</string>
@@ -729,25 +731,68 @@
     <string name="incall_error_reject_failed">Impossibile rifiutare la chiamata</string>
     <string name="incall_error_merge_not_supported">Impossibile unire le chiamate: non supportato</string>
     <string name="incall_error_merge_failed">Impossibile unire le chiamate</string>
-    <string name="incall_error_add_call_unavailable">Impossibile aggiungere la chiamata in questo momento</string>
-    <string name="incall_error_sim_unknown">Impossibile determinare la SIM</string>
     <string name="incall_error_no_call_permission">Nessun permesso per effettuare chiamate</string>
     <string name="incall_error_add_call_failed">Impossibile aggiungere la chiamata:%1$s</string>
     <string name="incall_error_note_save_invalid_number">Impossibile salvare la nota: numero non valido</string>
     <string name="incall_error_note_save_failed">Impossibile salvare la nota</string>
     <string name="incall_error_reminder_invalid_number">Impossibile impostare il promemoria: numero non valido</string>
     <string name="incall_error_reminder_failed">Impossibile impostare il promemoria</string>
-    <string name="incall_status_answering">Rispondendo...</string>
+    <string name="incall_status_answering">Rispondendo…</string>
     <string name="incall_msg_number_unblocked">Numero sbloccato</string>
     <string name="incall_msg_number_blocked">Numero bloccato</string>
     <string name="incall_msg_note_saved">✅ Salvato</string>
-    <string name="incall_msg_reminder_set_hours">✅ Promemoria impostato dopo%1$dora/e</string>
-    <string name="incall_msg_reminder_set_minutes">✅ Promemoria impostato dopo%1$dminuto/i</string>
+    <plurals name="incall_msg_reminder_set_hours">
+        <item quantity="one">✅ Promemoria impostato dopo%1$dora/e</item>
+        <item quantity="other">✅ Promemoria impostato dopo%1$dora/e</item>
+    
+        <item quantity="many">✅ Promemoria impostato dopo%1$dora/e</item>
+    </plurals>
+    <plurals name="incall_msg_reminder_set_minutes">
+        <item quantity="one">✅ Promemoria impostato dopo%1$dminuto/i</item>
+        <item quantity="other">✅ Promemoria impostato dopo%1$dminuto/i</item>
+    
+        <item quantity="many">✅ Promemoria impostato dopo%1$dminuto/i</item>
+    </plurals>
     <string name="incall_msg_reminder_approximate_warning">(Nota: tempistica approssimativa)</string>
     <string name="incall_msg_location_coming_soon">L\'invio della posizione sarà disponibile a breve</string>
     <string name="incall_msg_image_sharing_coming_soon">La condivisione delle immagini sarà presto disponibile</string>
     <string name="incall_block_reason_incall">Bloccato tramite la schermata delle chiamate in arrivo</string>
     <string name="shortcut_new_message">Nuovo messaggio</string>
     <string name="shortcut_create_new_message">Crea nuovo messaggio</string>
-    <string name="btn_ai_scan">Scansiona con l\'intelligenza artificiale</string>
+
+    <string name="action_add_note">Add note</string>
+    <string name="action_view">View</string>
+    <string name="blocked_call_bubble_call">اتصال</string>
+    <string name="blocked_call_bubble_channel_desc">إشعارات حظر المكالمات</string>
+    <string name="blocked_call_bubble_channel_name">قناة حظر المكالمات</string>
+    <string name="blocked_call_bubble_content_title">مكالمة محظورة</string>
+    <string name="blocked_call_bubble_dismiss">إلغاء</string>
+    <string name="blocked_call_bubble_notification_text">تم حظر مكالمة واردة من رقم مشبوه</string>
+    <string name="blocked_call_bubble_notification_title">تم حظر مكالمة</string>
+    <string name="blocked_call_bubble_whitelist">إضافة لقائمة السماح</string>
+    <string name="blocked_call_bubble_whitelisted">تمت الإضافة إلى قائمة السماح</string>
+    <string name="mms_fg_channel_desc">Shows when MMS messages are being sent or downloaded</string>
+    <string name="mms_fg_channel_name">MMS Operations</string>
+    <string name="mms_fg_downloading">Downloading MMS</string>
+    <string name="mms_fg_in_progress">MMS operation in progress…</string>
+    <string name="mms_fg_processing">Processing MMS</string>
+    <string name="mms_fg_sending">Sending MMS</string>
+    <string name="mms_fg_to">To %1$s</string>
+    <string name="msg_action_cancel">Cancel</string>
+    <string name="msg_send_cancelled">Message send cancelled</string>
+    <string name="notification_channel_fake_call">Fake Calls</string>
+    <string name="notification_channel_fake_call_desc">Notifications for scheduled fake incoming calls</string>
+    <string name="notification_channel_incoming_calls">Incoming Calls</string>
+    <string name="notification_channel_incoming_calls_desc">Incoming call notifications - shows on lock screen</string>
+    <string name="notification_channel_incoming_call_unlocked">Incoming Call (Unlocked)</string>
+    <string name="notification_channel_incoming_call_unlocked_desc">Silent foreground service notification when screen is on and call activity is shown directly</string>
+    <string name="notification_fake_call_incoming">Incoming call</string>
+    <string name="notification_spam_call_text">%1$s - %2$s</string>
+    <string name="notification_spam_call_title">⚠️ Spam Call Detected</string>
+    <string name="otp_copied_generic">Verification code copied ✓</string>
+    <string name="otp_missed_notification_text">New message from %1$s — open inbox to view</string>
+    <string name="otp_missed_notification_title">Verification code received</string>
+    <string name="risk_high">High Risk</string>
+    <string name="risk_low">Low Risk</string>
+    <string name="risk_medium">Medium Risk</string>
 </resources>

@@ -54,7 +54,7 @@ class SoundManager @Inject constructor(
             synchronized(lock) {
                 // Release previous player if exists
                 sendPlayer?.release()
-                
+
                 sendPlayer = MediaPlayer.create(context, R.raw.message_sent)?.apply {
                     setAudioAttributes(
                         AudioAttributes.Builder()
@@ -164,6 +164,44 @@ class SoundManager @Inject constructor(
             Log.e(TAG, "Error playing copy sound", e)
         }
     }
+
+    /**
+     * Play blocked call notification sound
+     */
+    fun playBlockedCallSound() {
+        if (!isSoundEnabled || !isRingerNormal()) return
+        try {
+            synchronized(lock) {
+                // For blocked call sound, we can use a system notification sound or a custom one
+                // Using a simple beep for now - you can replace R.raw.blocked_call with your sound
+                val soundRes = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    // Try to use a notification sound on newer Android versions
+                    R.raw.notification
+                } else {
+                    // Fallback to a system sound or silent if needed
+                    R.raw.notification
+                }
+
+                MediaPlayer.create(context, soundRes)?.apply {
+                    setAudioAttributes(
+                        AudioAttributes.Builder()
+                            .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                            .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                            .build()
+                    )
+                    setOnCompletionListener { mp ->
+                        synchronized(lock) {
+                            mp.release()
+                        }
+                    }
+                    start()
+                }
+
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Error playing blocked call sound", e)
+        }
+    }
     
     /**
      * Short vibration for message received
@@ -178,14 +216,9 @@ class SoundManager @Inject constructor(
                 context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
             }
             
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                vibrator.vibrate(
-                    VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE)
-                )
-            } else {
-                @Suppress("DEPRECATION")
-                vibrator.vibrate(100)
-            }
+            vibrator.vibrate(
+                VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE)
+            )
         } catch (e: Exception) {
             Log.e(TAG, "Error vibrating", e)
         }
@@ -223,4 +256,3 @@ class SoundManager @Inject constructor(
         }
     }
 }
-

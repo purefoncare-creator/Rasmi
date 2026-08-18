@@ -9,7 +9,6 @@
     <string name="template_title">템플릿 제목</string>
     <string name="template_content">템플릿 콘텐츠</string>
     <string name="save">구하다</string>
-    <string name="app_name" translatable="false">Purevon</string>
     <string name="perm_setup_title">설정 권한</string>
     <string name="perm_welcome_title">Purevon에 오신 것을 환영합니다</string>
     <string name="perm_welcome_message">기본 전화 및 SMS 앱을 교체하려면 다음 권한이 필요합니다.</string>
@@ -60,8 +59,14 @@
     <string name="action_number_copied">번호가 클립보드에 복사되었습니다.</string>
     <string name="callback_reminder_title">콜백 알림</string>
     <string name="callback_select_duration">기간 선택:</string>
-    <string name="callback_minutes">%d분</string>
-    <string name="callback_hour">%d시간</string>
+    <plurals name="callback_minutes">
+        <item quantity="one">%d분</item>
+        <item quantity="other">%d분</item>
+    </plurals>
+    <plurals name="callback_hour">
+        <item quantity="one">%d시간</item>
+        <item quantity="other">%d시간</item>
+    </plurals>
     <string name="callback_set">세트</string>
     <string name="callback_reminder_alert_title">콜백 알림</string>
     <string name="callback_call_now">지금 전화하세요</string>
@@ -71,8 +76,10 @@
     <string name="incall_end_call">통화 종료</string>
     <string name="contacts_search_placeholder">찾다</string>
     <string name="contacts_no_contacts">연락처 없음</string>
-    <string name="contacts_stat_blocked">막힌</string>
-    <string name="contacts_selected">%d선택됨</string>
+    <plurals name="contacts_selected">
+        <item quantity="one">%1$d선택됨</item>
+        <item quantity="other">%1$d선택됨</item>
+    </plurals>
     <string name="contacts_select_all">모두 선택</string>
     <string name="contacts_deselect_all">모두 선택 취소</string>
     <string name="contacts_action_favorite">가장 좋아하는</string>
@@ -80,7 +87,10 @@
     <string name="contacts_action_block">차단하다</string>
     <string name="contacts_action_unblock">차단 해제</string>
     <string name="contacts_action_delete">삭제</string>
-    <string name="contacts_delete_multiple">%d연락처를 삭제하시겠습니까?</string>
+    <plurals name="contacts_delete_multiple">
+        <item quantity="one">%1$d연락처를 삭제하시겠습니까?</item>
+        <item quantity="other">%1$d연락처를 삭제하시겠습니까?</item>
+    </plurals>
     <string name="contacts_delete_warning">이 작업은 취소할 수 없습니다.</string>
     <string name="contacts_cd_add_contact">새 연락처 추가</string>
     <string name="contacts_cd_clear_search">검색 지우기</string>
@@ -121,7 +131,7 @@
     <string name="contact_detail_no_history">아직 통화 기록이 없습니다</string>
     <string name="contact_detail_no_notes">아직 메모가 없습니다.</string>
     <string name="contact_detail_delete_title">연락처 삭제</string>
-    <string name="contact_detail_delete_message">%s을(를) 삭제하시겠습니까?</string>
+    <string name="contact_detail_delete_message">%1$s을(를) 삭제하시겠습니까?</string>
     <string name="contact_detail_delete_confirm">삭제</string>
     <string name="contact_detail_first_name">이름</string>
     <string name="contact_detail_last_name">성</string>
@@ -150,8 +160,6 @@
     <string name="add_contact_group">그룹</string>
     <string name="add_contact_save_changes">변경 사항 저장</string>
     <string name="add_contact_save">연락처 저장</string>
-    <string name="add_contact_saved">✓ 연락처가 저장되었습니다</string>
-    <string name="add_contact_updated">✓ 연락처가 업데이트되었습니다.</string>
     <string name="add_contact_failed">저장하지 못했습니다. 권한을 확인하세요.</string>
     <string name="add_contact_favorite">가장 좋아하는</string>
     <string name="add_contact_type_mobile">이동하는</string>
@@ -160,26 +168,17 @@
     <string name="add_contact_type_other">다른</string>
     <string name="add_contact_save_to">다음에 저장</string>
     <string name="add_contact_account_device">장치</string>
-    <string name="add_contact_account_sim">SIM%1$d(%2$s)</string>
     <string name="add_contact_account_google">Google</string>
     <string name="add_contact_select_account">이 연락처를 저장할 위치를 선택하세요.</string>
     <string name="messages_no_messages">메시지 없음</string>
     <string name="messages_delete_conversation">대화 삭제</string>
     <string name="history_missed">놓친</string>
     <string name="history_duration">기간:%s</string>
-    <string name="settings_title">설정</string>
     <string name="settings_appearance">모습</string>
-    <string name="settings_notifications">알림</string>
-    <string name="settings_theme">주제</string>
     <string name="settings_theme_dark">어두운</string>
     <string name="settings_theme_system">시스템 기본값</string>
-    <string name="settings_rtl_title">오른쪽에서 왼쪽 레이아웃</string>
-    <string name="settings_rtl_subtitle">오른쪽에서 왼쪽으로 읽기 위한 인터페이스 미러링</string>
     <string name="settings_language">언어</string>
-    <string name="settings_language_summary">수동 앱 언어 변경</string>
     <string name="language_system">시스템 기본값</string>
-    <string name="language_ar">العربية(아랍어)</string>
-    <string name="language_en">영어(영어)</string>
     <string name="dialer_add_to_contacts">연락처에 추가</string>
     <string name="messages_all">모두</string>
     <string name="messages_starred_tab">별표 표시됨</string>
@@ -187,11 +186,8 @@
     <string name="messages_no_starred">별표 표시된 메시지 없음</string>
     <string name="messages_starred_hint">즐겨찾기에 추가하려면 메시지를 길게 누르세요.</string>
     <string name="messages_archive">보관소</string>
-    <string name="messages_unarchive">보관 취소</string>
     <string name="messages_mark_as_read">읽음으로 표시</string>
-    <string name="messages_mark_as_unread">읽지 않은 상태로 표시</string>
     <string name="messages_archived_tab">보관됨</string>
-    <string name="history_call_will_be_deleted">통화가 삭제됩니다.</string>
     <string name="history_number_will_be_blocked">번호가 차단됩니다</string>
     <string name="history_undo">끄르다</string>
     <string name="history_no_history">아직 통화 기록이 없습니다</string>
@@ -219,40 +215,50 @@
     <string name="history_delete_from_history">기록에서 모두 삭제</string>
     <string name="history_delete_all_calls_title">이 번호로 걸려온 통화를 모두 삭제하시겠습니까?</string>
     <string name="history_delete_all_calls_message">통화 기록에서%s에 대한 모든 항목을 삭제하세요. 이 작업은 취소할 수 없습니다.</string>
-    <string name="history_delete_selected_numbers">%d번호의 기록을 삭제하시겠습니까?</string>
-    <string name="history_group_missed_count">%d부재중</string>
+    <plurals name="history_delete_selected_numbers">
+        <item quantity="one">%d번호의 기록을 삭제하시겠습니까?</item>
+        <item quantity="other">%d번호의 기록을 삭제하시겠습니까?</item>
+    </plurals>
     <string name="history_notes_cd_has_note">메모 있음</string>
-    <string name="history_delete_call_title">통화를 삭제하시겠습니까?</string>
-    <string name="history_delete_call_message">정말로 이 통화를 기록에서 삭제하시겠습니까? 이 작업은 취소할 수 없습니다.</string>
     <string name="history_block_number_title">블록 번호?</string>
     <string name="history_block_number_message">%s을(를) 차단하시겠습니까? 이 번호에서는\'전화를 받지 않습니다.</string>
     <string name="history_search_calls">통화 검색</string>
     <string name="history_clear">분명한</string>
     <string name="history_today">오늘</string>
     <string name="history_yesterday">어제</string>
-    <string name="history_calls">%d통화</string>
+    <plurals name="history_calls">
+        <item quantity="one">%d통화</item>
+        <item quantity="other">%d통화</item>
+    </plurals>
     <string name="history_total">총</string>
     <string name="history_permission_name">READ_CALL_LOG</string>
     <string name="history_permission_rationale">이 앱은 통화 기록을 표시하고, 부재중 전화를 추적하고, 통화 통계를 제공하기 위해 통화 기록에 액세스해야 합니다.</string>
     <string name="history_action_call">부르다</string>
     <string name="history_action_message">메시지</string>
     <string name="history_notes">메모(%d)</string>
-    <string name="history_more_notes">+%d추가 메모</string>
+    <plurals name="history_more_notes">
+        <item quantity="one">+%d추가 메모</item>
+        <item quantity="other">+%d추가 메모</item>
+    </plurals>
     <string name="history_note_today">오늘</string>
     <string name="history_note_yesterday">어제</string>
     <string name="note_dialog_title">%s에 대한 참고 사항</string>
-    <string name="note_dialog_count">%d메모</string>
+    <plurals name="note_dialog_count">
+        <item quantity="one">%d메모</item>
+        <item quantity="other">%d메모</item>
+    </plurals>
     <string name="note_dialog_empty">메모 없음</string>
     <string name="note_delete_cd">메모 삭제</string>
-    <string name="note_icon_cd">연락처 메모</string>
     <string name="note_dialog_close">닫다</string>
     <string name="history_sim">SIM%d</string>
-    <string name="history_selected_count">%d선택됨</string>
+    <plurals name="history_selected_count">
+        <item quantity="one">%d선택됨</item>
+        <item quantity="other">%d선택됨</item>
+    </plurals>
     <string name="history_select_all">모두 선택</string>
     <string name="history_deselect_all">모두 선택 취소</string>
     <string name="history_action_block">차단하다</string>
     <string name="history_action_delete">삭제</string>
-    <string name="history_delete_selected">%d통화를 삭제하시겠습니까?</string>
     <string name="history_delete_selected_warning">이 작업은 취소할 수 없습니다.</string>
     <string name="otp_settings_title">OTP 설정</string>
     <string name="about_title">에 대한</string>
@@ -268,26 +274,8 @@
     <string name="about_feature_bubble_desc">플로팅 버블 오버레이로 통화 제어</string>
     <string name="about_feature_sim">듀얼 SIM 지원</string>
     <string name="about_feature_sim_desc">듀얼 SIM 장치에 대한 완벽한 지원</string>
-    <string name="about_feature_backup">백업 및 복원</string>
-    <string name="about_feature_backup_desc">자동 백업으로 데이터를 안전하게 유지하세요</string>
     <string name="about_contact_us">저희에게 연락하세요:</string>
     <string name="about_copyright">© 2026 퓨레본. 모든 권리 보유.</string>
-    <string name="ai_model_title">AI 기능</string>
-    <string name="ai_model_download">젬마 3(1B) 다운로드</string>
-    <string name="ai_model_download_desc">오프라인 AI 채팅을 위한 Gemma 3 1B 모델(~555MB) 다운로드</string>
-    <string name="ai_model_downloading">다운로드 중…%1$d%%</string>
-    <string name="ai_model_extracting">모델 저장 중…</string>
-    <string name="ai_model_downloaded">모델이 다운로드됨</string>
-    <string name="ai_model_delete">AI 모델 삭제</string>
-    <string name="ai_model_delete_desc">다운로드한 Gemma 모델을 제거하여 공간을 확보하세요.</string>
-    <string name="ai_chat_title">젬마 AI 채팅</string>
-    <string name="ai_chat_model_loading">모델 로드 중…</string>
-    <string name="ai_chat_model_error">모델을 로드하지 못했습니다.</string>
-    <string name="ai_chat_model_ready">준비가 된</string>
-    <string name="ai_chat_hint">젬마에게 무엇이든 물어보세요…</string>
-    <string name="ai_hf_token_label">HuggingFace 토큰</string>
-    <string name="ai_hf_token_placeholder">hf_xxxxxxxxxxxxxxxxxxxx</string>
-    <string name="ai_hf_token_desc">Gemma 다운로드 필요(huggingface.co에서 무료)</string>
     <string name="conversation_no_messages">아직 메시지가 없습니다</string>
     <string name="conversation_start_hint">대화를 시작하려면 메시지를 보내세요.</string>
     <string name="conversation_message_hint">메시지</string>
@@ -319,12 +307,7 @@
     <string name="msg_attachment_file">파일</string>
     <string name="msg_attachment_contact">연락하다</string>
     <string name="msg_attachment_location">위치</string>
-    <string name="msg_attachment_schedule">일정</string>
-    <string name="location_fetching">위치를 가져오는 중…</string>
-    <string name="location_error">위치를 확인할 수 없습니다.</string>
     <string name="location_permission_denied">위치를 공유하려면 위치 권한이 필요합니다.</string>
-    <string name="location_my_current">내 현재 위치</string>
-    <string name="location_coordinates">좌표</string>
     <string name="location_view_map">지도에서 보기:</string>
     <string name="msg_cd_attached_image">첨부된 이미지</string>
     <string name="msg_cd_scheduled">예정됨</string>
@@ -342,7 +325,6 @@
     <string name="msg_cd_retry">전송을 다시 시도하세요</string>
     <string name="msg_cd_attachment_type">첨부파일 유형</string>
     <string name="msg_cd_open_location">지도에서 위치 열기</string>
-    <string name="msg_cd_playback_speed">재생 속도</string>
     <string name="msg_cd_play">놀다</string>
     <string name="msg_cd_pause">정지시키다</string>
     <string name="msg_cd_send">보내다</string>
@@ -350,14 +332,16 @@
     <string name="msg_cd_conversation_options">대화 옵션</string>
     <string name="msg_cd_delete_recording">녹음 삭제</string>
     <string name="msg_cd_send_recording">녹음 보내기</string>
-    <string name="msg_fetching_location">찾는 중…</string>
     <string name="msg_date_today">오늘</string>
     <string name="msg_date_yesterday">어제</string>
     <string name="msg_no_results">결과 없음</string>
     <string name="msg_no_archived_conversations">보관된 대화 없음</string>
     <string name="msg_search_try_different">\"%s\"과 다른 키워드를 사용해 보세요.</string>
     <string name="msg_archive_hint">보관하려면 대화를 길게 누르세요.</string>
-    <string name="msg_delete_conversations_title">%d대화를 삭제하시겠습니까?</string>
+    <plurals name="msg_delete_conversations_title">
+        <item quantity="one">%d대화를 삭제하시겠습니까?</item>
+        <item quantity="other">%d대화를 삭제하시겠습니까?</item>
+    </plurals>
     <string name="msg_sim_ask_me">나에게 물어보세요</string>
     <string name="msg_phone_number_missing">전화번호가 누락되었습니다.</string>
     <string name="msg_scheduled_cancelled">예약된 메시지가 취소되었습니다.</string>
@@ -380,10 +364,12 @@
     <string name="templates_title">메시지 템플릿</string>
     <string name="templates_empty">아직 템플릿이 없습니다.</string>
     <string name="templates_create">템플릿 생성</string>
-    <string name="templates_use_count">%d회 사용됨</string>
+    <plurals name="templates_use_count">
+        <item quantity="one">%d회 사용됨</item>
+        <item quantity="other">%d회 사용됨</item>
+    </plurals>
     <string name="templates_delete_title">템플릿 삭제</string>
     <string name="templates_delete_message">정말로 \"%s\"을(를) 삭제하시겠습니까?</string>
-    <string name="cleanup_creating_backup">게리 안샤프는 احتياتية...</string>
     <string name="system_perm_title">추가 설정</string>
     <string name="system_perm_device">귀하의 기기:%1$s</string>
     <string name="system_perm_subtitle">앱이 제대로 작동하려면 추가 설정이 필요합니다.</string>
@@ -427,11 +413,8 @@
     <string name="manufacturer_vivo">비보(Funtouch OS)</string>
     <string name="manufacturer_oneplus">원플러스(OxygenOS)</string>
     <string name="manufacturer_stock">기계적 인조 인간</string>
-    <string name="appearance_theme_system_follow">시스템 테마 따르기</string>
     <string name="spam_privacy_title">은둔</string>
-    <string name="otp_settings_desc">자동 복사, 알림, 신뢰할 수 있는 발신자</string>
     <string name="privacy_hide_notifications">민감한 알림 숨기기</string>
-    <string name="privacy_hide_notifications_desc">알림에서 메시지 내용 숨기기</string>
     <string name="about_version">버전%s</string>
     <string name="close">닫다</string>
     <string name="remove">제거하다</string>
@@ -444,11 +427,8 @@
     <string name="sim_all">모든 SIM</string>
     <string name="sim_select_for_blocking">통화 차단을 위해 SIM을 선택하세요</string>
     <string name="sim_slot_format">적용 대상:%1$s</string>
-    <string name="call_blocking_desc">원치 않는 전화 차단</string>
     <string name="call_blocking_blocked_list">차단된 번호</string>
-    <string name="call_blocking_manage_blocked">차단번호 목록 관리</string>
     <string name="call_blocking_whitelist">화이트리스트</string>
-    <string name="call_blocking_manage_whitelist">화이트리스트 관리</string>
     <string name="blocked_list_title">차단된 번호</string>
     <string name="blocked_list_count">차단됨(%d)</string>
     <string name="blocked_search_hint">연락처 또는 최근 통화 검색</string>
@@ -467,7 +447,10 @@
     <string name="call_status_calling">부름…</string>
     <string name="conference_call_title">전화 회의</string>
     <string name="conference_label">회의</string>
-    <string name="conference_participants_count">%d참가자</string>
+    <plurals name="conference_participants_count">
+        <item quantity="one">%d참가자</item>
+        <item quantity="other">%d참가자</item>
+    </plurals>
     <string name="overlay_status_hold">잡고 있다</string>
     <string name="overlay_status_incoming">들어오는</string>
     <string name="fake_call_title">가짜 전화</string>
@@ -485,20 +468,25 @@
     <string name="fake_call_incoming">전화 수신 중…</string>
     <string name="fake_call_answer">답변</string>
     <string name="fake_call_decline">감소</string>
-    <string name="fake_call_end">통화 종료</string>
     <string name="fake_call_name_required">발신자 이름을 입력하세요.</string>
     <string name="fake_call_delay_required">통화시간을 선택해주세요</string>
-    <string name="fake_call_scheduled">%s이후에 가짜 전화가 예정되어 있습니다.</string>
+    <string name="fake_call_scheduled">%1$s이후에 가짜 전화가 예정되어 있습니다.</string>
     <string name="fake_call_schedule_error">가짜 통화를 예약하지 못했습니다.</string>
     <string name="fake_call_manage_title">예약된 가짜 전화</string>
-    <string name="fake_call_active_count">%d통화 예정됨</string>
+    <plurals name="fake_call_active_count">
+        <item quantity="one">%d통화 예정됨</item>
+        <item quantity="other">%d통화 예정됨</item>
+    </plurals>
     <string name="fake_call_no_scheduled">예약된 가짜 전화가 없습니다.</string>
     <string name="fake_call_cancel_all">모두 취소</string>
     <string name="fake_call_cancel_call">통화 취소</string>
     <string name="fake_call_inexact_alarm_warning">참고: 전화가 정확한 시간에 도착하지 않을 수도 있습니다. 정확성을 높이려면 설정에서 \'알람 및 미리 알림\' 권한을 부여하세요.</string>
     <string name="refresh">새로 고치다</string>
     <string name="callback_reminders_manage_title">예약된 콜백 알림</string>
-    <string name="callback_reminder_active_count">%d알림 예약됨</string>
+    <plurals name="callback_reminder_active_count">
+        <item quantity="one">%d알림 예약됨</item>
+        <item quantity="other">%d알림 예약됨</item>
+    </plurals>
     <string name="callback_reminder_no_scheduled">예약된 알림 없음</string>
     <string name="callback_reminder_cancel_all">모두 취소</string>
     <string name="callback_reminder_cancel_item">알림 취소</string>
@@ -507,13 +495,10 @@
     <string name="scheduled_message_failed_body">%1$s받는 사람:%2$s</string>
     <string name="scheduled_message_cancel">취소</string>
     <string name="scheduled_message_edit">편집하다</string>
-    <string name="scheduled_message_cancelled">예약된 메시지가 취소되었습니다.</string>
     <string name="scheduled_status_pending">보류 중</string>
     <string name="scheduled_status_sent">전송된</string>
     <string name="scheduled_status_failed">실패한</string>
     <string name="scheduled_status_cancelled">취소</string>
-    <string name="msg_send_failure_title">메시지 전송 실패</string>
-    <string name="msg_send_failure_text">%1$s받는 사람:%2$s</string>
     <string name="search_messages_hint">메시지 검색</string>
     <string name="search_clear">분명한</string>
     <string name="call_state_calling">부름…</string>
@@ -589,17 +574,18 @@
     <string name="sim_picker_call_title">통화할 SIM을 선택하세요</string>
     <string name="msg_unexpected_error">예상치 못한 오류:%1$s</string>
     <string name="msg_suggestion_prefix">제안:%1$s</string>
-    <string name="msg_send_attachments_lost">보내기에 실패했습니다. 첨부 파일은 보존됩니다. 실패한 메시지를 탭하여 다시 시도하세요.</string>
     <string name="msg_retry_unexpected_error">예상치 못한 오류:%1$s</string>
     <string name="msg_forward_partial_success">%2$d수신자 중%1$d에게 전송되었습니다.%3$d실패했습니다.</string>
-    <string name="msg_scheduled_load_error">예약된 메시지를 로드하지 못했습니다.</string>
     <string name="msg_error_network_wifi">📶 MMS에는 Wi-Fi 또는 모바일 데이터가 필요합니다. 연결을 확인해주세요.</string>
     <string name="msg_error_network">📶 인터넷에 연결되어 있지 않습니다. 네트워크 설정을 확인하세요.</string>
     <string name="msg_error_permission">🔒 필요한 권한:%1$s. 설정에서 승인해 주세요.</string>
     <string name="msg_error_balance">💳 SMS 잔액이 부족합니다. SIM 카드를 충전해 주세요.</string>
     <string name="msg_error_invalid_number">📱 전화번호가 잘못되었습니다. 확인하신 후 다시 시도해 주세요.</string>
     <string name="msg_error_storage_full">💾 저장공간이 가득 찼습니다. 여유 공간을 확보해 주세요.</string>
-    <string name="msg_error_rate_limit">⏱️ 보낸 메시지가 너무 많습니다.%1$d초 동안 기다려 주세요.</string>
+    <plurals name="msg_error_rate_limit">
+        <item quantity="one">⏱️ 보낸 메시지가 너무 많습니다.%1$d초 동안 기다려 주세요.</item>
+        <item quantity="other">⏱️ 보낸 메시지가 너무 많습니다.%1$d초 동안 기다려 주세요.</item>
+    </plurals>
     <string name="msg_error_mms">📎 MMS 오류:%1$s. 다시 시도해 주세요.</string>
     <string name="msg_error_too_large">📏 메시지가 너무 큽니다. 최대 크기는%1$dKB입니다.</string>
     <string name="msg_error_attachment">📎%1$s:%2$s을(를) 첨부할 수 없습니다.</string>
@@ -631,7 +617,6 @@
     <string name="sms_error_radio_off">비행기 모드 활성화됨(무선 꺼짐)</string>
     <string name="sms_error_limit_exceeded">전송 한도를 초과했습니다.</string>
     <string name="sms_error_unknown">알 수 없는 오류</string>
-    <string name="otp_copied_toast">복사된 인증 코드:%1$s✓</string>
     <string name="otp_bubble_channel_name">플로팅 인증 코드</string>
     <string name="otp_bubble_channel_desc">플로팅 인증 코드 풍선에 대한 알림</string>
     <string name="otp_bubble_notification_title">인증코드</string>
@@ -640,7 +625,10 @@
     <string name="settings_incoming_call_banner_desc">수신 전화에 대해 전체 화면 대신 플로팅 배너 표시</string>
     <string name="notification_summary_title">메시지</string>
     <string name="notification_summary_2_messages">새 메시지 2개</string>
-    <string name="notification_summary_n_messages">%1$d새 메시지</string>
+    <plurals name="notification_summary_n_messages">
+        <item quantity="one">%1$d새 메시지</item>
+        <item quantity="other">%1$d새 메시지</item>
+    </plurals>
     <string name="notification_summary_many_messages">9개 이상의 새 메시지</string>
     <string name="notification_action_reply">회신하다</string>
     <string name="notification_action_mark_read_short">읽은 것으로 표시</string>
@@ -658,39 +646,17 @@
     <string name="error_failed_update_favorite">즐겨찾기 상태를 업데이트하지 못했습니다.</string>
     <string name="error_failed_delete_contact">연락처 삭제 실패:%1$s</string>
     <string name="success_contact_deleted">연락처가 삭제되었습니다.</string>
-    <string name="success_contacts_blocked">%1$d연락처가 차단되었습니다.</string>
-    <string name="success_contacts_added_favorites">%1$d연락처가 즐겨찾기에 추가되었습니다.</string>
+    <plurals name="success_contacts_blocked">
+        <item quantity="one">%1$d연락처가 차단되었습니다.</item>
+        <item quantity="other">%1$d연락처가 차단되었습니다.</item>
+    </plurals>
+    <plurals name="success_contacts_added_favorites">
+        <item quantity="one">%1$d연락처가 즐겨찾기에 추가되었습니다.</item>
+        <item quantity="other">%1$d연락처가 즐겨찾기에 추가되었습니다.</item>
+    </plurals>
     <string name="success_added_to_favorites">즐겨찾기에 추가됨</string>
     <string name="success_removed_from_favorites">즐겨찾기에서 삭제됨</string>
     <string name="msg_contact_will_be_deleted">\"%1$s\"이(가) 삭제됩니다</string>
-    <string name="backup_encrypt_dialog_title">백업 암호화</string>
-    <string name="backup_encrypt_dialog_desc">백업을 암호화하려면 비밀번호를 입력하고, 일반 JSON으로 저장하려면 비워 두세요.</string>
-    <string name="backup_encrypt_password_hint">비밀번호(선택사항)</string>
-    <string name="backup_encrypt_confirm">내보내다</string>
-    <string name="restore_decrypt_dialog_title">암호화된 백업</string>
-    <string name="restore_decrypt_dialog_desc">이 백업은 암호화되어 있습니다. 생성 시 사용한 비밀번호를 입력하세요.</string>
-    <string name="restore_decrypt_password_hint">비밀번호</string>
-    <string name="restore_decrypt_confirm">복원하다</string>
-    <string name="backup_wrong_password">잘못된 비밀번호 — 백업의 암호를 해독할 수 없습니다.</string>
-    <string name="backup_encrypted_badge">🔒 암호화됨</string>
-    <string name="backup_created_success">백업이 성공적으로 생성되었습니다.</string>
-    <string name="backup_created_failure">백업을 생성하지 못했습니다.</string>
-    <string name="backup_saved_success">✅ 백업이 성공적으로 저장되었습니다</string>
-    <string name="backup_saved_failure">❌ 저장 실패:%1$s</string>
-    <string name="restore_success">✅ 데이터가 성공적으로 복원되었습니다</string>
-    <string name="restore_failure">복원 실패</string>
-    <string name="restore_error">복원 오류:%1$s</string>
-    <string name="backup_restore_success">✅ 백업이 성공적으로 복원되었습니다</string>
-    <string name="backup_restore_failure">❌ 복원 실패:%1$s</string>
-    <string name="generic_error">오류:%1$s</string>
-    <string name="export_calls_success">✅ 내보낸 통화:%1$s</string>
-    <string name="export_messages_success">✅ 내보낸 메시지:%1$s</string>
-    <string name="export_all_success">✅ 내보낸 모든 데이터:%1$s</string>
-    <string name="export_failure">❌ 내보내기 실패</string>
-    <string name="import_success">✅ 데이터를 성공적으로 가져왔습니다</string>
-    <string name="import_failure">가져오기 실패</string>
-    <string name="import_error">가져오기 오류:%1$s</string>
-    <string name="import_restore_failure">❌ 가져오기 실패:%1$s</string>
     <string name="disclosure_title">귀하의 개인 정보</string>
     <string name="disclosure_subtitle">계속하기 전에 검토해 주세요.</string>
     <string name="disclosure_intro">Purevon은 기본 전화 다이얼러와 기본 SMS/MMS 메시징 앱을 대체합니다. 통화, SMS/MMS, 스팸방지 등 관련 기능을 제공하기 위해 아래 설명된 권한이 필요합니다. 옵션 항목(카메라, 마이크, 위치)은 해당 작업(예: 사진 첨부, 위치 공유)을 선택한 경우에만 사용됩니다. MMS와 같은 네트워크 기능을 명시적으로 사용하거나 웹 링크 미리 보기를 로드하지 않는 한 데이터는 장치에 유지됩니다.</string>
@@ -729,8 +695,6 @@
     <string name="incall_error_reject_failed">통화를 거부하지 못했습니다.</string>
     <string name="incall_error_merge_not_supported">통화를 병합할 수 없음 - 지원되지 않음</string>
     <string name="incall_error_merge_failed">통화를 병합하지 못했습니다.</string>
-    <string name="incall_error_add_call_unavailable">지금은 통화를 추가할 수 없습니다.</string>
-    <string name="incall_error_sim_unknown">SIM을 확인할 수 없습니다.</string>
     <string name="incall_error_no_call_permission">전화를 걸 수 있는 권한이 없습니다.</string>
     <string name="incall_error_add_call_failed">통화 추가 실패:%1$s</string>
     <string name="incall_error_note_save_invalid_number">메모 저장 실패 - 잘못된 번호</string>
@@ -741,13 +705,54 @@
     <string name="incall_msg_number_unblocked">차단 해제된 번호</string>
     <string name="incall_msg_number_blocked">차단된 번호</string>
     <string name="incall_msg_note_saved">✅ 저장됨</string>
-    <string name="incall_msg_reminder_set_hours">✅%1$d시간 후에 알림이 설정되었습니다.</string>
-    <string name="incall_msg_reminder_set_minutes">✅%1$d분 후에 알림이 설정되었습니다.</string>
+    <plurals name="incall_msg_reminder_set_hours">
+        <item quantity="one">✅%1$d시간 후에 알림이 설정되었습니다.</item>
+        <item quantity="other">✅%1$d시간 후에 알림이 설정되었습니다.</item>
+    </plurals>
+    <plurals name="incall_msg_reminder_set_minutes">
+        <item quantity="one">✅%1$d분 후에 알림이 설정되었습니다.</item>
+        <item quantity="other">✅%1$d분 후에 알림이 설정되었습니다.</item>
+    </plurals>
     <string name="incall_msg_reminder_approximate_warning">(참고: 대략적인 타이밍)</string>
     <string name="incall_msg_location_coming_soon">위치 전송 예정</string>
     <string name="incall_msg_image_sharing_coming_soon">이미지 공유가 곧 제공됩니다</string>
     <string name="incall_block_reason_incall">InCall 화면을 통해 차단됨</string>
     <string name="shortcut_new_message">새 메시지</string>
     <string name="shortcut_create_new_message">새 메시지 만들기</string>
-    <string name="btn_ai_scan">AI로 스캔</string>
+
+    <string name="action_add_note">Add note</string>
+    <string name="action_view">View</string>
+    <string name="blocked_call_bubble_call">اتصال</string>
+    <string name="blocked_call_bubble_channel_desc">إشعارات حظر المكالمات</string>
+    <string name="blocked_call_bubble_channel_name">قناة حظر المكالمات</string>
+    <string name="blocked_call_bubble_content_title">مكالمة محظورة</string>
+    <string name="blocked_call_bubble_dismiss">إلغاء</string>
+    <string name="blocked_call_bubble_notification_text">تم حظر مكالمة واردة من رقم مشبوه</string>
+    <string name="blocked_call_bubble_notification_title">تم حظر مكالمة</string>
+    <string name="blocked_call_bubble_whitelist">إضافة لقائمة السماح</string>
+    <string name="blocked_call_bubble_whitelisted">تمت الإضافة إلى قائمة السماح</string>
+    <string name="mms_fg_channel_desc">Shows when MMS messages are being sent or downloaded</string>
+    <string name="mms_fg_channel_name">MMS Operations</string>
+    <string name="mms_fg_downloading">Downloading MMS</string>
+    <string name="mms_fg_in_progress">MMS operation in progress…</string>
+    <string name="mms_fg_processing">Processing MMS</string>
+    <string name="mms_fg_sending">Sending MMS</string>
+    <string name="mms_fg_to">To %1$s</string>
+    <string name="msg_action_cancel">Cancel</string>
+    <string name="msg_send_cancelled">Message send cancelled</string>
+    <string name="notification_channel_fake_call">Fake Calls</string>
+    <string name="notification_channel_fake_call_desc">Notifications for scheduled fake incoming calls</string>
+    <string name="notification_channel_incoming_calls">Incoming Calls</string>
+    <string name="notification_channel_incoming_calls_desc">Incoming call notifications - shows on lock screen</string>
+    <string name="notification_channel_incoming_call_unlocked">Incoming Call (Unlocked)</string>
+    <string name="notification_channel_incoming_call_unlocked_desc">Silent foreground service notification when screen is on and call activity is shown directly</string>
+    <string name="notification_fake_call_incoming">Incoming call</string>
+    <string name="notification_spam_call_text">%1$s - %2$s</string>
+    <string name="notification_spam_call_title">⚠️ Spam Call Detected</string>
+    <string name="otp_copied_generic">Verification code copied ✓</string>
+    <string name="otp_missed_notification_text">New message from %1$s — open inbox to view</string>
+    <string name="otp_missed_notification_title">Verification code received</string>
+    <string name="risk_high">High Risk</string>
+    <string name="risk_low">Low Risk</string>
+    <string name="risk_medium">Medium Risk</string>
 </resources>

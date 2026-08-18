@@ -31,7 +31,7 @@ fun EditScheduledMessageDialog(
     onConfirm: (newBody: String, newScheduledTime: Long, newRepeatInterval: RepeatInterval) -> Unit
 ) {
     var editedBody by remember(data.scheduleId) { mutableStateOf(data.body) }
-    var editedTime by remember(data.scheduleId) { mutableStateOf(data.scheduledTime) }
+    var editedTime by remember(data.scheduleId) { mutableLongStateOf(data.scheduledTime) }
     var editedRepeat by remember(data.scheduleId) { mutableStateOf(data.repeatInterval) }
     var showTimePicker by remember { mutableStateOf(false) }
 

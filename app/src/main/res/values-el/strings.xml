@@ -9,7 +9,6 @@
     <string name="template_title">Τίτλος προτύπου</string>
     <string name="template_content">Περιεχόμενο προτύπου</string>
     <string name="save">Εκτός</string>
-    <string name="app_name" translatable="false">Purevon</string>
     <string name="perm_setup_title">Δικαιώματα εγκατάστασης</string>
     <string name="perm_welcome_title">Καλώς ήρθατε στο Purevon</string>
     <string name="perm_welcome_message">Για να αντικαταστήσουμε τις προεπιλεγμένες εφαρμογές τηλεφώνου και SMS, χρειαζόμαστε τα ακόλουθα δικαιώματα</string>
@@ -60,8 +59,14 @@
     <string name="action_number_copied">Ο αριθμός αντιγράφηκε στο πρόχειρο</string>
     <string name="callback_reminder_title">Υπενθύμιση επιστροφής κλήσης</string>
     <string name="callback_select_duration">Επιλέξτε διάρκεια:</string>
-    <string name="callback_minutes">%dλεπτά</string>
-    <string name="callback_hour">%dώρα</string>
+    <plurals name="callback_minutes">
+        <item quantity="one">%dλεπτά</item>
+        <item quantity="other">%dλεπτά</item>
+    </plurals>
+    <plurals name="callback_hour">
+        <item quantity="one">%dώρα</item>
+        <item quantity="other">%dώρα</item>
+    </plurals>
     <string name="callback_set">Σειρά</string>
     <string name="callback_reminder_alert_title">Υπενθύμιση επιστροφής κλήσης</string>
     <string name="callback_call_now">Καλέστε τώρα</string>
@@ -71,8 +76,10 @@
     <string name="incall_end_call">Τερματισμός κλήσης</string>
     <string name="contacts_search_placeholder">Ερευνα</string>
     <string name="contacts_no_contacts">Δεν υπάρχουν επαφές</string>
-    <string name="contacts_stat_blocked">Αποκλεισμένος</string>
-    <string name="contacts_selected">Επιλέχτηκε%d</string>
+    <plurals name="contacts_selected">
+        <item quantity="one">Επιλέχτηκε%1$d</item>
+        <item quantity="other">Επιλέχτηκε%1$d</item>
+    </plurals>
     <string name="contacts_select_all">Επιλέξτε Όλα</string>
     <string name="contacts_deselect_all">Καταργήστε την επιλογή όλων</string>
     <string name="contacts_action_favorite">Ευνοούμενος</string>
@@ -80,7 +87,10 @@
     <string name="contacts_action_block">Φραγμός</string>
     <string name="contacts_action_unblock">Ξεβουλώνω</string>
     <string name="contacts_action_delete">Διαγράφω</string>
-    <string name="contacts_delete_multiple">Διαγραφή%dεπαφών;</string>
+    <plurals name="contacts_delete_multiple">
+        <item quantity="one">Διαγραφή%1$dεπαφών;</item>
+        <item quantity="other">Διαγραφή%1$dεπαφών;</item>
+    </plurals>
     <string name="contacts_delete_warning">Αυτή η ενέργεια δεν μπορεί να αναιρεθεί.</string>
     <string name="contacts_cd_add_contact">Προσθήκη νέας επαφής</string>
     <string name="contacts_cd_clear_search">Εκκαθάριση αναζήτησης</string>
@@ -121,7 +131,7 @@
     <string name="contact_detail_no_history">Δεν υπάρχει ακόμη ιστορικό κλήσεων</string>
     <string name="contact_detail_no_notes">Δεν υπάρχουν σημειώσεις ακόμα</string>
     <string name="contact_detail_delete_title">Διαγραφή επαφής</string>
-    <string name="contact_detail_delete_message">Είστε βέβαιοι ότι θέλετε να διαγράψετε%s;</string>
+    <string name="contact_detail_delete_message">Είστε βέβαιοι ότι θέλετε να διαγράψετε%1$s;</string>
     <string name="contact_detail_delete_confirm">Διαγράφω</string>
     <string name="contact_detail_first_name">Ονομα</string>
     <string name="contact_detail_last_name">Επώνυμο</string>
@@ -150,8 +160,6 @@
     <string name="add_contact_group">Ομάδα</string>
     <string name="add_contact_save_changes">Αποθήκευση αλλαγών</string>
     <string name="add_contact_save">Αποθήκευση επαφής</string>
-    <string name="add_contact_saved">✓ Η επαφή αποθηκεύτηκε</string>
-    <string name="add_contact_updated">✓ Η επαφή ενημερώθηκε</string>
     <string name="add_contact_failed">Αποτυχία αποθήκευσης. Ελέγξτε τις άδειες.</string>
     <string name="add_contact_favorite">Ευνοούμενος</string>
     <string name="add_contact_type_mobile">Κινητός</string>
@@ -160,26 +168,17 @@
     <string name="add_contact_type_other">Αλλος</string>
     <string name="add_contact_save_to">Αποθήκευση σε</string>
     <string name="add_contact_account_device">Συσκευή</string>
-    <string name="add_contact_account_sim">SIM%1$d(%2$s)</string>
     <string name="add_contact_account_google">Google</string>
     <string name="add_contact_select_account">Επιλέξτε πού θα αποθηκεύσετε αυτήν την επαφή</string>
     <string name="messages_no_messages">Χωρίς μηνύματα</string>
     <string name="messages_delete_conversation">Διαγραφή συνομιλίας</string>
     <string name="history_missed">Χάθηκε</string>
     <string name="history_duration">Διάρκεια:%s</string>
-    <string name="settings_title">Ρυθμίσεις</string>
     <string name="settings_appearance">Εμφάνιση</string>
-    <string name="settings_notifications">Ειδοποιήσεις</string>
-    <string name="settings_theme">Θέμα</string>
     <string name="settings_theme_dark">Σκοτάδι</string>
     <string name="settings_theme_system">Προεπιλογή συστήματος</string>
-    <string name="settings_rtl_title">Διάταξη από δεξιά προς τα αριστερά</string>
-    <string name="settings_rtl_subtitle">Αντικατοπτρίστε τη διεπαφή για ανάγνωση από τα δεξιά προς τα αριστερά</string>
     <string name="settings_language">Γλώσσα</string>
-    <string name="settings_language_summary">Αλλάξτε τη γλώσσα της μη αυτόματης εφαρμογής</string>
     <string name="language_system">Προεπιλογή συστήματος</string>
-    <string name="language_ar">العربية (Αραβικά)</string>
-    <string name="language_en">Αγγλικά (Αγγλικά)</string>
     <string name="dialer_add_to_contacts">Προσθήκη στις επαφές</string>
     <string name="messages_all">Ολοι</string>
     <string name="messages_starred_tab">Αστεροειδής</string>
@@ -187,11 +186,8 @@
     <string name="messages_no_starred">Δεν υπάρχουν μηνύματα με αστέρι</string>
     <string name="messages_starred_hint">Πατήστε παρατεταμένα σε οποιοδήποτε μήνυμα για να το προσθέσετε στα αγαπημένα</string>
     <string name="messages_archive">Αρχείο</string>
-    <string name="messages_unarchive">Κατάργηση αρχειοθέτησης</string>
     <string name="messages_mark_as_read">Επισήμανση ως αναγνωσμένου</string>
-    <string name="messages_mark_as_unread">Επισήμανση ως μη αναγνωσμένου</string>
     <string name="messages_archived_tab">Αρχειοθετήθηκε</string>
-    <string name="history_call_will_be_deleted">Η κλήση θα διαγραφεί</string>
     <string name="history_number_will_be_blocked">Ο αριθμός θα αποκλειστεί</string>
     <string name="history_undo">Ξεκάνω</string>
     <string name="history_no_history">Δεν υπάρχει ακόμη ιστορικό κλήσεων</string>
@@ -219,40 +215,50 @@
     <string name="history_delete_from_history">Διαγραφή όλων από το ιστορικό</string>
     <string name="history_delete_all_calls_title">Διαγραφή όλων των κλήσεων για αυτόν τον αριθμό;</string>
     <string name="history_delete_all_calls_message">Καταργήστε κάθε καταχώριση για%sαπό το ιστορικό κλήσεων. Αυτό δεν μπορεί να αναιρεθεί.</string>
-    <string name="history_delete_selected_numbers">Κατάργηση ιστορικού για%dαριθμούς;</string>
-    <string name="history_group_missed_count">%dέχασε</string>
+    <plurals name="history_delete_selected_numbers">
+        <item quantity="one">Κατάργηση ιστορικού για%dαριθμούς;</item>
+        <item quantity="other">Κατάργηση ιστορικού για%dαριθμούς;</item>
+    </plurals>
     <string name="history_notes_cd_has_note">Έχει σημειώσεις</string>
-    <string name="history_delete_call_title">Διαγραφή κλήσης;</string>
-    <string name="history_delete_call_message">Είστε βέβαιοι ότι θέλετε να διαγράψετε αυτήν την κλήση από το ιστορικό σας; Αυτή η ενέργεια δεν μπορεί να αναιρεθεί.</string>
     <string name="history_block_number_title">Αριθμός μπλοκ;</string>
     <string name="history_block_number_message">Είστε βέβαιοι ότι θέλετε να αποκλείσετε το%s; Δεν θα λάβετε\'δεν κλήσεις από αυτόν τον αριθμό.</string>
     <string name="history_search_calls">Αναζήτηση κλήσεων</string>
     <string name="history_clear">Σαφής</string>
     <string name="history_today">Σήμερα</string>
     <string name="history_yesterday">Εχθές</string>
-    <string name="history_calls">%dκλήσεις</string>
+    <plurals name="history_calls">
+        <item quantity="one">%dκλήσεις</item>
+        <item quantity="other">%dκλήσεις</item>
+    </plurals>
     <string name="history_total">Σύνολο</string>
     <string name="history_permission_name">READ_CALL_LOG</string>
     <string name="history_permission_rationale">Αυτή η εφαρμογή χρειάζεται πρόσβαση στα αρχεία καταγραφής κλήσεων για να εμφανίζει το ιστορικό κλήσεων, να παρακολουθεί τις αναπάντητες κλήσεις και να παρέχει στατιστικά στοιχεία κλήσεων.</string>
     <string name="history_action_call">Κλήση</string>
     <string name="history_action_message">Μήνυμα</string>
     <string name="history_notes">Σημειώσεις (%d)</string>
-    <string name="history_more_notes">+%dεπιπλέον σημειώσεις</string>
+    <plurals name="history_more_notes">
+        <item quantity="one">+%dεπιπλέον σημειώσεις</item>
+        <item quantity="other">+%dεπιπλέον σημειώσεις</item>
+    </plurals>
     <string name="history_note_today">Σήμερα</string>
     <string name="history_note_yesterday">Εχθές</string>
     <string name="note_dialog_title">Σημειώσεις για%s</string>
-    <string name="note_dialog_count">%dσημείωση</string>
+    <plurals name="note_dialog_count">
+        <item quantity="one">%dσημείωση</item>
+        <item quantity="other">%dσημείωση</item>
+    </plurals>
     <string name="note_dialog_empty">Όχι σημειώσεις</string>
     <string name="note_delete_cd">Διαγραφή σημείωσης</string>
-    <string name="note_icon_cd">Σημειώσεις επικοινωνίας</string>
     <string name="note_dialog_close">Κοντά</string>
     <string name="history_sim">SIM%d</string>
-    <string name="history_selected_count">Επιλέχτηκε%d</string>
+    <plurals name="history_selected_count">
+        <item quantity="one">Επιλέχτηκε%d</item>
+        <item quantity="other">Επιλέχτηκε%d</item>
+    </plurals>
     <string name="history_select_all">Επιλέξτε Όλα</string>
     <string name="history_deselect_all">Καταργήστε την επιλογή όλων</string>
     <string name="history_action_block">Φραγμός</string>
     <string name="history_action_delete">Διαγράφω</string>
-    <string name="history_delete_selected">Διαγραφή%dκλήσεων;</string>
     <string name="history_delete_selected_warning">Αυτή η ενέργεια δεν μπορεί να αναιρεθεί.</string>
     <string name="otp_settings_title">Ρυθμίσεις OTP</string>
     <string name="about_title">Για</string>
@@ -268,26 +274,8 @@
     <string name="about_feature_bubble_desc">Ελέγξτε τις κλήσεις με αιωρούμενη επικάλυψη φυσαλίδων</string>
     <string name="about_feature_sim">Υποστήριξη διπλής SIM</string>
     <string name="about_feature_sim_desc">Πλήρης υποστήριξη για συσκευές διπλής SIM</string>
-    <string name="about_feature_backup">Δημιουργία αντιγράφων ασφαλείας και επαναφορά</string>
-    <string name="about_feature_backup_desc">Διατηρήστε τα δεδομένα σας ασφαλή με αυτόματα αντίγραφα ασφαλείας</string>
     <string name="about_contact_us">Επικοινωνήστε μαζί μας:</string>
     <string name="about_copyright">© 2026 Purevon. Με την επιφύλαξη παντός δικαιώματος.</string>
-    <string name="ai_model_title">Χαρακτηριστικά AI</string>
-    <string name="ai_model_download">Λήψη Gemma 3 (1B)</string>
-    <string name="ai_model_download_desc">Κατεβάστε το μοντέλο Gemma 3 1B (~555 MB) για συνομιλία AI εκτός σύνδεσης</string>
-    <string name="ai_model_downloading">Λήψη…%1$d%%</string>
-    <string name="ai_model_extracting">Αποθήκευση μοντέλου…</string>
-    <string name="ai_model_downloaded">Κατεβάστηκε το μοντέλο</string>
-    <string name="ai_model_delete">Διαγραφή μοντέλου AI</string>
-    <string name="ai_model_delete_desc">Αφαιρέστε το μοντέλο Gemma που κατεβάσατε για να ελευθερώσετε χώρο</string>
-    <string name="ai_chat_title">Gemma AI Chat</string>
-    <string name="ai_chat_model_loading">Φόρτωση μοντέλου…</string>
-    <string name="ai_chat_model_error">Η φόρτωση του μοντέλου απέτυχε</string>
-    <string name="ai_chat_model_ready">Ετοιμος</string>
-    <string name="ai_chat_hint">Ρωτήστε την Gemma οτιδήποτε…</string>
-    <string name="ai_hf_token_label">Token HuggingFace</string>
-    <string name="ai_hf_token_placeholder">hf_xxxxxxxxxxxxxxxxxxxx</string>
-    <string name="ai_hf_token_desc">Απαιτείται για λήψη του Gemma (δωρεάν στο huggingface.co)</string>
     <string name="conversation_no_messages">Δεν υπάρχουν ακόμα μηνύματα</string>
     <string name="conversation_start_hint">Στείλτε ένα μήνυμα για να ξεκινήσετε τη συνομιλία</string>
     <string name="conversation_message_hint">Μήνυμα</string>
@@ -319,12 +307,7 @@
     <string name="msg_attachment_file">Αρχείο</string>
     <string name="msg_attachment_contact">Επαφή</string>
     <string name="msg_attachment_location">Τοποθεσία</string>
-    <string name="msg_attachment_schedule">Πρόγραμμα</string>
-    <string name="location_fetching">Ανάκτηση τοποθεσίας…</string>
-    <string name="location_error">Δεν ήταν δυνατός ο προσδιορισμός της τοποθεσίας</string>
     <string name="location_permission_denied">Απαιτείται άδεια τοποθεσίας για την κοινή χρήση της τοποθεσίας σας</string>
-    <string name="location_my_current">Η τρέχουσα τοποθεσία μου</string>
-    <string name="location_coordinates">Συντεταγμένες</string>
     <string name="location_view_map">Προβολή στο χάρτη:</string>
     <string name="msg_cd_attached_image">Συνημμένη εικόνα</string>
     <string name="msg_cd_scheduled">Προγραμματισμένος</string>
@@ -342,7 +325,6 @@
     <string name="msg_cd_retry">Δοκιμάστε ξανά την αποστολή</string>
     <string name="msg_cd_attachment_type">Τύπος προσαρτήματος</string>
     <string name="msg_cd_open_location">Άνοιγμα τοποθεσίας στον χάρτη</string>
-    <string name="msg_cd_playback_speed">Ταχύτητα αναπαραγωγής</string>
     <string name="msg_cd_play">Παιχνίδι</string>
     <string name="msg_cd_pause">Παύση</string>
     <string name="msg_cd_send">Στέλνω</string>
@@ -350,14 +332,16 @@
     <string name="msg_cd_conversation_options">Επιλογές συνομιλίας</string>
     <string name="msg_cd_delete_recording">Διαγραφή εγγραφής</string>
     <string name="msg_cd_send_recording">Αποστολή ηχογράφησης</string>
-    <string name="msg_fetching_location">Εντοπισμός…</string>
     <string name="msg_date_today">Σήμερα</string>
     <string name="msg_date_yesterday">Εχθές</string>
     <string name="msg_no_results">Κανένα αποτέλεσμα</string>
     <string name="msg_no_archived_conversations">Δεν υπάρχουν αρχειοθετημένες συνομιλίες</string>
     <string name="msg_search_try_different">Δοκιμάστε μια διαφορετική λέξη-κλειδί από την\"%s\"</string>
     <string name="msg_archive_hint">Πατήστε παρατεταμένα μια συνομιλία για να την αρχειοθετήσετε</string>
-    <string name="msg_delete_conversations_title">Διαγραφή%dσυνομιλιών;</string>
+    <plurals name="msg_delete_conversations_title">
+        <item quantity="one">Διαγραφή%dσυνομιλιών;</item>
+        <item quantity="other">Διαγραφή%dσυνομιλιών;</item>
+    </plurals>
     <string name="msg_sim_ask_me">Ρωτήστε με</string>
     <string name="msg_phone_number_missing">Ο αριθμός τηλεφώνου λείπει</string>
     <string name="msg_scheduled_cancelled">Το προγραμματισμένο μήνυμα ακυρώθηκε</string>
@@ -380,10 +364,12 @@
     <string name="templates_title">Πρότυπα μηνυμάτων</string>
     <string name="templates_empty">Δεν υπάρχουν ακόμη πρότυπα</string>
     <string name="templates_create">Δημιουργία προτύπου</string>
-    <string name="templates_use_count">Χρησιμοποιήθηκε%dφορές</string>
+    <plurals name="templates_use_count">
+        <item quantity="one">Χρησιμοποιήθηκε%dφορές</item>
+        <item quantity="other">Χρησιμοποιήθηκε%dφορές</item>
+    </plurals>
     <string name="templates_delete_title">Διαγραφή προτύπου</string>
     <string name="templates_delete_message">Είστε βέβαιοι ότι θέλετε να διαγράψετε το \"%s\";</string>
-    <string name="cleanup_creating_backup">جاري إنشاء نسخة احتياطية...</string>
     <string name="system_perm_title">Πρόσθετες ρυθμίσεις</string>
     <string name="system_perm_device">Η συσκευή σας:%1$s</string>
     <string name="system_perm_subtitle">Απαιτούνται πρόσθετες ρυθμίσεις για να λειτουργεί σωστά η εφαρμογή</string>
@@ -427,11 +413,8 @@
     <string name="manufacturer_vivo">Vivo (Funtouch OS)</string>
     <string name="manufacturer_oneplus">OnePlus (OxygenOS)</string>
     <string name="manufacturer_stock">Android</string>
-    <string name="appearance_theme_system_follow">Ακολουθήστε το θέμα του συστήματος</string>
     <string name="spam_privacy_title">Μυστικότητα</string>
-    <string name="otp_settings_desc">Αυτόματη αντιγραφή, ειδοποιήσεις, αξιόπιστοι αποστολείς</string>
     <string name="privacy_hide_notifications">Απόκρυψη ευαίσθητων ειδοποιήσεων</string>
-    <string name="privacy_hide_notifications_desc">Απόκρυψη περιεχομένου μηνύματος στις ειδοποιήσεις</string>
     <string name="about_version">Έκδοση%s</string>
     <string name="close">Κοντά</string>
     <string name="remove">Αφαιρώ</string>
@@ -444,11 +427,8 @@
     <string name="sim_all">Όλες οι SIM</string>
     <string name="sim_select_for_blocking">Επιλέξτε SIM για αποκλεισμό κλήσεων</string>
     <string name="sim_slot_format">Εφαρμόζεται σε:%1$s</string>
-    <string name="call_blocking_desc">Αποκλεισμός ανεπιθύμητων κλήσεων</string>
     <string name="call_blocking_blocked_list">Αποκλεισμένοι αριθμοί</string>
-    <string name="call_blocking_manage_blocked">Διαχείριση λίστας αποκλεισμένων αριθμών</string>
     <string name="call_blocking_whitelist">Λευκή λίστα</string>
-    <string name="call_blocking_manage_whitelist">Διαχείριση λίστας επιτρεπόμενων</string>
     <string name="blocked_list_title">Αποκλεισμένοι αριθμοί</string>
     <string name="blocked_list_count">Αποκλείστηκε (%d)</string>
     <string name="blocked_search_hint">Αναζήτηση επαφών ή πρόσφατων κλήσεων</string>
@@ -467,7 +447,10 @@
     <string name="call_status_calling">Κλήση…</string>
     <string name="conference_call_title">Τηλεδιάσκεψη</string>
     <string name="conference_label">Διάσκεψη</string>
-    <string name="conference_participants_count">%dσυμμετέχοντες</string>
+    <plurals name="conference_participants_count">
+        <item quantity="one">%dσυμμετέχοντες</item>
+        <item quantity="other">%dσυμμετέχοντες</item>
+    </plurals>
     <string name="overlay_status_hold">Αμπάρι</string>
     <string name="overlay_status_incoming">Εισερχόμενος</string>
     <string name="fake_call_title">Ψεύτικη κλήση</string>
@@ -485,20 +468,25 @@
     <string name="fake_call_incoming">Εισερχόμενη κλήση…</string>
     <string name="fake_call_answer">Απάντηση</string>
     <string name="fake_call_decline">Πτώση</string>
-    <string name="fake_call_end">Τερματισμός κλήσης</string>
     <string name="fake_call_name_required">Εισαγάγετε το όνομα του καλούντος</string>
     <string name="fake_call_delay_required">Επιλέξτε το χρόνο κλήσης</string>
-    <string name="fake_call_scheduled">Η ψεύτικη κλήση προγραμματίστηκε μετά τις%s</string>
+    <string name="fake_call_scheduled">Η ψεύτικη κλήση προγραμματίστηκε μετά τις%1$s</string>
     <string name="fake_call_schedule_error">Ο προγραμματισμός της ψεύτικης κλήσης απέτυχε</string>
     <string name="fake_call_manage_title">Προγραμματισμένες ψεύτικες κλήσεις</string>
-    <string name="fake_call_active_count">%dπρογραμματισμένες κλήσεις</string>
+    <plurals name="fake_call_active_count">
+        <item quantity="one">%dπρογραμματισμένες κλήσεις</item>
+        <item quantity="other">%dπρογραμματισμένες κλήσεις</item>
+    </plurals>
     <string name="fake_call_no_scheduled">Δεν υπάρχουν προγραμματισμένες ψεύτικες κλήσεις</string>
     <string name="fake_call_cancel_all">Ακύρωση όλων</string>
     <string name="fake_call_cancel_call">Ακύρωση κλήσης</string>
     <string name="fake_call_inexact_alarm_warning">Σημείωση: Η κλήση ενδέχεται να μην φτάσει την ακριβή ώρα. Παραχωρήστε άδεια \"Συναγερμοί και υπενθυμίσεις\" στις ρυθμίσεις για καλύτερη ακρίβεια.</string>
     <string name="refresh">Φρεσκάρω</string>
     <string name="callback_reminders_manage_title">Υπενθυμίσεις προγραμματισμένης επιστροφής κλήσεων</string>
-    <string name="callback_reminder_active_count">%dπρογραμματισμένη(ες) υπενθύμιση</string>
+    <plurals name="callback_reminder_active_count">
+        <item quantity="one">%dπρογραμματισμένη(ες) υπενθύμιση</item>
+        <item quantity="other">%dπρογραμματισμένη(ες) υπενθύμιση</item>
+    </plurals>
     <string name="callback_reminder_no_scheduled">Δεν υπάρχουν προγραμματισμένες υπενθυμίσεις</string>
     <string name="callback_reminder_cancel_all">Ακύρωση όλων</string>
     <string name="callback_reminder_cancel_item">Ακύρωση υπενθύμισης</string>
@@ -507,13 +495,10 @@
     <string name="scheduled_message_failed_body">Προς%1$s:%2$s</string>
     <string name="scheduled_message_cancel">Ματαίωση</string>
     <string name="scheduled_message_edit">Εκδίδω</string>
-    <string name="scheduled_message_cancelled">Το προγραμματισμένο μήνυμα ακυρώθηκε</string>
     <string name="scheduled_status_pending">Εκκρεμής</string>
     <string name="scheduled_status_sent">Στάλθηκε</string>
     <string name="scheduled_status_failed">Αποτυχημένος</string>
     <string name="scheduled_status_cancelled">Ακυρώθηκε</string>
-    <string name="msg_send_failure_title">Η αποστολή του μηνύματος απέτυχε</string>
-    <string name="msg_send_failure_text">Προς%1$s:%2$s</string>
     <string name="search_messages_hint">Αναζήτηση μηνυμάτων</string>
     <string name="search_clear">Σαφής</string>
     <string name="call_state_calling">Κλήση…</string>
@@ -589,17 +574,18 @@
     <string name="sim_picker_call_title">Επιλέξτε SIM για κλήση</string>
     <string name="msg_unexpected_error">Μη αναμενόμενο σφάλμα:%1$s</string>
     <string name="msg_suggestion_prefix">Πρόταση:%1$s</string>
-    <string name="msg_send_attachments_lost">Η αποστολή απέτυχε. Τα συνημμένα σας διατηρούνται — πατήστε το μήνυμα που απέτυχε για να προσπαθήσετε ξανά.</string>
     <string name="msg_retry_unexpected_error">Μη αναμενόμενο σφάλμα:%1$s</string>
     <string name="msg_forward_partial_success">Στάλθηκε σε%1$dαπό%2$dπαραλήπτες.%3$dαπέτυχε.</string>
-    <string name="msg_scheduled_load_error">Αποτυχία φόρτωσης προγραμματισμένων μηνυμάτων</string>
     <string name="msg_error_network_wifi">📶 Τα MMS απαιτούν Wi-Fi ή δεδομένα κινητής τηλεφωνίας. Ελέγξτε τη σύνδεσή σας.</string>
     <string name="msg_error_network">📶 Χωρίς σύνδεση στο διαδίκτυο. Ελέγξτε τις ρυθμίσεις του δικτύου σας.</string>
     <string name="msg_error_permission">🔒 Απαιτείται άδεια:%1$s. Παρακαλώ χορηγήστε στις ρυθμίσεις.</string>
     <string name="msg_error_balance">💳 Ανεπαρκές υπόλοιπο SMS. Παρακαλούμε επαναφορτίστε την κάρτα SIM.</string>
     <string name="msg_error_invalid_number">📱 Μη έγκυρος αριθμός τηλεφώνου. Ελέγξτε και δοκιμάστε ξανά.</string>
     <string name="msg_error_storage_full">💾 Η αποθήκευση είναι πλήρης. Ελευθερώστε λίγο χώρο.</string>
-    <string name="msg_error_rate_limit">⏱️ Έχουν σταλεί πάρα πολλά μηνύματα. Περιμένετε%1$dδευτερόλεπτα.</string>
+    <plurals name="msg_error_rate_limit">
+        <item quantity="one">⏱️ Έχουν σταλεί πάρα πολλά μηνύματα. Περιμένετε%1$dδευτερόλεπτα.</item>
+        <item quantity="other">⏱️ Έχουν σταλεί πάρα πολλά μηνύματα. Περιμένετε%1$dδευτερόλεπτα.</item>
+    </plurals>
     <string name="msg_error_mms">📎 Σφάλμα MMS:%1$s. Δοκιμάστε ξανά.</string>
     <string name="msg_error_too_large">📏 Το μήνυμα είναι πολύ μεγάλο. Το μέγιστο μέγεθος είναι%1$dKB.</string>
     <string name="msg_error_attachment">📎 Δεν είναι δυνατή η επισύναψη%1$s:%2$s</string>
@@ -631,7 +617,6 @@
     <string name="sms_error_radio_off">Η λειτουργία πτήσης είναι ενεργοποιημένη (Το ραδιόφωνο είναι απενεργοποιημένο)</string>
     <string name="sms_error_limit_exceeded">Υπέρβαση του ορίου αποστολής</string>
     <string name="sms_error_unknown">Άγνωστο σφάλμα</string>
-    <string name="otp_copied_toast">Αντιγράφηκε ο κωδικός επαλήθευσης:%1$s✓</string>
     <string name="otp_bubble_channel_name">Κυμαινόμενοι κωδικοί επαλήθευσης</string>
     <string name="otp_bubble_channel_desc">Ειδοποιήσεις για κυμαινόμενα συννεφάκια κωδικών επαλήθευσης</string>
     <string name="otp_bubble_notification_title">Κωδικός επαλήθευσης</string>
@@ -640,7 +625,10 @@
     <string name="settings_incoming_call_banner_desc">Εμφάνιση πλωτού banner αντί για πλήρη οθόνη για εισερχόμενες κλήσεις</string>
     <string name="notification_summary_title">Μηνύματα</string>
     <string name="notification_summary_2_messages">2 νέα μηνύματα</string>
-    <string name="notification_summary_n_messages">%1$dνέα μηνύματα</string>
+    <plurals name="notification_summary_n_messages">
+        <item quantity="one">%1$dνέα μηνύματα</item>
+        <item quantity="other">%1$dνέα μηνύματα</item>
+    </plurals>
     <string name="notification_summary_many_messages">9+ νέα μηνύματα</string>
     <string name="notification_action_reply">Απάντηση</string>
     <string name="notification_action_mark_read_short">Σημάδι διαβάστε</string>
@@ -658,39 +646,17 @@
     <string name="error_failed_update_favorite">Αποτυχία ενημέρωσης της κατάστασης αγαπημένου</string>
     <string name="error_failed_delete_contact">Αποτυχία διαγραφής επαφής:%1$s</string>
     <string name="success_contact_deleted">Η επαφή διαγράφηκε</string>
-    <string name="success_contacts_blocked">Οι επαφές%1$dαποκλείστηκαν</string>
-    <string name="success_contacts_added_favorites">%1$dεπαφές προστέθηκαν στα αγαπημένα</string>
+    <plurals name="success_contacts_blocked">
+        <item quantity="one">Οι επαφές%1$dαποκλείστηκαν</item>
+        <item quantity="other">Οι επαφές%1$dαποκλείστηκαν</item>
+    </plurals>
+    <plurals name="success_contacts_added_favorites">
+        <item quantity="one">%1$dεπαφές προστέθηκαν στα αγαπημένα</item>
+        <item quantity="other">%1$dεπαφές προστέθηκαν στα αγαπημένα</item>
+    </plurals>
     <string name="success_added_to_favorites">Προστέθηκε στα αγαπημένα</string>
     <string name="success_removed_from_favorites">Καταργήθηκε από τα αγαπημένα</string>
     <string name="msg_contact_will_be_deleted">\"%1$s\"θα διαγραφεί</string>
-    <string name="backup_encrypt_dialog_title">Κρυπτογράφηση αντιγράφων ασφαλείας</string>
-    <string name="backup_encrypt_dialog_desc">Εισαγάγετε έναν κωδικό πρόσβασης για να κρυπτογραφήσετε το αντίγραφο ασφαλείας ή αφήστε το κενό για αποθήκευση ως απλό JSON.</string>
-    <string name="backup_encrypt_password_hint">Κωδικός πρόσβασης (προαιρετικό)</string>
-    <string name="backup_encrypt_confirm">Εξαγωγή</string>
-    <string name="restore_decrypt_dialog_title">Κρυπτογραφημένο αντίγραφο ασφαλείας</string>
-    <string name="restore_decrypt_dialog_desc">Αυτό το αντίγραφο ασφαλείας είναι κρυπτογραφημένο. Εισαγάγετε τον κωδικό πρόσβασης που χρησιμοποιήθηκε κατά τη δημιουργία του.</string>
-    <string name="restore_decrypt_password_hint">Σύνθημα</string>
-    <string name="restore_decrypt_confirm">Επαναφέρω</string>
-    <string name="backup_wrong_password">Λάθος κωδικός πρόσβασης — δεν ήταν δυνατή η αποκρυπτογράφηση του αντιγράφου ασφαλείας.</string>
-    <string name="backup_encrypted_badge">🔒 Κρυπτογραφημένο</string>
-    <string name="backup_created_success">Το αντίγραφο ασφαλείας δημιουργήθηκε με επιτυχία</string>
-    <string name="backup_created_failure">Αποτυχία δημιουργίας αντιγράφου ασφαλείας</string>
-    <string name="backup_saved_success">✅ Το αντίγραφο ασφαλείας αποθηκεύτηκε με επιτυχία</string>
-    <string name="backup_saved_failure">❌ Η αποθήκευση απέτυχε:%1$s</string>
-    <string name="restore_success">✅ Τα δεδομένα αποκαταστάθηκαν με επιτυχία</string>
-    <string name="restore_failure">Η επαναφορά απέτυχε</string>
-    <string name="restore_error">Σφάλμα επαναφοράς:%1$s</string>
-    <string name="backup_restore_success">✅ Το αντίγραφο ασφαλείας αποκαταστάθηκε με επιτυχία</string>
-    <string name="backup_restore_failure">❌ Η επαναφορά απέτυχε:%1$s</string>
-    <string name="generic_error">Σφάλμα:%1$s</string>
-    <string name="export_calls_success">✅ Εξάγονται κλήσεις:%1$s</string>
-    <string name="export_messages_success">✅ Εξάγονται μηνύματα:%1$s</string>
-    <string name="export_all_success">✅ Όλα τα δεδομένα που εξάγονται:%1$s</string>
-    <string name="export_failure">❌ Η εξαγωγή απέτυχε</string>
-    <string name="import_success">✅ Τα δεδομένα εισήχθησαν με επιτυχία</string>
-    <string name="import_failure">Η εισαγωγή απέτυχε</string>
-    <string name="import_error">Σφάλμα εισαγωγής:%1$s</string>
-    <string name="import_restore_failure">❌ Η εισαγωγή απέτυχε:%1$s</string>
     <string name="disclosure_title">Το απόρρητό σας</string>
     <string name="disclosure_subtitle">Ελέγξτε πριν συνεχίσετε</string>
     <string name="disclosure_intro">Το Purevon αντικαθιστά το προεπιλεγμένο πρόγραμμα κλήσης τηλεφώνου και την προεπιλεγμένη εφαρμογή ανταλλαγής μηνυμάτων SMS/MMS. Για να παρέχει κλήσεις, SMS/MMS, προστασία από ανεπιθύμητα μηνύματα και σχετικές λειτουργίες, χρειάζεται τα δικαιώματα που εξηγούνται παρακάτω. Τα προαιρετικά στοιχεία (κάμερα, μικρόφωνο, τοποθεσία) χρησιμοποιούνται μόνο όταν επιλέγετε αυτές τις ενέργειες (για παράδειγμα επισύναψη φωτογραφίας ή κοινή χρήση της τοποθεσίας σας). Τα δεδομένα παραμένουν στη συσκευή σας εκτός εάν χρησιμοποιείτε ρητά μια λειτουργία δικτύου, όπως MMS ή φόρτωση μιας προεπισκόπησης συνδέσμου Ιστού.</string>
@@ -729,8 +695,6 @@
     <string name="incall_error_reject_failed">Αποτυχία απόρριψης κλήσης</string>
     <string name="incall_error_merge_not_supported">Δεν είναι δυνατή η συγχώνευση κλήσεων - δεν υποστηρίζεται</string>
     <string name="incall_error_merge_failed">Η συγχώνευση κλήσεων απέτυχε</string>
-    <string name="incall_error_add_call_unavailable">Δεν είναι δυνατή η προσθήκη κλήσης αυτήν τη στιγμή</string>
-    <string name="incall_error_sim_unknown">Δεν ήταν δυνατός ο προσδιορισμός της SIM</string>
     <string name="incall_error_no_call_permission">Δεν επιτρέπεται η πραγματοποίηση κλήσεων</string>
     <string name="incall_error_add_call_failed">Αποτυχία προσθήκης κλήσης:%1$s</string>
     <string name="incall_error_note_save_invalid_number">Αποτυχία αποθήκευσης σημείωσης - Μη έγκυρος αριθμός</string>
@@ -741,13 +705,54 @@
     <string name="incall_msg_number_unblocked">Ο αριθμός ξεμπλοκαρίστηκε</string>
     <string name="incall_msg_number_blocked">Ο αριθμός μπλοκαρίστηκε</string>
     <string name="incall_msg_note_saved">✅ Αποθηκεύτηκε</string>
-    <string name="incall_msg_reminder_set_hours">✅ Ορίστηκε υπενθύμιση μετά από%1$dώρα(ες)</string>
-    <string name="incall_msg_reminder_set_minutes">✅ Η υπενθύμιση ορίστηκε μετά από%1$dλεπτά</string>
+    <plurals name="incall_msg_reminder_set_hours">
+        <item quantity="one">✅ Ορίστηκε υπενθύμιση μετά από%1$dώρα(ες)</item>
+        <item quantity="other">✅ Ορίστηκε υπενθύμιση μετά από%1$dώρα(ες)</item>
+    </plurals>
+    <plurals name="incall_msg_reminder_set_minutes">
+        <item quantity="one">✅ Η υπενθύμιση ορίστηκε μετά από%1$dλεπτά</item>
+        <item quantity="other">✅ Η υπενθύμιση ορίστηκε μετά από%1$dλεπτά</item>
+    </plurals>
     <string name="incall_msg_reminder_approximate_warning">(Σημείωση: κατά προσέγγιση χρονισμός)</string>
     <string name="incall_msg_location_coming_soon">Έρχεται σύντομα αποστολή τοποθεσίας</string>
     <string name="incall_msg_image_sharing_coming_soon">Κοινή χρήση εικόνων σύντομα</string>
     <string name="incall_block_reason_incall">Αποκλείστηκε μέσω InCall Screen</string>
     <string name="shortcut_new_message">Νέο Μήνυμα</string>
     <string name="shortcut_create_new_message">Δημιουργία νέου μηνύματος</string>
-    <string name="btn_ai_scan">Σάρωση με AI</string>
+
+    <string name="action_add_note">Add note</string>
+    <string name="action_view">View</string>
+    <string name="blocked_call_bubble_call">اتصال</string>
+    <string name="blocked_call_bubble_channel_desc">إشعارات حظر المكالمات</string>
+    <string name="blocked_call_bubble_channel_name">قناة حظر المكالمات</string>
+    <string name="blocked_call_bubble_content_title">مكالمة محظورة</string>
+    <string name="blocked_call_bubble_dismiss">إلغاء</string>
+    <string name="blocked_call_bubble_notification_text">تم حظر مكالمة واردة من رقم مشبوه</string>
+    <string name="blocked_call_bubble_notification_title">تم حظر مكالمة</string>
+    <string name="blocked_call_bubble_whitelist">إضافة لقائمة السماح</string>
+    <string name="blocked_call_bubble_whitelisted">تمت الإضافة إلى قائمة السماح</string>
+    <string name="mms_fg_channel_desc">Shows when MMS messages are being sent or downloaded</string>
+    <string name="mms_fg_channel_name">MMS Operations</string>
+    <string name="mms_fg_downloading">Downloading MMS</string>
+    <string name="mms_fg_in_progress">MMS operation in progress…</string>
+    <string name="mms_fg_processing">Processing MMS</string>
+    <string name="mms_fg_sending">Sending MMS</string>
+    <string name="mms_fg_to">To %1$s</string>
+    <string name="msg_action_cancel">Cancel</string>
+    <string name="msg_send_cancelled">Message send cancelled</string>
+    <string name="notification_channel_fake_call">Fake Calls</string>
+    <string name="notification_channel_fake_call_desc">Notifications for scheduled fake incoming calls</string>
+    <string name="notification_channel_incoming_calls">Incoming Calls</string>
+    <string name="notification_channel_incoming_calls_desc">Incoming call notifications - shows on lock screen</string>
+    <string name="notification_channel_incoming_call_unlocked">Incoming Call (Unlocked)</string>
+    <string name="notification_channel_incoming_call_unlocked_desc">Silent foreground service notification when screen is on and call activity is shown directly</string>
+    <string name="notification_fake_call_incoming">Incoming call</string>
+    <string name="notification_spam_call_text">%1$s - %2$s</string>
+    <string name="notification_spam_call_title">⚠️ Spam Call Detected</string>
+    <string name="otp_copied_generic">Verification code copied ✓</string>
+    <string name="otp_missed_notification_text">New message from %1$s — open inbox to view</string>
+    <string name="otp_missed_notification_title">Verification code received</string>
+    <string name="risk_high">High Risk</string>
+    <string name="risk_low">Low Risk</string>
+    <string name="risk_medium">Medium Risk</string>
 </resources>

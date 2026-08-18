@@ -156,21 +156,21 @@ private fun contactHasTelegram(context: Context, phoneNumber: String): Boolean {
 @Composable
 fun ContactDetailScreen(
     contact: Contact,
+    onNavigateBack: () -> Unit,
+    onDeleteContact: () -> Unit,
+    onToggleFavorite: () -> Unit,
+    onSaveContact: (String, String, String, String?, String?) -> Unit,
+    modifier: Modifier = Modifier,
     notes: List<ContactNote> = emptyList(),
     callStatistics: CallStatistics = CallStatistics(),
     recentCalls: List<com.rasmi.purevon.domain.model.CallLog> = emptyList(),
     showAllCalls: Boolean = false,
     onToggleShowAllCalls: () -> Unit = {},
-    onNavigateBack: () -> Unit,
-    onDeleteContact: () -> Unit,
-    onToggleFavorite: () -> Unit,
     onBlockContact: () -> Unit = {},
     onEditContact: () -> Unit = {},
-    onSaveContact: (String, String, String, String?, String?) -> Unit,
     onDeleteNote: ((Long) -> Unit)? = null,
     onCall: ((String) -> Unit)? = null,
-    onMessage: ((String) -> Unit)? = null,
-    modifier: Modifier = Modifier
+    onMessage: ((String) -> Unit)? = null
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()

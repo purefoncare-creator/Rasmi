@@ -298,22 +298,20 @@ class MainActivity : AppCompatActivity() {
      * This is required for the app to handle calls
      */
     private fun registerPhoneAccountIfNeeded() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            try {
-                if (!phoneAccountManager.isPhoneAccountRegistered()) {
-                    val registered = phoneAccountManager.registerPhoneAccount()
-                    Log.d("MainActivity", "PhoneAccount registration: $registered")
-                    
-                    if (registered) {
-                        phoneAccountManager.enablePhoneAccount(true)
-                        Log.d("MainActivity", "PhoneAccount enabled successfully")
-                    }
-                } else {
-                    Log.d("MainActivity", "PhoneAccount already registered")
+        try {
+            if (!phoneAccountManager.isPhoneAccountRegistered()) {
+                val registered = phoneAccountManager.registerPhoneAccount()
+                Log.d("MainActivity", "PhoneAccount registration: $registered")
+                
+                if (registered) {
+                    phoneAccountManager.enablePhoneAccount(true)
+                    Log.d("MainActivity", "PhoneAccount enabled successfully")
                 }
-            } catch (e: Exception) {
-                Log.e("MainActivity", "Error registering PhoneAccount", e)
+            } else {
+                Log.d("MainActivity", "PhoneAccount already registered")
             }
+        } catch (e: Exception) {
+            Log.e("MainActivity", "Error registering PhoneAccount", e)
         }
     }
     
@@ -519,19 +517,17 @@ class MainActivity : AppCompatActivity() {
     }
     
     private fun requestDefaultDialerLegacy() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val telecomManager = getSystemService(TELECOM_SERVICE) as TelecomManager
-            val currentDefault = telecomManager.defaultDialerPackage
-            
-            if (packageName != currentDefault) {
-                val intent = Intent(TelecomManager.ACTION_CHANGE_DEFAULT_DIALER).apply {
-                    putExtra(TelecomManager.EXTRA_CHANGE_DEFAULT_DIALER_PACKAGE_NAME, packageName)
-                }
-                try {
-                    roleDialerLauncher.launch(intent)
-                } catch (e: Exception) {
-                    Log.e("MainActivity", "Failed to launch dialer intent", e)
-                }
+        val telecomManager = getSystemService(TELECOM_SERVICE) as TelecomManager
+        val currentDefault = telecomManager.defaultDialerPackage
+        
+        if (packageName != currentDefault) {
+            val intent = Intent(TelecomManager.ACTION_CHANGE_DEFAULT_DIALER).apply {
+                putExtra(TelecomManager.EXTRA_CHANGE_DEFAULT_DIALER_PACKAGE_NAME, packageName)
+            }
+            try {
+                roleDialerLauncher.launch(intent)
+            } catch (e: Exception) {
+                Log.e("MainActivity", "Failed to launch dialer intent", e)
             }
         }
     }
