@@ -46,7 +46,7 @@ class DelayedMessageWorker @AssistedInject constructor(
             Log.e(TAG, "❌ Delayed message failed after $MAX_RETRIES attempts, giving up")
             val phoneNumber = inputData.getString(KEY_PHONE_NUMBER) ?: "unknown"
             val messageText = inputData.getString(KEY_MESSAGE_TEXT) ?: ""
-            showFailureNotification(phoneNumber, messageText)
+            try { showFailureNotification(phoneNumber, messageText) } catch (_: Exception) {}
             return Result.failure()
         }
         

@@ -6,11 +6,11 @@
 
 ## الإحصائيات العامة
 
-| المؤشر | قبل Phase 1 | Phase 1 | Phase 2 | Phase 3 | Phase 4 | Phase 5 | Phase 6 | Phase 7 | Phase 8 | **Phase 9** |
-|--------|-------------|---------|---------|---------|---------|---------|---------|---------|---------|------------|
-| ملفات الاختبار | 17 | 20 | 22 | 25 | 29 | 32 | 42 | 55 | 58 | **68** |
-| اختبارات @Test | 113 | 135 | 202 | 268 | 316 | 366 | 489 | 573 | 605 | **751** |
-| نسبة التغطية | ~7% | ~9% | ~13% | ~17% | ~20% | ~24% | ~32% | ~37% | ~40% | **~49%** |
+| المؤشر | قبل Phase 1 | Phase 1 | Phase 2 | Phase 3 | Phase 4 | Phase 5 | Phase 6 | Phase 7 | Phase 8 | Phase 9 | **Phase 10** |
+|--------|-------------|---------|---------|---------|---------|---------|---------|---------|---------|---------|-------------|
+| ملفات الاختبار | 17 | 20 | 22 | 25 | 29 | 32 | 42 | 55 | 58 | 68 | **75** |
+| اختبارات @Test | 113 | 135 | 202 | 268 | 316 | 366 | 489 | 573 | 605 | 751 | **810** |
+| نسبة التغطية | ~7% | ~9% | ~13% | ~17% | ~20% | ~24% | ~32% | ~37% | ~40% | ~49% | **~53%** |
 
 ---
 
@@ -270,8 +270,68 @@
 | 6: النماذج والمترجمين | ✅ | 6 | 42 |
 | 7: الأخطاء والأداء | ✅ | 10 | 123 |
 | 8: UseCases إضافية | ✅ | 3 | 30 |
-| **9: النماذج والأدوات** | **✅** | **13** | **126** |
-| **إجمالي** | **✅ مكتملة** | **68 ملف** | **751 اختبار** |
+| 9: النماذج والأدوات | ✅ | 13 | 126 |
+| **10: ViewModels و Workers و Robolectric** | **✅** | **7** | **59** |
+| **إجمالي** | **✅ مكتملة** | **75 ملف** | **810 اختبار** |
+
+---
+
+## المرحلة 10: اختبارات ViewModels و Workers (Robolectric) ✅
+
+### 10.1 MainViewModel ✅
+- [x] Initial sync state (completed/not completed)
+- [x] triggerFullSync + loading state transitions
+- [x] cancelSync
+- [x] onResume skip behavior
+- [x] setDialerPhoneNumber / clearDialerPhoneNumber
+- [x] setShouldClearDialerInput / clearDialerInputFlag
+- [x] Error handling during sync
+
+### 10.2 StatisticsViewModel ✅
+- [x] Initial loading + data emission
+- [x] Most frequent contacts
+- [x] Call logs error handling
+- [x] Message count error handling (flow error)
+- [x] State updates on flow emissions
+
+### 10.3 ScheduledMessagesViewModel ✅
+- [x] Load scheduled messages (empty/non-empty)
+- [x] Cancel message + error handling
+- [x] Edit message flow (start/confirm/dismiss)
+- [x] Message item data mapping
+
+### 10.4 PermissionRequestViewModel (Robolectric) ✅
+- [x] All permissions granted state
+- [x] Permissions not granted state
+- [x] RefreshStatus event
+- [x] RequestDefaultApps event
+- [x] Mixed permission states
+
+### 10.5 DelayedMessageWorker ✅
+- [x] Success path (SMS)
+- [x] Failure/retry path
+- [x] Missing phone/message → failure
+- [x] Max retries → failure
+- [x] MMS path (attachments)
+- [x] SIM slot handling
+- [x] Exception → retry
+
+### 10.6 OtpAutoDeleteWorker ✅
+- [x] Not default SMS app → success
+- [x] Auto-delete disabled → success
+- [x] No OTP messages → success
+- [x] Exception → failure
+- [x] WORK_NAME constant
+
+### 10.7 EnhancedNotificationManager (Robolectric) ✅
+- [x] Notification channels created
+- [x] Channel IDs (messages + important)
+- [x] showNewMessageNotification
+- [x] showSmsNotification (normal + hideContent + vibration)
+- [x] cancelNotification / cancelAllNotifications
+- [x] getContactPhoto (null/blank/invalid)
+- [x] Group notification
+- [x] Constants verification
 
 ---
 
@@ -285,10 +345,7 @@
 | CallLogRepositoryImpl | ContentResolver + ContentObserver |
 | SystemQueryHelper | ContentResolver + ContactsContract |
 | All Compose Screens | UI testing framework مطلوب |
-| All ViewModels | Hilt + Navigation مطلوب |
 | All Services | InCallService, ConnectionService |
 | DI Modules | Hilt testing مطلوب |
-| DelayedMessageWorker / OtpAutoDeleteWorker | ContentResolver + WorkManager + notification |
-| EnhancedNotificationManager | NotificationManager + ShortcutManager |
 
-> **ملاحظة**: الأجزاء المتبقية تتطلب **Android Instrumentation Tests** (Robolectric أو Espresso) ولا يمكن اختبارها بـ JVM unit tests عادية.
+> **ملاحظة**: اختبارات ViewModels و Workers و Robolectric تمت الآن. الأجزاء المتبقية تتطلب **Android Instrumentation Tests** على جهاز حقيقي أو **Compose UI Tests**.

@@ -42,14 +42,18 @@ class StatisticsViewModel @Inject constructor(
                     emit(emptyList())
                 }
                 .collect { calls ->
-                    val stats = callGrouper.getCallStatistics(calls)
-                    val frequent = callGrouper.getMostFrequentContacts(calls, 5)
-                    
-                    _uiState.update {
-                        it.copy(
-                            callStats = stats,
-                            frequentContacts = frequent
-                        )
+                    try {
+                        val stats = callGrouper.getCallStatistics(calls)
+                        val frequent = callGrouper.getMostFrequentContacts(calls, 5)
+                        
+                        _uiState.update {
+                            it.copy(
+                                callStats = stats,
+                                frequentContacts = frequent
+                            )
+                        }
+                    } catch (e: Exception) {
+                        Log.e(TAG, "Error processing call statistics", e)
                     }
                 }
         }

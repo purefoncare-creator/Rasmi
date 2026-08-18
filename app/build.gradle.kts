@@ -15,6 +15,11 @@ android {
     // تم التخفيض إلى 35 لضمان استقرار البناء ولتجنب أخطاء حزم المطورين
     compileSdk = 35
 
+    testOptions {
+        unitTests.isReturnDefaultValues = true
+        unitTests.isIncludeAndroidResources = true
+    }
+
     defaultConfig {
         applicationId = "com.rasmi.purevon"
         minSdk = 26
@@ -22,7 +27,7 @@ android {
         versionCode = 27
         versionName = "1.2.7"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.rasmi.purevon.HiltTestRunner"
         
         vectorDrawables {
             useSupportLibrary = true
@@ -271,6 +276,9 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
+    androidTestImplementation(libs.hilt.android.testing)
+    androidTestImplementation(libs.androidx.test.runner)
+    kspAndroidTest(libs.hilt.android.compiler)
     
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
