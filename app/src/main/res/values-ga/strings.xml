@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="nav_back">Ar ais</string>
+  <string name="add_contact_choose_method">Cuir Teagmháil leis</string>
+  <string name="add_contact_manual">Cuir le Lámh</string>
+  <string name="add_contact_via_qr">Cuir le Cód QR</string>
+  <string name="dialer_active_call_title">Glao Gníomhach</string>
+  <string name="dialer_active_call_expand">Scáileán Iomlán</string>
+  <string name="dialer_recent">Le déanaí</string>
+  <string name="dialer_no_recent">Gníomhaíocht le déanaí ar bith</string>
+  <string name="dialer_results">Torthaí</string>
+  <string name="incall_mute">Bodhaigh</string>
+  <string name="incall_speaker">Cainteoir</string>
+  <string name="my_card_title">Mo Cháirt</string>
+  <string name="my_card_desc">Cruthaigh do cháirt phearsanta agus roinn le duine ar bith</string>
+  <string name="my_card_edit">Cuir in eagar</string>
+  <string name="my_card_saved">Cáirt shábháilte</string>
+  <string name="my_card_share">Roinn</string>
+  <string name="qr_scan_title">Scán cód teagmhála</string>
+  <string name="qr_camera_permission">Teastaíonn cead ceamara chun cód a scánáil</string>
+  <string name="invalid_qr_code">Cód QR neamhbhailíoch</string>
+  <string name="call_blocking_block_unknown">Bac uimhreacha anaithnideacha / práobhsáideacha</string>
+  <string name="call_blocking_block_unknown_desc">Diúcaigh glaonna ó uimhreacha nach bhfuil i dteagmhálaí</string>
+  <string name="call_blocking_whitelist_only">Mód liosta bán amháin</string>
+  <string name="call_blocking_whitelist_only_desc">Bac gach rud seachas uimhreacha ar an liosta bán</string>
+  <string name="call_blocking_whitelist_only_warning">⚠ Beidh gach glao nach bhfuil ar do liosta bán bac!</string>
+  <string name="notification_ongoing_call_channel">Gleanha leanúnach</string>
+  <string name="notification_ongoing_call_channel_desc">Fásacháin buan do ghlao gniomhach nuair a bhíon an scáileán druidte</string>
+  <string name="notification_ongoing_call_title">Gleanha leanúnach</string>
+  <string name="delete_note_title">Scrios Nóta</string>
+  <string name="delete_note_message">An dteastaíonn uait an nóta seo a scriosadh?</string>
+  <string name="stat_title">Staitisticí</string>
+  <string name="stat_call_statistics">Staitisticí Glaonna</string>
+  <string name="stat_message_statistics">Staitisticí Teachtaireachtaí</string>
+  <string name="stat_total_calls">Glaonna Iomlán</string>
+  <string name="stat_total_messages">Teachtaireachtaí Iomlán</string>
+  <string name="stat_total_duration">Fad Iomlán</string>
+  <string name="stat_average_duration">Fad Meán</string>
+  <string name="stat_incoming">Ag teacht isteach</string>
+  <string name="stat_outgoing">Ag fágáil</string>
+  <string name="stat_missed">Caillte</string>
+  <string name="stat_received">Faighte</string>
+  <string name="stat_sent">Seolta</string>
+  <string name="stat_blocked">Bactha</string>
+  <string name="stat_frequent_contacts">Teagmhálaí minic glao</string>
+  <string name="stat_contact_calls_duration">%1 glao • %2</string>
+</resources>

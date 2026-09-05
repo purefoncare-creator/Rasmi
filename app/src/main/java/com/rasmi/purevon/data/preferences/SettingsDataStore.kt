@@ -26,10 +26,7 @@ class SettingsDataStore @Inject constructor(
     private val dataStore = context.dataStore
     
     companion object {
-        // Appearance
-        private val DARK_MODE = booleanPreferencesKey("dark_mode")
-        private val AUTO_THEME = booleanPreferencesKey("auto_theme")
-        private val THEME_COLOR = stringPreferencesKey("theme_color")
+        // ✅ FIX M40: أزيل مفاتيح dark_mode/auto_theme/theme_color — الهوية موحدة داكنة
         
         // Layout Direction
         private val RTL_ENABLED = booleanPreferencesKey("rtl_enabled")
@@ -42,7 +39,6 @@ class SettingsDataStore @Inject constructor(
         private val SMS_SIM_ASK_MODE = booleanPreferencesKey("sms_sim_ask_mode") // ✅ وضع ASK للرسائل
         private val VIBRATE_ON_CALL = booleanPreferencesKey("vibrate_on_call")
         private val SHOW_CALL_NOTES = booleanPreferencesKey("show_call_notes")
-        private val INCOMING_CALL_BANNER_ONLY = booleanPreferencesKey("incoming_call_banner_only")
         
         // Message Settings
         private val SMART_REPLY_ENABLED = booleanPreferencesKey("smart_reply_enabled")
@@ -86,12 +82,15 @@ class SettingsDataStore @Inject constructor(
 
         // App Language
         private val APP_LANGUAGE = stringPreferencesKey("app_language")
+
+        // ✅ VIRAL #4: بطاقتي
+        private val MY_CARD_FIRST_NAME = stringPreferencesKey("my_card_first_name")
+        private val MY_CARD_LAST_NAME = stringPreferencesKey("my_card_last_name")
+        private val MY_CARD_PHONE = stringPreferencesKey("my_card_phone")
+        private val MY_CARD_EMAIL = stringPreferencesKey("my_card_email")
+        private val MY_CARD_COMPANY = stringPreferencesKey("my_card_company")
     }
     
-    // Appearance Settings
-    val isDarkMode: Flow<Boolean> = dataStore.data.map { it[DARK_MODE] ?: false }
-    val isAutoTheme: Flow<Boolean> = dataStore.data.map { it[AUTO_THEME] ?: true }
-    val themeColor: Flow<String> = dataStore.data.map { it[THEME_COLOR] ?: "blue" }
     
     // App Language
     val appLanguage: Flow<String> = dataStore.data.map { it[APP_LANGUAGE] ?: "system" }
@@ -110,18 +109,6 @@ class SettingsDataStore @Inject constructor(
         }
     }
     
-    suspend fun setDarkMode(enabled: Boolean) {
-        dataStore.edit { it[DARK_MODE] = enabled }
-    }
-    
-    suspend fun setAutoTheme(enabled: Boolean) {
-        dataStore.edit { it[AUTO_THEME] = enabled }
-    }
-    
-    suspend fun setThemeColor(color: String) {
-        dataStore.edit { it[THEME_COLOR] = color }
-    }
-    
     // Layout Direction Settings (RTL)
     val isRtlEnabled: Flow<Boolean> = dataStore.data.map { it[RTL_ENABLED] ?: false }
 
@@ -137,7 +124,6 @@ class SettingsDataStore @Inject constructor(
     val isSmsSimAskMode: Flow<Boolean> = dataStore.data.map { it[SMS_SIM_ASK_MODE] ?: false } // ✅ وضع ASK للرسائل
     val vibrateOnCall: Flow<Boolean> = dataStore.data.map { it[VIBRATE_ON_CALL] ?: true }
     val showCallNotes: Flow<Boolean> = dataStore.data.map { it[SHOW_CALL_NOTES] ?: true }
-    val incomingCallBannerOnly: Flow<Boolean> = dataStore.data.map { it[INCOMING_CALL_BANNER_ONLY] ?: false }
     
     suspend fun setDefaultSimSlot(slot: Int) {
         dataStore.edit { it[DEFAULT_SIM_SLOT] = slot }
@@ -165,10 +151,6 @@ class SettingsDataStore @Inject constructor(
     
     suspend fun setShowCallNotes(enabled: Boolean) {
         dataStore.edit { it[SHOW_CALL_NOTES] = enabled }
-    }
-    
-    suspend fun setIncomingCallBannerOnly(enabled: Boolean) {
-        dataStore.edit { it[INCOMING_CALL_BANNER_ONLY] = enabled }
     }
     
     // Message Settings
@@ -302,10 +284,30 @@ class SettingsDataStore @Inject constructor(
     suspend fun setOnboardingCompleted(completed: Boolean) {
         dataStore.edit { it[ONBOARDING_COMPLETED] = completed }
     }
-    
-    // Alias methods for easier access
-    val autoTheme: Flow<Boolean> get() = isAutoTheme
-    val darkMode: Flow<Boolean> get() = isDarkMode
+
+    // ✅ VIRAL #4: بيانات بطاقتي
+    val myCardFirstName: Flow<String> = dataStore.data.map { it[MY_CARD_FIRST_NAME] ?: "" }
+    val myCardLastName: Flow<String> = dataStore.data.map { it[MY_CARD_LAST_NAME] ?: "" }
+    val myCardPhone: Flow<String> = dataStore.data.map { it[MY_CARD_PHONE] ?: "" }
+    val myCardEmail: Flow<String> = dataStore.data.map { it[MY_CARD_EMAIL] ?: "" }
+    val myCardCompany: Flow<String> = dataStore.data.map { it[MY_CARD_COMPANY] ?: "" }
+
+    /** حفظ كل حقول البطاقة دفعة واحدة (ذرّي) */
+    suspend fun saveMyCard(
+        firstName: String,
+        lastName: String,
+        phone: String,
+        email: String,
+        company: String
+    ) {
+        dataStore.edit {
+            it[MY_CARD_FIRST_NAME] = firstName.trim()
+            it[MY_CARD_LAST_NAME] = lastName.trim()
+            it[MY_CARD_PHONE] = phone.trim()
+            it[MY_CARD_EMAIL] = email.trim()
+            it[MY_CARD_COMPANY] = company.trim()
+        }
+    }
 
     // Clear all settings
     suspend fun clearAll() {

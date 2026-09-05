@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="nav_back">ପଛକୁ</string>
+  <string name="add_contact_choose_method">ସଂପର୍କ ଯୋଗ କରନ୍ତୁ</string>
+  <string name="add_contact_manual">ହାତରେ ଯୋଗ କରନ୍ତୁ</string>
+  <string name="add_contact_via_qr">QR କୋଡ୍ ମାଧ୍ୟମରେ ଯୋଗ କରନ୍ତୁ</string>
+  <string name="dialer_active_call_title">ସକ୍ରିୟ କଲ୍</string>
+  <string name="dialer_active_call_expand">ସମ୍ପୂର୍ଣ୍ଣ ସ୍କ୍ରିନ୍</string>
+  <string name="dialer_recent">ସାମ୍ପ୍ରତିକ</string>
+  <string name="dialer_no_recent">ସାମ୍ପ୍ରତିକ କାର୍ଯ୍ୟକଳାପ ନାହିଁ</string>
+  <string name="dialer_results">ଫଳାଫଳ</string>
+  <string name="incall_mute">ନିରବ</string>
+  <string name="incall_speaker">ସ୍ପିକର</string>
+  <string name="my_card_title">ମୋ କାର୍ଡ</string>
+  <string name="my_card_desc">ଆପଣଙ୍କ ବ୍ୟକ୍ତିଗତ କାର୍ଡ ସୃଷ୍ଟି କରନ୍ତୁ ଏବଂ ଯେ କୌଣସି ବ୍ୟକ୍ତି ସହ ସେୟାର କରନ୍ତୁ</string>
+  <string name="my_card_edit">ସମ୍ପାଦନ କରନ୍ତୁ</string>
+  <string name="my_card_saved">କାର୍ଡ ସୁରକ୍ଷିତ</string>
+  <string name="my_card_share">ସେୟାର କରନ୍ତୁ</string>
+  <string name="qr_scan_title">ସଂପର୍କ କୋଡ୍ ସ୍କାନ୍ କରନ୍ତୁ</string>
+  <string name="qr_camera_permission">କୋଡ୍ ସ୍କାନ୍ କରିବାକୁ କ୍ୟାମେରା ଅନୁମତି ଆବଶ୍ୟକ</string>
+  <string name="invalid_qr_code">ଅବୈଧ QR କୋଡ୍</string>
+  <string name="call_blocking_block_unknown">ଅଜଣା / ବ୍ୟକ୍ତିଗତ ନମ୍ବର ଅବରୋଧ କରନ୍ତୁ</string>
+  <string name="call_blocking_block_unknown_desc">ସଂପର୍କରେ ନଥିବା ନମ୍ବରରୁ ଆସୁଥିବା କଲ୍ ଅସ୍ୱୀକାର କରନ୍ତୁ</string>
+  <string name="call_blocking_whitelist_only">କେବଳ ଧଳା ତାଲିକା ମୋଡ୍</string>
+  <string name="call_blocking_whitelist_only_desc">ଧଳା ତାଲିକାରେ ଥିବା ନମ୍ବର ବ୍ୟତୀତ ସବୁ ଅବରୋଧ କରନ୍ତୁ</string>
+  <string name="call_blocking_whitelist_only_warning">⚠ ଆପଣଙ୍କ ଧଳା ତାଲିକାରେ ନଥିବା ପ୍ରତ୍ୟେକ କଲ୍ ଅବରୋଧ ହେବ!</string>
+  <string name="notification_ongoing_call_channel">ଚାଲୁଥିବା କଲ୍</string>
+  <string name="notification_ongoing_call_channel_desc">ସ୍କ୍ରିନ୍ ବନ୍ଦ ହେଲେ ସକ୍ରିୟ କଲ୍ ପାଇଁ ସ୍ଥାୟୀ ବିଜ୍ଞପ୍ତି</string>
+  <string name="notification_ongoing_call_title">ଚାଲୁଥିବା କଲ୍</string>
+  <string name="delete_note_title">ନୋଟ ବିଲୋପ</string>
+  <string name="delete_note_message">ଆପଣ ଏହି ନୋଟ ବିଲୋପ କରିବାକୁ ଚାହୁଁଛନ୍ତି କି?</string>
+  <string name="stat_title">ପରିସଂଖ୍ୟାନ</string>
+  <string name="stat_call_statistics">କଲ୍ ପରିସଂଖ୍ୟାନ</string>
+  <string name="stat_message_statistics">ବାର୍ତ୍ତା ପରିସଂଖ୍ୟାନ</string>
+  <string name="stat_total_calls">ମୋଟ କଲ୍</string>
+  <string name="stat_total_messages">ମୋଟ ବାର୍ତ୍ତା</string>
+  <string name="stat_total_duration">ମୋଟ ସମୟ</string>
+  <string name="stat_average_duration">ହାରାହାରି ସମୟ</string>
+  <string name="stat_incoming">ଆସୁଥିବା</string>
+  <string name="stat_outgoing">ଯାଉଥିବା</string>
+  <string name="stat_missed">ମିସ୍</string>
+  <string name="stat_received">ଗ୍ରହଣ</string>
+  <string name="stat_sent">ପଠାଗଲା</string>
+  <string name="stat_blocked">ଅବରୋଧ</string>
+  <string name="stat_frequent_contacts">ବାରମ୍ବାର କଲ୍ କରୁଥିବା ସଂପର୍କ</string>
+  <string name="stat_contact_calls_duration">%1$d କଲ୍ • %2$s</string>
+</resources>

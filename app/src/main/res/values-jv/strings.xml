@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="nav_back">Bali</string>
+  <string name="add_contact_choose_method">Tambahake Kontak</string>
+  <string name="add_contact_manual">Tambahake Kanthi Tangan</string>
+  <string name="add_contact_via_qr">Tambahake Liwat Kode QR</string>
+  <string name="dialer_active_call_title">Telpon Aktif</string>
+  <string name="dialer_active_call_expand">Layar Sédéyèng</string>
+  <string name="dialer_recent">Pungkasan</string>
+  <string name="dialer_no_recent">Ora ana kegiyatan pungkasan</string>
+  <string name="dialer_results">Asil</string>
+  <string name="incall_mute">Bisu</string>
+  <string name="incall_speaker">Speaker</string>
+  <string name="my_card_title">Kartu Kula</string>
+  <string name="my_card_desc">Gawé kartu pribadi sampeyan lan barengake karo sapa wae</string>
+  <string name="my_card_edit">Owahi</string>
+  <string name="my_card_saved">Kartu wis disimpen</string>
+  <string name="my_card_share">Barengake</string>
+  <string name="qr_scan_title">Pindai kode kontak</string>
+  <string name="qr_camera_permission">Ijin kamera dibutuhake kanggo pindai kode</string>
+  <string name="invalid_qr_code">Kode QR ora valid</string>
+  <string name="call_blocking_block_unknown">Blokir nomer ora dikenal / pribadi</string>
+  <string name="call_blocking_block_unknown_desc">Tolak telpon saka nomer sing ora ana ing kontak</string>
+  <string name="call_blocking_whitelist_only">Mode dhaptar putih mung</string>
+  <string name="call_blocking_whitelist_only_desc">Blokir kabeh kajaba nomer ing dhaptar putih</string>
+  <string name="call_blocking_whitelist_only_warning">⚠ Kabeh telpon sing ora ana ing dhaptar putih sampeyan bakal diblokir!</string>
+  <string name="notification_ongoing_call_channel">Telpon Terusan</string>
+  <string name="notification_ongoing_call_channel_desc">Notifikasi tetep kanggo telpon aktif nalika layar ditutup</string>
+  <string name="notification_ongoing_call_title">Telpon Terusan</string>
+  <string name="delete_note_title">Busak Catetan</string>
+  <string name="delete_note_message">Apa sampeyan pengin busak catetan iki?</string>
+  <string name="stat_title">Statistik</string>
+  <string name="stat_call_statistics">Statistik Telpon</string>
+  <string name="stat_message_statistics">Statistik Pesen</string>
+  <string name="stat_total_calls">Total Telpon</string>
+  <string name="stat_total_messages">Total Pesen</string>
+  <string name="stat_total_duration">Total Wektu</string>
+  <string name="stat_average_duration">Rata-rata Wektu</string>
+  <string name="stat_incoming">Mlebu</string>
+  <string name="stat_outgoing">Metu</string>
+  <string name="stat_missed">Kelewat</string>
+  <string name="stat_received">Ditampa</string>
+  <string name="stat_sent">Dikirim</string>
+  <string name="stat_blocked">Diblokir</string>
+  <string name="stat_frequent_contacts">Kontak sing sering diwenehana</string>
+  <string name="stat_contact_calls_duration">%1$d telpon • %2$s</string>
+</resources>

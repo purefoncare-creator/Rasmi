@@ -25,6 +25,7 @@ sealed interface Screen {
         val phoneNumber: String? = null,
         val name: String? = null,
         val email: String? = null,
+        val company: String? = null,
         val contactId: Long = -1L // -1 means new contact (no edit)
     ) : Screen
     @Serializable data class NewConversation(val phoneNumber: String? = null) : Screen
@@ -33,6 +34,7 @@ sealed interface Screen {
         val scrollToMessageId: Long = -1L // -1 means no scroll
     ) : Screen
     @Serializable data object InCall : Screen
+    @Serializable data object QrScanContact : Screen
 
     // Settings sub-screens
     @Serializable data object AboutScreen : Screen

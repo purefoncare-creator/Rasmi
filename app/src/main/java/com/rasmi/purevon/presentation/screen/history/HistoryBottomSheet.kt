@@ -31,12 +31,10 @@ import androidx.compose.ui.unit.sp
 import com.rasmi.purevon.R
 import com.rasmi.purevon.domain.model.CallLog
 import com.rasmi.purevon.domain.model.ContactNote
-import com.rasmi.purevon.presentation.theme.iOSBlue
-import com.rasmi.purevon.presentation.theme.iOSGreen
-import com.rasmi.purevon.presentation.theme.errorColor
-import com.rasmi.purevon.presentation.theme.infoColor
-import com.rasmi.purevon.presentation.theme.successColor
-import com.rasmi.purevon.presentation.theme.warningColor
+import com.rasmi.purevon.presentation.theme.PurevonTertiary
+import com.rasmi.purevon.presentation.theme.PurevonSecondary
+import com.rasmi.purevon.presentation.theme.PurevonError
+import com.rasmi.purevon.presentation.theme.PurevonWarning
 import com.rasmi.purevon.util.PhoneUtil
 import java.time.Instant
 import java.time.ZoneId
@@ -156,19 +154,19 @@ internal fun UnknownNumberBottomSheet(
                 QuickActionItem(
                     icon = Icons.Default.Call,
                     label = stringResource(R.string.history_action_call),
-                    color = successColor(),
+                    color = PurevonSecondary,
                     onClick = onCall
                 )
                 QuickActionItem(
                     icon = Icons.AutoMirrored.Filled.Message,
                     label = stringResource(R.string.history_action_message),
-                    color = infoColor(),
+                    color = PurevonTertiary,
                     onClick = onMessage
                 )
                 QuickActionItem(
                     icon = Icons.Default.PersonAdd,
                     label = stringResource(R.string.history_add_action),
-                    color = infoColor(),
+                    color = PurevonTertiary,
                     onClick = onAddContact
                 )
             }
@@ -229,7 +227,7 @@ internal fun UnknownNumberBottomSheet(
                                     Icon(
                                         imageVector = if (note.isIncoming) Icons.AutoMirrored.Filled.CallReceived else Icons.AutoMirrored.Filled.CallMade,
                                         contentDescription = null,
-                                        tint = if (note.isIncoming) iOSGreen else iOSBlue,
+                                        tint = if (note.isIncoming) PurevonSecondary else PurevonTertiary,
                                         modifier = Modifier.size(12.dp)
                                     )
                                     Spacer(modifier = Modifier.width(4.dp))
@@ -273,14 +271,14 @@ internal fun UnknownNumberBottomSheet(
             BottomSheetOption(
                 icon = Icons.Default.Block,
                 label = stringResource(R.string.history_block_number),
-                color = warningColor(),
+                color = PurevonWarning,
                 onClick = onBlock
             )
 
             BottomSheetOption(
                 icon = Icons.Default.Delete,
                 label = stringResource(R.string.history_delete_from_history),
-                color = errorColor(),
+                color = PurevonError,
                 onClick = onDelete
             )
         }

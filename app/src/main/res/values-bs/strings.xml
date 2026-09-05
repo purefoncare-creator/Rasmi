@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="nav_back">Nazad</string>
+  <string name="add_contact_choose_method">Dodaj Kontakt</string>
+  <string name="add_contact_manual">Dodaj Ručno</string>
+  <string name="add_contact_via_qr">Dodaj putem QR Koda</string>
+  <string name="dialer_active_call_title">Aktivni Poziv</string>
+  <string name="dialer_active_call_expand">Puni Ekran</string>
+  <string name="dialer_recent">Nedavni</string>
+  <string name="dialer_no_recent">Nema nedavne aktivnosti</string>
+  <string name="dialer_results">Rezultati</string>
+  <string name="incall_mute">Tišina</string>
+  <string name="incall_speaker">Zvučnik</string>
+  <string name="my_card_title">Moja Kartica</string>
+  <string name="my_card_desc">Kreirajte svoju ličnu karticu i podijelite je sa bilo kim</string>
+  <string name="my_card_edit">Uredi</string>
+  <string name="my_card_saved">Kartica sačuvana</string>
+  <string name="my_card_share">Podijeli</string>
+  <string name="qr_scan_title">Skeniraj kod kontakta</string>
+  <string name="qr_camera_permission">Potrebna je dozvola kamere za skeniranje koda</string>
+  <string name="invalid_qr_code">Nevažeći QR Kod</string>
+  <string name="call_blocking_block_unknown">Blokiraj nepoznate / privatne brojeve</string>
+  <string name="call_blocking_block_unknown_desc">Odbij pozive sa brojeva koji nisu u kontaktima</string>
+  <string name="call_blocking_whitelist_only">Samo bijela lista režim</string>
+  <string name="call_blocking_whitelist_only_desc">Blokiraj sve osim brojeva iz bijele liste</string>
+  <string name="call_blocking_whitelist_only_warning">⚠ Svi pozivi koji nisu na vašoj bijeloj listi će biti blokirani!</string>
+  <string name="notification_ongoing_call_channel">Tekući poziv</string>
+  <string name="notification_ongoing_call_channel_desc">Trajno obavještenje za aktivni poziv kada je ekran zatvoren</string>
+  <string name="notification_ongoing_call_title">Tekući poziv</string>
+  <string name="delete_note_title">Obriši Bilješku</string>
+  <string name="delete_note_message">Da li ste sigurni da želite obrisati ovu bilješku?</string>
+  <string name="stat_title">Statistika</string>
+  <string name="stat_call_statistics">Statistika Poziva</string>
+  <string name="stat_message_statistics">Statistika Poruka</string>
+  <string name="stat_total_calls">Ukupno Poziva</string>
+  <string name="stat_total_messages">Ukupno Poruka</string>
+  <string name="stat_total_duration">Ukupno Trajanje</string>
+  <string name="stat_average_duration">Prosječno Trajanje</string>
+  <string name="stat_incoming">Dolazni</string>
+  <string name="stat_outgoing">Odlazni</string>
+  <string name="stat_missed">Propušteni</string>
+  <string name="stat_received">Primljeni</string>
+  <string name="stat_sent">Poslani</string>
+  <string name="stat_blocked">Blokirani</string>
+  <string name="stat_frequent_contacts">Najčešći kontakti za pozive</string>
+  <string name="stat_contact_calls_duration">%1$d poziva • %2$s</string>
+</resources>

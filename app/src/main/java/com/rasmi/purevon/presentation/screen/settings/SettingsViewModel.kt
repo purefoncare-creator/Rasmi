@@ -27,6 +27,7 @@ import com.rasmi.purevon.util.RtlPreferences
 import com.rasmi.purevon.util.sim.SimManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import com.rasmi.purevon.R
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -56,6 +57,7 @@ class SettingsViewModel @Inject constructor(
     init {
         observeSettings()
         observeOtpEnabled()
+        observeMyCard()
         loadAvailableSims()
         observeBlockedAndWhitelist()
         // ✅ Fix DD: Contacts loaded lazily when blocked/whitelist dialog opens
@@ -75,8 +77,6 @@ class SettingsViewModel @Inject constructor(
      * Helper data classes for collecting settings flows
      */
     private data class BasicSettings(
-        val isDarkMode: Boolean,
-        val autoTheme: Boolean,
         val defaultSimSlot: Int,
         val defaultSimSubscriptionId: Int,
         val defaultSmsSimSubscriptionId: Int,
@@ -91,7 +91,8 @@ class SettingsViewModel @Inject constructor(
     private data class FeatureSettings(
         val callBlockingEnabled: Boolean,
         val callBlockingSimSubscriptionId: Int,
-        val incomingCallBannerOnly: Boolean
+        val blockUnknownNumbers: Boolean = false,
+        val whitelistOnlyMode: Boolean = false
     )
     
     private data class AllSettings(
@@ -103,9 +104,8 @@ class SettingsViewModel @Inject constructor(
     private fun observeSettings() {
         viewModelScope.launch {
             // Observe basic settings
+            // ✅ FIX M40: أزيل isDarkMode/isAutoTheme من المجموعة
             combine(
-                settingsDataStore.isDarkMode,
-                settingsDataStore.isAutoTheme,
                 settingsDataStore.defaultSimSlot,
                 settingsDataStore.defaultSimSubscriptionId,
                 settingsDataStore.defaultSmsSimSubscriptionId,
@@ -113,13 +113,11 @@ class SettingsViewModel @Inject constructor(
                 settingsDataStore.appLanguage
             ) { values ->
                 BasicSettings(
-                    values[0] as Boolean,
-                    values[1] as Boolean,
+                    values[0] as Int,
+                    values[1] as Int,
                     values[2] as Int,
-                    values[3] as Int,
-                    values[4] as Int,
-                    values[5] as Boolean,
-                    values[6] as String
+                    values[3] as Boolean,
+                    values[4] as String
                 )
             }.combine(
                 settingsDataStore.hideSensitiveNotifications.map { NotificationSettings(it) }
@@ -127,8 +125,11 @@ class SettingsViewModel @Inject constructor(
                 combine(
                     settingsDataStore.callBlockingEnabled,
                     settingsDataStore.callBlockingSimSubscriptionId,
-                    settingsDataStore.incomingCallBannerOnly
-                ) { blocking, scope, banner -> FeatureSettings(blocking, scope, banner) }
+                    settingsDataStore.blockUnknownNumbers,
+                    settingsDataStore.whitelistOnlyMode
+                ) { blocking, scope, blockUnknown, whitelistOnly ->
+                    FeatureSettings(blocking, scope, blockUnknown, whitelistOnly)
+                }
             ) { pair, features ->
                 AllSettings(pair.first, pair.second, features)
             }.collect { allSettings ->
@@ -136,8 +137,6 @@ class SettingsViewModel @Inject constructor(
                 
                 _uiState.update { current ->
                     current.copy(
-                        isDarkMode = allSettings.basic.isDarkMode,
-                        autoTheme = allSettings.basic.autoTheme,
                         isRtlEnabled = allSettings.basic.isRtlEnabled,
                         appLanguage = allSettings.basic.appLanguage,
                         defaultSimSlot = allSettings.basic.defaultSimSlot,
@@ -148,7 +147,8 @@ class SettingsViewModel @Inject constructor(
                         version = BuildConfig.VERSION_NAME,
                         callBlockingEnabled = allSettings.features.callBlockingEnabled,
                         callBlockingSimSubscriptionId = allSettings.features.callBlockingSimSubscriptionId,
-                        incomingCallBannerOnly = allSettings.features.incomingCallBannerOnly
+                        blockUnknownNumbers = allSettings.features.blockUnknownNumbers,
+                        whitelistOnlyMode = allSettings.features.whitelistOnlyMode
                     )
                 }
             }
@@ -161,6 +161,35 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch {
             settingsDataStore.otpAutoCopyEnabled.collect { enabled ->
                 _uiState.update { it.copy(otpEnabled = enabled) }
+            }
+        }
+    }
+
+    // ✅ VIRAL #4: بيانات بطاقتي
+    private fun observeMyCard() {
+        viewModelScope.launch {
+            settingsDataStore.myCardFirstName.collect { v ->
+                _uiState.update { it.copy(myCardFirstName = v) }
+            }
+        }
+        viewModelScope.launch {
+            settingsDataStore.myCardLastName.collect { v ->
+                _uiState.update { it.copy(myCardLastName = v) }
+            }
+        }
+        viewModelScope.launch {
+            settingsDataStore.myCardPhone.collect { v ->
+                _uiState.update { it.copy(myCardPhone = v) }
+            }
+        }
+        viewModelScope.launch {
+            settingsDataStore.myCardEmail.collect { v ->
+                _uiState.update { it.copy(myCardEmail = v) }
+            }
+        }
+        viewModelScope.launch {
+            settingsDataStore.myCardCompany.collect { v ->
+                _uiState.update { it.copy(myCardCompany = v) }
             }
         }
     }
@@ -235,12 +264,7 @@ class SettingsViewModel @Inject constructor(
     fun onEvent(event: SettingsUiEvent) {
         viewModelScope.launch {
             when (event) {
-                is SettingsUiEvent.ThemeChanged -> {
-                    settingsDataStore.setDarkMode(event.isDark)
-                }
-                is SettingsUiEvent.AutoThemeToggled -> {
-                    settingsDataStore.setAutoTheme(event.enabled)
-                }
+                // ✅ FIX M40: أزيل معالجي ThemeChanged/AutoThemeToggled
                 // Layout Direction (RTL)
                 is SettingsUiEvent.RtlToggled -> {
                     settingsDataStore.setRtlEnabled(event.enabled)
@@ -302,13 +326,45 @@ class SettingsViewModel @Inject constructor(
                 SettingsUiEvent.HideCallBlockingSimSelector -> {
                     _uiState.update { it.copy(showCallBlockingSimSelectorDialog = false) }
                 }
-                // Incoming Call Banner
-                is SettingsUiEvent.IncomingCallBannerOnlyToggled -> {
-                    settingsDataStore.setIncomingCallBannerOnly(event.enabled)
+                // ✅ FIX M32b: نافذة إعدادات الحظر — لا يُطبق شيء حتى Save
+                SettingsUiEvent.ShowCallBlockingSettings -> {
+                    _uiState.update { it.copy(showCallBlockingSettingsDialog = true) }
+                }
+                SettingsUiEvent.HideCallBlockingSettings -> {
+                    _uiState.update { it.copy(showCallBlockingSettingsDialog = false) }
+                }
+                is SettingsUiEvent.SaveCallBlockingSettings -> {
+                    settingsDataStore.setCallBlockingEnabled(event.enabled)
+                    settingsDataStore.setBlockUnknownNumbers(event.blockUnknown)
+                    settingsDataStore.setWhitelistOnlyMode(event.whitelistOnly)
+                    settingsDataStore.setCallBlockingSimSubscriptionId(event.simSubscriptionId)
+                    _uiState.update {
+                        it.copy(
+                            showCallBlockingSettingsDialog = false,
+                            successMessage = null
+                        )
+                    }
                 }
                 // OTP Events
                 is SettingsUiEvent.OtpToggled -> {
                     settingsDataStore.setOtpAutoCopyEnabled(event.enabled)
+                }
+                // ✅ VIRAL #4: بطاقتي
+                SettingsUiEvent.ShowMyCardDialog -> {
+                    _uiState.update { it.copy(showMyCardDialog = true) }
+                }
+                SettingsUiEvent.HideMyCardDialog -> {
+                    _uiState.update { it.copy(showMyCardDialog = false) }
+                }
+                is SettingsUiEvent.SaveMyCard -> {
+                    settingsDataStore.saveMyCard(
+                        event.firstName, event.lastName, event.phone,
+                        event.email, event.company
+                    )
+                    // ✅ يبقى الحوار مفتوحًا لتشارك البطاقة فورًا
+                    _uiState.update {
+                        it.copy(successMessage = context.getString(R.string.my_card_saved))
+                    }
                 }
                 SettingsUiEvent.ShowBlockedList -> {
                     loadContactsAndRecentCalls() // ✅ lazy load on first open

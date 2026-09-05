@@ -16,6 +16,10 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import java.text.DateFormat
+import java.util.Date
+import java.util.Locale
+import java.util.concurrent.TimeUnit
 
 /**
  * Single suggestion row for the recipient autocomplete dropdown.
@@ -40,9 +44,10 @@ internal fun RecipientSuggestionItem(
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             // Avatar placeholder
-            com.rasmi.purevon.presentation.component.UnifiedContactAvatar(
+            com.rasmi.purevon.presentation.component.FavoriteContactAvatar(
                 size = 40.dp,
-                photoUri = suggestion.photoUri
+                photoUri = suggestion.photoUri,
+                isFavorite = suggestion.isFavorite
             )
 
             // Name + phone
@@ -91,16 +96,54 @@ internal fun isSameDay(ts1: Long, ts2: Long): Boolean {
     return d1 == d2
 }
 
-/** Format a timestamp into a user-friendly date label */
-internal fun formatDateLabel(timestamp: Long, todayLabel: String, yesterdayLabel: String): String {
-    val date = java.time.Instant.ofEpochMilli(timestamp).atZone(java.time.ZoneId.systemDefault()).toLocalDate()
+/**
+ * Wire-style date divider formatting.
+ * Returns UPPERCASED string based on time difference from now.
+ */
+internal fun formatDateLabelWire(timestamp: Long): String {
+    val now = System.currentTimeMillis()
+    val diffMs = now - timestamp
+    val diffMinutes = TimeUnit.MILLISECONDS.toMinutes(diffMs)
+    val diffHours = TimeUnit.MILLISECONDS.toHours(diffMs)
+    val diffDays = TimeUnit.MILLISECONDS.toDays(diffMs)
+
+    val messageDate = java.time.Instant.ofEpochMilli(timestamp)
+        .atZone(java.time.ZoneId.systemDefault()).toLocalDate()
     val today = java.time.LocalDate.now()
-    return if (date == today) {
-        todayLabel
-    } else {
-        val year = date.year
-        val month = String.format(java.util.Locale.ENGLISH, "%02d", date.monthValue)
-        val day = String.format(java.util.Locale.ENGLISH, "%02d", date.dayOfMonth)
-        "$year\\$month\\$day"
+    val yesterday = today.minusDays(1)
+
+    return when {
+        // < 1 minute: "Just now"
+        diffMinutes < 1 -> "JUST NOW"
+        // 1-30 minutes: "X min ago"
+        diffMinutes <= 30 -> "${diffMinutes} MIN AGO"
+        // Same day (>30 min): "Today"
+        messageDate == today -> "TODAY"
+        // Yesterday: "Yesterday"
+        messageDate == yesterday -> "YESTERDAY"
+        // Within 7 days: "Tuesday, August 19"
+        diffDays <= 7 -> {
+            val formatter = DateFormat.getDateInstance(DateFormat.LONG, Locale.getDefault())
+            formatter.format(Date(timestamp)).uppercase(Locale.getDefault())
+        }
+        // Same year: "August 19"
+        messageDate.year == today.year -> {
+            val formatter = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault())
+            formatter.format(Date(timestamp)).uppercase(Locale.getDefault())
+        }
+        // Different year: "August 19, 2024"
+        else -> {
+            val formatter = DateFormat.getDateInstance(DateFormat.DEFAULT, Locale.getDefault())
+            formatter.format(Date(timestamp)).uppercase(Locale.getDefault())
+        }
     }
+}
+
+/**
+ * Format a timestamp for individual message display (Wire-style).
+ * Uses DateFormat.SHORT for locale-dependent time (e.g., "6:02 PM" or "18:02").
+ */
+internal fun formatMessageTimeWire(timestamp: Long): String {
+    val formatter = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault())
+    return formatter.format(Date(timestamp))
 }

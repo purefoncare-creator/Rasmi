@@ -16,7 +16,9 @@ object InCallServiceConstants {
     const val CHANNEL_ID_INCOMING = "purevon_incoming_calls_v2"
     const val CHANNEL_ID_ONGOING = "purevon_ongoing_calls_v4"
     const val CHANNEL_ID_INCOMING_SILENT = "purevon_incoming_silent_v1"
+    const val CHANNEL_ID_ONGOING_ACTIVE = "purevon_ongoing_active_v2"
     const val NOTIFICATION_ID = 1
+    const val NOTIFICATION_ID_ONGOING_ACTIVE = 2
 
     fun getStateName(state: Int): String {
         return when (state) {
@@ -72,6 +74,28 @@ internal fun PurevonInCallService.lookupContactName(phoneNumber: String?): Strin
         }
     } catch (e: Exception) {
         Log.e("PurevonInCallService", "Error looking up contact name for ${DebugLogger.maskPhoneNumber(phoneNumber)}", e)
+        null
+    }
+}
+
+internal fun PurevonInCallService.lookupContactPhotoUri(phoneNumber: String?): String? {
+    if (phoneNumber.isNullOrBlank()) return null
+    return try {
+        val uri = android.net.Uri.withAppendedPath(
+            ContactsContract.PhoneLookup.CONTENT_FILTER_URI,
+            android.net.Uri.encode(phoneNumber)
+        )
+        contentResolver.query(
+            uri,
+            arrayOf(ContactsContract.PhoneLookup.PHOTO_URI),
+            null, null, null
+        )?.use { cursor ->
+            if (cursor.moveToFirst()) {
+                cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.PhoneLookup.PHOTO_URI))
+            } else null
+        }
+    } catch (e: Exception) {
+        Log.e("PurevonInCallService", "Error looking up contact photo for ${DebugLogger.maskPhoneNumber(phoneNumber)}", e)
         null
     }
 }

@@ -36,10 +36,8 @@ internal fun CallStatisticsSection(
     statistics: CallStatistics,
     modifier: Modifier = Modifier
 ) {
-    SectionCard(
-        title = stringResource(R.string.contact_detail_call_history),
-        modifier = modifier
-    ) {
+    // ✅ FIX M44: دمج الأقسام في بطاقة واحدة بلا عناوين (بدون SectionCard متداخل)
+    Column(modifier = modifier.fillMaxWidth()) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -320,10 +318,8 @@ internal fun RecentCallsSection(
 ) {
     val displayedCalls = if (showAll) calls.take(20) else calls.take(2)
 
-    SectionCard(
-        title = "Recent Calls",
-        modifier = modifier
-    ) {
+    // ✅ FIX M44: دمج الأقسام في بطاقة واحدة بلا عناوين (بدون SectionCard متداخل)
+    Column(modifier = modifier.fillMaxWidth()) {
         displayedCalls.forEachIndexed { index, call ->
             RecentCallItem(
                 callLog = call,

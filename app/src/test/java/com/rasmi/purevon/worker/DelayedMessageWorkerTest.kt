@@ -10,6 +10,7 @@ import com.google.common.truth.Truth.assertThat
 import com.rasmi.purevon.data.preferences.SettingsDataStore
 import com.rasmi.purevon.domain.repository.MessageRepository
 import com.rasmi.purevon.domain.model.MessageResult
+import com.rasmi.purevon.util.security.DataEncryptionManager
 import io.mockk.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -31,6 +32,7 @@ class DelayedMessageWorkerTest {
     private lateinit var workerParams: WorkerParameters
     private lateinit var messageRepository: MessageRepository
     private lateinit var settingsDataStore: SettingsDataStore
+    private lateinit var dataEncryptionManager: DataEncryptionManager
     private lateinit var notificationManager: NotificationManager
 
     @Before
@@ -40,6 +42,7 @@ class DelayedMessageWorkerTest {
         workerParams = mockk(relaxed = true)
         messageRepository = mockk(relaxed = true)
         settingsDataStore = mockk(relaxed = true)
+        dataEncryptionManager = mockk(relaxed = true)
         notificationManager = mockk(relaxed = true)
 
         every { context.getSystemService(Context.NOTIFICATION_SERVICE) } returns notificationManager
@@ -58,7 +61,7 @@ class DelayedMessageWorkerTest {
     ): DelayedMessageWorker {
         every { workerParams.inputData } returns inputData
         every { workerParams.runAttemptCount } returns runAttemptCount
-        return DelayedMessageWorker(context, workerParams, messageRepository, settingsDataStore)
+        return DelayedMessageWorker(context, workerParams, messageRepository, settingsDataStore, dataEncryptionManager)
     }
 
     @Test

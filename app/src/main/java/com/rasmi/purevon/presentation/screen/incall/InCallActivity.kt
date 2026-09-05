@@ -2,31 +2,39 @@ package com.rasmi.purevon.presentation.screen.incall
 
 import android.annotation.SuppressLint
 import android.app.KeyguardManager
+import android.app.PendingIntent
+import android.app.PictureInPictureParams
+import android.app.RemoteAction
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.PackageManager
+import android.graphics.drawable.Icon
 import android.os.Build
 import android.os.Bundle
 import android.os.PowerManager
 import android.provider.Settings
+import android.util.Rational
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.ConfigurationCompat
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.rasmi.purevon.data.preferences.SettingsDataStore
 import com.rasmi.purevon.presentation.theme.PurevonTheme
-import com.rasmi.purevon.service.FloatingCallService
+import com.rasmi.purevon.receiver.CallActionReceiver
 import com.rasmi.purevon.domain.call.InCallServiceBridge
+import com.rasmi.purevon.R
 import dagger.hilt.android.AndroidEntryPoint
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Job
@@ -73,6 +81,17 @@ class InCallActivity : AppCompatActivity() {
     
     // Job لمراقبة حالة السماعة الخارجية
     private var speakerStateJob: Job? = null
+    private var callStateJob: Job? = null
+    
+    // Job لمراقبة حالة كتم الصوت (لتحديث أزرار PiP)
+    private var muteStateJob: Job? = null
+    
+    // ✅ حالة Picture-in-Picture — عند التفعيل نعرض محتوى مبسّط (اسم + تايمر) بدل شاشة المكالمة الكاملة
+    private var pipMode by mutableStateOf(false)
+
+    // ✅ يبقى true بعد دخول PiP — نستخدمه في onDestroy لنتأكد أن الإغلاق جاء من
+    // إغلاق نافذة PiP (وليس إغلاقاً عادياً) فنعيد فتح شاشة المكالمة الواردة.
+    private var enteredPipMode = false
     
     override fun attachBaseContext(newBase: Context) {
         super.attachBaseContext(newBase)
@@ -105,17 +124,18 @@ class InCallActivity : AppCompatActivity() {
         // Handle back press - don't allow exit during call
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                moveTaskToBack(true)
+                // ✅ أدخل وضع PiP إذا كانت المكالمة نشطة، وإلا تحرك بالخلفية
+                if (!enterPipIfPossible()) {
+                    moveTaskToBack(true)
+                }
             }
         })
         
         enableEdgeToEdge()
 
         setContent {
-            // Read theme settings from DataStore
-            val isDarkMode by settingsDataStore.isDarkMode.collectAsState(initial = false)
-            val autoTheme by settingsDataStore.autoTheme.collectAsState(initial = true)
-            val appLanguage by settingsDataStore.appLanguage.collectAsState(initial = "system")
+            // ✅ FIX M40: الهوية موحدة داكنة — لا جمع لتفضيلات ثيم ميتة
+            val appLanguage by settingsDataStore.appLanguage.collectAsStateWithLifecycle(initialValue = "system")
             
             // RTL layout direction is determined dynamically by the active language preference or system default
             val systemLocale = androidx.core.os.ConfigurationCompat.getLocales(androidx.compose.ui.platform.LocalConfiguration.current).get(0)
@@ -123,13 +143,9 @@ class InCallActivity : AppCompatActivity() {
             val isRtl = activeLanguage == "ar" || activeLanguage == "fa" || activeLanguage == "ur" || activeLanguage == "he"
             
             // Determine dark theme based on settings
-            val useDarkTheme = if (autoTheme) {
-                isSystemInDarkTheme()
-            } else {
-                isDarkMode
-            }
+            val useDarkTheme = false
             
-            PurevonTheme(darkTheme = useDarkTheme) {
+            PurevonTheme {
                 androidx.compose.runtime.CompositionLocalProvider(
                     androidx.compose.ui.platform.LocalLayoutDirection provides
                         if (isRtl) androidx.compose.ui.unit.LayoutDirection.Rtl
@@ -139,7 +155,12 @@ class InCallActivity : AppCompatActivity() {
                         modifier = Modifier.fillMaxSize(),
                         color = MaterialTheme.colorScheme.background
                     ) {
-                        InCallScreen()
+                        if (pipMode) {
+                            // ✅ محتوى مبسّط لنافذة Picture-in-Picture (اسم + تايمر)
+                            PictureInPictureCallContent()
+                        } else {
+                            InCallScreen()
+                        }
                     }
                 }
             }
@@ -250,10 +271,6 @@ class InCallActivity : AppCompatActivity() {
         android.util.Log.d(TAG, "onResume called")
         isInForeground = true
         
-        // ✅ إخفاء الشريط العائم دائماً عند عودة الشاشة (hide بدلاً من stop لتجنب إعادة إنشاء الخدمة)
-        FloatingCallService.hide(this)
-        android.util.Log.d(TAG, "🔴 Floating overlay hidden")
-        
         // ✅ إخطار الخدمة بأن شاشة المكالمة مفتوحة
         inCallServiceBridge.setInCallActivityVisible(true)
         
@@ -280,14 +297,45 @@ class InCallActivity : AppCompatActivity() {
                         enableProximitySensor()
                         android.util.Log.d(TAG, "Speaker OFF → proximity sensor enabled")
                     }
+                    if (isInPictureInPictureMode) {
+                        updatePipActions()
+                    }
                 }
             } catch (e: Exception) {
                 android.util.Log.e(TAG, "Error in speaker state monitoring, disabling proximity sensor for safety", e)
                 disableProximitySensor()
             }
         }
+        
+        // مراقبة تغييرات حالة كتم الصوت لتحديث أزرار PiP
+        muteStateJob?.cancel()
+        muteStateJob = lifecycleScope.launch {
+            try {
+                inCallServiceBridge.muteState.collectLatest { isMuted ->
+                    if (isInPictureInPictureMode) {
+                        updatePipActions()
+                    }
+                }
+            } catch (e: Exception) {
+                android.util.Log.e(TAG, "Error in mute state monitoring", e)
+            }
+        }
+
+        // ✅ مراقبة تغييرات حالة المكالمة لتحديث أزرار PiP
+        callStateJob?.cancel()
+        callStateJob = lifecycleScope.launch {
+            try {
+                inCallServiceBridge.callState.collectLatest {
+                    if (isInPictureInPictureMode) {
+                        updatePipActions()
+                    }
+                }
+            } catch (e: Exception) {
+                android.util.Log.e(TAG, "Error in call state monitoring for PiP", e)
+            }
+        }
     }
-    
+
     override fun onPause() {
         super.onPause()
         android.util.Log.d(TAG, "onPause called")
@@ -299,46 +347,17 @@ class InCallActivity : AppCompatActivity() {
         // ✅ إيقاف مراقبة حالة السماعة
         speakerStateJob?.cancel()
         speakerStateJob = null
-        
+
+        // ✅ إيقاف مراقبة حالة كتم الصوت
+        muteStateJob?.cancel()
+        muteStateJob = null
+
+        // ✅ إيقاف مراقبة حالة المكالمة
+        callStateJob?.cancel()
+        callStateJob = null
+
         // ✅ تعطيل حساس القرب عند الخروج من الشاشة
         disableProximitySensor()
-        
-        // ✅ إظهار الشريط العائم عند إخفاء النشاط — دائماً، بما في ذلك حالة isFinishing.
-        // السبب: عندما يضغط المستخدم "رجوع" أثناء مكالمة نشطة، تصبح isFinishing=true
-        // لكن المكالمة لا تزال تعمل، لذا يجب إظهار الشريط.
-        // فحص callState الأدناه يكفي لمنع الشريط عند انتهاء المكالمة.
-        val currentCall = inCallServiceBridge.getCurrentCall()
-        val phoneNumber = inCallServiceBridge.currentPhoneNumber
-        val contactName = inCallServiceBridge.currentContactName
-        
-        if (currentCall != null && phoneNumber != null) {
-            val callState = currentCall.state
-            val isDialingState = callState == android.telecom.Call.STATE_DIALING || 
-                callState == android.telecom.Call.STATE_CONNECTING ||
-                callState == android.telecom.Call.STATE_NEW
-            if (callState != android.telecom.Call.STATE_RINGING && 
-                callState != android.telecom.Call.STATE_DISCONNECTED &&
-                callState != android.telecom.Call.STATE_DISCONNECTING) {
-                // ✅ استخدام update() بدلاً من start() لسببين:
-                // 1) يُرسل callStartTime فيعمل العداد بشكل صحيح
-                // 2) يُظهر الشريط فوراً (بدون تأخير 500ms) مما يمنع احتمالية
-                //    أن يقتل onDestroy الخدمة قبل ظهور الشريط.
-                FloatingCallService.update(
-                    context = this,
-                    contactName = contactName,
-                    phoneNumber = phoneNumber,
-                    callStartTime = inCallServiceBridge.getCallStartTime(),
-                    isMuted = inCallServiceBridge.isMuted(),
-                    isSpeakerOn = inCallServiceBridge.isSpeakerOn(),
-                    isRinging = false,
-                    isDialing = isDialingState,
-                    currentAudioRoute = inCallServiceBridge.getCurrentAudioRoute()
-                )
-                android.util.Log.d(TAG, "🟢 Floating overlay updated for: ${com.rasmi.purevon.util.DebugLogger.maskPhoneNumber(phoneNumber)} (state: $callState, finishing: $isFinishing)")
-            } else {
-                android.util.Log.d(TAG, "⚠️ Call state is $callState - not showing overlay")
-            }
-        }
     }
     
     /**
@@ -348,6 +367,162 @@ class InCallActivity : AppCompatActivity() {
     override fun onUserLeaveHint() {
         super.onUserLeaveHint()
         android.util.Log.d(TAG, "onUserLeaveHint called - user is leaving intentionally")
+        // ✅ تحويل شاشة المكالمة إلى وضع Picture-in-Picture تلقائياً عند الخروج
+        enterPipIfPossible()
+    }
+
+    /**
+     * ✅ يدخل وضع Picture-in-Picture (PiP) إذا كانت المكالمة نشطة وكان الجهاز يدعم PiP.
+     * بديل نظيف وأكثر استقراراً عن النافذة العائمة (SYSTEM_ALERT_WINDOW).
+     * @return true إذا تم الدخول إلى PiP بنجاح (أو كان النشاط في PiP بالفعل)
+     */
+    private fun enterPipIfPossible(): Boolean {
+        // لا ندخل PiP إذا كنا في وضع PiP بالفعل أو إذا كانت الشاشة في الخلفية بالكامل
+        if (isInPictureInPictureMode) return true
+
+        val deviceSupportsPip = packageManager.hasSystemFeature(PackageManager.FEATURE_PICTURE_IN_PICTURE)
+        if (!deviceSupportsPip) {
+            android.util.Log.w(TAG, "Device does not support Picture-in-Picture")
+            return false
+        }
+
+        val call = inCallServiceBridge.getCurrentCall()
+        // ✅ Fix: اسمح بدخول PiP أثناء RINGING أيضاً
+        val pipEligible = call?.let {
+            val s = it.state
+            s == android.telecom.Call.STATE_RINGING ||
+                s == android.telecom.Call.STATE_DIALING ||
+                s == android.telecom.Call.STATE_CONNECTING ||
+                s == android.telecom.Call.STATE_ACTIVE ||
+                s == android.telecom.Call.STATE_HOLDING
+        } ?: false
+
+        if (!pipEligible) {
+            android.util.Log.d(TAG, "Not entering PiP - no active call")
+            return false
+        }
+
+        return try {
+            val params = buildPipParams()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                enterPictureInPictureMode(params)
+                android.util.Log.d(TAG, "✅ Entered Picture-in-Picture mode")
+                true
+            } else {
+                false
+            }
+        } catch (e: Exception) {
+            android.util.Log.e(TAG, "Error entering PiP", e)
+            false
+        }
+    }
+
+    /**
+     * ✅ بناء PictureInPictureParams مع أزرار: كتم الصوت، مكبر الصوت، إنهاء.
+     */
+    private fun buildPipParams(): PictureInPictureParams {
+        val paramsBuilder = PictureInPictureParams.Builder()
+        paramsBuilder.setAspectRatio(Rational(9, 16))
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val call = inCallServiceBridge.getCurrentCall()
+            val isRinging = call?.state == android.telecom.Call.STATE_RINGING
+
+            val actions = if (isRinging) {
+                // ✅ أثناء الرنين: أزرار الرد / الرفض
+                val answerAction = actionRecipient(
+                    CallActionReceiver.ACTION_ANSWER,
+                    R.drawable.ic_call_answer,
+                    getString(R.string.action_accept),
+                    2004
+                )
+                val declineAction = actionRecipient(
+                    CallActionReceiver.ACTION_DECLINE,
+                    R.drawable.ic_call_decline,
+                    getString(R.string.action_decline),
+                    2005
+                )
+                listOfNotNull(answerAction, declineAction)
+            } else {
+                // ✅ أثناء المكالمة النشطة/مؤقتة: كتم / سماعة / إنهاء
+                val muteAction = actionRecipient(
+                    CallActionReceiver.ACTION_TOGGLE_MUTE,
+                    R.drawable.ic_mute,
+                    getString(R.string.incall_mute),
+                    2001
+                )
+                val speakerAction = actionRecipient(
+                    CallActionReceiver.ACTION_TOGGLE_SPEAKER,
+                    R.drawable.ic_speaker,
+                    getString(R.string.incall_speaker),
+                    2002
+                )
+                val endAction = actionRecipient(
+                    CallActionReceiver.ACTION_END_CALL,
+                    R.drawable.ic_call_end,
+                    getString(R.string.incall_end_call),
+                    2003
+                )
+                listOfNotNull(muteAction, speakerAction, endAction)
+            }
+
+            if (actions.isNotEmpty()) {
+                paramsBuilder.setActions(actions)
+            }
+        }
+        return paramsBuilder.build()
+    }
+
+    /**
+     * ✅ إنشاء RemoteAction يوجه إجراءً إلى CallActionReceiver.
+     */
+    private fun actionRecipient(action: String, iconRes: Int, title: String, requestCode: Int): RemoteAction? {
+        return try {
+            val intent = Intent(this, com.rasmi.purevon.receiver.CallActionReceiver::class.java).apply {
+                this.action = action
+                setPackage(packageName)
+            }
+            val pendingIntent = PendingIntent.getBroadcast(
+                this,
+                requestCode,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+            val icon = Icon.createWithResource(this, iconRes)
+            RemoteAction(icon, title, title, pendingIntent)
+        } catch (e: Exception) {
+            android.util.Log.e(TAG, "Error creating PiP action $action", e)
+            null
+        }
+    }
+
+    override fun onPictureInPictureModeChanged(isInPictureInPictureMode: Boolean) {
+        super.onPictureInPictureModeChanged(isInPictureInPictureMode)
+        android.util.Log.d(TAG, "PiP mode changed to: $isInPictureInPictureMode")
+
+        // ✅ تحديث المحتوى المعروض: في PiP نعرض الاسم + التايمر فقط
+        pipMode = isInPictureInPictureMode
+
+        if (isInPictureInPictureMode) {
+            enteredPipMode = true
+            // ✅ في وضع PiP نقوم بتحديث الأزرار حسب حالة كتم الصوت/السماعة الحالية
+            updatePipActions()
+            // إيقاف حساس القرب في وضع PiP (لا معنى له في النافذة الصغيرة)
+            disableProximitySensor()
+        }
+    }
+
+    /**
+     * ✅ تحديث أزرار PiP بعد تغيّر حالة كتم الصوت أو السماعة (يعكس الحالة الفعلية للأيقونات).
+     */
+    private fun updatePipActions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && isInPictureInPictureMode) {
+            runCatching {
+                setPictureInPictureParams(buildPipParams())
+            }.onFailure { e ->
+                android.util.Log.e(TAG, "Error updating PiP actions", e)
+            }
+        }
     }
     
     override fun onStop() {
@@ -361,21 +536,6 @@ class InCallActivity : AppCompatActivity() {
         android.util.Log.d(TAG, "onDestroy called")
         isInForeground = false
         
-        // ✅ إيقاف الشريط العائم فقط إذا انتهت المكالمة فعلاً.
-            // إذا كانت المكالمة لا تزال نشطة (مثلاً: المستخدم ضغط رجوع),
-            // نُبقي الشريط العائم ظاهراً حتى يتمكن المستخدم من العودة للمكالمة.
-            val callIsActive = inCallServiceBridge.getCurrentCall()?.let { call ->
-                call.state != android.telecom.Call.STATE_DISCONNECTED &&
-                call.state != android.telecom.Call.STATE_DISCONNECTING
-            } ?: false
-
-            if (!callIsActive) {
-                FloatingCallService.stop(this)
-                android.util.Log.d(TAG, "🔴 Floating overlay stopped on destroy (call ended)")
-            } else {
-                android.util.Log.d(TAG, "ℹ️ onDestroy: call still active — keeping floating overlay visible")
-            }
-        
         // ✅ إلغاء تسجيل BroadcastReceiver
         try {
             unregisterReceiver(closeReceiver)
@@ -386,6 +546,51 @@ class InCallActivity : AppCompatActivity() {
         
         // ✅ التأكد من تعطيل حساس القرب
         disableProximitySensor()
+
+        // ✅ Fix: عند إغلاق المستخدم نافذة PiP بينما المكالمة ما زالت واردة
+        // (رنين / اتصال / جاهزة للرد)، لا يوجد إشعار احتياطي للعودة إليها،
+        // لذلك نعيد فتح شاشة المكالمة ليتسنى الرد أو الرفض بأزرار واضحة.
+        if (enteredPipMode && shouldReturnToCallScreen()) {
+            android.util.Log.d(TAG, "PiP closed while call still ringing - reopening incoming call screen")
+            relaunchCallScreen()
+        }
+    }
+
+    /**
+     * ✅ هل المكالمة ما زالت بحاجة إلى شاشة (لم تُرد أو تُرفض بعد)؟
+     */
+    private fun shouldReturnToCallScreen(): Boolean {
+        return try {
+            val call = inCallServiceBridge.getCurrentCall() ?: return false
+            val s = call.state
+            s == android.telecom.Call.STATE_RINGING ||
+                s == android.telecom.Call.STATE_DIALING ||
+                s == android.telecom.Call.STATE_CONNECTING
+        } catch (e: Exception) {
+            android.util.Log.e(TAG, "Error checking call state for relaunch", e)
+            false
+        }
+    }
+
+    /**
+     * ✅ إعادة فتح شاشة المكالمة الواردة بأزرار الرد/الرفض.
+     */
+    private fun relaunchCallScreen() {
+        android.os.Handler(mainLooper).postDelayed({
+            try {
+                val intent = Intent(applicationContext, InCallActivity::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or
+                        Intent.FLAG_ACTIVITY_CLEAR_TOP or
+                        Intent.FLAG_ACTIVITY_SINGLE_TOP or
+                        Intent.FLAG_ACTIVITY_NO_USER_ACTION or
+                        Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+                }
+                applicationContext.startActivity(intent)
+                android.util.Log.d(TAG, "Incoming call screen reopened after PiP dismissal")
+            } catch (e: Exception) {
+                android.util.Log.e(TAG, "Error reopening incoming call screen", e)
+            }
+        }, 300)
     }
     
     /**

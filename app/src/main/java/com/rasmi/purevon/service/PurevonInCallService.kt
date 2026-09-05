@@ -8,6 +8,7 @@ import android.os.Build
 import android.telecom.Call
 import android.telecom.InCallService
 import android.util.Log
+import com.rasmi.purevon.util.AppStateHelper
 import com.rasmi.purevon.util.DebugLogger
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -41,7 +42,14 @@ class PurevonInCallService : InCallService() {
     internal val serviceScope = CoroutineScope(Dispatchers.Main + kotlinx.coroutines.SupervisorJob())
 
     @Volatile
-    internal var incomingCallBannerOnly: Boolean = false
+    private var ongoingNotifPosted: Boolean = false
+
+    /**
+     * ✅ FIX M30: calls whose framework callback is currently registered. Telecom can
+     * destroy this service while Call objects are still alive (rebind cycles); without
+     * cleanup those Calls would retain [callback] → this service after onDestroy.
+     */
+    private val trackedCallbackCalls = java.util.concurrent.CopyOnWriteArrayList<Call>()
 
     private val callback = object : Call.Callback() {
         @SuppressLint("MissingPermission")
@@ -82,26 +90,27 @@ class PurevonInCallService : InCallService() {
                     Log.d(TAG, "[RINGING] Notification with fullScreenIntent posted")
 
                     if (!deviceLocked) {
-                        if (incomingCallBannerOnly) {
-                            Log.d(TAG, "[RINGING] Device UNLOCKED + Banner mode ON - showing floating overlay")
+                        val appInForeground = AppStateHelper.isAppInForeground()
+                        val canShowOverlay = IncomingCallOverlayService.canShow(this@PurevonInCallService)
+                        Log.d(TAG, "[RINGING] Device UNLOCKED - appInForeground=$appInForeground canShowOverlay=$canShowOverlay")
+
+                        if (appInForeground && canShowOverlay) {
                             postLock.add {
                                 serviceScope.launch {
-                                    if (bridge.currentContactName == null) {
-                                        bridge.currentContactName = withContext(Dispatchers.IO) { lookupContactName(phoneNumber) }
+                                    val (name, photoUri) = withContext(Dispatchers.IO) {
+                                        val n = bridge.currentContactName ?: lookupContactName(phoneNumber)
+                                        val p = lookupContactPhotoUri(phoneNumber)
+                                        n to p
                                     }
-                                    FloatingCallService.start(this@PurevonInCallService, bridge.currentContactName, phoneNumber)
-                                    FloatingCallService.update(
+                                    IncomingCallOverlayService.show(
                                         context = this@PurevonInCallService,
-                                        contactName = bridge.currentContactName,
                                         phoneNumber = phoneNumber,
-                                        callStartTime = 0L,
-                                        isMuted = false,
-                                        isSpeakerOn = false,
-                                        isRinging = true,
-                                        isDialing = false
+                                        contactName = name,
+                                        contactPhotoUri = photoUri
                                     )
                                 }
                             }
+                            Log.d(TAG, "[RINGING] App in foreground - showing top overlay card instead of full-screen")
                         } else {
                             Log.d(TAG, "[RINGING] Device is UNLOCKED - launching InCallActivity directly")
                             postLock.add { launchInCallActivity() }
@@ -194,23 +203,9 @@ class PurevonInCallService : InCallService() {
 
                     postLock.add { updateNotification(call) }
                     Log.d(TAG, "[ACTIVE] Call answered - Ready for user interaction")
+                    postLock.add { updateCurrentNotificationVisibility() }
                     postLock.add { bridge.stateChangeListener?.invoke(call) }
-
-                    if (!bridge.isInCallActivityVisible) {
-                        postLock.add {
-                            FloatingCallService.update(
-                                context = this@PurevonInCallService,
-                                contactName = bridge.currentContactName,
-                                phoneNumber = phoneNumber,
-                                callStartTime = bridge.callStartTime,
-                                isMuted = bridge.isMuted(),
-                                isSpeakerOn = bridge.isSpeakerOn(),
-                                isRinging = false,
-                                isDialing = false,
-                                currentAudioRoute = bridge.getCurrentAudioRoute()
-                            )
-                        }
-                    }
+                    postLock.add { IncomingCallOverlayService.hide(this@PurevonInCallService) }
                 }
                 Call.STATE_HOLDING -> {
                     Log.d(TAG, "[HOLDING] STATE_HOLDING - Call put on hold (isManagingCalls=${bridge.isManagingCalls})")
@@ -228,6 +223,7 @@ class PurevonInCallService : InCallService() {
                     }
 
                     postLock.add { updateNotification(call) }
+                    postLock.add { updateCurrentNotificationVisibility() }
                     postLock.add { bridge.stateChangeListener?.invoke(bridge.currentCall ?: call) }
                 }
                 Call.STATE_DISCONNECTING -> {
@@ -308,8 +304,10 @@ class PurevonInCallService : InCallService() {
                         val closeIntent = Intent("com.rasmi.purevon.CLOSE_INCALL_ACTIVITY")
                         closeIntent.setPackage(packageName)
                         sendBroadcast(closeIntent)
-                        FloatingCallService.stop(this@PurevonInCallService)
                     }
+
+                    IncomingCallOverlayService.hide(this@PurevonInCallService)
+                    Log.d(TAG, "[DISCONNECTED] Incoming overlay hidden")
 
                     callToUnhold?.unhold()
 
@@ -320,6 +318,7 @@ class PurevonInCallService : InCallService() {
 
                     if (shouldStopForeground) {
                         Log.d(TAG, "[STOP] No more active calls - stopping foreground service")
+                        ongoingNotifPosted = false
                         stopForeground(STOP_FOREGROUND_REMOVE)
                     }
                 }
@@ -338,18 +337,22 @@ class PurevonInCallService : InCallService() {
         bridge.registerService(this)
         notifManager.createNotificationChannels()
 
-        serviceScope.launch {
-            settingsDataStore.incomingCallBannerOnly.collect { enabled ->
-                incomingCallBannerOnly = enabled
-                Log.d(TAG, "Updated incomingCallBannerOnly=$incomingCallBannerOnly")
-            }
-        }
-        Log.d(TAG, "InCallService created - observing incomingCallBannerOnly")
+        Log.d(TAG, "InCallService created")
     }
 
     override fun onDestroy() {
         super.onDestroy()
         serviceScope.cancel()
+        // ✅ FIX M30: defensively detach from any framework Call objects that are
+        // still holding our callback — Telecom may destroy the service mid-call.
+        trackedCallbackCalls.forEach { call ->
+            try {
+                call.unregisterCallback(callback)
+            } catch (_: Exception) {
+                // Call already released by Telecom — nothing to do
+            }
+        }
+        trackedCallbackCalls.clear()
         bridge.resetAllState()
         bridge.unregisterService()
         Log.d(TAG, "InCallService destroyed - all state cleaned via bridge")
@@ -357,8 +360,6 @@ class PurevonInCallService : InCallService() {
 
     override fun onCallAdded(call: Call) {
         super.onCallAdded(call)
-
-        FloatingCallService.isPendingStop = false
 
         @Suppress("DEPRECATION")
         callAudioState?.let { state ->
@@ -422,7 +423,9 @@ class PurevonInCallService : InCallService() {
         }
         notifyCall?.let { bridge.stateChangeListener?.invoke(it) }
 
-        call.registerCallback(callback)
+        if (trackedCallbackCalls.addIfAbsent(call)) {
+            call.registerCallback(callback)
+        }
 
         val isIncoming = callState == Call.STATE_RINGING || isLikelyIncoming
 
@@ -444,29 +447,22 @@ class PurevonInCallService : InCallService() {
             updateNotification(call, useHighPriority = true)
 
             val deviceLocked = isDeviceLocked()
-            if (!deviceLocked && incomingCallBannerOnly) {
-                Log.d(TAG, "[INCOMING] Banner mode ON + UNLOCKED - showing floating overlay instead of full screen")
-                serviceScope.launch {
-                    val resolvedName = withContext(Dispatchers.IO) { lookupContactName(phoneNumber) }
-                    synchronized(bridge.callStateLock) {
-                        bridge.currentContactName = resolvedName
-                    }
-                    FloatingCallService.start(this@PurevonInCallService, resolvedName, phoneNumber ?: "")
-                    FloatingCallService.update(
-                        context = this@PurevonInCallService,
-                        contactName = resolvedName,
-                        phoneNumber = phoneNumber ?: "",
-                        callStartTime = 0L,
-                        isMuted = false,
-                        isSpeakerOn = false,
-                        isRinging = true,
-                        isDialing = false
-                    )
-                }
+            Log.d(TAG, "[INCOMING] Notification posted, UI handled (locked=$deviceLocked)")
+
+            if (!deviceLocked && AppStateHelper.isAppInForeground() && IncomingCallOverlayService.canShow(this)) {
+                val resolvedPhone = phoneNumber
+                val resolvedName = bridge.currentContactName ?: lookupContactName(phoneNumber)
+                val photoUri = lookupContactPhotoUri(phoneNumber)
+                IncomingCallOverlayService.show(
+                    context = this,
+                    phoneNumber = resolvedPhone,
+                    contactName = resolvedName,
+                    contactPhotoUri = photoUri
+                )
+                Log.d(TAG, "[INCOMING] App in foreground - showing top overlay card")
             } else {
                 launchInCallActivity()
             }
-            Log.d(TAG, "[INCOMING] Notification posted, UI handled (bannerOnly=$incomingCallBannerOnly, locked=$deviceLocked)")
         } else if (callState == Call.STATE_DIALING || callState == Call.STATE_CONNECTING || callState == Call.STATE_SELECT_PHONE_ACCOUNT) {
             Log.d(TAG, "[OUTGOING] OUTGOING CALL DETECTED")
             synchronized(bridge.callStateLock) {
@@ -491,7 +487,9 @@ class PurevonInCallService : InCallService() {
         super.onCallRemoved(call)
         Log.d(TAG, "Call removed")
 
-        call.unregisterCallback(callback)
+        if (trackedCallbackCalls.remove(call)) {
+            call.unregisterCallback(callback)
+        }
 
         var activeCallsIsEmpty = false
         synchronized(bridge.callStateLock) {
@@ -518,9 +516,10 @@ class PurevonInCallService : InCallService() {
         }
 
         if (activeCallsIsEmpty) {
+            ongoingNotifPosted = false
             stopForeground(STOP_FOREGROUND_REMOVE)
-            FloatingCallService.stop(this)
-            Log.d(TAG, "Floating overlay stopped - no active calls")
+            Log.d(TAG, "No active calls - foreground stopped")
+            IncomingCallOverlayService.hide(this)
         } else {
             bridge.stateChangeListener?.invoke(call)
         }
@@ -578,7 +577,39 @@ class PurevonInCallService : InCallService() {
     }
 
     internal fun updateCurrentNotificationVisibility() {
-        val call = bridge.currentCall ?: return
-        updateNotification(call)
+        val call = bridge.currentCall
+        if (call == null) {
+            Log.w(TAG, "[ONGOING-DEBUG] updateCurrentNotificationVisibility: currentCall is NULL")
+            return
+        }
+        // نُبقي إشعار المكالمة الجارية (مع زر إنهاء المكالمة) ظاهراً طوال المكالمة النشطة
+        // لضمان إمكانية العودة للمكالمة من لوحة الإشعارات حتى لو أُغلقت نافذة PiP.
+        val state = getCallStateCompat(call)
+        val isOngoing = state == Call.STATE_ACTIVE ||
+            state == Call.STATE_DIALING ||
+            state == Call.STATE_CONNECTING ||
+            state == Call.STATE_HOLDING
+        Log.w(TAG, "[ONGOING-DEBUG] state=$state isOngoing=$isOngoing ongoingNotifPosted=$ongoingNotifPosted")
+        if (isOngoing) {
+            postOngoingCallNotification()
+        } else {
+            cancelOngoingCallNotification()
+        }
+    }
+
+    private fun postOngoingCallNotification() {
+        // تم إخفاء إشعار المكالمة الجارية تماماً حسب طلب المستخدم.
+        // العودة للمكالمة تتم عبر بطاقة المكالمة النشطة داخل التطبيق.
+        Log.d(TAG, "[ONGOING-DEBUG] postOngoingCallNotification suppressed (all call notifications hidden)")
+    }
+
+    private fun cancelOngoingCallNotification() {
+        Log.w(TAG, "[ONGOING-DEBUG] cancelOngoingCallNotification: ongoingNotifPosted=$ongoingNotifPosted")
+        if (!ongoingNotifPosted) return
+        notifManager.cancelOngoingNotification(
+            cancelForeground = { stopForeground(it) }
+        )
+        ongoingNotifPosted = false
+        Log.w(TAG, "[ONGOING-DEBUG] Persistent ongoing call notification CANCELLED")
     }
 }

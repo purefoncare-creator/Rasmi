@@ -6,7 +6,6 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -238,7 +237,7 @@ private fun IncomingUnifiedButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = true // ✅ Fix #11: دعم التعطيل
 ) {
-    val isLightTheme = !isSystemInDarkTheme()
+    val isLightTheme = false
     val containerColor = if (isLightTheme) Color.White else MaterialTheme.colorScheme.background
     val contentColor = if (enabled) backgroundColor else backgroundColor.copy(alpha = 0.4f)
     val haptic = androidx.compose.ui.platform.LocalHapticFeedback.current

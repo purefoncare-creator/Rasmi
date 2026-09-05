@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Explicit per-purpose subdirectories only. A generic root (cache-path path=".") was
+         removed because it exposed the ENTIRE app cache (image_cache, http_cache, audio/video
+         temps, etc.) through FileProvider, negating the isolation that SharedCacheFiles.kt
+         intends. Each consumer writes into one of these dedicated subdirectories. -->
+    <cache-path name="mms" path="mms/" />
+    <cache-path name="camera" path="camera/" />
+    <cache-path name="contacts" path="contacts/" />
+    <cache-path name="shared" path="shared/" />
     <cache-path name="audio_messages" path="audio_messages/" />
     <cache-path name="video_messages" path="video_messages/" />
     <cache-path name="export_files" path="export/" />

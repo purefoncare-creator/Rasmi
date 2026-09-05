@@ -72,8 +72,23 @@ internal fun InCallViewModel.saveCallNoteImpl() {
     }
 }
 
-internal fun InCallViewModel.loadExistingNotesImpl(phoneNumber: String) {
-    if (phoneNumber.isEmpty() || phoneNumber == "Unknown") return
+/** ✅ FIX M34: حذف ملاحظة من شاشة المكالمة مع تحديث القائمة */
+internal fun InCallViewModel.deleteCallNoteImpl(noteId: Long) {
+    viewModelScope.launch {
+        try {
+            contactNoteDao.deleteNote(noteId)
+            Log.d(TAG, "Note $noteId deleted from call screen")
+            val phoneNumber = uiStateUpdater.value.phoneNumber
+                .replace(Regex("[^0-9]"), "").takeLast(10)
+            val updatedNotes = contactNoteDao.getNotesByPhoneNumberSync(phoneNumber)
+            uiStateUpdater.update { it.copy(existingNotes = updatedNotes) }
+        } catch (e: Exception) {
+            Log.e(TAG, "Error deleting note", e)
+        }
+    }
+}
+
+internal fun InCallViewModel.loadExistingNotesImpl(phoneNumber: String) {    if (phoneNumber.isEmpty() || phoneNumber == "Unknown") return
     viewModelScope.launch {
         try {
             val normalized = phoneNumber.replace(Regex("[^0-9]"), "").takeLast(10)

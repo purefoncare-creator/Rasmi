@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="nav_back">Бозгашт</string>
+  <string name="add_contact_choose_method">Тамос илова кунед</string>
+  <string name="add_contact_manual">Дастӣ илова кунед</string>
+  <string name="add_contact_via_qr">Тавассути QR код илова кунед</string>
+  <string name="dialer_active_call_title">Занг фаъол</string>
+  <string name="dialer_active_call_expand">Экрани пурра</string>
+  <string name="dialer_recent">Охирин</string>
+  <string name="dialer_no_recent">Фаъолияти охирин вуҷуд надорад</string>
+  <string name="dialer_results">Натиҷаҳо</string>
+  <string name="incall_mute">Хомӯш</string>
+  <string name="incall_speaker">Баландгӯяк</string>
+  <string name="my_card_title">Корти ман</string>
+  <string name="my_card_desc">Корти шахсии худро сохта, бо ҳар кас мубодила кунед</string>
+  <string name="my_card_edit">Таҳрир кардан</string>
+  <string name="my_card_saved">Корт нигоҳ дошта шуд</string>
+  <string name="my_card_share">Мубодила</string>
+  <string name="qr_scan_title">Скан кардани коди тамос</string>
+  <string name="qr_camera_permission">Барои скан кардани код иҷозати камера лозим аст</string>
+  <string name="invalid_qr_code">QR коди беэътибор</string>
+  <string name="call_blocking_block_unknown">Блок кардани номаълум / шахсӣ</string>
+  <string name="call_blocking_block_unknown_desc">Рад кардани зангҳо аз рақамҳое, ки дар тамосҳо нест</string>
+  <string name="call_blocking_whitelist_only">Танҳо режими рӯйхати сафед</string>
+  <string name="call_blocking_whitelist_only_desc">Блок кардани ҳама ба ғайр аз рақамҳои рӯйхати сафед</string>
+  <string name="call_blocking_whitelist_only_warning">⚠ Ҳар як занге, ки дар рӯйхати сафеди шумо нест, блок карда мешавад!</string>
+  <string name="notification_ongoing_call_channel">Занги идома</string>
+  <string name="notification_ongoing_call_channel_desc">Огоҳиномаи доимӣ барои занги фаъол вақте ки экран пӯшида мешавад</string>
+  <string name="notification_ongoing_call_title">Занги идома</string>
+  <string name="delete_note_title">Захираро нест кардан</string>
+  <string name="delete_note_message">Шумо мехоҳед ин захираро нест кунед?</string>
+  <string name="stat_title">Омор</string>
+  <string name="stat_call_statistics">Омори занг</string>
+  <string name="stat_message_statistics">Омори паём</string>
+  <string name="stat_total_calls">Ҳамаи зангҳо</string>
+  <string name="stat_total_messages">Ҳамаи паёмҳо</string>
+  <string name="stat_total_duration">Ҳамаи вақт</string>
+  <string name="stat_average_duration">Вақти миёна</string>
+  <string name="stat_incoming">Оmadan</string>
+  <string name="stat_outgoing">Баромадан</string>
+  <string name="stat_missed">Гум шуда</string>
+  <string name="stat_received">Гирифта</string>
+  <string name="stat_sent">Фиристода</string>
+  <string name="stat_blocked">Блок шуда</string>
+  <string name="stat_frequent_contacts">Зангҳои зиёди тамос</string>
+  <string name="stat_contact_calls_duration">%1$d занг • %2$s</string>
+</resources>

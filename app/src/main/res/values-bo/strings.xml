@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="nav_back">རྒྱབ་ལོག</string>
+  <string name="add_contact_choose_method">འབྲེལ་བ་སྣོན་པ</string>
+  <string name="add_contact_manual">ལག་ཐབས་ཀྱིས་སྣོན་པ</string>
+  <string name="add_contact_via_qr">QR ཨང་རྟགས་བརྒྱུད་སྣོན་པ</string>
+  <string name="dialer_active_call_title">བྱ་འགུལ་ཁ་པར</string>
+  <string name="dialer_active_call_expand">གསལ་ཡོལ་ཆ་ཚང</string>
+  <string name="dialer_recent">ཉེ་ཆར</string>
+  <string name="dialer_no_recent">ཉེ་ཆར་བྱ་འགུལ་མེད</string>
+  <string name="dialer_results">འབྲས་བུ</string>
+  <string name="incall_mute">སྒྲ་མེད</string>
+  <string name="incall_speaker">སྒྲ་སྒྲིག</string>
+  <string name="my_card_title">ངའི་ལག་ཐག</string>
+  <string name="my_card_desc">ཁྱེད་ཀྱི་སྒེར་དོན་ལག་ཐག་བཟོས་ནས་སུ་ཡིན་མི་འདྲ་བ་མཉམ་སྤྱོད</string>
+  <string name="my_card_edit">བཟོ་བཅོས</string>
+  <string name="my_card_saved">ལག་ཐག་ཉར་ཚགས</string>
+  <string name="my_card_share">མཉམ་སྤྱོད</string>
+  <string name="qr_scan_title">འབྲེལ་བའི་ཨང་རྟགས་བཤར་འབེབས</string>
+  <string name="qr_camera_permission">ཨང་རྟགས་བཤར་འབེབས་བྱེད་པར་པར་ཆས་ཆོག</string>
+  <string name="invalid_qr_code">ནུས་མེད QR ཨང་རྟགས</string>
+  <string name="call_blocking_block_unknown">མི་ཤེས་པ / སྒེར་གྱི་ཨང་གྲངས་བཀག</string>
+  <string name="call_blocking_block_unknown_desc">འབྲེལ་བའི་ནང་མེད་པའི་ཨང་གྲངས་ནས་ཡོང་བའི་ཁ་པར་དང་ལེན་མི་བྱེད</string>
+  <string name="call_blocking_whitelist_only">དཀར་ཐོ་གཅིག་པུའི་སྤྱོད་ཚུལ</string>
+  <string name="call_blocking_whitelist_only_desc">དཀར་ཐོར་ཡོད་པའི་ཨང་གྲངས་མིན་པ་ཚང་མ་བཀག</string>
+  <string name="call_blocking_whitelist_only_warning">⚠ ཁྱེད་ཀྱི་དཀར་ཐོར་མེད་པའི་ཁ་པར་ཚང་མ་བཀག་རྒྱུ་རེད!</string>
+  <string name="notification_ongoing_call_channel">མུ་མཐུད་ཁ་པར</string>
+  <string name="notification_ongoing_call_channel_desc">གསལ་ཡོལ་སྒོ་བརྒྱབ་སྐབས་བྱ་འགུལ་ཁ་པར་གྱི་ཡུན་རིང་བརྡ་ཐོ</string>
+  <string name="notification_ongoing_call_title">མུ་མཐུད་ཁ་པར</string>
+  <string name="delete_note_title">དྲན་ཐོ་སུབ་པ</string>
+  <string name="delete_note_message">ཁྱེད་ཀྱིས་དྲན་ཐོ་འདི་སུབ་ན་འདོད་དམ?</string>
+  <string name="stat_title">སྙིང་བསྡུས</string>
+  <string name="stat_call_statistics">ཁ་པར་སྙིང་བསྡུས</string>
+  <string name="stat_message_statistics">ཆ་འཕྲིན་སྙིང་བསྡུས</string>
+  <string name="stat_total_calls">ཁ་པར་ཚང་མ</string>
+  <string name="stat_total_messages">ཆ་འཕྲིན་ཚང་མ</string>
+  <string name="stat_total_duration">ཡོངས་རྫོགས་དུས་ཚོད</string>
+  <string name="stat_average_duration">སྤྱི་འགྲོས་དུས་ཚོད</string>
+  <string name="stat_incoming">འབྱོར་བཞིན་པ</string>
+  <string name="stat_outgoing">སྐྱེལ་བཞིན་པ</string>
+  <string name="stat_missed">ཟིན་མ་ཐུབ</string>
+  <string name="stat_received">ལེན་ཐུབ</string>
+  <string name="stat_sent">བསྐུར་ཐུབ</string>
+  <string name="stat_blocked">བཀག</string>
+  <string name="stat_frequent_contacts">ཡང་ཡང་ཁ་པར་བརྒྱབ་སའི་འབྲེལ་བ</string>
+  <string name="stat_contact_calls_duration">%1$d ཁ་པར • %2$s</string>
+</resources>

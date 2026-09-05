@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="nav_back">मागे</string>
+  <string name="add_contact_choose_method">संपर्क जोडा</string>
+  <string name="add_contact_manual">हाताने जोडा</string>
+  <string name="add_contact_via_qr">QR कोडद्वारे जोडा</string>
+  <string name="dialer_active_call_title">सक्रिय जोल</string>
+  <string name="dialer_active_call_expand">पूर्ण स्क्रीन</string>
+  <string name="dialer_recent">अलीकडील</string>
+  <string name="dialer_no_recent">अलीकडील क्रिया नाही</string>
+  <string name="dialer_results">निकाल</string>
+  <string name="incall_mute">म्यूट</string>
+  <string name="incall_speaker">स्पीकर</string>
+  <string name="my_card_title">माझा कार्ड</string>
+  <string name="my_card_desc">तुमचा वैयक्तिक कार्ड तयार करा आणि कोणीही शेअर करा</string>
+  <string name="my_card_edit">संपादित करा</string>
+  <string name="my_card_saved">कार्ड जतन केले</string>
+  <string name="my_card_share">शेअर करा</string>
+  <string name="qr_scan_title">संपर्क कोड स्कॅन करा</string>
+  <string name="qr_camera_permission">कोड स्कॅन करण्यासाठी कॅमेरा परवानगी आवश्यक</string>
+  <string name="invalid_qr_code">अवैध QR कोड</string>
+  <string name="call_blocking_block_unknown">अनपेक्षित / खाजगी नंबर ब्लॉक करा</string>
+  <string name="call_blocking_block_unknown_desc">संपर्कांमध्ये नसलेल्या नंबरांवरून येणाऱ्या जोलांना नाकारा</string>
+  <string name="call_blocking_whitelist_only">फक्त श्वेत यादी मोड</string>
+  <string name="call_blocking_whitelist_only_desc">श्वेत यादीतील नंबर सोडून सर्व ब्लॉक करा</string>
+  <string name="call_blocking_whitelist_only_warning">⚠ तुमच्या श्वेत यादीत नसलेला प्रत्येक जोल ब्लॉक केला जाईल!</string>
+  <string name="notification_ongoing_call_channel">चालू जोल</string>
+  <string name="notification_ongoing_call_channel_desc">स्क्रीन बंद झाल्यावर सक्रिय जोलासाठी कायमची सूचना</string>
+  <string name="notification_ongoing_call_title">चालू जोल</string>
+  <string name="delete_note_title">टिप हटवा</string>
+  <string name="delete_note_message">ही टिप हटवू इच्छिता?</string>
+  <string name="stat_title">आकडेवारी</string>
+  <string name="stat_call_statistics">जोल आकडेवारी</string>
+  <string name="stat_message_statistics">संदेश आकडेवारी</string>
+  <string name="stat_total_calls">एकूण जोल</string>
+  <string name="stat_total_messages">एकूण संदेश</string>
+  <string name="stat_total_duration">एकूण कालावधी</string>
+  <string name="stat_average_duration">सरासरी कालावधी</string>
+  <string name="stat_incoming">येणार</string>
+  <string name="stat_outgoing">जाणार</string>
+  <string name="stat_missed">सुटलेले</string>
+  <string name="stat_received">प्राप्त</string>
+  <string name="stat_sent">पाठवलेले</string>
+  <string name="stat_blocked">ब्लॉक</string>
+  <string name="stat_frequent_contacts">वारंवार जोल लागणारे संपर्क</string>
+  <string name="stat_contact_calls_duration">%1$d जोल • %2$s</string>
+</resources>

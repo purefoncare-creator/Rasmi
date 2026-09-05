@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="nav_back">پي찹ي</string>
+  <string name="add_contact_choose_method">رابطو شامل ڪريو</string>
+  <string name="add_contact_manual">هٿان شامل ڪريو</string>
+  <string name="add_contact_via_qr">QR ڪوڊ ذريعي شامل ڪريو</string>
+  <string name="dialer_active_call_title">فعال ڪال</string>
+  <string name="dialer_active_call_expand">پورئ اسڪرين</string>
+  <string name="dialer_recent"> الحال</string>
+  <string name="dialer_no_recent">حال ڪارروائي نه آهي</string>
+  <string name="dialer_results">نتيجا</string>
+  <string name="incall_mute">خاموش</string>
+  <string name="incall_speaker">سپيڪر</string>
+  <string name="my_card_title"> منهنجو ڪارڊ</string>
+  <string name="my_card_desc">خپل شخصي ڪارڊٺايو ۽ هر ڪنھن سان وڌيڪ ڪريو</string>
+  <string name="my_card_edit">ترميم</string>
+  <string name="my_card_saved">ڪارڊ حفظ شد</string>
+  <string name="my_card_share">وڌيڪ</string>
+  <string name="qr_scan_title">رابطو ڪوڊ اسڪين ڪريو</string>
+  <string name="qr_camera_permission">ڪوڊ اسڪين ڪرڻ لاءِڪيمرو اجازت ضروري آهي</string>
+  <string name="invalid_qr_code">بيڪار QR ڪوڊ</string>
+  <string name="call_blocking_block_unknown">نامعلوم / شخصي نمبر بند ڪريو</string>
+  <string name="call_blocking_block_unknown_desc">رابطن ۾ نه آھن وارن مڍن ڪال رد ڪريو</string>
+  <string name="call_blocking_whitelist_only">صرف سفيد فہرست حالت</string>
+  <string name="call_blocking_whitelist_only_desc">سفيدي فہرست ۾ آھن وارن نھڍڻ بند ڪريو</string>
+  <string name="call_blocking_whitelist_only_warning">! ⚠ توهانجي سفيدي فہرست ۾ نه آھن واري هر ڪال بند ٿي ويندي</string>
+  <string name="notification_ongoing_call_channel">جاري ڪال</string>
+  <string name="notification_ongoing_call_channel_desc">اسڪرين بند ڪرڻ تي فعال ڪال لاءِ مستقل اعلان</string>
+  <string name="notification_ongoing_call_title">جاري ڪال</string>
+  <string name="delete_note_title">نوٹ خارج ڪريو</string>
+  <string name="delete_note_message">توھان هن نوٹ خارج ڪرڻ چاهندين؟</string>
+  <string name="stat_title">icho</string>
+  <string name="stat_call_statistics">ڪال اCHO</string>
+  <string name="stat_message_statistics">پيغام CHO</string>
+  <string name="stat_total_calls">ڪل ڪالن</string>
+  <string name="stat_total_messages">ڪل پيغامن</string>
+  <string name="stat_total_duration">ڪل عرصو</string>
+  <string name="stat_average_duration">اوسط عرصو</string>
+  <string name="stat_incoming">آڻين</string>
+  <string name="stat_outgoing">ڳلن</string>
+  <string name="stat_missed">ڇڏيل</string>
+  <string name="stat_received">وٺل</string>
+  <string name="stat_sent">ھڪايل</string>
+  <string name="stat_blocked">بند</string>
+  <string name="stat_frequent_contacts">بہ ڪال ڪندڙ رابطو</string>
+  <string name="stat_contact_calls_duration">%1$d ڪالن • %2$s</string>
+</resources>

@@ -91,7 +91,18 @@ class PurevonApp : Application(), Configuration.Provider {
             // The copy() method signature varies across LeakCanary versions
             leakCanary.getMethod("showLeakDisplayActivityLauncherIcon", Boolean::class.java)
                 .invoke(null, true)
-            
+
+            // ✅ FIX M30: ignore the known AOSP InCallService framework retention
+            // (InCallServiceBinder.this$0 rooted by libbinder JNI global refs).
+            try {
+                Class.forName("com.rasmi.purevon.util.InCallServiceLeakExclusion")
+                    .getMethod("apply")
+                    .invoke(null)
+                Log.d(TAG, "LeakCanary InCallService framework exclusion applied")
+            } catch (_: ClassNotFoundException) {
+                Log.d(TAG, "InCallServiceLeakExclusion not present (unexpected in debug)")
+            }
+
             Log.d(TAG, "LeakCanary configured successfully")
         } catch (e: ClassNotFoundException) {
             Log.d(TAG, "LeakCanary not available (expected in release builds)")

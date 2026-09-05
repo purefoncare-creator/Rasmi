@@ -28,7 +28,7 @@ fun IOSCard(
     modifier: Modifier = Modifier,
     backgroundColor: Color = MaterialTheme.colorScheme.surface,
     cornerRadius: Dp = CornerRadius.Large,
-    elevation: Dp = Elevation.Small,
+    elevation: Dp = Elevation.sm,
     content: @Composable ColumnScope.() -> Unit
 ) {
     Card(
@@ -45,7 +45,7 @@ fun IOSCard(
             containerColor = backgroundColor
         ),
         elevation = CardDefaults.cardElevation(
-            defaultElevation = Elevation.None
+            defaultElevation = Elevation.none
         )
     ) {
         Column(

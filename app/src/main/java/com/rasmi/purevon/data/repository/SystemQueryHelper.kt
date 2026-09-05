@@ -440,7 +440,10 @@ internal class SystemQueryHelper(
     // ============================================
 
     fun queryUnreadCountOptimized(): Int {
-        return try {
+        var count = 0
+
+        // 1) Unread SMS count
+        try {
             context.contentResolver.query(
                 Telephony.Sms.CONTENT_URI,
                 arrayOf("COUNT(*)"),
@@ -448,12 +451,30 @@ internal class SystemQueryHelper(
                 null,
                 null
             )?.use { cursor ->
-                if (cursor.moveToFirst()) cursor.getInt(0) else 0
-            } ?: 0
+                if (cursor.moveToFirst()) count += cursor.getInt(0)
+            }
         } catch (e: Exception) {
-            Log.e(TAG, "❌ Error counting unread messages", e)
-            0
+            Log.e(TAG, "❌ Error counting unread SMS messages", e)
         }
+
+        // 2) Unread MMS count.
+        // querySystemMessages(unreadOnly=true) already includes MMS (read = 0),
+        // so the unread LIST and the badge COUNT must both cover MMS to stay in sync.
+        try {
+            context.contentResolver.query(
+                Telephony.Mms.CONTENT_URI,
+                arrayOf("COUNT(*)"),
+                "${Telephony.Mms.READ} = 0",
+                null,
+                null
+            )?.use { cursor ->
+                if (cursor.moveToFirst()) count += cursor.getInt(0)
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "❌ Error counting unread MMS messages", e)
+        }
+
+        return count
     }
 
     suspend fun queryMessageById(messageId: Long): Message? {

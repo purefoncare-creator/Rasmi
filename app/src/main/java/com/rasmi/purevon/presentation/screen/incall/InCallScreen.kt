@@ -14,7 +14,6 @@ import androidx.compose.animation.core.*
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -33,6 +32,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -57,6 +57,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
@@ -78,58 +79,11 @@ import com.rasmi.purevon.presentation.component.SimSelectorDialog
 fun InCallScreen(
     viewModel: InCallViewModel = hiltViewModel()
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
     
-    // ✅ Update FloatingCallService with current state (including multi-call + conference)
-    LaunchedEffect(
-        uiState.callStartTime,
-        uiState.isMuted,
-        uiState.isSpeakerOn,
-        uiState.contactName,
-        uiState.isActive,
-        uiState.callState,
-        uiState.heldCall,
-        uiState.waitingCall,
-        uiState.hasWaitingCall,
-        uiState.isConference,
-        uiState.conferenceParticipants
-    ) {
-        val isRinging = uiState.isRinging && !uiState.isActive && !uiState.hasWaitingCall
-        val isDialing = uiState.isOutgoing && !uiState.isActive && !uiState.isRinging
-        
-        // ✅ تحديد حالة المكالمة الثانية (أو المؤتمر)
-        val secondCallState = when {
-            uiState.isConference -> "conference"
-            uiState.hasWaitingCall && uiState.waitingCall != null -> "waiting"
-            uiState.heldCall != null -> "held"
-            else -> null
-        }
-        val secondCallNumber = when {
-            uiState.isConference -> uiState.conferenceParticipants.size.toString()
-            else -> uiState.waitingCall ?: uiState.heldCall
-        }
-        val secondCallName = when {
-            uiState.isConference -> null // سيتم عرض "Conference" في الـ overlay
-            uiState.hasWaitingCall -> uiState.waitingCallName
-            else -> uiState.heldCallName
-        }
-        
-        com.rasmi.purevon.service.FloatingCallService.update(
-            context = context,
-            contactName = uiState.contactName,
-            phoneNumber = uiState.phoneNumber,
-            callStartTime = uiState.callStartTime,
-            isMuted = uiState.isMuted,
-            isSpeakerOn = uiState.isSpeakerOn,
-            isRinging = isRinging,
-            isDialing = isDialing,
-            secondCallName = secondCallName,
-            secondCallNumber = secondCallNumber,
-            secondCallState = secondCallState,
-            currentAudioRoute = uiState.currentAudioRoute
-        )
-    }
+    // ✅ الشريط العائم أُزيل واستُبدل بوضع Picture-in-Picture (PiP)
+    // تُدار أزرار PiP (كتم الصوت/السماعة/الإنهاء) من InCallActivity.
     
     // ✅ F4: إظهار/إخفاء الشريط العائم يُدار بالكامل من InCallActivity.onResume/onPause
     // لتجنب تضارب الأوامر (race condition) بين DisposableEffect و Activity lifecycle
@@ -268,7 +222,7 @@ private fun ActiveCallUI(
     isIncomingRinging: Boolean = false
 ) {
     val context = LocalContext.current
-    val isLightTheme = !isSystemInDarkTheme()
+    val isLightTheme = false
     
     Column(
         modifier = Modifier
@@ -351,9 +305,10 @@ private fun ActiveCallUI(
                                     )
                             )
                         }
-                        com.rasmi.purevon.presentation.component.UnifiedContactAvatar(
+                        com.rasmi.purevon.presentation.component.FavoriteContactAvatar(
                             size = 80.dp,
-                            photoUri = uiState.contactPhotoUri
+                            photoUri = uiState.contactPhotoUri,
+                            isFavorite = uiState.isFavorite
                         )
                     }
                     
@@ -934,6 +889,53 @@ private fun ActiveCallUI(
                 }
             }
             }
+        }
+    }
+}
+
+/**
+ * ✅ محتوى مبسّط يُعرض داخل نافذة Picture-in-Picture (PiP):
+ * يعرض اسم جهة الاتصال + حالة المكالمة/التايمر فقط، بدلاً من شاشة المكالمة الكاملة.
+ * يستخدم نفس InCallViewModel الخاص بالنشاط، فيستمر التايمر والتحديثات تلقائياً.
+ */
+@Composable
+fun PictureInPictureCallContent(
+    viewModel: InCallViewModel = hiltViewModel()
+) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = uiState.contactName ?: uiState.phoneNumber,
+                color = MaterialTheme.colorScheme.onBackground,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.SemiBold,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(horizontal = 12.dp)
+            )
+            Spacer(modifier = Modifier.height(6.dp))
+            Text(
+                text = if (uiState.isActive) {
+                    formatDuration(uiState.callDuration)
+                } else {
+                    uiState.callState
+                },
+                color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.85f),
+                fontSize = 14.sp,
+                maxLines = 1,
+                textAlign = TextAlign.Center
+            )
         }
     }
 }

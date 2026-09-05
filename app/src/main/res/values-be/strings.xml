@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="nav_back">Назад</string>
+  <string name="add_contact_choose_method">Дадаць кантакт</string>
+  <string name="add_contact_manual">Дадаць уручную</string>
+  <string name="add_contact_via_qr">Дадаць праз QR-код</string>
+  <string name="dialer_active_call_title">Актыўны выклік</string>
+  <string name="dialer_active_call_expand">Поўны экран</string>
+  <string name="dialer_recent">Апошнія</string>
+  <string name="dialer_no_recent">Няма апошняй актыўнасці</string>
+  <string name="dialer_results">Вынікі</string>
+  <string name="incall_mute">Адключыць гук</string>
+  <string name="incall_speaker">Дынамік</string>
+  <string name="my_card_title">Мая картка</string>
+  <string name="my_card_desc">Стварыце сваю асабістую картку і падзяліцеся з кім заўгодна</string>
+  <string name="my_card_edit">Рэдагаваць</string>
+  <string name="my_card_saved">Картка захавана</string>
+  <string name="my_card_share">Падзяліцца</string>
+  <string name="qr_scan_title">Сканіраваць код кантакту</string>
+  <string name="qr_camera_permission">Патрабуецца дазвол камеры для сканіравання кода</string>
+  <string name="invalid_qr_code">Няспраўны QR-код</string>
+  <string name="call_blocking_block_unknown">Заблакіраваць невядомыя / прыватныя нумары</string>
+  <string name="call_blocking_block_unknown_desc">Адхіліць выклікі з нумароў, якіх няма ў кантактах</string>
+  <string name="call_blocking_whitelist_only">Толькі рэжым белага спісу</string>
+  <string name="call_blocking_whitelist_only_desc">Заблакіраваць усё акрамя нумароў з белага спісу</string>
+  <string name="call_blocking_whitelist_only_warning">⚠ Кожны выклік, якога няма ў вашым белым спісе, будзе заблакіраваны!</string>
+  <string name="notification_ongoing_call_channel">Працяглы выклік</string>
+  <string name="notification_ongoing_call_channel_desc">Пастаяннае апавяшчэнне для актыўнага выкліку, калі экран зачынены</string>
+  <string name="notification_ongoing_call_title">Працяглы выклік</string>
+  <string name="delete_note_title">Выдаліць нататку</string>
+  <string name="delete_note_message">Вы ўпэўненыя, што хочаце выдаліць гэту нататку?</string>
+  <string name="stat_title">Статыстыка</string>
+  <string name="stat_call_statistics">Статыстыка выклікаў</string>
+  <string name="stat_message_statistics">Статыстыка паведамленняў</string>
+  <string name="stat_total_calls">Агульная колькасць выклікаў</string>
+  <string name="stat_total_messages">Агульная колькасць паведамленняў</string>
+  <string name="stat_total_duration">Агульная працягласць</string>
+  <string name="stat_average_duration">Сярэдняя працягласць</string>
+  <string name="stat_incoming">Уваходныя</string>
+  <string name="stat_outgoing">Выходныя</string>
+  <string name="stat_missed">Прапушчаныя</string>
+  <string name="stat_received">Атрыманыя</string>
+  <string name="stat_blocked">Заблакіраваныя</string>
+  <string name="stat_frequent_contacts">Частыя выклікі кантактаў</string>
+  <string name="stat_contact_calls_duration">%1$d выклікаў • %2$s</string>
+  <string name="stat_sent">Адпраўлены</string>
+</resources>

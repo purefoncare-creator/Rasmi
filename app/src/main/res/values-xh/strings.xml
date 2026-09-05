@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="nav_back">Emva</string>
+  <string name="add_contact_choose_method">Nongeza Ulwaluko</string>
+  <string name="add_contact_manual">Nongeza Ngesandla</string>
+  <string name="add_contact_via_qr">Nongeza Ngekhowudi ye-QR</string>
+  <string name="dialer_active_call_title">Umnxezo Ukusebenza</string>
+  <string name="dialer_active_call_expand">Iskrini Esigcweleyo</string>
+  <string name="dialer_recent">Okutsha</string>
+  <string name="dialer_no_recent">Akukho Mintshato yamuva</string>
+  <string name="dialer_results">Iziphumo</string>
+  <string name="incall_mute">Thula</string>
+  <string name="incall_speaker">Umsindi</string>
+  <string name="my_card_title">Ikhadi Lwam</string>
+  <string name="my_card_desc">Yenza ikhwadi yakho yobuqu kwaye uyihlanganise nani na</string>
+  <string name="my_card_edit">Hlela</string>
+  <string name="my_card_saved">Ikhadi igciniwe</string>
+  <string name="my_card_share">Yabelana</string>
+  <string name="qr_scan_title">Skena ikhowudi yolwaluko</string>
+  <string name="qr_camera_permission">Kufuneka imvume yekamera ukuze uskene ikhowudi</string>
+  <string name="invalid_qr_code">Ikhhowudi ye-QR engasebenzi</string>
+  <string name="call_blocking_block_unknown">Tshabalalisa iinambala ezingaziwayo / zobuqu</string>
+  <string name="call_blocking_block_unknown_desc">Lahla unxibelelwano olungaphantsi kolwaluko</string>
+  <string name="call_blocking_whitelist_only">Imo yohlu olumhlophe kuphela</string>
+  <string name="call_blocking_whitelist_only_desc">Tshabalalisa yonke ngaphandle kweenambala kuhlu olumhlophe</string>
+  <string name="call_blocking_whitelist_only_warning">⚠ Yonke unxibelelwano engekho kuhlu lwakho olumhlophe iya kutshabalaliswa!</string>
+  <string name="notification_ongoing_call_channel">Unxibelelwano Oluqhubekayo</string>
+  <string name="notification_ongoing_call_channel_desc">Isaziso esihlala njalo kunxibelelwano olusebenzayo xa iskrin ifakiwe</string>
+  <string name="notification_ongoing_call_title">Unxibelelwano Oluqhubekayo</string>
+  <string name="delete_note_title">Cima Amanyulo</string>
+  <string name="delete_note_message">Ingaba ufuna ukucima la manyulo?</string>
+  <string name="stat_title">Iintloko</string>
+  <string name="stat_call_statistics">Iintloko Zonxibelelwano</string>
+  <string name="stat_message_statistics">Iintloko Zengxelo</string>
+  <string name="stat_total_calls">Inani Elingasoze Lanxibelelwano</string>
+  <string name="stat_total_messages">Inani Elingasoze Lengxelo</string>
+  <string name="stat_total_duration">Isikhathi Esipheleleyo</string>
+  <string name="stat_average_duration">Isikhathi Esilinganiselweyo</string>
+  <string name="stat_incoming">Ezifikayo</string>
+  <string name="stat_outgoing">Eziphumayo</string>
+  <string name="stat_missed">Ezedlulileyo</string>
+  <string name="stat_received">Ezamkelayo</string>
+  <string name="stat_sent">Ezithunyelweyo</string>
+  <string name="stat_blocked">Ezitshabalalisweyo</string>
+  <string name="stat_frequent_contacts">Amalungu avamise ukubiza</string>
+  <string name="stat_contact_calls_duration">%1 unxibelelwano • %2</string>
+</resources>

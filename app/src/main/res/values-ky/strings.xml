@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="nav_back">Артка</string>
+  <string name="add_contact_choose_method">Байланыш кошуу</string>
+  <string name="add_contact_manual">Кол менен кошуу</string>
+  <string name="add_contact_via_qr">QR код аркылуу кошуу</string>
+  <string name="dialer_active_call_title">Активдүү чалуу</string>
+  <string name="dialer_active_call_expand">Толук экран</string>
+  <string name="dialer_recent">Акыркы</string>
+  <string name="dialer_no_recent">Акыркы иш-аракет жок</string>
+  <string name="dialer_results">Натыйжалар</string>
+  <string name="incall_mute"> ымındak</string>
+  <string name="incall_speaker">Колонка</string>
+  <string name="my_card_title">Менин картам</string>
+  <string name="my_card_desc">Жеке картаны түзүңүз жана ким менен болбосун бөлүшүңүз</string>
+  <string name="my_card_edit">Өзгөртүү</string>
+  <string name="my_card_saved">Карты сакталды</string>
+  <string name="my_card_share">Бөлүшүү</string>
+  <string name="qr_scan_title">Байланыш кодун сканерлөө</string>
+  <string name="qr_camera_permission">Кодду сканерлөө үчүн камера уруксаты керек</string>
+  <string name="invalid_qr_code">Жараксыз QR код</string>
+  <string name="call_blocking_block_unknown">Белгисиз / жеке номерлерди бөгөттөө</string>
+  <string name="call_blocking_block_unknown_desc">Байланышта жок номерлерден келген чалууларды четке кагуу</string>
+  <string name="call_blocking_whitelist_only">Ак тизме режимде гана</string>
+  <string name="call_blocking_whitelist_only_desc">Ак тизмедеги номерлерден башка бардык бөгөттөө</string>
+  <string name="call_blocking_whitelist_only_warning">⚠ Сиздин ак тизмеге кирбеген ар бир чалуу бөгөттөлөт!</string>
+  <string name="notification_ongoing_call_channel">Уланган чалуу</string>
+  <string name="notification_ongoing_call_channel_desc">Экран жабылганда активдүү чалуу үчүн туруктуу маалымат</string>
+  <string name="notification_ongoing_call_title">Уланган чалуу</string>
+  <string name="delete_note_title">Эскертүүнү өчүрүү</string>
+  <string name="delete_note_message">Бул эскертүүнү өчүрүүнү каалайсызбы?</string>
+  <string name="stat_title">Статистика</string>
+  <string name="stat_call_statistics">Чалуу статистикасы</string>
+  <string name="stat_message_statistics">Билдирүү статистикасы</string>
+  <string name="stat_total_calls">Бардык чалуулар</string>
+  <string name="stat_total_messages">Бардык билдирүүлөр</string>
+  <string name="stat_total_duration">Жалпы убакыт</string>
+  <string name="stat_average_duration">Орточо убакыт</string>
+  <string name="stat_incoming">Келүүчү</string>
+  <string name="stat_outgoing">Чыгуучу</string>
+  <string name="stat_missed">Жоготулган</string>
+  <string name="stat_received">Алынган</string>
+  <string name="stat_sent">Жиберилген</string>
+  <string name="stat_blocked">Бөгөттөлгөн</string>
+  <string name="stat_frequent_contacts">Көп чалуучу байланыштар</string>
+  <string name="stat_contact_calls_duration">%1$d чалуу • %2$s</string>
+</resources>

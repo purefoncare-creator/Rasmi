@@ -2,6 +2,7 @@ package com.rasmi.purevon.presentation.component
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -11,25 +12,24 @@ import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.rasmi.purevon.presentation.theme.iOSBlue
+import com.rasmi.purevon.presentation.theme.*
 import com.rasmi.purevon.util.AudioPlayer
 import com.rasmi.purevon.util.ActiveAudioManager
 import com.rasmi.purevon.util.audio.AudioWaveformGenerator
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
-/**
- * Audio Message Bubble Component
- * iOS-style voice message with waveform visualization
- */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AudioMessageBubble(
     audioUri: String,
@@ -39,20 +39,20 @@ fun AudioMessageBubble(
     waveformSamples: List<Float>? = null
 ) {
     val context = LocalContext.current
-    val scope = rememberCoroutineScope()
     val audioPlayer = remember(audioUri) { AudioPlayer(context) }
     val waveformGenerator = remember { AudioWaveformGenerator(context) }
-    
-    // ✅ FIX #31: Use player's actual duration as fallback when durationMs=0
-    val playerDuration by audioPlayer.duration.collectAsState()
+
+    val playerDuration by audioPlayer.duration.collectAsStateWithLifecycle()
     val effectiveDuration = if (durationMs > 0) durationMs else playerDuration.toLong()
-    
+
     var isPlaying by remember { mutableStateOf(false) }
     var progress by remember { mutableFloatStateOf(0f) }
     var currentPositionMs by remember { mutableLongStateOf(0L) }
     var waveform by remember { mutableStateOf(waveformSamples) }
-    
-    // Generate waveform if not provided
+    val speed by audioPlayer.playbackSpeed.collectAsStateWithLifecycle()
+    var isSeeking by remember { mutableStateOf(false) }
+    var seekPosition by remember { mutableFloatStateOf(0f) }
+
     LaunchedEffect(audioUri) {
         if (waveform == null) {
             waveformGenerator.generateWaveform(audioUri).fold(
@@ -61,29 +61,21 @@ fun AudioMessageBubble(
             )
         }
     }
-    
-    val animatedProgress by animateFloatAsState(
-        targetValue = progress,
-        animationSpec = tween(100),
-        label = "audio_progress"
-    )
-    
-    // Update progress while playing
+
     LaunchedEffect(isPlaying) {
         while (isPlaying) {
             audioPlayer.updatePosition()
             val position = audioPlayer.currentPosition.value
             currentPositionMs = position.toLong()
-            progress = if (effectiveDuration > 0) {
-                (position.toFloat() / effectiveDuration.toFloat()).coerceIn(0f, 1f)
-            } else {
-                0f
+            if (!isSeeking) {
+                progress = if (effectiveDuration > 0) {
+                    (position.toFloat() / effectiveDuration.toFloat()).coerceIn(0f, 1f)
+                } else 0f
             }
             delay(100)
         }
     }
-    
-    // Observe player state
+
     LaunchedEffect(audioUri) {
         audioPlayer.isPlaying.collect { playing ->
             isPlaying = playing
@@ -93,181 +85,127 @@ fun AudioMessageBubble(
             }
         }
     }
-    
-    // Cleanup
+
     DisposableEffect(Unit) {
         onDispose {
             ActiveAudioManager.clearIfActive(audioPlayer)
             audioPlayer.release()
         }
     }
-    
-    val backgroundColor = when {
-        isOutgoing -> MaterialTheme.colorScheme.primary
-        else -> MaterialTheme.colorScheme.surfaceVariant
-    }
-    
-    val contentColor = if (isOutgoing) Color.White else MaterialTheme.colorScheme.onSurfaceVariant
-    val secondaryColor = if (isOutgoing) {
-        Color.White.copy(alpha = 0.7f)
-    } else {
-        MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
-    }
-    
+
+    val backgroundColor = if (isOutgoing) PurevonBubbleSent else PurevonBubbleReceived
+    val contentColor = if (isOutgoing) PurevonBubbleSentText else PurevonBubbleReceivedText
+    val secondaryColor = if (isOutgoing) PurevonBubbleSentText.copy(alpha = 0.7f) else PurevonTextSecondary
+
     Surface(
-        modifier = modifier
-            .widthIn(min = 200.dp, max = 280.dp),
+        modifier = modifier.widthIn(min = 220.dp, max = 310.dp),
         color = backgroundColor,
-        shape = RoundedCornerShape(18.dp)
+        shape = RoundedCornerShape(MessagingDimensions.corner10x)
     ) {
         Row(
-            modifier = Modifier.padding(horizontal = 12.dp, vertical = 10.dp),
-            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            modifier = Modifier
+                .height(68.dp)
+                .padding(horizontal = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Play/Pause Button
             IconButton(
                 onClick = {
-                    scope.launch {
-                        if (isPlaying) {
-                            audioPlayer.pause()
-                        } else {
-                            // ✅ Stop any other playing audio first
-                            ActiveAudioManager.setActive(audioPlayer)
-                            audioPlayer.play(audioUri)
-                        }
+                    if (isPlaying) {
+                        audioPlayer.pause()
+                    } else {
+                        ActiveAudioManager.setActive(audioPlayer)
+                        audioPlayer.play(audioUri)
                     }
                 },
                 modifier = Modifier
                     .size(36.dp)
-                    .background(
-                        if (isOutgoing) Color.White.copy(alpha = 0.25f)
-                        else iOSBlue.copy(alpha = 0.15f),
-                        CircleShape
-                    ),
-                colors = IconButtonDefaults.iconButtonColors(
-                    containerColor = Color.Transparent
-                )
+                    .background(contentColor, CircleShape),
+                colors = IconButtonDefaults.iconButtonColors(containerColor = contentColor)
             ) {
                 Icon(
                     imageVector = if (isPlaying) Icons.Default.Pause else Icons.Default.PlayArrow,
                     contentDescription = if (isPlaying) "Pause" else "Play",
-                    tint = contentColor,
+                    tint = backgroundColor,
                     modifier = Modifier.size(20.dp)
                 )
             }
-            
-            // Waveform & Duration
+
             Column(
-                modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(6.dp)
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(horizontal = 4.dp),
+                verticalArrangement = Arrangement.Center
             ) {
-                // Waveform visualization
-                if (waveform != null) {
-                    WaveformVisualization(
-                        waveform = waveform!!,
-                        progress = animatedProgress,
-                        activeColor = contentColor,
-                        inactiveColor = secondaryColor,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(32.dp)
-                    )
-                } else {
-                    // Loading placeholder
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(32.dp)
-                            .clip(RoundedCornerShape(4.dp))
-                            .background(secondaryColor.copy(alpha = 0.3f)),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        CircularProgressIndicator(
-                            modifier = Modifier.size(16.dp),
-                            color = contentColor,
-                            strokeWidth = 2.dp
+                Slider(
+                    value = if (isSeeking) seekPosition else progress,
+                    onValueChange = { value ->
+                        isSeeking = true
+                        seekPosition = value
+                        progress = value
+                        currentPositionMs = (value * effectiveDuration).toLong()
+                    },
+                    onValueChangeFinished = {
+                        val targetMs = (seekPosition * effectiveDuration).toInt()
+                        audioPlayer.seekTo(targetMs)
+                        currentPositionMs = targetMs.toLong()
+                        isSeeking = false
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(20.dp),
+                    colors = SliderDefaults.colors(
+                        thumbColor = contentColor,
+                        activeTrackColor = contentColor,
+                        inactiveTrackColor = secondaryColor.copy(alpha = 0.3f)
+                    ),
+                    thumb = {
+                        Box(
+                            modifier = Modifier
+                                .size(12.dp)
+                                .background(contentColor, CircleShape)
                         )
                     }
-                }
-                
-                // Time display
+                )
+
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
-                        text = formatDuration(if (isPlaying) currentPositionMs else 0),
-                        style = MaterialTheme.typography.labelSmall,
+                        text = formatDuration(currentPositionMs),
+                        style = MessagingTypography.label01,
                         color = secondaryColor,
-                        fontSize = 11.sp,
-                        fontWeight = FontWeight.Medium
+                        fontSize = 11.sp
                     )
-                    
                     Text(
                         text = formatDuration(effectiveDuration),
-                        style = MaterialTheme.typography.labelSmall,
+                        style = MessagingTypography.label01,
                         color = secondaryColor,
-                        fontSize = 11.sp,
-                        fontWeight = FontWeight.Medium
+                        fontSize = 11.sp
                     )
                 }
             }
-        }
-    }
-}
 
-/**
- * Waveform Visualization Component
- */
-@Composable
-private fun WaveformVisualization(
-    waveform: List<Float>,
-    progress: Float,
-    activeColor: Color,
-    inactiveColor: Color,
-    modifier: Modifier = Modifier
-) {
-    Row(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(2.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        waveform.forEachIndexed { index, amplitude ->
-            val barProgress = index.toFloat() / waveform.size.toFloat()
-            val isActive = barProgress <= progress
-            
-            // Calculate bar height based on amplitude (0.0 to 1.0)
-            val minHeight = 4.dp
-            val maxHeight = 28.dp
-            val barHeight = minHeight + (maxHeight - minHeight) * amplitude
-            
-            Box(
-                modifier = Modifier
-                    .weight(1f)
-                    .height(maxHeight)
-                    .clip(RoundedCornerShape(2.dp)),
-                contentAlignment = Alignment.Center
+            Surface(
+                onClick = {
+                    if (isPlaying) {
+                        audioPlayer.cycleSpeed()
+                    }
+                },
+                shape = RoundedCornerShape(MessagingDimensions.corner4x),
+                color = if (speed != 1f) contentColor.copy(alpha = 0.2f) else Color.Transparent
             ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(barHeight)
-                        .clip(RoundedCornerShape(2.dp))
-                        .background(
-                            if (isActive) activeColor
-                            else inactiveColor.copy(alpha = 0.4f)
-                        )
+                Text(
+                    text = "${if (speed == speed.toLong().toFloat()) speed.toLong() else speed}x",
+                    style = MessagingTypography.badge01,
+                    color = contentColor,
+                    modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
                 )
             }
         }
     }
 }
 
-/**
- * Format duration in mm:ss format
- */
 private fun formatDuration(millis: Long): String {
     val seconds = (millis / 1000).toInt()
     val minutes = seconds / 60

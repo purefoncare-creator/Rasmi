@@ -168,7 +168,6 @@ class InCallViewModel @Inject constructor(
             }
             
             Log.d(TAG, "Call disconnected - no remaining calls, closing activity")
-            com.rasmi.purevon.service.FloatingCallService.stop(context)
             stopCallDurationTimer()
             
              _uiState.update {
@@ -460,6 +459,8 @@ class InCallViewModel @Inject constructor(
             // ✅ أحداث الميزات الجديدة
             is InCallUiEvent.UpdateCallNotes -> updateCallNotes(event.notes)
             InCallUiEvent.SaveCallNote -> saveCallNote()
+            // ✅ FIX M34: حذف ملاحظة من شاشة المكالمة
+            is InCallUiEvent.DeleteCallNote -> deleteCallNote(event.noteId)
             InCallUiEvent.ShowNewNoteInput -> _uiState.update { it.copy(showNewNoteInput = true, callNotes = "") }
             InCallUiEvent.HideNewNoteInput -> _uiState.update { it.copy(showNewNoteInput = false, callNotes = "") }
             is InCallUiEvent.SetCallbackReminder -> setCallbackReminder(event.minutes)
@@ -980,7 +981,12 @@ class InCallViewModel @Inject constructor(
     private fun saveCallNote() {
         saveCallNoteImpl()
     }
-    
+
+    /** ✅ FIX M34: حذف ملاحظة من شاشة المكالمة */
+    private fun deleteCallNote(noteId: Long) {
+        deleteCallNoteImpl(noteId)
+    }
+
     private fun setCallbackReminder(minutes: Int) {
         setCallbackReminderImpl(minutes)
     }

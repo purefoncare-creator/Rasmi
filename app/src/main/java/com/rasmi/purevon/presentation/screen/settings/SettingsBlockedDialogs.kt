@@ -22,6 +22,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.window.Dialog
 import com.rasmi.purevon.R
 import com.rasmi.purevon.domain.model.Contact
@@ -442,5 +444,183 @@ internal fun WhitelistDialog(
                 }
             }
         }
+    }
+}
+
+/**
+ * ✅ FIX M32b: نافذة إعدادات حظر المكالمات.
+ * كل التغييرات محلية (staged) ولا تُطبَّق إلا بالضغط على Save —
+ * بجانب زر Close. تشمل خيارين كانا مخفيين: حظر المجهول ووضع القائمة البيضاء.
+ */
+@Composable
+internal fun CallBlockingSettingsDialog(
+    callBlockingEnabled: Boolean,
+    blockUnknownNumbers: Boolean,
+    whitelistOnlyMode: Boolean,
+    simSubscriptionId: Int,
+    availableSims: List<com.rasmi.purevon.util.sim.SimInfo>,
+    onSave: (enabled: Boolean, blockUnknown: Boolean, whitelistOnly: Boolean, simSubId: Int) -> Unit,
+    onDismiss: () -> Unit
+) {
+    // حالة مرحلية — لا تمس DataStore حتى Save
+    var stagedEnabled by remember { mutableStateOf(callBlockingEnabled) }
+    var stagedBlockUnknown by remember { mutableStateOf(blockUnknownNumbers) }
+    var stagedWhitelistOnly by remember { mutableStateOf(whitelistOnlyMode) }
+    var stagedSimSubId by remember { mutableIntStateOf(simSubscriptionId) }
+
+    Dialog(onDismissRequest = onDismiss) {
+        Surface(
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(16.dp),
+            color = MaterialTheme.colorScheme.surface,
+            tonalElevation = 8.dp
+        ) {
+            Column(modifier = Modifier.padding(16.dp)) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = stringResource(R.string.call_blocking_title),
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold
+                    )
+                    IconButton(onClick = onDismiss) {
+                        Icon(Icons.Default.Close, contentDescription = stringResource(R.string.close))
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                // ── التفعيل الرئيسي ──
+                SettingSwitchRow(
+                    title = stringResource(R.string.call_blocking_enable),
+                    checked = stagedEnabled,
+                    onCheckedChange = { stagedEnabled = it },
+                    tint = MaterialTheme.colorScheme.error
+                )
+
+                // ── اختيار الشريحة (إن وُجدت أكثر من واحدة) ──
+                if (availableSims.size > 1 && stagedEnabled) {
+                    CardItemDivider()
+                    Text(
+                        text = stringResource(R.string.sim_select_for_blocking),
+                        style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.padding(vertical = 6.dp)
+                    )
+                    SimChoiceRow(
+                        label = stringResource(R.string.sim_all),
+                        selected = stagedSimSubId == -1,
+                        onClick = { stagedSimSubId = -1 }
+                    )
+                    availableSims.forEach { sim ->
+                        SimChoiceRow(
+                            label = sim.displayName,
+                            selected = stagedSimSubId == sim.subscriptionId,
+                            onClick = { stagedSimSubId = sim.subscriptionId }
+                        )
+                    }
+                }
+
+                // ── حظر الأرقام غير المعروفة ──
+                if (stagedEnabled) {
+                    CardItemDivider()
+                    SettingSwitchRow(
+                        title = stringResource(R.string.call_blocking_block_unknown),
+                        subtitle = stringResource(R.string.call_blocking_block_unknown_desc),
+                        checked = stagedBlockUnknown,
+                        onCheckedChange = { stagedBlockUnknown = it },
+                        tint = MaterialTheme.colorScheme.error
+                    )
+
+                    // ── وضع القائمة البيضاء فقط ──
+                    CardItemDivider()
+                    SettingSwitchRow(
+                        title = stringResource(R.string.call_blocking_whitelist_only),
+                        subtitle = stringResource(R.string.call_blocking_whitelist_only_desc),
+                        checked = stagedWhitelistOnly,
+                        onCheckedChange = { stagedWhitelistOnly = it },
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                    if (stagedWhitelistOnly) {
+                        Text(
+                            text = stringResource(R.string.call_blocking_whitelist_only_warning),
+                            style = MaterialTheme.typography.labelMedium,
+                            color = MaterialTheme.colorScheme.error,
+                            modifier = Modifier.padding(start = 4.dp, top = 2.dp)
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                // ── ✅ أزرار Close + Save ──
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    TextButton(onClick = onDismiss) {
+                        Text(stringResource(R.string.close))
+                    }
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Button(
+                        onClick = { onSave(stagedEnabled, stagedBlockUnknown, stagedWhitelistOnly, stagedSimSubId) }
+                    ) {
+                        Text(stringResource(R.string.save))
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun SettingSwitchRow(
+    title: String,
+    subtitle: String? = null,
+    checked: Boolean,
+    onCheckedChange: (Boolean) -> Unit,
+    tint: androidx.compose.ui.graphics.Color
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Column(modifier = Modifier.weight(1f)) {
+            Text(text = title, style = MaterialTheme.typography.bodyLarge)
+            if (!subtitle.isNullOrEmpty()) {
+                Text(
+                    text = subtitle,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+        }
+        Switch(checked = checked, onCheckedChange = onCheckedChange)
+    }
+}
+
+@Composable
+private fun SimChoiceRow(
+    label: String,
+    selected: Boolean,
+    onClick: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(androidx.compose.foundation.shape.RoundedCornerShape(8.dp))
+            .selectable(selected = selected, onClick = onClick)
+            .padding(vertical = 8.dp, horizontal = 4.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        RadioButton(selected = selected, onClick = null)
+        Spacer(modifier = Modifier.width(8.dp))
+        Text(text = label, style = MaterialTheme.typography.bodyMedium)
     }
 }

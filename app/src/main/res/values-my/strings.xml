@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="nav_back">နောက်သို့</string>
+  <string name="add_contact_choose_method">အဆက်အသွယ် ထည့်ပါ</string>
+  <string name="add_contact_manual">လက်ဖြင့် ထည့်ပါ</string>
+  <string name="add_contact_via_qr">QR ကုဒ်ဖြင့် ထည့်ပါ</string>
+  <string name="dialer_active_call_title">ဖွင့်ထားသော ခေါ်ဆိုမှု</string>
+  <string name="dialer_active_call_expand">မျက်နှာပြည့်</string>
+  <string name="dialer_recent">နောက်ဆုံး</string>
+  <string name="dialer_no_recent">နောက်ဆုံး လုပ်ဆောင်မှု မရှိ</string>
+  <string name="dialer_results">ရလဒ်များ</string>
+  <string name="incall_mute">အသံပိတ်</string>
+  <string name="incall_speaker">စပီကာ</string>
+  <string name="my_card_title">ကျွန်ုပ်၏ ကတ်</string>
+  <string name="my_card_desc">သင့်ကိုယ်ပိုင် ကတ်ကို ဖန်တီးပြီး ဘယ်သူ့နှင့်မဆို မျှဝေပါ</string>
+  <string name="my_card_edit">ပြင်ဆင်ရန်</string>
+  <string name="my_card_saved">ကတ် သိမ်းဆည်းပြီး</string>
+  <string name="my_card_share">မျှဝေပါ</string>
+  <string name="qr_scan_title">အဆက်အသွယ် ကုဒ်ကို စကင်ဖတ်ပါ</string>
+  <string name="qr_camera_permission">ကုဒ် စကင်ဖတ်ရန် ကင်မရာ ခွင့်ပြုချက် လိုအပ်ပါသည်</string>
+  <string name="invalid_qr_code">မမှန်ကန်သော QR ကုဒ်</string>
+  <string name="call_blocking_block_unknown">မသိ/ပုဂ္ဂိုလ်ရေး နံပါတ်များကို ပိတ်ပါ</string>
+  <string name="call_blocking_block_unknown_desc">အဆက်အသွယ်များတွင် မပါဝင်သော နံပါတ်များမှ လာသည့် ခေါ်ဆိုမှုများကို ငြင်းဆိုပါ</string>
+  <string name="call_blocking_whitelist_only">အဖြူစာရင်း မုဒ် သာ</string>
+  <string name="call_blocking_whitelist_only_desc">အဖြူစာရင်းတွင် ရှိသည့် နံပါတ်များမှလွဲ၍ အားလုံးကို ပိတ်ပါ</string>
+  <string name="call_blocking_whitelist_only_warning">⚠ သင့်အဖြူစာရင်းတွင် မပါဝင်သည့် ခေါ်ဆိုမှုတိုင်းကို ပိတ်မည်ဖြစ်ပါသည်!</string>
+  <string name="notification_ongoing_call_channel">ဆက်လက်ခေါ်ဆိုမှု</string>
+  <string name="notification_ongoing_call_channel_desc">ဖန်သားပြင် ပိတ်သည့်အခါ ဖွင့်ထားသည့် ခေါ်ဆိုမှုအတွက် အမြဲတမ်း အကြောင်းကြားချက်</string>
+  <string name="notification_ongoing_call_title">ဆက်လက်ခေါ်ဆိုမှု</string>
+  <string name="delete_note_title">မှတ်စု ဖျက်ပါ</string>
+  <string name="delete_note_message">ဤမှတ်စုကို ဖျက်ချင်ပါသလား?</string>
+  <string name="stat_title">စာရင်းအင်း</string>
+  <string name="stat_call_statistics">ခေါ်ဆိုမှု စာရင်းအင်း</string>
+  <string name="stat_message_statistics">မက်ဆေ့ချ် စာရင်းအင်း</string>
+  <string name="stat_total_calls">စုစုပေါင်း ခေါ်ဆိုမှု</string>
+  <string name="stat_total_messages">စုစုပေါင်း မက်ဆေ့ချ်</string>
+  <string name="stat_total_duration">စုစုပေါင်း ကြာချိန်</string>
+  <string name="stat_average_duration">ပျမ်းမျှ ကြာချိန်</string>
+  <string name="stat_incoming">လာသည့်</string>
+  <string name="stat_outgoing">သွားသည့်</string>
+  <string name="stat_missed">လွဲသည့်</string>
+  <string name="stat_received">ရရှိသည့်</string>
+  <string name="stat_sent">ပို့သည့်</string>
+  <string name="stat_blocked">ပိတ်ထားသည့်</string>
+  <string name="stat_frequent_contacts">မကြာခဏ ခေါ်ဆိုသည့် အဆက်အသွယ်များ</string>
+  <string name="stat_contact_calls_duration">%1$d ခေါ်ဆိုမှု • %2$s</string>
+</resources>

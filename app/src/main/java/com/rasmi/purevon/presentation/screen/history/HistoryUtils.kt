@@ -14,13 +14,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.rasmi.purevon.data.local.entity.CallType
-import com.rasmi.purevon.presentation.theme.errorColor
-import com.rasmi.purevon.presentation.theme.infoColor
-import com.rasmi.purevon.presentation.theme.incomingCallColor
-import com.rasmi.purevon.presentation.theme.missedCallColor
-import com.rasmi.purevon.presentation.theme.outgoingCallColor
-import com.rasmi.purevon.presentation.theme.rejectedCallColor
-import com.rasmi.purevon.presentation.theme.warningColor
+import com.rasmi.purevon.presentation.theme.PurevonError
+import com.rasmi.purevon.presentation.theme.PurevonTertiary
+import com.rasmi.purevon.presentation.theme.PurevonCallIncoming
+import com.rasmi.purevon.presentation.theme.PurevonCallMissed
+import com.rasmi.purevon.presentation.theme.PurevonCallOutgoing
+import com.rasmi.purevon.presentation.theme.PurevonCallRejected
 import com.rasmi.purevon.R
 import java.text.SimpleDateFormat
 import java.time.Instant
@@ -44,12 +43,12 @@ internal fun groupContactCallsByDay(
 @Composable
 internal fun getFilterIconAndColor(filter: CallFilter): Pair<ImageVector, Color> {
     return when (filter) {
-        CallFilter.ALL -> Icons.Default.Phone to infoColor()
-        CallFilter.MISSED -> Icons.AutoMirrored.Filled.CallMissed to missedCallColor()
-        CallFilter.INCOMING -> Icons.AutoMirrored.Filled.CallReceived to incomingCallColor()
-        CallFilter.OUTGOING -> Icons.AutoMirrored.Filled.CallMade to outgoingCallColor()
-        CallFilter.REJECTED -> Icons.Default.CallEnd to rejectedCallColor()
-        CallFilter.BLOCKED -> Icons.Default.Block to errorColor()
+        CallFilter.ALL -> Icons.Default.Phone to PurevonTertiary
+        CallFilter.MISSED -> Icons.AutoMirrored.Filled.CallMissed to PurevonCallMissed
+        CallFilter.INCOMING -> Icons.AutoMirrored.Filled.CallReceived to PurevonCallIncoming
+        CallFilter.OUTGOING -> Icons.AutoMirrored.Filled.CallMade to PurevonCallOutgoing
+        CallFilter.REJECTED -> Icons.Default.CallEnd to PurevonCallRejected
+        CallFilter.BLOCKED -> Icons.Default.Block to PurevonError
     }
 }
 
@@ -93,12 +92,12 @@ internal fun formatCompactDuration(seconds: Long): String {
 @Composable
 internal fun getCallTypeIconAndColor(callType: CallType, isBlocked: Boolean): Pair<ImageVector, Color> {
     return when {
-        isBlocked -> Icons.Default.Block to errorColor()
-        callType == CallType.MISSED -> Icons.AutoMirrored.Filled.CallMissed to missedCallColor()
-        callType == CallType.INCOMING -> Icons.AutoMirrored.Filled.CallReceived to incomingCallColor()
-        callType == CallType.OUTGOING -> Icons.AutoMirrored.Filled.CallMade to outgoingCallColor()
-        callType == CallType.REJECTED -> Icons.Default.CallEnd to rejectedCallColor()
-        else -> Icons.Default.Call to infoColor()
+        isBlocked -> Icons.Default.Block to PurevonError
+        callType == CallType.MISSED -> Icons.AutoMirrored.Filled.CallMissed to PurevonCallMissed
+        callType == CallType.INCOMING -> Icons.AutoMirrored.Filled.CallReceived to PurevonCallIncoming
+        callType == CallType.OUTGOING -> Icons.AutoMirrored.Filled.CallMade to PurevonCallOutgoing
+        callType == CallType.REJECTED -> Icons.Default.CallEnd to PurevonCallRejected
+        else -> Icons.Default.Call to PurevonTertiary
     }
 }
 

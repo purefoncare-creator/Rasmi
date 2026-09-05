@@ -3,7 +3,8 @@ import java.io.FileInputStream
 
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
+    // AGP 9 provides built-in Kotlin support — the org.jetbrains.kotlin.android plugin
+    // is no longer applied (removed per the built-in Kotlin migration).
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
@@ -13,7 +14,7 @@ plugins {
 android {
     namespace = "com.rasmi.purevon"
     // تم التخفيض إلى 35 لضمان استقرار البناء ولتجنب أخطاء حزم المطورين
-    compileSdk = 35
+    compileSdk = 36
 
     testOptions {
         unitTests.isReturnDefaultValues = true
@@ -23,9 +24,9 @@ android {
     defaultConfig {
         applicationId = "com.rasmi.purevon"
         minSdk = 26
-        targetSdk = 35
-        versionCode = 27
-        versionName = "1.2.7"
+        targetSdk = 36
+        versionCode = 50
+        versionName = "1.5.0"
 
         testInstrumentationRunner = "com.rasmi.purevon.HiltTestRunner"
         
@@ -39,15 +40,22 @@ android {
             // التصحيح: استخدام += بدلاً من addAll ليتوافق مع Kotlin DSL
             abiFilters += listOf("arm64-v8a", "armeabi-v7a")
         }
+    }
 
-        // التصحيح: استخدام += بدلاً من addAll
-        resourceConfigurations += listOf(
-            "en", "ar", "fr", "es", "de", "pt", "tr", "hi", "ur", "fa", 
-            "id", "ms", "ru", "ja", "ko", "zh-rCN", "zh-rTW", "it", "nl", 
-            "pl", "uk", "bn", "sw", "vi", "th", "fil", "el", "he", "sv", 
-            "no", "da", "fi", "cs", "hu", "ro", "sk", "bg", "hr", "sr", 
-            "sl", "et", "lv", "lt", "ca", "is", "sq", "hy", "ka", "az", 
-            "kk", "uz"
+    // AGP 9 migration: resourceConfigurations was replaced by androidResources.localeFilters.
+    androidResources {
+        localeFilters += listOf(
+            "en", "ar", "fr", "es", "de", "pt", "tr", "hi", "ur", "fa",
+            "id", "ms", "ru", "ja", "ko", "zh-rCN", "zh-rTW", "it", "nl",
+            "pl", "uk", "bn", "sw", "vi", "th", "fil", "el", "he", "sv",
+            "no", "da", "fi", "cs", "hu", "ro", "sk", "bg", "hr", "sr",
+            "sl", "et", "lv", "lt", "ca", "is", "sq", "hy", "ka", "az",
+            "kk", "uz",
+            "ta", "te", "mr", "gu", "pa", "ne", "si", "my", "km", "lo",
+            "mn", "ps", "ku", "ha", "yo", "ig", "am", "om", "so", "mg",
+            "zu", "xh", "af", "cy", "ga", "mt", "eu", "gl", "be", "mk",
+            "bs", "lb", "su", "jv", "ml", "kn", "or", "as", "sd", "ti",
+            "tk", "ky", "tg", "tt", "bo", "haw", "mi", "co", "fy", "ht"
         )
     }
 
@@ -131,7 +139,7 @@ android {
             buildConfigField("String", "API_BASE_URL", "\"https://staging-api.purevon.com\"")
             buildConfigField("boolean", "ENABLE_LOGGING", "false")
             
-            resValue("string", "app_name", "Purevon Staging")
+            resValue("string", "app_name", "Rasmi Staging")
         }
         
         debug {
@@ -146,7 +154,7 @@ android {
             buildConfigField("boolean", "ENABLE_LOGGING", "true")
             
             // Different app name for debug
-            resValue("string", "app_name", "Purevon Debug")
+            resValue("string", "app_name", "Rasmi Debug")
         }
     }
     
@@ -155,17 +163,10 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
     
-    kotlinOptions {
-        jvmTarget = "17"
-        freeCompilerArgs += listOf(
-            "-opt-in=kotlin.RequiresOptIn",
-            "-Xjvm-default=all"
-        )
-    }
-    
     buildFeatures {
         compose = true
         buildConfig = true
+        resValues = true
     }
     
     packaging {
@@ -173,6 +174,25 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+}
+
+// Kotlin compiler configuration (replaces the removed kotlinOptions DSL in AGP 9)
+kotlin {
+    jvmToolchain(21)
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+        freeCompilerArgs.addAll(
+            "-opt-in=kotlin.RequiresOptIn",
+            "-Xjvm-default=all"
+        )
+    }
+}
+
+// Pin unit tests to JDK 21 — Robolectric 4.14.x ASM doesn't support JDK 25+
+tasks.withType<Test> {
+    javaLauncher.set(javaToolchains.launcherFor {
+        languageVersion.set(JavaLanguageVersion.of(21))
+    })
 }
 
 // ✅ التصحيح: وضع ksp ككتلة مستقلة في المستوى الجذري
@@ -257,6 +277,15 @@ dependencies {
     // ❌ التصحيح: تم تعليق هذه المكتبة لتجنب انهيار البناء بالخطأ 25.0.4.
     // ابحث عن بدائل حديثة متوافقة مع AndroidX إذا كنت بحاجة لها.
     implementation(libs.klinker.android.smsmms)
+
+    // ✅ بطاقة QR جهة الاتصال: توليد الرمز عبر ZXing core
+    implementation(libs.zxing.core)
+    // ✅ الماسح الداخلي: كاميرا CameraX + فك ترميز ML Kit (بديل ZXing الأكثر دقة)
+    implementation(libs.androidx.camera.core)
+    implementation(libs.androidx.camera.camera2)
+    implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.androidx.camera.view)
+    implementation(libs.mlkit.barcode.scanning)
 
     // Memory Leak Detection (Debug only)
     debugImplementation(libs.leakcanary)

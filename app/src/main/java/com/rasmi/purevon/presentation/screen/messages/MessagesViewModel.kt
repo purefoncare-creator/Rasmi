@@ -61,8 +61,17 @@ class MessagesViewModel @Inject constructor(
     private val getStarredMessagesUseCase: com.rasmi.purevon.domain.usecase.message.GetStarredMessagesUseCase,
     private val getArchivedConversationsUseCase: com.rasmi.purevon.domain.usecase.message.GetArchivedConversationsUseCase,
     private val getUnreadCountUseCase: com.rasmi.purevon.domain.usecase.message.GetUnreadCountUseCase,
-    private val messageRepository: com.rasmi.purevon.domain.repository.MessageRepository
+    private val messageRepository: com.rasmi.purevon.domain.repository.MessageRepository,
+    private val getAllContactsUseCase: com.rasmi.purevon.domain.usecase.contact.GetAllContactsUseCase
 ) : ViewModel() {
+
+    private fun normalizePhone(phone: String): String =
+        phone.filter { it.isDigit() }.let { digits ->
+            if (digits.startsWith("00")) digits.substring(2) else digits
+        }
+
+    private val favoritePhoneNumbers: MutableSet<String> =
+        java.util.Collections.synchronizedSet(mutableSetOf())
 
     private val _uiState = MutableStateFlow(MessagesUiState(isLoading = true))
     val uiState: StateFlow<MessagesUiState> = _uiState.asStateFlow()
@@ -87,6 +96,20 @@ class MessagesViewModel @Inject constructor(
                 _uiState.update { state -> state.copy(isLoading = false) }
             }
         }
+        .map { conversations ->
+            val favoritePhones = favoritePhoneNumbers
+            if (favoritePhones.isEmpty()) {
+                conversations
+            } else {
+                conversations.map { conv ->
+                    if (conv.isFavorite) {
+                        conv
+                    } else {
+                        conv.copy(isFavorite = normalizePhone(conv.phoneNumber) in favoritePhones)
+                    }
+                }
+            }
+        }
         .flowOn(Dispatchers.Default)
         .shareIn(viewModelScope, SharingStarted.WhileSubscribed(5000), replay = 1)
     
@@ -97,8 +120,24 @@ class MessagesViewModel @Inject constructor(
         observeStarredMessages()
         observeArchivedConversations()
         observeUnreadCount()
+        observeFavoriteContacts()
     }
     
+    private fun observeFavoriteContacts() {
+        viewModelScope.launch {
+            getAllContactsUseCase()
+                .catch { e ->
+                    Log.e("MessagesViewModel", "Error loading favorite contacts", e)
+                }
+                .collect { contacts ->
+                    favoritePhoneNumbers.clear()
+                    contacts
+                        .filter { it.isFavorite }
+                        .forEach { favoritePhoneNumbers.add(normalizePhone(it.phoneNumber)) }
+                }
+        }
+    }
+
     private fun observeStarredMessages() {
         viewModelScope.launch {
             getStarredMessagesUseCase()

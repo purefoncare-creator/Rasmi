@@ -17,15 +17,17 @@ import com.rasmi.purevon.data.local.MIGRATION_10_11
 import com.rasmi.purevon.data.local.MIGRATION_11_12
 import com.rasmi.purevon.data.local.MIGRATION_12_13
 import com.rasmi.purevon.data.local.MIGRATION_13_14
+import com.rasmi.purevon.data.local.MIGRATION_14_15
 import com.rasmi.purevon.data.local.PurevonDatabase
 import com.rasmi.purevon.data.local.dao.*
 import com.rasmi.purevon.util.security.DatabasePassphraseManager
+import com.rasmi.purevon.util.security.DataEncryptionManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import net.sqlcipher.database.SupportFactory
+import net.zetetic.database.sqlcipher.SupportOpenHelperFactory
 import javax.inject.Singleton
 
 /**
@@ -71,7 +73,8 @@ object DatabaseModule {
 
             // Use raw 256-bit key format — skips PBKDF2 entirely
             val hexKey = "x'" + passphrase.joinToString("") { "%02x".format(it) } + "'"
-            val factory = SupportFactory(hexKey.toByteArray(Charsets.US_ASCII))
+            // ✅ FIX M36: الترحيل إلى sqlcipher-android (دعم صفحات 16KB لمتطلب Google Play)
+            val factory = SupportOpenHelperFactory(hexKey.toByteArray(Charsets.US_ASCII))
             
             return Room.databaseBuilder(
                 context,
@@ -92,7 +95,8 @@ object DatabaseModule {
                     MIGRATION_10_11,
                     MIGRATION_11_12,
                     MIGRATION_12_13,
-                    MIGRATION_13_14
+                    MIGRATION_13_14,
+                    MIGRATION_14_15
                 )
                 // ✅ FIX #3: Removed fallbackToDestructiveMigrationOnDowngrade()
                 // Downgrading now throws IllegalStateException instead of silently deleting all data.
@@ -133,12 +137,14 @@ object DatabaseModule {
             tempFile.delete() // Clean up any previous failed attempt
             
             // Open the unencrypted DB with SQLCipher (empty passphrase)
+            // ✅ FIX M36: واجهة sqlcipher-android الجديدة (كلمة مرور byte[] + hook)
             System.loadLibrary("sqlcipher")
-            val db = net.sqlcipher.database.SQLiteDatabase.openDatabase(
+            val db = net.zetetic.database.sqlcipher.SQLiteDatabase.openDatabase(
                 dbFile.absolutePath,
-                "",
+                ByteArray(0),
                 null,
-                net.sqlcipher.database.SQLiteDatabase.OPEN_READWRITE
+                net.zetetic.database.sqlcipher.SQLiteDatabase.OPEN_READWRITE,
+                null
             )
             
             // Export to new encrypted DB
@@ -250,5 +256,11 @@ object DatabaseModule {
     @Singleton
     fun provideSearchDao(database: PurevonDatabase): SearchDao {
         return database.searchDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideDataEncryptionManager(@ApplicationContext context: Context): DataEncryptionManager {
+        return DataEncryptionManager(context)
     }
 }

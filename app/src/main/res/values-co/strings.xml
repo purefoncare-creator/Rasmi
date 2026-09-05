@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="nav_back">Indietro</string>
+  <string name="add_contact_choose_method">Aghjunghje Cuntattu</string>
+  <string name="add_contact_manual">Aghjunghje à Manu</string>
+  <string name="add_contact_via_qr">Aghjunghje via QR Code</string>
+  <string name="dialer_active_call_title">Chjamata Attiva</string>
+  <string name="dialer_active_call_expand">Schermo Piatenu</string>
+  <string name="dialer_recent">Recenti</string>
+  <string name="dialer_no_recent">Nisciuna attività recente</string>
+  <string name="dialer_results">Risultati</string>
+  <string name="incall_mute">Mute</string>
+  <string name="incall_speaker">Altoparlante</string>
+  <string name="my_card_title">La Mia Carta</string>
+  <string name="my_card_desc">Crea a to carta persunale è partaghjella cun chiunque</string>
+  <string name="my_card_edit">Mudificà</string>
+  <string name="my_card_saved">Carta salvata</string>
+  <string name="my_card_share">Partaghjella</string>
+  <string name="qr_scan_title">Scansione cuntattu codice</string>
+  <string name="qr_camera_permission">Permessu camera bisognu per scansione codice</string>
+  <string name="invalid_qr_code">QR Code invalidu</string>
+  <string name="call_blocking_block_unknown">Bloccà numeri scunnisciuti / privati</string>
+  <string name="call_blocking_block_unknown_desc">Rifuità chjamate da numeri chì nòn sò in i cuntatti</string>
+  <string name="call_blocking_whitelist_only">Modu lista bianca solu</string>
+  <string name="call_blocking_whitelist_only_desc">Bloccà tutti tranne i numeri in a lista bianca</string>
+  <string name="call_blocking_whitelist_only_warning">⚠ Tuttu chjamata chì nòn hè in a vostra lista bianca serà bloccata!</string>
+  <string name="notification_ongoing_call_channel">Chjamata cuntinuata</string>
+  <string name="notification_ongoing_call_channel_desc">Nutificazione persistente per chjamata attiva quandu a schermu si chjude</string>
+  <string name="notification_ongoing_call_title">Chjamata cuntinuata</string>
+  <string name="delete_note_title">Sguassà Nota</string>
+  <string name="delete_note_message">Vulite sguassà quèsta nota?</string>
+  <string name="stat_title">Statistica</string>
+  <string name="stat_call_statistics">Statistica Chjamate</string>
+  <string name="stat_message_statistics">Statistica Messaghji</string>
+  <string name="stat_total_calls">Tuttu Chjamate</string>
+  <string name="stat_total_messages">Tuttu Messaghji</string>
+  <string name="stat_total_duration">Tuttu Durata</string>
+  <string name="stat_average_duration">Media Durata</string>
+  <string name="stat_incoming">Chjinante</string>
+  <string name="stat_outgoing">Bughjente</string>
+  <string name="stat_missed">Persa</string>
+  <string name="stat_received">Ricevuta</string>
+  <string name="stat_sent">Mandata</string>
+  <string name="stat_blocked">Bloccata</string>
+  <string name="stat_frequent_contacts">Cuntatti chì chjama spessu</string>
+  <string name="stat_contact_calls_duration">%1$d chjamate • %2$s</string>
+</resources>

@@ -3,18 +3,15 @@ package com.rasmi.purevon.presentation.navigation
 import android.Manifest
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.isSystemInDarkTheme
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.runtime.collectAsState
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.material3.Scaffold
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.material.icons.automirrored.filled.Message
@@ -32,18 +29,11 @@ import androidx.compose.material.icons.outlined.Message
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemDefaults
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination.Companion.hasRoute
@@ -64,25 +54,19 @@ import com.rasmi.purevon.presentation.screen.conversation.ConversationScreen
 import com.rasmi.purevon.presentation.screen.settings.SettingsScreen
 import com.rasmi.purevon.presentation.screen.settings.AboutScreen
 import com.rasmi.purevon.presentation.screen.incall.InCallScreen
+import com.rasmi.purevon.presentation.screen.addcontact.QrScanScreen
+import com.rasmi.purevon.util.viral.QrPayloadParser
+import android.widget.Toast
+import androidx.compose.ui.platform.LocalContext
 import com.rasmi.purevon.presentation.screen.statistics.StatisticsScreen
 import com.rasmi.purevon.domain.model.Contact
 import com.rasmi.purevon.R
 import androidx.annotation.StringRes
+import com.rasmi.purevon.presentation.theme.PurevonBackground
 import kotlin.reflect.KClass
 
 /**
- * Bottom navigation item data class
- */
-data class BottomNavItem(
-    val screen: Screen,
-    val routeClass: KClass<out Screen>,
-    @StringRes val labelRes: Int,
-    val iconSelected: ImageVector,
-    val iconUnselected: ImageVector
-)
-
-/**
- * Main tab route classes — used for shouldShowBottomBar check
+ * Main tab route classes — used for shouldShowRail check
  */
 private val mainTabRoutes: Set<KClass<out Screen>> = setOf(
     Screen.Dialer::class,
@@ -93,80 +77,40 @@ private val mainTabRoutes: Set<KClass<out Screen>> = setOf(
 )
 
 /**
- * List of bottom navigation items
- */
-val bottomNavItems = listOf(
-    BottomNavItem(
-        screen = Screen.Dialer,
-        routeClass = Screen.Dialer::class,
-        labelRes = R.string.nav_tab_dialer,
-        iconSelected = Icons.Filled.Call,
-        iconUnselected = Icons.Outlined.Call
-    ),
-    BottomNavItem(
-        screen = Screen.Contacts,
-        routeClass = Screen.Contacts::class,
-        labelRes = R.string.nav_tab_contacts,
-        iconSelected = Icons.Filled.Contacts,
-        iconUnselected = Icons.Outlined.Contacts
-    ),
-    BottomNavItem(
-        screen = Screen.CallHistory,
-        routeClass = Screen.CallHistory::class,
-        labelRes = R.string.nav_tab_history,
-        iconSelected = Icons.Filled.History,
-        iconUnselected = Icons.Outlined.History
-    ),
-    BottomNavItem(
-        screen = Screen.Messages,
-        routeClass = Screen.Messages::class,
-        labelRes = R.string.nav_tab_messages,
-        iconSelected = Icons.AutoMirrored.Filled.Message,
-        iconUnselected = Icons.AutoMirrored.Outlined.Message
-    ),
-    BottomNavItem(
-        screen = Screen.Settings,
-        routeClass = Screen.Settings::class,
-        labelRes = R.string.nav_tab_settings,
-        iconSelected = Icons.Filled.Settings,
-        iconUnselected = Icons.Outlined.Settings
-    )
-)
-
-/**
- * Main navigation host with bottom navigation bar (iOS Tab Bar style)
+ * Main navigation host with vertical side rail (replaces bottom bar)
  */
 @Composable
 fun PurevonNavHost(
     navController: NavHostController = rememberNavController(),
     startDestination: Any = Screen.Dialer
 ) {
-    // ✅ تتبع الصفحة الحالية لإخفاء Bottom Nav في الصفحات التفصيلية
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
-    
-    // ✅ تحديد ما إذا كان يجب إظهار Bottom Nav (فقط في التبويبات الرئيسية)
+
+    // ✅ إظهار الشريط السفلي فقط في التبويبات الرئيسية
     val shouldShowBottomBar = currentDestination?.let { dest ->
         mainTabRoutes.any { dest.hasRoute(it) }
     } ?: true
-    
+
     Scaffold(
+        containerColor = PurevonBackground,
+        contentWindowInsets = WindowInsets(0, 0, 0, 0),
         bottomBar = {
             if (shouldShowBottomBar) {
-                IOSBottomNavigation(navController = navController)
+                PurevonBottomNav(navController = navController)
             }
         }
-    ) { paddingValues ->
+    ) { innerPadding ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .background(PurevonBackground)
+        ) {
         NavHost(
             navController = navController,
             startDestination = startDestination,
-            // Use only top padding from Scaffold; bottom padding is fixed to the
-            // pill height (64dp) so nav bar insets don't create extra blank space.
-            // ✅ Only apply bottom padding if the bottom bar is shown
-            modifier = Modifier.padding(
-                top = paddingValues.calculateTopPadding(),
-                bottom = if (shouldShowBottomBar) 64.dp else 0.dp
-            )
+            modifier = Modifier.fillMaxSize()
         ) {
             // Main tabs — type-safe composable<T>
             composable<Screen.Dialer> {
@@ -175,7 +119,7 @@ fun PurevonNavHost(
                     androidx.hilt.navigation.compose.hiltViewModel(
                         viewModelStoreOwner = androidx.compose.ui.platform.LocalContext.current as androidx.activity.ComponentActivity
                     )
-                val initialPhoneNumber by mainViewModel.dialerPhoneNumber.collectAsState()
+                val initialPhoneNumber by mainViewModel.dialerPhoneNumber.collectAsStateWithLifecycle()
                 
                 // Clear the phone number after reading it
                 androidx.compose.runtime.LaunchedEffect(initialPhoneNumber) {
@@ -185,7 +129,7 @@ fun PurevonNavHost(
                 }
                 
                 // ✅ Check if we should clear the dialer input
-                val shouldClearInput by mainViewModel.shouldClearDialerInput.collectAsState()
+                val shouldClearInput by mainViewModel.shouldClearDialerInput.collectAsStateWithLifecycle()
                 androidx.compose.runtime.LaunchedEffect(shouldClearInput) {
                     if (shouldClearInput) {
                         // Clear the flag immediately
@@ -214,7 +158,41 @@ fun PurevonNavHost(
                         navController.navigate(Screen.AddContact()) {
                             launchSingleTop = true
                         }
+                    },
+                    onQrScanClick = {
+                        navController.navigate(Screen.QrScanContact) {
+                            launchSingleTop = true
+                        }
                     }
+                )
+            }
+
+            // ✅ الماسح الداخلي: مسح QR ثم ملء نموذج الإضافة بالبيانات
+            composable<Screen.QrScanContact> {
+                val context = LocalContext.current
+                QrScanScreen(
+                    onDecoded = { raw ->
+                        val data = QrPayloadParser.parse(raw)
+                        if (data != null) {
+                            navController.navigate(
+                                Screen.AddContact(
+                                    phoneNumber = data.phone.ifBlank { null },
+                                    name = data.firstName.ifBlank { null },
+                                    email = data.email.ifBlank { null },
+                                    company = data.company.ifBlank { null }
+                                )
+                            ) {
+                                popUpTo(Screen.QrScanContact) { inclusive = true }
+                            }
+                        } else {
+                            Toast.makeText(
+                                context,
+                                context.getString(R.string.invalid_qr_code),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    },
+                    onClose = { navController.popBackStack() }
                 )
             }
             
@@ -233,13 +211,17 @@ fun PurevonNavHost(
                 
                 AddContactScreen(
                     onNavigateBack = { navController.popBackStack() },
-                    onContactSaved = {
-                        navController.previousBackStackEntry?.savedStateHandle?.set("contact_updated", true)
+                    onContactSaved = { newContactId ->
+                        navController.previousBackStackEntry?.savedStateHandle?.apply {
+                            set("contact_updated", true)
+                            set("fresh_contact_id", newContactId)
+                        }
                         navController.popBackStack()
                     },
                     initialPhoneNumber = args.phoneNumber,
                     initialName = args.name,
                     initialEmail = args.email,
+                    initialCompany = args.company,
                     contactId = args.contactId.takeIf { it != -1L }
                 )
             }
@@ -322,7 +304,7 @@ fun PurevonNavHost(
                 ConversationScreen(
                     conversationId = null, // ✅ محادثة جديدة
                     initialPhoneNumber = args.phoneNumber,
-                    onNavigateBack = { navController.popBackStack() }
+                    onNavigateBack = goBackOrToMessages(navController)
                 )
             }
             
@@ -332,7 +314,7 @@ fun PurevonNavHost(
                 ConversationScreen(
                     conversationId = args.conversationId,
                     scrollToMessageId = args.scrollToMessageId.takeIf { it != -1L },
-                    onNavigateBack = { navController.popBackStack() }
+                    onNavigateBack = goBackOrToMessages(navController)
                 )
             }
             
@@ -348,6 +330,21 @@ fun PurevonNavHost(
                 )
             }
         }
+        }
+    }
+}
+
+/**
+ * الرجوع من شاشة المحادثة. إذا كانت المحادثة هي الجذر نفسه في مكدس التوجيه
+ * (كما يحدث عند فتح التطبيق مباشرةً من إشعار رسالة)، فحينها لا يوجد عنصر سابق
+ * للعودة إليه، فننتقل بدلاً من ذلك إلى قائمة الرسائل لتجنب زر رجوع معطّل.
+ */
+private fun goBackOrToMessages(navController: NavHostController): () -> Unit = {
+    val popped = navController.popBackStack()
+    if (!popped) {
+        navController.navigate(Screen.Messages) {
+            launchSingleTop = true
+        }
     }
 }
 
@@ -361,7 +358,7 @@ private fun ContactDetailScreenWrapper(
 ) {
     val viewModel: com.rasmi.purevon.presentation.screen.contactdetail.ContactDetailViewModel = 
         androidx.hilt.navigation.compose.hiltViewModel()
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { androidx.compose.material3.SnackbarHostState() }
     val context = androidx.compose.ui.platform.LocalContext.current
     
@@ -369,11 +366,23 @@ private fun ContactDetailScreenWrapper(
     val contactUpdated = navController.currentBackStackEntry
         ?.savedStateHandle
         ?.getStateFlow("contact_updated", false)
-        ?.collectAsState()
+        ?.collectAsStateWithLifecycle()
+    val freshContactId = navController.currentBackStackEntry
+        ?.savedStateHandle
+        ?.getStateFlow("fresh_contact_id", -1L)
+        ?.collectAsStateWithLifecycle()
     androidx.compose.runtime.LaunchedEffect(contactUpdated?.value) {
         if (contactUpdated?.value == true) {
-            viewModel.onEvent(com.rasmi.purevon.presentation.screen.contactdetail.ContactDetailUiEvent.RefreshContact)
-            navController.currentBackStackEntry?.savedStateHandle?.set("contact_updated", false)
+            val fresh = freshContactId?.value
+            if (fresh != null && fresh > 0) {
+                viewModel.refreshWithId(fresh)
+            } else {
+                viewModel.onEvent(com.rasmi.purevon.presentation.screen.contactdetail.ContactDetailUiEvent.RefreshContact)
+            }
+            navController.currentBackStackEntry?.savedStateHandle?.apply {
+                set("contact_updated", false)
+                set("fresh_contact_id", -1L)
+            }
         }
     }
     
@@ -551,85 +560,4 @@ private fun ContactDetailScreenWrapper(
             onDismiss = { showSimPickerDialog = false }
         )
     }
-}
-
-/**
- * Compact modern bottom navigation bar with floating icons effect.
- * Wrapped in a Box with navigationBarsPadding() so the floating pill always sits
- * above the system navigation bar whether using gestures or 3-button nav.
- */
-@Composable
-fun IOSBottomNavigation(
-    navController: NavHostController
-) {
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentDestination = navBackStackEntry?.destination
-    val isDark = isSystemInDarkTheme()
-    val barColor = if (isDark) {
-        MaterialTheme.colorScheme.surface.copy(alpha = 0.96f)
-    } else {
-        MaterialTheme.colorScheme.surface.copy(alpha = 0.94f)
-    }
-    val shadowColor = if (isDark) {
-        MaterialTheme.colorScheme.scrim.copy(alpha = 0.28f)
-    } else {
-        MaterialTheme.colorScheme.primary.copy(alpha = 0.12f)
-    }
-
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .navigationBarsPadding()
-    ) {
-        NavigationBar(
-            containerColor = barColor,
-            contentColor = MaterialTheme.colorScheme.primary,
-            tonalElevation = 0.dp,
-            windowInsets = WindowInsets(0),
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(72.dp)
-                .padding(horizontal = 18.dp, vertical = 9.dp)
-                .shadow(
-                    elevation = 14.dp,
-                    shape = RoundedCornerShape(36.dp),
-                    ambientColor = shadowColor,
-                    spotColor = shadowColor
-                )
-                .clip(RoundedCornerShape(36.dp))
-                .background(barColor)
-        ) {
-            bottomNavItems.forEach { item ->
-                val selected = currentDestination?.hasRoute(item.routeClass) == true
-
-                NavigationBarItem(
-                    icon = {
-                        Icon(
-                            imageVector = if (selected) item.iconSelected else item.iconUnselected,
-                            contentDescription = stringResource(item.labelRes)
-                        )
-                    },
-                    label = null,
-                    selected = selected,
-                    onClick = {
-                        navController.navigate(item.screen) {
-                            popUpTo(navController.graph.findStartDestination().id) {
-                                saveState = true
-                            }
-                            launchSingleTop = true
-                            restoreState = true
-                        }
-                    },
-                    colors = NavigationBarItemDefaults.colors(
-                        selectedIconColor = MaterialTheme.colorScheme.primary,
-                        selectedTextColor = MaterialTheme.colorScheme.primary,
-                        unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.72f),
-                        unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.72f),
-                        indicatorColor = MaterialTheme.colorScheme.primaryContainer
-                    ),
-                    alwaysShowLabel = false
-                )
-            }
-        }
-    } // end Box
 }

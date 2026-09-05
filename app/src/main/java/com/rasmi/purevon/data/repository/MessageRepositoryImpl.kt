@@ -74,7 +74,6 @@ class MessageRepositoryImpl @Inject constructor(
     
     companion object {
         private const val TAG = "MessageRepository"
-        private const val MMS_ID_OFFSET = 2_000_000_000L
 
         /** Convert display ID (with offset) back to raw system ID for MMS content provider queries. */
         fun rawSystemId(displayId: Long, isMms: Boolean): Long =
@@ -379,11 +378,21 @@ class MessageRepositoryImpl @Inject constructor(
     
     
     override suspend fun sendMessage(phoneNumber: String, message: String, simSlot: Int?): MessageResult<Long> = sendMessageMutex.withLock {
-        smsSender.sendSms(phoneNumber, message, simSlot) { threadId ->
+        sendSmsLocked(phoneNumber, message, simSlot)
+    }
+
+    /**
+     * Core SMS send without lock acquisition.
+     * Callers must already hold [sendMessageMutex] — Mutex is non-reentrant,
+     * so calling this from inside another withLock block is safe while
+     * calling [sendMessage]/[sendMmsMessage] there would deadlock forever.
+     */
+    private suspend fun sendSmsLocked(phoneNumber: String, message: String, simSlot: Int?): MessageResult<Long> {
+        return smsSender.sendSms(phoneNumber, message, simSlot) { threadId ->
             syncMessages(threadId)
         }
     }
-    
+
     override suspend fun sendMmsMessage(
         phoneNumber: String,
         message: String?,
@@ -391,7 +400,17 @@ class MessageRepositoryImpl @Inject constructor(
         simSlot: Int?
     ): MessageResult<Long> = sendMessageMutex.withLock {
         // ✅ FIX #38: Protected by same Mutex as sendMessage to prevent race conditions
-        mmsSender.sendMms(
+        sendMmsLocked(phoneNumber, message, attachmentUris, simSlot)
+    }
+
+    /** Core MMS send without lock acquisition — see [sendSmsLocked]. */
+    private suspend fun sendMmsLocked(
+        phoneNumber: String,
+        message: String?,
+        attachmentUris: List<String>,
+        simSlot: Int?
+    ): MessageResult<Long> {
+        return mmsSender.sendMms(
             phoneNumber, message, attachmentUris, simSlot,
             getOrCreateThreadId = { smsSender.getOrCreateThreadId(it) },
             onComplete = { threadId ->
@@ -432,15 +451,17 @@ class MessageRepositoryImpl @Inject constructor(
             
             // ✅ FIX M3: Resend FIRST, only delete old message on success
             // Previously deleted before resend — if resend failed, message was permanently lost
+            // ✅ FIX M17: Call the *Locked cores — sendMmsMessage/sendMessage would re-acquire
+            // the non-reentrant sendMessageMutex we already hold here → permanent deadlock
             val result = if (message.isMms) {
-                sendMmsMessage(
+                sendMmsLocked(
                     phoneNumber = message.phoneNumber,
                     message = message.body,
                     attachmentUris = message.attachmentUris,
                     simSlot = message.simSlot
                 )
             } else {
-                sendMessage(
+                sendSmsLocked(
                     phoneNumber = message.phoneNumber,
                     message = message.body ?: "",
                     simSlot = message.simSlot

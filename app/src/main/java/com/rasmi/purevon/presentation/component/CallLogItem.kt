@@ -2,7 +2,6 @@ package com.rasmi.purevon.presentation.component
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.border
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.ui.graphics.toArgb
@@ -55,7 +54,7 @@ fun CallLogItem(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val isLightTheme = !androidx.compose.foundation.isSystemInDarkTheme()
+    val isLightTheme = false
     var offsetX by remember { mutableFloatStateOf(0f) }
     val maxSwipeLeft = -200f
     val maxSwipeRight = 100f

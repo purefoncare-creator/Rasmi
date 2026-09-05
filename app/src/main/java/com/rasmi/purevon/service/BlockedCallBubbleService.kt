@@ -125,11 +125,13 @@ class BlockedCallBubbleService : Service(), LifecycleOwner, SavedStateRegistryOw
         windowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
 
         createNotificationChannel()
+        // ✅ FIX M38: shortService (مثل نافذة OTP) — نوع phoneCall يتطلب مكالمة نشطة
+        // والمكالمة المحظورة مرفوضة أصلاً فيفشل البدء على Android 14+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
             startForeground(
                 NOTIFICATION_ID,
                 createNotification(),
-                android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_PHONE_CALL
+                android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_SHORT_SERVICE
             )
         } else {
             startForeground(NOTIFICATION_ID, createNotification())
@@ -278,8 +280,9 @@ class BlockedCallBubbleService : Service(), LifecycleOwner, SavedStateRegistryOw
     private fun scheduleAutoDismiss() {
         autoDismissJob?.cancel()
         autoDismissJob = serviceScope.launch {
-            delay(60_000)
-            Log.d(TAG, "Auto-dismissing blocked call bubble after 60s")
+            // ✅ FIX M32a: 40 ثانية حسب طلب المستخدم
+            delay(40_000)
+            Log.d(TAG, "Auto-dismissing blocked call bubble after 40s")
             hideBubble()
             stopSelf()
         }

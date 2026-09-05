@@ -55,70 +55,12 @@ class DataEncryptionManager(private val context: Context) {
         }
     }
     
-    /**
-     * Encrypt a string using AndroidX Security Crypto.
-     * Data is written to the encrypted file; returns the fileName on success.
-     */
-    suspend fun encryptString(plainText: String, fileName: String): String {
-        return withContext(Dispatchers.IO) {
-            try {
-                // Delete file first — EncryptedFile won't overwrite
-                val file = File(context.filesDir, fileName)
-                file.delete()
-
-                val encryptedFile = EncryptedFile.Builder(
-                    context,
-                    file,
-                    masterKey,
-                    EncryptedFile.FileEncryptionScheme.AES256_GCM_HKDF_4KB
-                ).build()
-                
-                encryptedFile.openFileOutput().use { outputStream ->
-                    outputStream.write(plainText.toByteArray(StandardCharsets.UTF_8))
-                }
-                
-                // Return file name as success indicator (data is in the file)
-                fileName
-            } catch (e: Exception) {
-                Log.e(TAG, "EncryptedFile write failed, using fallback AES", e)
-                encryptWithFallback(plainText)
-            }
-        }
-    }
-    
-    /**
-     * Decrypt a string using AndroidX Security Crypto
-     */
-    suspend fun decryptString(fileName: String): Result<String> {
-        return withContext(Dispatchers.IO) {
-            try {
-                val encryptedFile = EncryptedFile.Builder(
-                    context,
-                    File(context.filesDir, fileName),
-                    masterKey,
-                    EncryptedFile.FileEncryptionScheme.AES256_GCM_HKDF_4KB
-                ).build()
-                
-                val byteArrayOutputStream = ByteArrayOutputStream()
-                encryptedFile.openFileInput().use { inputStream ->
-                    val buffer = ByteArray(1024)
-                    var bytesRead: Int
-                    while (inputStream.read(buffer).also { bytesRead = it } != -1) {
-                        byteArrayOutputStream.write(buffer, 0, bytesRead)
-                    }
-                }
-                
-                Result.success(String(byteArrayOutputStream.toByteArray(), StandardCharsets.UTF_8))
-            } catch (e: java.io.FileNotFoundException) {
-                // File doesn't exist — genuinely empty
-                Result.success("")
-            } catch (e: Exception) {
-                // Decryption failure — don't silently lose data
-                Log.e("DataEncryptionManager", "Failed to decrypt $fileName", e)
-                Result.failure(e)
-            }
-        }
-    }
+    // ✅ FIX M26: encryptString()/decryptString() removed — dead code with a broken
+    // contract. encryptString returned `fileName` on success but a Base64 ciphertext
+    // on fallback failure; decryptString then treated that ciphertext as a FILE NAME,
+    // hit FileNotFoundException and returned Result.success("") — silent data loss.
+    // Use encryptForDatabase/decryptFromDatabase (Room fields) or
+    // encryptToFile/decryptFromFile (files) instead — both have sound contracts.
     
     /**
      * Check if encryption is available on this device

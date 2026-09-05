@@ -3,7 +3,6 @@ package com.rasmi.purevon.presentation.component
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -43,16 +42,14 @@ fun ContactSearchItem(
     modifier: Modifier = Modifier
 ) {
     val interactionSource = remember { MutableInteractionSource() }
-    val isLightTheme = !androidx.compose.foundation.isSystemInDarkTheme()
-    
+
     androidx.compose.material3.Surface(
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 12.dp, vertical = 4.dp),
         shape = androidx.compose.foundation.shape.RoundedCornerShape(12.dp),
-        color = if (isLightTheme) androidx.compose.ui.graphics.Color.White
-               else androidx.compose.ui.graphics.Color.Transparent,
-        border = if (isLightTheme) androidx.compose.foundation.BorderStroke(1.dp, LightBorder) else null,
+        color = PurevonSurface,
+        border = androidx.compose.foundation.BorderStroke(1.dp, PurevonBorder),
         tonalElevation = 0.dp,
         shadowElevation = 0.dp,
         onClick = onClick
@@ -68,7 +65,8 @@ fun ContactSearchItem(
         ContactAvatar(
             name = contact.name,
             photoUri = contact.photoUri,
-            modifier = Modifier.size(44.dp)
+            modifier = Modifier.size(44.dp),
+            isFavorite = contact.isFavorite
         )
         
         Spacer(modifier = Modifier.width(12.dp))
@@ -84,7 +82,7 @@ fun ContactSearchItem(
             
             // Name with highlighting - Allow wrapping for Arabic names with better line height
             Text(
-                text = buildHighlightedText(highlightedName, iOSBlue, MaterialTheme.colorScheme.onSurface),
+                text = buildHighlightedText(highlightedName, iOSBlue, PurevonTextPrimary),
                 style = MaterialTheme.typography.bodyMedium.copy(
                     fontSize = 13.sp,
                     fontWeight = FontWeight.Normal,
@@ -102,11 +100,11 @@ fun ContactSearchItem(
                 text = buildHighlightedText(
                     highlightedNumber, 
                     iOSBlue, 
-                    MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                    PurevonTextSecondary,
                     highlightWeight = FontWeight.SemiBold
                 ),
                 style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                color = PurevonTextSecondary,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 softWrap = true
@@ -176,11 +174,13 @@ fun ContactAvatar(
     name: String,
     photoUri: String?,
     modifier: Modifier = Modifier,
-    size: Dp = 40.dp
+    size: Dp = 40.dp,
+    isFavorite: Boolean = false
 ) {
-    UnifiedContactAvatar(
+    FavoriteContactAvatar(
         size = size,
         photoUri = photoUri,
+        isFavorite = isFavorite,
         modifier = modifier
     )
 }
@@ -212,7 +212,8 @@ fun ContactListItem(
         ContactAvatar(
             name = contact.name,
             photoUri = contact.photoUri,
-            modifier = Modifier.size(44.dp)
+            modifier = Modifier.size(44.dp),
+            isFavorite = contact.isFavorite
         )
         
         Spacer(modifier = Modifier.width(12.dp))

@@ -11,12 +11,14 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.SystemBarStyle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -105,8 +107,14 @@ class MainActivity : AppCompatActivity() {
             }
         }
         
-        // Enable edge-to-edge display
-        enableEdgeToEdge()
+        // Enable edge-to-edge display — force dark style so the system navigation/status
+        // bars stay transparent with light icons, matching our always-dark app theme
+        // (the default auto style keys off the DEVICE system theme and would render a
+        // white bar when the device is in light mode).
+        enableEdgeToEdge(
+            statusBarStyle = SystemBarStyle.dark(android.graphics.Color.TRANSPARENT),
+            navigationBarStyle = SystemBarStyle.dark(android.graphics.Color.TRANSPARENT)
+        )
         
         // Check for active call and redirect
         if (inCallServiceBridge.getCurrentCall() != null) {
@@ -124,23 +132,14 @@ class MainActivity : AppCompatActivity() {
         
         setContent {
             // Read theme settings from DataStore
-            val isDarkMode by settingsDataStore.isDarkMode.collectAsState(initial = false)
-            val autoTheme by settingsDataStore.autoTheme.collectAsState(initial = true)
-            val appLanguage by settingsDataStore.appLanguage.collectAsState(initial = "system")
+            val appLanguage by settingsDataStore.appLanguage.collectAsStateWithLifecycle(initialValue = "system")
             
             // RTL layout direction is determined dynamically by the active language preference or system default
             val systemLocale = androidx.core.os.ConfigurationCompat.getLocales(androidx.compose.ui.platform.LocalConfiguration.current).get(0)
             val activeLanguage = if (appLanguage == "system") (systemLocale?.language ?: "en") else appLanguage
             val isRtl = activeLanguage == "ar" || activeLanguage == "fa" || activeLanguage == "ur" || activeLanguage == "he"
             
-            // Determine dark theme based on settings
-            val useDarkTheme = if (autoTheme) {
-                androidx.compose.foundation.isSystemInDarkTheme()
-            } else {
-                isDarkMode
-            }
-            
-            PurevonTheme(darkTheme = useDarkTheme) {
+            PurevonTheme {
                 androidx.compose.runtime.CompositionLocalProvider(
                     androidx.compose.ui.platform.LocalLayoutDirection provides
                         if (isRtl) androidx.compose.ui.unit.LayoutDirection.Rtl

@@ -11,7 +11,6 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
@@ -277,7 +276,7 @@ fun ContactDetailScreen(
         )
     }
 
-    val isLightTheme = !isSystemInDarkTheme()
+    val isLightTheme = false
     val cardColor = if (isLightTheme) Color.White else MaterialTheme.colorScheme.background
 
     Scaffold(
@@ -288,6 +287,7 @@ fun ContactDetailScreen(
         Column(
             modifier = modifier
                 .fillMaxWidth()
+                .statusBarsPadding() // ✅ FIX M33: إزاحة الترويسة أسفل شريط حالة النظام
                 .padding(paddingValues)
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = 12.dp),
@@ -391,9 +391,10 @@ fun ContactDetailScreen(
                             horizontalArrangement = Arrangement.spacedBy(16.dp)
                         ) {
                             // Avatar
-                            com.rasmi.purevon.presentation.component.UnifiedContactAvatar(
+                            com.rasmi.purevon.presentation.component.FavoriteContactAvatar(
                                 size = 72.dp,
-                                photoUri = contact.photoUri
+                                photoUri = contact.photoUri,
+                                isFavorite = contact.isFavorite
                             )
 
                             // Name + Company + Phone (copyable)
@@ -541,11 +542,6 @@ fun ContactDetailScreen(
                     modifier = Modifier.padding(16.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    Text(
-                        text = stringResource(R.string.contact_detail_tab_history),
-                        style = MaterialTheme.typography.titleMedium,
-                        fontWeight = FontWeight.SemiBold
-                    )
                     if (callStatistics.totalCalls > 0) {
                         CallStatisticsSection(statistics = callStatistics)
                     }

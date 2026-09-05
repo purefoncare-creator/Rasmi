@@ -3,7 +3,6 @@ package com.rasmi.purevon.presentation.screen.incall
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.*
@@ -31,7 +30,7 @@ import com.rasmi.purevon.presentation.theme.iOSGreen
 internal fun InCallKeypadContent(
     onDigitPressed: (Char) -> Unit
 ) {
-    val isLightTheme = !isSystemInDarkTheme()
+    val isLightTheme = false
     var typedDigits by remember { mutableStateOf("") }
     val haptic = androidx.compose.ui.platform.LocalHapticFeedback.current
 

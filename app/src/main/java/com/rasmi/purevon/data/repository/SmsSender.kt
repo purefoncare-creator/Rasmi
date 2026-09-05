@@ -21,7 +21,9 @@ import com.rasmi.purevon.receiver.SentStatusReceiver
 import com.rasmi.purevon.util.DebugLogger
 import com.rasmi.purevon.util.ErrorHandler
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * Handles SMS message sending operations.
@@ -90,41 +92,85 @@ internal class SmsSender(
         message: String,
         simSlot: Int?,
         onSent: suspend (threadId: Long) -> Unit
-    ): MessageResult<Long> {
+    ): MessageResult<Long> = withContext(Dispatchers.IO) {
+        // ✅ FIX M27: whole send path runs on IO — getOrCreateThreadId() and the
+        // system-DB insert/update are blocking ContentResolver calls that used to
+        // run on the caller's (Main) dispatcher and froze the UI thread.
         // Validate permissions
         val permissionCheck = ErrorHandler.checkPermission(context, Manifest.permission.SEND_SMS)
         if (permissionCheck.isFailure) {
-            return MessageResult.Failure(permissionCheck.errorOrNull() ?: MessageError.PermissionError(Manifest.permission.SEND_SMS, "Permission denied"))
+            return@withContext MessageResult.Failure(permissionCheck.errorOrNull() ?: MessageError.PermissionError(Manifest.permission.SEND_SMS, "Permission denied"))
         }
 
         // Validate phone number
         val numberValidation = ErrorHandler.validatePhoneNumber(phoneNumber)
         if (numberValidation.isFailure) {
-            return MessageResult.Failure(numberValidation.errorOrNull() ?: MessageError.InvalidNumberError(phoneNumber, "Invalid phone number"))
+            return@withContext MessageResult.Failure(numberValidation.errorOrNull() ?: MessageError.InvalidNumberError(phoneNumber, "Invalid phone number"))
         }
-        val validNumber = numberValidation.getOrNull() ?: return MessageResult.Failure(MessageError.InvalidNumberError(phoneNumber, "Invalid phone number"))
+        val validNumber = numberValidation.getOrNull() ?: return@withContext MessageResult.Failure(MessageError.InvalidNumberError(phoneNumber, "Invalid phone number"))
 
         // Validate message size
         val sizeCheck = ErrorHandler.checkMessageSize(message, emptyList<String>())
         if (sizeCheck.isFailure) {
-            return MessageResult.Failure(sizeCheck.errorOrNull() ?: MessageError.MessageTooLargeError(actualSize = message.toByteArray().size.toLong(), maxSize = 0))
+            return@withContext MessageResult.Failure(sizeCheck.errorOrNull() ?: MessageError.MessageTooLargeError(actualSize = message.toByteArray().size.toLong(), maxSize = 0))
         }
 
-        return try {
+        // ✅ FIX M22: track what was created so every failure path below can
+        // roll back instead of leaving an orphan "Sending…" bubble (and/or a
+        // phantom SENT row + multipart metadata) stuck in the UI forever.
+        // Declared before the try so catch blocks can reach them.
+        val tempId = -System.currentTimeMillis() // Negative ID to avoid collision
+        val timestamp = System.currentTimeMillis()
+        var tempInserted = false
+        var systemMessageId: Long? = null
+
+        suspend fun rollbackOnFailure(markSystemRowFailed: Boolean) {
+            if (tempInserted) {
+                try {
+                    cachedMessageDao.deleteById(tempId)
+                } catch (e: Exception) {
+                    Log.e(TAG, "rollback: error deleting temp bubble tempId=$tempId", e)
+                    try { cachedMessageDao.deleteById(tempId) } catch (_: Exception) {}
+                }
+            }
+            val sid = systemMessageId
+            if (sid != null && sid > 0) {
+                if (markSystemRowFailed) {
+                    // Mirror SentStatusReceiver.updateMessageStatus(): type=FAILED(5)
+                    // keeps the message visible and retryable via retryFailedMessage()
+                    try {
+                        context.contentResolver.update(
+                            Telephony.Sms.CONTENT_URI,
+                            ContentValues().apply {
+                                put(Telephony.Sms.TYPE, Telephony.Sms.MESSAGE_TYPE_FAILED)
+                            },
+                            "${Telephony.Sms._ID} = ?",
+                            arrayOf(sid.toString())
+                        )
+                    } catch (e: Exception) {
+                        Log.e(TAG, "rollback: failed to mark system row $sid as FAILED", e)
+                    }
+                }
+                // No PendingIntent can fire after a synchronous throw — metadata is orphaned
+                try { messageMetadataDao.deleteMetadata(sid) } catch (_: Exception) {}
+            }
+        }
+
+        // The try-catch value is the lambda (and therefore sendSms) result
+        try {
             // First, get or create thread ID
             val threadId = getOrCreateThreadId(validNumber)
 
             // Guard: threadId == 0 means getOrCreateThreadId failed completely.
             if (threadId == 0L) {
                 Log.e(TAG, "Failed to get or create thread ID for $validNumber — aborting send")
-                return MessageResult.Failure(
+                return@withContext MessageResult.Failure(
                     MessageError.ThreadNotFoundError(0, "Failed to get/create thread for $validNumber")
                 )
             }
 
             // Optimistic UI Insert — user sees "sent" instantly
-            val tempId = -System.currentTimeMillis() // Negative ID to avoid collision
-            val timestamp = System.currentTimeMillis()
+            // (tempId/timestamp declared before try — see FIX M22)
 
             val tempMessage = com.rasmi.purevon.data.local.entity.CachedMessageEntity(
                 id = tempId,
@@ -154,6 +200,7 @@ internal class SmsSender(
             // Previously used fire-and-forget launch{}, so the message could be sent
             // before it appeared in the cache (optimistic UI wouldn't show it)
             cachedMessageDao.insert(tempMessage)
+            tempInserted = true
 
             DebugLogger.d(TAG, "Sending SMS:")
             DebugLogger.d(TAG, "  - Phone: $validNumber")
@@ -212,10 +259,13 @@ internal class SmsSender(
 
             if (messageId == null || messageId <= 0) {
                 Log.e(TAG, "Failed to insert message into database")
-                return MessageResult.Failure(
+                // ✅ FIX M22: system row was never created — just remove the optimistic bubble
+                rollbackOnFailure(markSystemRowFailed = false)
+                return@withContext MessageResult.Failure(
                     MessageError.DatabaseError("insert", "Failed to insert message into database")
                 )
             }
+            systemMessageId = messageId
 
             DebugLogger.d(TAG, "Message inserted with ID: $messageId, now sending...")
 
@@ -353,13 +403,18 @@ internal class SmsSender(
             MessageResult.Success(messageId, threadId)
         } catch (e: SecurityException) {
             Log.e(TAG, "Permission denied", e)
+            // ✅ FIX M22: roll back temp bubble + mark system row FAILED (retryable)
+            rollbackOnFailure(markSystemRowFailed = true)
             MessageResult.Failure(MessageError.PermissionError(Manifest.permission.SEND_SMS, e.message ?: ""))
         } catch (e: IllegalArgumentException) {
             Log.e(TAG, "Invalid argument", e)
+            rollbackOnFailure(markSystemRowFailed = true)
             MessageResult.Failure(MessageError.InvalidNumberError(phoneNumber, e.message ?: ""))
         } catch (e: Exception) {
             Log.e(TAG, "Failed to send message", e)
+            rollbackOnFailure(markSystemRowFailed = true)
             MessageResult.Failure(MessageError.UnknownError(e))
         }
     }
 }
+

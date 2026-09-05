@@ -18,7 +18,9 @@ data class ContactsUiState(
     val snackbarMessage: SnackbarMessage? = null,
     val pendingDeleteContact: Contact? = null,
     val isSelectionMode: Boolean = false,
-    val selectedContactIds: Set<Long> = emptySet()
+    val selectedContactIds: Set<Long> = emptySet(),
+    // ✅ FIX M34: ملاحظات جهة الاتصال المحددة (للمعاينة العريضة)
+    val selectedContactNotes: List<com.rasmi.purevon.domain.model.ContactNote> = emptyList()
 )
 
 /**
@@ -66,6 +68,9 @@ sealed class ContactsUiEvent {
     data object ExitSelectionMode : ContactsUiEvent()
     data object SelectAll : ContactsUiEvent()
     data object DeselectAll : ContactsUiEvent()
+    // ✅ FIX M34: تحميل/حذف ملاحظات جهة الاتصال في المعاينة العريضة
+    data class ContactPreviewSelected(val contactId: Long?) : ContactsUiEvent()
+    data class DeletePreviewNote(val noteId: Long) : ContactsUiEvent()
     data class ToggleFavorite(val contactId: Long) : ContactsUiEvent()
     data class DeleteContact(val contactId: Long) : ContactsUiEvent()
     data class ConfirmDeleteContact(val contactId: Long) : ContactsUiEvent()

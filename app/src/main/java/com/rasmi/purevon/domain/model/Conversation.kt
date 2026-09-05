@@ -17,7 +17,8 @@ data class Conversation(
     val isMuted: Boolean,
     val isArchived: Boolean,
     val isGroup: Boolean = false,
-    val groupParticipants: List<String> = emptyList()
+    val groupParticipants: List<String> = emptyList(),
+    val isFavorite: Boolean = false
 ) {
     // Aliases for backward compatibility
     val id: Long get() = threadId

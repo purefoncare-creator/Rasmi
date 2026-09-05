@@ -195,12 +195,27 @@ class MmsReceiver : BroadcastReceiver() {
                 showDownloadFailureNotification(context, "Could not process MMS notification")
                 return
             }
-            
+
             DebugLogger.diagnostic(TAG, "📊 [DOWNLOAD STEP 3] Content-Location obtained: $contentLocation")
+
+            // ✅ FIX M20 (Layer C): repeated MMSC pushes must not trigger another
+            // full download+persist cycle. Skip BEFORE consuming data if this
+            // transaction id is already persisted or this URL was handled recently.
+            if (!transactionId.isNullOrBlank()) {
+                com.rasmi.purevon.util.mms.MmsDownloadDedup.findByTransactionId(context, transactionId)?.let { existingId ->
+                    DebugLogger.diagnostic(TAG, "⏭️ [DEDUP] tr_id already persisted (id=$existingId) — skipping download")
+                    return
+                }
+            }
+            if (com.rasmi.purevon.util.mms.MmsDownloadDedup.wasLocationProcessed(context, contentLocation)) {
+                DebugLogger.diagnostic(TAG, "⏭️ [DEDUP] Content-Location processed within TTL — skipping download")
+                return
+            }
             
             // Create a temp file to receive the downloaded MMS PDU
             val fileName = "mms_download_${System.currentTimeMillis()}.dat"
-            val downloadFile = java.io.File(context.cacheDir, fileName)
+            val mmsDir = java.io.File(context.cacheDir, "mms").apply { mkdirs() }
+            val downloadFile = java.io.File(mmsDir, fileName)
             DebugLogger.diagnostic(TAG, "📊 [DOWNLOAD STEP 4] Temp file: ${downloadFile.absolutePath}")
             
             val downloadUri = try {

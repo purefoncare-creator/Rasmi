@@ -1,24 +1,10 @@
 package com.rasmi.purevon.presentation.component
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.combinedClickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -29,7 +15,6 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -44,18 +29,13 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.ui.layout.ContentScale
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import com.rasmi.purevon.domain.model.Conversation
 import com.rasmi.purevon.R
-import com.rasmi.purevon.presentation.theme.iOSBlue
+import com.rasmi.purevon.presentation.theme.*
 import com.rasmi.purevon.util.DateTimeUtils
 
 /**
- * Card-style Conversation List Item — matches the app's card design language.
+ * Wire-style Conversation List Item — flat, 32dp avatar, clean typography
  */
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -70,26 +50,23 @@ fun ConversationItem(
 ) {
     val context = LocalContext.current
     val isUnread = conversation.unreadCount > 0
-    val rowBg = if (isSelected) {
-        MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.18f)
-    } else {
-        androidx.compose.ui.graphics.Color.Transparent
-    }
 
     Column(modifier = modifier.fillMaxWidth()) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 8.dp, vertical = 2.dp)
-                .clip(RoundedCornerShape(10.dp))
-                .background(rowBg)
+                .height(MessagingDimensions.conversationItemHeight)
+                .padding(horizontal = MessagingDimensions.spacing8x)
                 .then(
                     if (isSelected) {
-                        Modifier.border(
-                            width = 1.5.dp,
-                            color = MaterialTheme.colorScheme.primary,
-                            shape = RoundedCornerShape(10.dp)
-                        )
+                        Modifier
+                            .clip(RoundedCornerShape(MessagingDimensions.corner8x))
+                            .background(PurevonPrimary.copy(alpha = 0.12f))
+                            .border(
+                                width = MessagingDimensions.spacing1x,
+                                color = PurevonPrimary,
+                                shape = RoundedCornerShape(MessagingDimensions.corner8x)
+                            )
                     } else {
                         Modifier
                     }
@@ -100,37 +77,33 @@ fun ConversationItem(
                     onClickLabel = stringResource(R.string.msg_cd_open_conversation),
                     onLongClickLabel = stringResource(R.string.msg_cd_conversation_options)
                 )
-                .padding(horizontal = 8.dp, vertical = 8.dp),
+                .padding(horizontal = MessagingDimensions.spacing4x, vertical = MessagingDimensions.spacing4x),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // ── Checkbox (selection mode) or Avatar ──────────────────────────
             Box(contentAlignment = Alignment.Center) {
-                UnifiedContactAvatar(
-                    size = 48.dp,
-                    photoUri = conversation.contactPhotoUri
+                com.rasmi.purevon.presentation.component.FavoriteContactAvatar(
+                    size = MessagingDimensions.avatarConversationList,
+                    photoUri = conversation.contactPhotoUri,
+                    isFavorite = conversation.isFavorite
                 )
-                
+
                 androidx.compose.animation.AnimatedVisibility(
                     visible = isSelectionMode,
-                    enter = fadeIn() + scaleIn(),
-                    exit = fadeOut() + scaleOut()
+                    enter = androidx.compose.animation.fadeIn() + androidx.compose.animation.scaleIn(),
+                    exit = androidx.compose.animation.fadeOut() + androidx.compose.animation.scaleOut()
                 ) {
                     Checkbox(
                         checked = isSelected,
                         onCheckedChange = { onClick() },
                         modifier = Modifier.size(24.dp),
-                        colors = CheckboxDefaults.colors(
-                            checkedColor = MaterialTheme.colorScheme.primary
-                        )
+                        colors = CheckboxDefaults.colors(checkedColor = PurevonPrimary)
                     )
                 }
             }
 
-            Spacer(modifier = Modifier.width(12.dp))
+            Spacer(modifier = Modifier.width(MessagingDimensions.spacing12x))
 
-            // ── Content ──────────────────────────────────
             Column(modifier = Modifier.weight(1f)) {
-                // Name + timestamp
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -144,66 +117,54 @@ fun ConversationItem(
                         CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
                             Text(
                                 text = displayText,
-                                style = MaterialTheme.typography.bodyMedium,
-                                fontWeight = if (isUnread) FontWeight.Bold else FontWeight.SemiBold,
+                                style = MessagingTypography.body02,
+                                fontWeight = if (isUnread) FontWeight.Bold else FontWeight.Medium,
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis,
                                 modifier = Modifier.weight(1f),
-                                color = MaterialTheme.colorScheme.onSurface,
-                                fontSize = 14.sp,
-                                lineHeight = 18.sp,
+                                color = PurevonTextPrimary,
                                 textAlign = if (parentLayoutDirection == LayoutDirection.Rtl) TextAlign.End else TextAlign.Start
                             )
                         }
                     } else {
                         Text(
                             text = displayText,
-                            style = MaterialTheme.typography.bodyMedium,
-                            fontWeight = if (isUnread) FontWeight.Bold else FontWeight.SemiBold,
+                            style = MessagingTypography.body02,
+                            fontWeight = if (isUnread) FontWeight.Bold else FontWeight.Medium,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
                             modifier = Modifier.weight(1f),
-                            color = MaterialTheme.colorScheme.onSurface,
-                            fontSize = 14.sp,
-                            lineHeight = 18.sp
+                            color = PurevonTextPrimary
                         )
                     }
 
-                    Spacer(modifier = Modifier.width(8.dp))
+                    Spacer(modifier = Modifier.width(MessagingDimensions.spacing8x))
 
                     Text(
                         text = DateTimeUtils.formatMessageTime(conversation.lastMessageTime, context),
-                        style = MaterialTheme.typography.labelSmall,
-                        color = if (isUnread)
-                            iOSBlue
-                        else
-                            MaterialTheme.colorScheme.onSurface.copy(alpha = 0.45f),
-                        fontWeight = if (isUnread) FontWeight.SemiBold else FontWeight.Normal,
-                        fontSize = 11.sp,
+                        style = MessagingTypography.subline01,
+                        color = if (isUnread) PurevonPrimary else PurevonTextTertiary,
+                        fontWeight = if (isUnread) FontWeight.Medium else FontWeight.Normal,
                         maxLines = 1
                     )
                 }
 
-                Spacer(modifier = Modifier.height(2.dp))
+                Spacer(modifier = Modifier.height(MessagingDimensions.spacing2x))
 
-                // Preview + unread badge
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    // Attachment detection via message content markers
-                    // Note: Uses text tags from lastMessage as primary detection, emoji only at
-                    // message start to avoid false positives from user-typed emojis.
                     val lastMsg = conversation.lastMessage
                     val attachmentIcon = when {
-                        lastMsg.contains("[MMS]", ignoreCase = true) || 
+                        lastMsg.contains("[MMS]", ignoreCase = true) ||
                             lastMsg.contains("[Image]", ignoreCase = true) ||
-                            lastMsg.startsWith("🖼") -> Icons.Default.Image
+                            lastMsg.contains("\uD83D\uDDBC") -> Icons.Default.Image
                         lastMsg.contains("[Audio]", ignoreCase = true) ||
-                            lastMsg.startsWith("🎵") -> Icons.Default.Mic
+                            lastMsg.contains("\uD83C\uDFB5") -> Icons.Default.Mic
                         lastMsg.contains("[Attachment]", ignoreCase = true) ||
                             lastMsg.contains("[Video]", ignoreCase = true) ||
-                            lastMsg.startsWith("📎") || lastMsg.startsWith("🎥") -> Icons.Default.AttachFile
+                            lastMsg.contains("\uD83D\uDCCE") -> Icons.Default.AttachFile
                         else -> null
                     }
 
@@ -212,32 +173,36 @@ fun ConversationItem(
                             imageVector = attachmentIcon,
                             contentDescription = stringResource(R.string.msg_cd_attachment_type),
                             modifier = Modifier.size(14.dp),
-                            tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.45f)
+                            tint = PurevonTextTertiary
                         )
-                        Spacer(modifier = Modifier.width(4.dp))
+                        Spacer(modifier = Modifier.width(MessagingDimensions.spacing4x))
                     }
 
                     Text(
                         text = conversation.lastMessage,
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurface.copy(
-                            alpha = if (isUnread) 0.85f else 0.5f
-                        ),
+                        style = MessagingTypography.subline01,
+                        color = if (isUnread) PurevonTextPrimary.copy(alpha = 0.85f) else PurevonTextTertiary,
                         fontWeight = if (isUnread) FontWeight.Medium else FontWeight.Normal,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier.weight(1f),
-                        fontSize = 11.sp
+                        modifier = Modifier.weight(1f)
                     )
 
-                    if (isUnread) {
-                        Spacer(modifier = Modifier.width(8.dp))
+                    if (isUnread && conversation.unreadCount > 0) {
+                        Spacer(modifier = Modifier.width(MessagingDimensions.spacing8x))
                         Box(
                             modifier = Modifier
-                                .size(10.dp)
-                                .clip(CircleShape)
-                                .background(iOSBlue)
-                        )
+                                .clip(RoundedCornerShape(6.dp))
+                                .background(PurevonTextPrimary),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = if (conversation.unreadCount > 99) "99+" else conversation.unreadCount.toString(),
+                                style = MessagingTypography.badge01,
+                                color = PurevonBackground,
+                                modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp)
+                            )
+                        }
                     }
                 }
             }
@@ -245,9 +210,9 @@ fun ConversationItem(
 
         if (showBottomDivider) {
             HorizontalDivider(
-                modifier = Modifier.padding(start = 64.dp),
+                modifier = Modifier.padding(start = MessagingDimensions.conversationItemDividerStartPadding),
                 thickness = 0.5.dp,
-                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.45f)
+                color = PurevonBorder
             )
         }
     }

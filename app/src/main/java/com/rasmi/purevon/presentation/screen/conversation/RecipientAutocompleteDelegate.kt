@@ -101,7 +101,8 @@ internal class RecipientAutocompleteDelegate(
                     contactName = contact.displayName,
                     phoneNumber = contact.phoneNumber,
                     photoUri = contact.photoUri,
-                    existingThreadId = existingThread?.threadId
+                    existingThreadId = existingThread?.threadId,
+                    isFavorite = contact.isFavorite
                 )
             }
 

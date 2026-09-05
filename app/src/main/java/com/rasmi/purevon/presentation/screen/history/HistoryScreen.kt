@@ -12,13 +12,14 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.isSystemInDarkTheme
+
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -42,7 +43,10 @@ import androidx.compose.material3.*
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.material3.ripple
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.*
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -70,6 +74,7 @@ import com.rasmi.purevon.data.local.entity.CallType
 import com.rasmi.purevon.domain.model.CallLog
 import com.rasmi.purevon.presentation.component.ContactAvatar
 import com.rasmi.purevon.presentation.component.ConfirmationDialog
+import com.rasmi.purevon.presentation.component.UnifiedContactAvatar
 import com.rasmi.purevon.presentation.component.PermissionRequiredState
 import com.rasmi.purevon.presentation.component.SimSelectorDialog
 import com.rasmi.purevon.util.sim.SimCallAction
@@ -95,7 +100,7 @@ fun HistoryScreen(
     onNavigateToAddContact: ((String) -> Unit)? = null
 ) {
     val context = LocalContext.current
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     var selectedCallLog by remember { mutableStateOf<CallLog?>(null) }
     var pendingCallNumber by remember { mutableStateOf<String?>(null) }
     var pendingCallSubId by remember { mutableStateOf<Int?>(null) }     // ✅ subscriptionId المعلق لطلب الإذن
@@ -104,6 +109,8 @@ fun HistoryScreen(
     var simPickerNumber by remember { mutableStateOf("") }
     val listState = rememberLazyListState()
     val haptic = LocalHapticFeedback.current
+    val isWide = LocalConfiguration.current.screenWidthDp >= 600
+    var selectedGroupKey by remember { mutableStateOf<String?>(null) }
     
     // SnackbarHostState for showing messages
     val snackbarHostState = remember { SnackbarHostState() }
@@ -262,7 +269,7 @@ fun HistoryScreen(
             icon = Icons.Default.Delete,
             confirmText = stringResource(R.string.action_delete),
             cancelText = stringResource(R.string.cancel),
-            confirmColor = errorColor(),
+            confirmColor = PurevonError,
             onConfirm = { viewModel.onEvent(HistoryUiEvent.ConfirmDeleteAllForNumber) },
             onDismiss = { viewModel.onEvent(HistoryUiEvent.DismissDeleteAllForNumber) }
         )
@@ -276,7 +283,7 @@ fun HistoryScreen(
             icon = Icons.Default.Block,
             confirmText = stringResource(R.string.action_block),
             cancelText = stringResource(R.string.cancel),
-            confirmColor = warningColor(),
+            confirmColor = PurevonWarning,
             onConfirm = { viewModel.onEvent(HistoryUiEvent.ConfirmBlock) },
             onDismiss = { viewModel.onEvent(HistoryUiEvent.DismissBlockConfirmation) }
         )
@@ -328,112 +335,57 @@ fun HistoryScreen(
         }
         
         // Main content (shown when permission is granted)
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .background(MaterialTheme.colorScheme.background)
-        ) {
-            // Search bar + three-dot menu (same style as Messages/Contacts)
-            HistorySearchBarWithMenu(
-                query = uiState.searchQuery,
-                onQueryChange = { viewModel.onEvent(HistoryUiEvent.SearchQueryChanged(it)) },
-                selectedFilter = uiState.selectedFilter,
-                onFilterSelected = { viewModel.onEvent(HistoryUiEvent.FilterSelected(it)) },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 12.dp, vertical = 8.dp)
-            )
-            
-            // Pull to refresh + Call logs list
-            PullToRefreshBox(
-                isRefreshing = uiState.isRefreshing,
-                onRefresh = { viewModel.onEvent(HistoryUiEvent.RefreshLogs) },
-                modifier = Modifier.fillMaxSize()
-            ) {
-                when {
-                    uiState.isLoading && uiState.groupedContactCalls.isEmpty() -> {
-                        Box(
-                            modifier = Modifier.fillMaxSize(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            CircularProgressIndicator(
-                                modifier = Modifier.size(32.dp),
-                                strokeWidth = 2.dp
-                            )
-                        }
-                    }
-                    
-                    uiState.groupedContactCalls.isEmpty() -> {
-                        EmptyHistoryState(
-                            filter = uiState.selectedFilter,
-                            modifier = Modifier.fillMaxSize()
-                        )
-                    }
-                    
-                    else -> {
-                        val sections = remember(uiState.groupedContactCalls) {
-                            groupContactCallsByDay(uiState.groupedContactCalls)
-                        }
-                        LazyColumn(
-                            state = listState,
-                            modifier = Modifier.fillMaxSize(),
-                            contentPadding = PaddingValues(bottom = 80.dp)
-                        ) {
-                            sections.forEach { (date, groupsForDay) ->
-                                item(key = "header_${date.toEpochDay()}") {
-                                    HistoryDateSectionHeader(date = date)
-                                }
-                                itemsIndexed(
-                                    items = groupsForDay,
-                                    key = { _, g -> g.groupKey }
-                                ) { index, group ->
-                                    val log = group.latestCall
-                                    val resolvedContactName =
-                                        uiState.getContactNameForNumber(group.phoneNumber)
-
-                                    CompactGroupedCallRow(
-                                        group = group,
-                                        resolvedContactName = resolvedContactName,
-                                        isSelectionMode = uiState.isSelectionMode,
-                                        isSelected = group.groupKey in uiState.selectedGroupKeys,
-                                        hasNote = uiState.hasNoteForNumber(group.phoneNumber),
-                                        useShortTimeSubtitle = true,
-                                        showBottomDivider = index < groupsForDay.lastIndex,
-                                        onCallBack = {
-                                            PhoneUtil.playClickSound(context)
-                                            viewModel.onEvent(
-                                                HistoryUiEvent.PrepareCall(group.phoneNumber)
-                                            )
-                                        },
-                                        onClick = {
-                                            if (uiState.isSelectionMode) {
-                                                viewModel.onEvent(
-                                                    HistoryUiEvent.ToggleGroupedSelection(group.groupKey)
-                                                )
-                                            } else {
-                                                val contactId =
-                                                    uiState.getContactIdForNumber(group.phoneNumber)
-                                                if (contactId != null && onNavigateToContact != null) {
-                                                    onNavigateToContact(contactId)
-                                                } else {
-                                                    selectedCallLog = log
-                                                }
-                                            }
-                                        },
-                                        onLongClick = {
-                                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                                            viewModel.onEvent(
-                                                HistoryUiEvent.GroupedRowLongPressed(group.groupKey)
-                                            )
-                                        }
-                                    )
-                                }
-                            }
-                        }
-                    }
+        val handleGroupClick: (GroupedContactCalls) -> Unit = { group ->
+            if (uiState.isSelectionMode) {
+                viewModel.onEvent(HistoryUiEvent.ToggleGroupedSelection(group.groupKey))
+            } else if (isWide) {
+                selectedGroupKey = group.groupKey
+            } else {
+                val contactId = uiState.getContactIdForNumber(group.phoneNumber)
+                if (contactId != null && onNavigateToContact != null) {
+                    onNavigateToContact(contactId)
+                } else {
+                    selectedCallLog = group.latestCall
                 }
             }
+        }
+        val handleGroupLongClick: (GroupedContactCalls) -> Unit = { group ->
+            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+            viewModel.onEvent(HistoryUiEvent.GroupedRowLongPressed(group.groupKey))
+        }
+        val handleCallBack: (String) -> Unit = { number ->
+            PhoneUtil.playClickSound(context)
+            viewModel.onEvent(HistoryUiEvent.PrepareCall(number))
+        }
+
+        if (isWide) {
+            HistoryWideLayout(
+                uiState = uiState,
+                listState = listState,
+                selectedGroupKey = selectedGroupKey,
+                onGroupClick = handleGroupClick,
+                onGroupLongClick = handleGroupLongClick,
+                onCallBack = handleCallBack,
+                onQueryChange = { viewModel.onEvent(HistoryUiEvent.SearchQueryChanged(it)) },
+                onFilterSelected = { viewModel.onEvent(HistoryUiEvent.FilterSelected(it)) },
+                onRefresh = { viewModel.onEvent(HistoryUiEvent.RefreshLogs) },
+                onPrepareCall = { viewModel.onEvent(HistoryUiEvent.PrepareCall(it)) },
+                onMessage = { onNavigateToNewConversation?.invoke(it) },
+                onAddContact = { onNavigateToAddContact?.invoke(it) },
+                paddingValues = paddingValues
+            )
+        } else {
+            HistoryCompactLayout(
+                uiState = uiState,
+                listState = listState,
+                onGroupClick = handleGroupClick,
+                onGroupLongClick = handleGroupLongClick,
+                onCallBack = handleCallBack,
+                onQueryChange = { viewModel.onEvent(HistoryUiEvent.SearchQueryChanged(it)) },
+                onFilterSelected = { viewModel.onEvent(HistoryUiEvent.FilterSelected(it)) },
+                onRefresh = { viewModel.onEvent(HistoryUiEvent.RefreshLogs) },
+                paddingValues = paddingValues
+            )
         }
     }
 
@@ -476,19 +428,19 @@ private fun CompactHistoryHeader(
                 icon = Icons.Default.Phone,
                 value = stats.totalCalls.toString(),
                 label = stringResource(R.string.history_total),
-                color = infoColor()
+                color = PurevonTertiary
             )
             CompactStatItem(
                 icon = Icons.AutoMirrored.Filled.CallMissed,
                 value = stats.missedCalls.toString(),
                 label = stringResource(R.string.history_missed),
-                color = missedCallColor()
+                color = PurevonCallMissed
             )
             CompactStatItem(
                 icon = Icons.Default.Timer,
                 value = formatCompactDuration(stats.totalDuration),
                 label = stringResource(R.string.history_duration),
-                color = successColor()
+                color = PurevonSecondary
             )
         }
     }
@@ -684,18 +636,15 @@ private fun CompactFilterRow(
     ) {
         items(CallFilter.entries) { filter ->
             val isSelected = selectedFilter == filter
-            val isLightTheme = !isSystemInDarkTheme()
             val (icon, color) = getFilterIconAndColor(filter)
             
             Surface(
                 onClick = { onFilterSelected(filter) },
                 shape = RoundedCornerShape(18.dp),
                 color = if (isSelected) color.copy(alpha = 0.15f) 
-                       else if (isLightTheme) WireOtherBubbleLight
-                       else Color.Transparent,
+                       else PurevonSurfaceAlt,
                 border = if (isSelected) null 
-                        else if (isLightTheme) BorderStroke(1.dp, LightBorder)
-                        else BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.3f)),
+                        else BorderStroke(1.dp, PurevonBorder),
                 modifier = Modifier.height(36.dp)
             ) {
                 Row(
@@ -822,6 +771,400 @@ private fun EmptyHistoryState(
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
         )
+    }
+}
+
+/**
+ * WIDE two-column master/detail layout.
+ */
+@Composable
+private fun HistoryWideLayout(
+    uiState: HistoryUiState,
+    listState: LazyListState,
+    selectedGroupKey: String?,
+    onGroupClick: (GroupedContactCalls) -> Unit,
+    onGroupLongClick: (GroupedContactCalls) -> Unit,
+    onCallBack: (String) -> Unit,
+    onQueryChange: (String) -> Unit,
+    onFilterSelected: (CallFilter) -> Unit,
+    onRefresh: () -> Unit,
+    onPrepareCall: (String) -> Unit,
+    onMessage: (String) -> Unit,
+    onAddContact: (String) -> Unit,
+    paddingValues: PaddingValues
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(paddingValues)
+    ) {
+        // ── Left pane: call log list ──
+        HistoryLogPane(
+            uiState = uiState,
+            listState = listState,
+            isWide = true,
+            selectedGroupKey = selectedGroupKey,
+            onGroupClick = onGroupClick,
+            onGroupLongClick = onGroupLongClick,
+            onCallBack = onCallBack,
+            onQueryChange = onQueryChange,
+            onFilterSelected = onFilterSelected,
+            onRefresh = onRefresh,
+            modifier = Modifier
+                .weight(1.1f)
+                .fillMaxHeight()
+                .background(PurevonBackground)
+        )
+
+        VerticalDivider(
+            modifier = Modifier.fillMaxHeight(),
+            thickness = 1.dp,
+            color = PurevonBorder
+        )
+
+        // ── Right pane: detail (master/detail) ──
+        Column(
+            modifier = Modifier
+                .weight(1.4f)
+                .fillMaxHeight()
+                .background(PurevonSurfaceAlt)
+        ) {
+            val selectedGroup = selectedGroupKey?.let { key ->
+                uiState.groupedContactCalls.find { it.groupKey == key }
+            }
+            AnimatedVisibility(
+                visible = selectedGroup != null,
+                enter = fadeIn() + slideInHorizontally { it / 3 },
+                exit = fadeOut()
+            ) {
+                selectedGroup?.let { group ->
+                    HistoryDetailView(
+                        group = group,
+                        contactName = uiState.getContactNameForNumber(group.phoneNumber),
+                        onCall = { onPrepareCall(group.phoneNumber) },
+                        onMessage = { onMessage(group.phoneNumber) },
+                        onAddContact = { onAddContact(group.phoneNumber) },
+                        modifier = Modifier.fillMaxSize()
+                    )
+                }
+            }
+            if (selectedGroup == null) {
+                HistoryDetailPlaceholder(modifier = Modifier.fillMaxSize())
+            }
+        }
+    }
+}
+
+/**
+ * COMPACT single-column layout (list only; navigation via callbacks).
+ */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun HistoryCompactLayout(
+    uiState: HistoryUiState,
+    listState: LazyListState,
+    onGroupClick: (GroupedContactCalls) -> Unit,
+    onGroupLongClick: (GroupedContactCalls) -> Unit,
+    onCallBack: (String) -> Unit,
+    onQueryChange: (String) -> Unit,
+    onFilterSelected: (CallFilter) -> Unit,
+    onRefresh: () -> Unit,
+    paddingValues: PaddingValues
+) {
+    HistoryLogPane(
+        uiState = uiState,
+        listState = listState,
+        isWide = false,
+        selectedGroupKey = null,
+        onGroupClick = onGroupClick,
+        onGroupLongClick = onGroupLongClick,
+        onCallBack = onCallBack,
+        onQueryChange = onQueryChange,
+        onFilterSelected = onFilterSelected,
+        onRefresh = onRefresh,
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(paddingValues)
+            .background(PurevonBackground)
+    )
+}
+
+/**
+ * Shared call-log list pane (search bar + pull-to-refresh + grouped rows).
+ */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun HistoryLogPane(
+    uiState: HistoryUiState,
+    listState: LazyListState,
+    isWide: Boolean,
+    selectedGroupKey: String?,
+    onGroupClick: (GroupedContactCalls) -> Unit,
+    onGroupLongClick: (GroupedContactCalls) -> Unit,
+    onCallBack: (String) -> Unit,
+    onQueryChange: (String) -> Unit,
+    onFilterSelected: (CallFilter) -> Unit,
+    onRefresh: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(Modifier.statusBarsPadding().then(modifier)) {
+        // Search bar + three-dot menu (same style as Messages/Contacts)
+        HistorySearchBarWithMenu(
+            query = uiState.searchQuery,
+            onQueryChange = onQueryChange,
+            selectedFilter = uiState.selectedFilter,
+            onFilterSelected = onFilterSelected,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp, vertical = 8.dp)
+        )
+
+        PullToRefreshBox(
+            isRefreshing = uiState.isRefreshing,
+            onRefresh = onRefresh,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            when {
+                uiState.isLoading && uiState.groupedContactCalls.isEmpty() -> {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(32.dp),
+                            strokeWidth = 2.dp
+                        )
+                    }
+                }
+
+                uiState.groupedContactCalls.isEmpty() -> {
+                    EmptyHistoryState(
+                        filter = uiState.selectedFilter,
+                        modifier = Modifier.fillMaxSize()
+                    )
+                }
+
+                else -> {
+                    val sections = remember(uiState.groupedContactCalls) {
+                        groupContactCallsByDay(uiState.groupedContactCalls)
+                    }
+                    LazyColumn(
+                        state = listState,
+                        modifier = Modifier.fillMaxSize(),
+                        contentPadding = PaddingValues(bottom = 80.dp)
+                    ) {
+                        sections.forEach { (date, groupsForDay) ->
+                            item(key = "header_${date.toEpochDay()}") {
+                                HistoryDateSectionHeader(date = date)
+                            }
+                            itemsIndexed(
+                                items = groupsForDay,
+                                key = { _, g -> g.groupKey }
+                            ) { index, group ->
+                                val log = group.latestCall
+                                val resolvedContactName =
+                                    uiState.getContactNameForNumber(group.phoneNumber)
+
+                                CompactGroupedCallRow(
+                                    group = group,
+                                    resolvedContactName = resolvedContactName,
+                                    isSelectionMode = uiState.isSelectionMode,
+                                    isSelected = group.groupKey in uiState.selectedGroupKeys,
+                                    hasNote = uiState.hasNoteForNumber(group.phoneNumber),
+                                    useShortTimeSubtitle = true,
+                                    showBottomDivider = index < groupsForDay.lastIndex,
+                                    onCallBack = { onCallBack(group.phoneNumber) },
+                                    onClick = { onGroupClick(group) },
+                                    onLongClick = { onGroupLongClick(group) }
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Inline call detail view shown in the wide right pane.
+ */
+@Composable
+private fun HistoryDetailView(
+    group: GroupedContactCalls,
+    contactName: String?,
+    onCall: () -> Unit,
+    onMessage: () -> Unit,
+    onAddContact: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val log = group.latestCall
+    val (icon, color) = getCallTypeIconAndColor(log.callType, log.isBlocked)
+    val name = contactName?.takeIf { it.isNotBlank() }
+        ?: group.contactName?.takeIf { it.isNotBlank() }
+        ?: PhoneUtil.formatPhoneNumber(group.phoneNumber)
+    val dateTime = remember(log.timestamp) {
+        val zdt = Instant.ofEpochMilli(log.timestamp).atZone(ZoneId.systemDefault())
+        zdt.format(DateTimeFormatter.ofPattern("EEE, MMM d • HH:mm"))
+    }
+
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(Spacing.xl)
+            .animateContentSize(spring()),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        com.rasmi.purevon.presentation.component.FavoriteContactAvatar(
+            size = 96.dp,
+            photoUri = log.contactPhotoUri,
+            isFavorite = group.isFavorite
+        )
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        Text(
+            text = name,
+            style = MaterialTheme.typography.headlineSmall,
+            fontWeight = FontWeight.SemiBold,
+            color = PurevonTextPrimary
+        )
+        Text(
+            text = PhoneUtil.formatPhoneNumber(group.phoneNumber),
+            style = MaterialTheme.typography.bodyMedium,
+            color = PurevonTextSecondary
+        )
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+        Surface(
+            color = color.copy(alpha = 0.15f),
+            shape = RoundedCornerShape(20.dp),
+            tonalElevation = 0.dp,
+            shadowElevation = 0.dp
+        ) {
+            Row(
+                modifier = Modifier.padding(horizontal = 14.dp, vertical = 7.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(6.dp)
+            ) {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = null,
+                    tint = color,
+                    modifier = Modifier.size(16.dp)
+                )
+                Text(
+                    text = getCallTypeLabel(log.callType, log.isBlocked),
+                    style = MaterialTheme.typography.labelMedium,
+                    fontWeight = FontWeight.SemiBold,
+                    color = color
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(14.dp))
+
+        Text(
+            text = dateTime,
+            style = MaterialTheme.typography.bodySmall,
+            color = PurevonTextTertiary
+        )
+
+        Spacer(modifier = Modifier.height(28.dp))
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(12.dp, Alignment.CenterHorizontally)
+        ) {
+            HistoryDetailActionButton(
+                icon = Icons.Default.Call,
+                label = "Call",
+                color = PurevonCallOutgoing,
+                onClick = onCall
+            )
+            HistoryDetailActionButton(
+                icon = Icons.AutoMirrored.Filled.Message,
+                label = "Message",
+                color = PurevonSecondary,
+                onClick = onMessage
+            )
+            HistoryDetailActionButton(
+                icon = Icons.Default.PersonAdd,
+                label = "Add",
+                color = PurevonPrimary,
+                onClick = onAddContact
+            )
+        }
+    }
+}
+
+@Composable
+private fun HistoryDetailActionButton(
+    icon: ImageVector,
+    label: String,
+    color: Color,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .clip(RoundedCornerShape(14.dp))
+            .clickable(onClick = onClick)
+            .background(color.copy(alpha = 0.12f))
+            .padding(horizontal = 18.dp, vertical = 12.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(6.dp)
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = label,
+            tint = color,
+            modifier = Modifier.size(22.dp)
+        )
+        Text(
+            text = label,
+            style = MaterialTheme.typography.labelMedium,
+            color = color,
+            fontWeight = FontWeight.Medium
+        )
+    }
+}
+
+@Composable
+private fun HistoryDetailPlaceholder(modifier: Modifier = Modifier) {
+    Box(
+        modifier = modifier,
+        contentAlignment = Alignment.Center
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.CallReceived,
+                contentDescription = null,
+                tint = PurevonTextTertiary.copy(alpha = 0.5f),
+                modifier = Modifier.size(48.dp)
+            )
+            Text(
+                text = "Select a call",
+                style = MaterialTheme.typography.bodyMedium,
+                color = PurevonTextTertiary
+            )
+        }
+    }
+}
+
+private fun getCallTypeLabel(callType: CallType, isBlocked: Boolean): String {
+    return when {
+        isBlocked -> "Blocked"
+        callType == CallType.MISSED -> "Missed"
+        callType == CallType.INCOMING -> "Incoming"
+        callType == CallType.OUTGOING -> "Outgoing"
+        callType == CallType.REJECTED -> "Rejected"
+        callType == CallType.VOICEMAIL -> "Voicemail"
+        else -> "Call"
     }
 }
 

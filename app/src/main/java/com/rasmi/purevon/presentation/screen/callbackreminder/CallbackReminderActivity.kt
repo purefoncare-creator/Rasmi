@@ -14,11 +14,11 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
-import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.getValue
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.isSystemInDarkTheme
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -92,7 +92,7 @@ class CallbackReminderActivity : AppCompatActivity() {
         val contactName = intent.getStringExtra(EXTRA_CONTACT_NAME)
         
         setContent {
-            val appLanguage by settingsDataStore.appLanguage.collectAsState(initial = "system")
+            val appLanguage by settingsDataStore.appLanguage.collectAsStateWithLifecycle(initialValue = "system")
             val systemLocale = androidx.core.os.ConfigurationCompat.getLocales(androidx.compose.ui.platform.LocalConfiguration.current).get(0)
             val activeLanguage = if (appLanguage == "system") (systemLocale?.language ?: "en") else appLanguage
             val isRtl = activeLanguage == "ar" || activeLanguage == "fa" || activeLanguage == "ur" || activeLanguage == "he"
@@ -137,7 +137,7 @@ private fun CallbackReminderScreen(
     onCallNow: () -> Unit,
     onDismiss: () -> Unit
 ) {
-    val isLightTheme = !isSystemInDarkTheme()
+    val isLightTheme = false
     
     Box(
         modifier = Modifier

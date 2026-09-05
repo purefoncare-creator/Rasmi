@@ -62,7 +62,47 @@ class DialerViewModel @Inject constructor(
         observeAskMode() // ✅ استرجاع وضع ASK من DataStore
         loadRecentUniqueContacts() // ✅ تحميل آخر 10 جهات اتصال مختلفة تم الاتصال بها
         observeCallEndedForSuggestions() // ✅ تحديث الاقتراحات عند انتهاء المكالمة
+        observeActiveCall() // ✅ مراقبة المكالمة النشطة لعرضها أعلى الاقتراحات
     }
+
+    /**
+     * ✅ مراقبة المكالمة النشطة وعرضها كبطاقة أعلى اقتراحات جهات الاتصال
+     * يمكن من خلالها كتم / مكبر الصوت / إنهاء المكالمة / التوسعة للشاشة الكاملة
+     */
+    private fun observeActiveCall() {
+        viewModelScope.launch {
+            combine(
+                inCallBridge.muteState,
+                inCallBridge.speakerState,
+                inCallBridge.callState
+            ) { muted, speaker, _ ->
+                val call = inCallBridge.getCurrentCall()
+                val phoneNumber = inCallBridge.currentPhoneNumber
+                val isActive = isActiveCallState(call?.state)
+                val normalizedNumber = (phoneNumber ?: "").replace(Regex("[^0-9+]"), "")
+                val photoUri = _uiState.value.recentContacts.firstOrNull {
+                    it.phoneNumber.replace(Regex("[^0-9+]"), "") == normalizedNumber
+                }?.photoUri
+                ActiveCallInfo(
+                    isActive = isActive,
+                    isMuted = muted,
+                    isSpeakerOn = speaker,
+                    contactName = inCallBridge.currentContactName?.takeIf { it.isNotBlank() } ?: phoneNumber,
+                    phoneNumber = phoneNumber,
+                    photoUri = photoUri
+                )
+            }.distinctUntilChanged()
+                .collect { info ->
+                    _uiState.update { it.copy(activeCall = info) }
+                }
+        }
+    }
+
+    private fun isActiveCallState(state: Int?): Boolean =
+        state == android.telecom.Call.STATE_ACTIVE ||
+            state == android.telecom.Call.STATE_DIALING ||
+            state == android.telecom.Call.STATE_CONNECTING ||
+            state == android.telecom.Call.STATE_HOLDING
     
     /**
      * ✅ تحديث الاقتراحات تلقائياً عند انتهاء أي مكالمة (IDLE)
@@ -85,6 +125,11 @@ class DialerViewModel @Inject constructor(
     fun refreshSuggestions() {
         loadRecentUniqueContacts()
     }
+
+    /**
+     * ✅ وقت بدء المكالمة النشطة (لتشغيل عدّاد المدة في بطاقة المكالمة)
+     */
+    fun getActiveCallStartTime(): Long = inCallBridge.getCallStartTime()
     
     /**
      * Observe ASK mode from DataStore
@@ -456,6 +501,26 @@ class DialerViewModel @Inject constructor(
             
             is DialerUiEvent.DismissError -> {
                 _uiState.update { it.copy(error = null) }
+            }
+
+            is DialerUiEvent.ToggleMuteCall -> {
+                inCallBridge.toggleMute()
+                Log.d(TAG, "ActiveCallCard: toggled mute")
+            }
+
+            is DialerUiEvent.ToggleSpeakerCall -> {
+                inCallBridge.toggleSpeaker()
+                Log.d(TAG, "ActiveCallCard: toggled speaker")
+            }
+
+            is DialerUiEvent.EndActiveCall -> {
+                val call = inCallBridge.getCurrentCall()
+                try {
+                    call?.disconnect()
+                    Log.d(TAG, "ActiveCallCard: ended active call")
+                } catch (e: Exception) {
+                    Log.e(TAG, "ActiveCallCard: error ending call", e)
+                }
             }
         }
     }

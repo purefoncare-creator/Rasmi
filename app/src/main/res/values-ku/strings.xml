@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="nav_back">Paşve</string>
+  <string name="add_contact_choose_method">Têkilê zêde bike</string>
+  <string name="add_contact_manual">Bi destê zêde bike</string>
+  <string name="add_contact_via_qr">Bi koda QR re zêde bike</string>
+  <string name="dialer_active_call_title">Gihtiye</string>
+  <string name="dialer_active_call_expand">Dema tije</string>
+  <string name="dialer_recent">Dawî</string>
+  <string name="dialer_no_recent">Çalakiya dawî nîye</string>
+  <string name="dialer_results">Encam</string>
+  <string name="incall_mute">Bêdeng</string>
+  <string name="incall_speaker">Blovser</string>
+  <string name="my_card_title">Karta min</string>
+  <string name="my_card_desc">Karta xwe çêke û bi kesek re parve bike</string>
+  <string name="my_card_edit">Sererast bike</string>
+  <string name="my_card_saved">Kartê tomarkirî</string>
+  <string name="my_card_share">Parve bike</string>
+  <string name="qr_scan_title">Koda têkilê skan bike</string>
+  <string name="qr_camera_permission">Ji bo skan koda kamera re destûr divê</string>
+  <string name="invalid_qr_code">Koda QR nearast</string>
+  <string name="call_blocking_block_unknown">Hejmarên nenas / şexsî bloke bike</string>
+  <string name="call_blocking_block_unknown_desc">Ji hejmarên di lîsteya têkilê de ne hatiye gihtiyan red bike</string>
+  <string name="call_blocking_whitelist_only">Tenê reya lîsteya spî</string>
+  <string name="call_blocking_whitelist_only_desc">Hemû ya dîtî lîsteya spî re xwar bloke bike</string>
+  <string name="call_blocking_whitelist_only_warning">⚠ Her gihtî ku di lîsteya spî de nîye bloke dibe!</string>
+  <string name="notification_ongoing_call_channel">Gihtiye dewletî</string>
+  <string name="notification_ongoing_call_channel_desc">Dema ekrana bêqirar be ji gihtiye ya çalak de agahdariya dewletî</string>
+  <string name="notification_ongoing_call_title">Gihtiye dewletî</string>
+  <string name="delete_note_title">Bikêrkirinê jê bibe</string>
+  <string name="delete_note_message">Hûn dixwazin vê bikêrkirinê jê bibin?</string>
+  <string name="stat_title">Amar</string>
+  <string name="stat_call_statistics">Amarê gihtiye</string>
+  <string name="stat_message_statistics">Amarê peyam</string>
+  <string name="stat_total_calls">Hemû gihtiyan</string>
+  <string name="stat_total_messages">Hemû peyam</string>
+  <string name="stat_total_duration">Demê giştî</string>
+  <string name="stat_average_duration">Asta demê</string>
+  <string name="stat_incoming">Tigerî</string>
+  <string name="stat_outgoing">Derbasî</string>
+  <string name="stat_missed">Kêm kirî</string>
+  <string name="stat_received">Hatî</string>
+  <string name="stat_sent">Hatebiyî</string>
+  <string name="stat_blocked">Bloke</string>
+  <string name="stat_frequent_contacts">Têkilên pir gihtiyan</string>
+  <string name="stat_contact_calls_duration">%1$d gihtiyan • %2$s</string>
+</resources>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- ======================== -->
     <!-- APPLICATION INFO         -->
     <!-- ======================== -->
@@ -7,11 +7,7 @@
     <!-- ======================== -->
     <!-- 1. NAVIGATION            -->
     <!-- ======================== -->
-    <string name="nav_tab_dialer">Dialer</string>
     <string name="nav_tab_contacts">Contacts</string>
-    <string name="nav_tab_history">History</string>
-    <string name="nav_tab_messages">Messages</string>
-    <string name="nav_tab_settings">Settings</string>
     
     <!-- ======================== -->
     <!-- 2. PERMISSIONS SCREEN    -->
@@ -325,9 +321,9 @@
     <!-- Conference Call -->
     
     <!-- Fake Call / الاتصال الوهمي -->
-    <string name="app_name" translatable="false">Purevon</string>
+    <string name="app_name" translatable="false">Rasmi</string>
     <string name="perm_setup_title">Setup Permissions</string>
-    <string name="perm_welcome_title">Welcome to Purevon</string>
+    <string name="perm_welcome_title">Welcome to Rasmi</string>
     <string name="perm_welcome_message">To replace your default Phone and SMS apps, we need the following permissions</string>
     <string name="perm_header_default_apps">Set as Default Apps</string>
     <string name="perm_header_special">Special Permissions</string>
@@ -335,7 +331,7 @@
     <string name="perm_header_contacts">Contacts Permissions</string>
     <string name="perm_header_sms">SMS Permissions</string>
     <string name="perm_header_notification">Notification Permission</string>
-    <string name="perm_default_apps_message">Tap each button to set Purevon as your default app</string>
+    <string name="perm_default_apps_message">Tap each button to set Rasmi as your default app</string>
     <string name="perm_default_dialer">Default Dialer</string>
     <string name="perm_default_sms">Default SMS</string>
     <string name="perm_status_active">Active</string>
@@ -356,7 +352,7 @@
     <string name="perm_autostart_message">To ensure the app works in the background and receives calls and messages, you must enable autostart:</string>
     <string name="perm_autostart_step1">• Search for \"%s\" in the list</string>
     <string name="perm_autostart_step2">• Look for \"Autostart\" or \"Auto-start\"</string>
-    <string name="perm_autostart_step3">• Enable autostart for Purevon app</string>
+    <string name="perm_autostart_step3">• Enable autostart for Rasmi app</string>
     <string name="perm_autostart_note">Note: The label may vary depending on your device manufacturer</string>
     <string name="perm_button_open_autostart">Open Autostart Settings</string>
     <string name="perm_button_grant_runtime">Grant Runtime Permissions</string>
@@ -444,7 +440,6 @@
     <string name="contact_detail_share">Share Contact</string>
     <string name="contact_detail_block">Block Contact</string>
     <string name="contact_detail_unblock">Unblock Contact</string>
-    <string name="contact_detail_tab_history">History</string>
     <string name="contact_detail_tab_notes">Notes</string>
     <string name="contact_detail_no_history">No call history yet</string>
     <string name="contact_detail_no_notes">No notes yet</string>
@@ -457,7 +452,6 @@
     <string name="contact_detail_email_address">Email address</string>
     <string name="contact_detail_company_name">Company name</string>
     <string name="contact_detail_action_button">Action button</string>
-    <string name="contact_detail_call_history">Call History</string>
 
     <!-- Add / Edit Contact Screen -->
     <string name="add_contact_photo_title">Contact Photo</string>
@@ -495,9 +489,6 @@
     <string name="messages_delete_conversation">Delete Conversation</string>
     <string name="history_missed">Missed</string>
     <string name="history_duration">Duration: %s</string>
-    <string name="settings_appearance">Appearance</string>
-    <string name="settings_theme_dark">Dark</string>
-    <string name="settings_theme_system">System Default</string>
     <string name="settings_language">Language</string>
     <string name="language_system">System Default</string>
     <string name="dialer_add_to_contacts">Add to contacts</string>
@@ -588,7 +579,7 @@
     <string name="about_title">About</string>
     <string name="about_build">Build %s</string>
     <string name="about_tagline">Your Complete Communication Hub</string>
-    <string name="about_description">Purevon is a modern phone and messaging app designed to give you full control over your communications with advanced features like spam filtering, call blocking, OTP management, and more.</string>
+    <string name="about_description">Rasmi is a modern phone and messaging app designed to give you full control over your communications with advanced features like spam filtering, call blocking, OTP management, and more.</string>
     <string name="about_key_features">Key Features</string>
     <string name="about_feature_blocking">Smart Call Blocking</string>
     <string name="about_feature_blocking_desc">Block spam calls and unknown numbers automatically</string>
@@ -599,7 +590,7 @@
     <string name="about_feature_sim">Dual SIM Support</string>
     <string name="about_feature_sim_desc">Full support for dual SIM devices</string>
     <string name="about_contact_us">Contact us:</string>
-    <string name="about_copyright">© 2026 Purevon. All rights reserved.</string>
+    <string name="about_copyright">© 2026 Rasmi. All rights reserved.</string>
     
     <!-- AI Model Settings -->
     <string name="conversation_no_messages">No messages yet</string>
@@ -623,7 +614,6 @@
     <string name="service_status_bar_chip_desc">Shows ongoing call status in status bar</string>
     <string name="unknown_caller">Unknown</string>
     <string name="msg_status_failed">Failed</string>
-    <string name="msg_status_sending">Sending</string>
     <string name="msg_action_retry">Retry</string>
     <string name="msg_send_cancelled">Message send cancelled</string>
     <string name="msg_action_cancel">Cancel</string>
@@ -647,10 +637,6 @@
     <string name="msg_cd_schedule">Schedule</string>
     <string name="msg_cd_templates">Templates</string>
     <string name="msg_cd_voice_recording">Voice recording</string>
-    <string name="msg_cd_copy">Copy message</string>
-    <string name="msg_cd_favorite">Toggle favorite</string>
-    <string name="msg_cd_forward">Forward message</string>
-    <string name="msg_cd_retry">Retry sending</string>
     <string name="msg_cd_attachment_type">Attachment type</string>
     <string name="msg_cd_open_location">Open location on map</string>
     <string name="msg_cd_play">Play</string>
@@ -660,8 +646,6 @@
     <string name="msg_cd_conversation_options">Conversation options</string>
     <string name="msg_cd_delete_recording">Delete recording</string>
     <string name="msg_cd_send_recording">Send recording</string>
-    <string name="msg_date_today">Today</string>
-    <string name="msg_date_yesterday">Yesterday</string>
     <string name="msg_no_results">No results</string>
     <string name="msg_no_archived_conversations">No archived conversations</string>
     <string name="msg_search_try_different">Try a different keyword than \"%s\"</string>
@@ -673,7 +657,6 @@
     <string name="msg_sim_ask_me">Ask Me</string>
     <string name="msg_phone_number_missing">Phone number is missing</string>
     <string name="msg_scheduled_cancelled">Scheduled message cancelled</string>
-    <string name="msg_copied_toast">Copied to clipboard</string>
     <string name="msg_error_open_contact">Could not open contacts</string>
     <string name="msg_error_open_map">Could not open map</string>
     <string name="msg_cd_cancel_recording">Cancel recording</string>
@@ -741,7 +724,6 @@
     <string name="manufacturer_vivo">Vivo (Funtouch OS)</string>
     <string name="manufacturer_oneplus">OnePlus (OxygenOS)</string>
     <string name="manufacturer_stock">Android</string>
-    <string name="spam_privacy_title">Privacy</string>
     <string name="privacy_hide_notifications">Hide Sensitive Notifications</string>
     <string name="about_version">Version %s</string>
     <string name="close">Close</string>
@@ -772,15 +754,11 @@
     <string name="action_end">End</string>
     <string name="call_status_incoming">Incoming…</string>
     <string name="call_status_on_hold">On Hold</string>
-    <string name="call_status_calling">Calling…</string>
     <string name="conference_call_title">Conference Call</string>
-    <string name="conference_label">Conference</string>
     <plurals name="conference_participants_count">
         <item quantity="one">%d participant</item>
         <item quantity="other">%d participants</item>
     </plurals>
-    <string name="overlay_status_hold">Hold</string>
-    <string name="overlay_status_incoming">Incoming</string>
     <string name="fake_call_title">Fake Call</string>
     <string name="fake_call_caller_name">Caller Name</string>
     <string name="fake_call_caller_name_hint">e.g. Mom, Boss, Doctor</string>
@@ -907,8 +885,6 @@
     <string name="notification_channel_spam_desc">Notifications for spam calls and messages</string>
     <string name="notification_channel_general">General</string>
     <string name="notification_channel_general_desc">General app notifications</string>
-    <string name="notification_channel_call_overlay">Ongoing Call Overlay</string>
-    <string name="notification_channel_call_overlay_desc">Keeps the call overlay active</string>
     <string name="notification_channel_failures">Message Failures</string>
     <string name="notification_channel_failures_desc">Notifications for failed message sends</string>
     <string name="notification_channel_fake_call">Fake Calls</string>
@@ -930,8 +906,6 @@
     <string name="notification_action_archive">Archive</string>
 
     <!-- Notification Content -->
-    <string name="notification_active_call_title">Active Call Overlay</string>
-    <string name="notification_active_call_text">Tap to return to call</string>
     <string name="notification_send_failed_title">Message send failed</string>
     <string name="notification_send_failed_text">To %1$s: %2$s</string>
 
@@ -967,7 +941,7 @@
 
     <!-- MessageError Suggested Actions -->
     <string name="msg_action_check_network">Check your internet connection and try again</string>
-    <string name="msg_action_grant_permission">Go to Settings → Apps → Purevon → Permissions</string>
+    <string name="msg_action_grant_permission">Go to Settings → Apps → Rasmi → Permissions</string>
     <string name="msg_action_recharge">Recharge your SIM card balance</string>
     <string name="msg_action_verify_number">Verify the phone number format</string>
     <string name="msg_action_free_space">Delete some files to free up space</string>
@@ -1001,10 +975,6 @@
     <string name="otp_bubble_channel_desc">Notifications for floating verification code bubbles</string>
     <string name="otp_bubble_notification_title">Verification code</string>
     <string name="otp_bubble_notification_text">Tap the floating bubble to copy the verification code</string>
-
-    <!-- Incoming Call Banner -->
-    <string name="settings_incoming_call_banner">Incoming call banner</string>
-    <string name="settings_incoming_call_banner_desc">Show a floating banner instead of full screen for incoming calls</string>
 
     <!-- Notification Summary -->
     <string name="notification_summary_title">Messages</string>
@@ -1057,17 +1027,17 @@
     <!-- ======================== -->
     <string name="disclosure_title">Your Privacy</string>
     <string name="disclosure_subtitle">Please review before continuing</string>
-    <string name="disclosure_intro">Purevon replaces your default Phone dialer and your default SMS/MMS messaging app. To provide calling, SMS/MMS, spam protection, and related features, it needs the permissions explained below. Optional items (camera, microphone, location) are used only when you choose those actions (for example attaching a photo or sharing your location). Data stays on your device unless you explicitly use a network feature such as MMS or loading a web link preview.</string>
+    <string name="disclosure_intro">Rasmi replaces your default Phone dialer and your default SMS/MMS messaging app. To provide calling, SMS/MMS, spam protection, and related features, it needs the permissions explained below. Optional items (camera, microphone, location) are used only when you choose those actions (for example attaching a photo or sharing your location). Data stays on your device unless you explicitly use a network feature such as MMS or loading a web link preview.</string>
     <string name="disclosure_phone_title">Phone numbers</string>
-    <string name="disclosure_phone_body">Purevon reads your phone numbers and SIM information to make calls, send messages, and identify which line is being used. This information stays on your device.</string>
+    <string name="disclosure_phone_body">Rasmi reads your phone numbers and SIM information to make calls, send messages, and identify which line is being used. This information stays on your device.</string>
     <string name="disclosure_contacts_title">Contacts</string>
-    <string name="disclosure_contacts_body">Purevon reads and writes your contacts to display names and photos in calls and messages, and to let you save new contacts. Contacts are not transmitted off the device.</string>
+    <string name="disclosure_contacts_body">Rasmi reads and writes your contacts to display names and photos in calls and messages, and to let you save new contacts. Contacts are not transmitted off the device.</string>
     <string name="disclosure_sms_title">SMS &amp; MMS messages</string>
-    <string name="disclosure_sms_body">As your default messaging app, Purevon reads, sends, and receives SMS and MMS messages. Message content is processed locally to detect OTP codes and spam.</string>
+    <string name="disclosure_sms_body">As your default messaging app, Rasmi reads, sends, and receives SMS and MMS messages. Message content is processed locally to detect OTP codes and spam.</string>
     <string name="disclosure_calllog_title">Call log</string>
-    <string name="disclosure_calllog_body">Purevon reads and writes your call log to show your call history, return missed calls, and identify blocked numbers.</string>
+    <string name="disclosure_calllog_body">Rasmi reads and writes your call log to show your call history, return missed calls, and identify blocked numbers.</string>
     <string name="disclosure_location_title">Location (when you share it)</string>
-    <string name="disclosure_location_body">If you tap share location in a conversation or during a call, Purevon accesses device location only to attach or send that location. It is not used for advertising and is not collected in the background for tracking.</string>
+    <string name="disclosure_location_body">If you tap share location in a conversation or during a call, Rasmi accesses device location only to attach or send that location. It is not used for advertising and is not collected in the background for tracking.</string>
     <string name="disclosure_camera_title">Camera</string>
     <string name="disclosure_camera_body">Used when you take a photo to attach to a message or to add a contact photo. The camera is not used unless you start that action.</string>
     <string name="disclosure_mic_title">Microphone</string>
@@ -1075,14 +1045,14 @@
     <string name="disclosure_storage_title">Photos, media &amp; files (older Android versions)</string>
     <string name="disclosure_storage_body">On Android 12 and below only, storage access may be used so you can attach voice recordings or media files you choose. On newer Android versions the system picker is used where possible.</string>
     <string name="disclosure_overlay_title">Incoming calls on lock screen &amp; display over other apps</string>
-    <string name="disclosure_overlay_body">Purevon may ask for permission to draw over other apps and to show full-screen incoming call UI so you can answer or decline calls reliably, including when the screen is locked.</string>
+    <string name="disclosure_overlay_body">Rasmi may ask for permission to draw over other apps and to show full-screen incoming call UI so you can answer or decline calls reliably, including when the screen is locked.</string>
     <string name="disclosure_notifications_title">Notifications &amp; alarms</string>
     <string name="disclosure_notifications_body">Notifications alert you to new messages and calls. Exact alarms and boot completion are used only for scheduled messages and reminders you set; battery-optimization exemption may be requested so those alerts are delivered reliably.</string>
-    <string name="disclosure_no_upload">Your messages, call log, contacts, and phone identifiers are processed on your device for dialer and messaging features. Purevon does not sell this personal data. Network access may be used for MMS, optional link previews, or app updates — not to upload your SMS or call history to our servers.</string>
+    <string name="disclosure_no_upload">Your messages, call log, contacts, and phone identifiers are processed on your device for dialer and messaging features. Rasmi does not sell this personal data. Network access may be used for MMS, optional link previews, or app updates — not to upload your SMS or call history to our servers.</string>
     <string name="disclosure_consent_checkbox">I have read and agree to these data practices, including core dialer/SMS access and optional camera, microphone, and location when I use those features.</string>
     <string name="disclosure_accept_button">Agree and continue</string>
 
-    <string name="perm_manual_special_intro">Use the special permissions section below when you are ready. Purevon does not open those system screens automatically, so you can read each explanation before continuing.</string>
+    <string name="perm_manual_special_intro">Use the special permissions section below when you are ready. Rasmi does not open those system screens automatically, so you can read each explanation before continuing.</string>
 
     <string name="incall_error_contact_not_found">Contact not found</string>
     <string name="incall_error_favorite_update_failed">Failed to update favorite</string>
@@ -1142,4 +1112,52 @@
     <string name="blocked_call_bubble_notification_title">Call blocked</string>
     <string name="blocked_call_bubble_notification_text">Incoming call from a suspected number was blocked</string>
 
+    <string name="add_contact_choose_method">Add contact</string>
+    <string name="add_contact_manual">Add manually</string>
+    <string name="add_contact_via_qr">Add via QR code</string>
+    <string name="call_blocking_block_unknown">Block unknown / private numbers</string>
+    <string name="call_blocking_block_unknown_desc">Reject calls from numbers not in contacts</string>
+    <string name="call_blocking_whitelist_only">Whitelist-only mode</string>
+    <string name="call_blocking_whitelist_only_desc">Block everyone except whitelisted numbers</string>
+    <string name="call_blocking_whitelist_only_warning">⚠ Every call not in your whitelist will be blocked!</string>
+    <string name="delete_note_message">Are you sure you want to delete this note?</string>
+    <string name="delete_note_title">Delete Note</string>
+    <string name="dialer_active_call_expand">Full screen</string>
+    <string name="dialer_active_call_title">Active Call</string>
+    <string name="dialer_no_recent" tools:ignore="MissingTranslation">No recent activity</string>
+    <string name="dialer_recent" tools:ignore="MissingTranslation">Recent</string>
+    <string name="dialer_results" tools:ignore="MissingTranslation">Results</string>
+    <string name="incall_mute">Mute</string>
+    <string name="incall_speaker">Speaker</string>
+    <string name="invalid_qr_code">Invalid QR code</string>
+    <string name="my_card_desc">Create your personal card and share it with anyone</string>
+    <string name="my_card_edit">Edit</string>
+    <string name="my_card_saved">Card saved</string>
+    <string name="my_card_share">Share</string>
+    <string name="my_card_title">My Card</string>
+    <string name="nav_back">Back</string>
+    <string name="notification_ongoing_call_channel">Ongoing Call</string>
+    <string name="notification_ongoing_call_channel_desc">Persistent notification for an active call when the call screen is closed</string>
+    <string name="notification_ongoing_call_title">Ongoing Call</string>
+    <string name="qr_camera_permission">Camera permission is needed to scan the code</string>
+    <string name="qr_scan_title">Scan contact code</string>
+    <string name="stat_average_duration">Average Duration</string>
+    <string name="stat_blocked">Blocked</string>
+    <string name="stat_call_statistics">Call Statistics</string>
+    <string name="stat_contact_calls_duration">%1$d calls • %2$s</string>
+    <string name="stat_frequent_contacts">Most Frequent Contacts</string>
+    <string name="stat_incoming">Incoming</string>
+    <string name="stat_message_statistics">Message Statistics</string>
+    <string name="stat_missed">Missed</string>
+    <string name="stat_outgoing">Outgoing</string>
+    <string name="stat_received">Received</string>
+    <string name="stat_sent">Sent</string>
+    <string name="stat_title">Statistics</string>
+    <string name="stat_total_calls">Total Calls</string>
+    <string name="stat_total_duration">Total Duration</string>
+    <string name="stat_total_messages">Total Messages</string>
+    <string name="incoming_overlay_channel_name">Incoming Call</string>
+    <string name="incoming_overlay_channel_desc">Small top card for incoming calls while using the app</string>
+    <string name="incoming_overlay_notification_title">Incoming Call</string>
+    <string name="incoming_overlay_notification_text">Incoming call card is active</string>
 </resources>

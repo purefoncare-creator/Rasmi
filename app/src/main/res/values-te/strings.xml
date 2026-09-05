@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="nav_back">వెనుక</string>
+  <string name="add_contact_choose_method">సంప్రదింపు జోడించు</string>
+  <string name="add_contact_manual">చేతితో జోడించు</string>
+  <string name="add_contact_via_qr">QR కోడ్ ద్వారా జోడించు</string>
+  <string name="dialer_active_call_title">యాక్టివ్ కాల్</string>
+  <string name="dialer_active_call_expand">పూర్తి తెర</string>
+  <string name="dialer_recent">ఇటీవలి</string>
+  <string name="dialer_no_recent">ఇటీవలి కార్యాచరణ లేదు</string>
+  <string name="dialer_results">ఫలితాలు</string>
+  <string name="incall_mute">మూసివేయి</string>
+  <string name="incall_speaker">స్పీకర్</string>
+  <string name="my_card_title">నా కార్డ్</string>
+  <string name="my_card_desc">మీ వ్యక్తిగత కార్డ్ ను సృష్టించి ఎవరితోనైనా పంచుకోండి</string>
+  <string name="my_card_edit">సవరించు</string>
+  <string name="my_card_saved">కార్డ్ సేవ్ చేయబడింది</string>
+  <string name="my_card_share">పంచుకోండి</string>
+  <string name="qr_scan_title">సంప్రదింపు కోడ్ స్కాన్ చేయండి</string>
+  <string name="qr_camera_permission">కోడ్ స్కాన్ చేయడానికి కెమెరా అనుమతి అవసరం</string>
+  <string name="invalid_qr_code">చెల్లని QR కోడ్</string>
+  <string name="call_blocking_block_unknown">తెలియని / ప్రైవేట్ నంబర్లను బ్లాక్ చేయి</string>
+  <string name="call_blocking_block_unknown_desc">సంప్రదింపులో లేని నంబర్ల నుండి వచ్చే కాల్లను తిరస్కరించు</string>
+  <string name="call_blocking_whitelist_only">శ్వేత జాబితా మోడ్</string>
+  <string name="call_blocking_whitelist_only_desc">శ్వేత జాబితాలో ఉన్న నంబర్లు తప్ప అన్నింటినీ బ్లాక్ చేయి</string>
+  <string name="call_blocking_whitelist_only_warning">⚠ మీ శ్వేత జాబితాలో లేని ప్రతి కాల్ బ్లాక్ చేయబడుతుంది!</string>
+  <string name="notification_ongoing_call_channel">కొనసాగుతున్న కాల్</string>
+  <string name="notification_ongoing_call_channel_desc">తెర మూసినప్పుడు యాక్టివ్ కాల్ కోసం శాశ్వత నోటిఫికేషన్</string>
+  <string name="notification_ongoing_call_title">కొనసాగుతున్న కాల్</string>
+  <string name="delete_note_title">గమనిక తొలగించు</string>
+  <string name="delete_note_message">ఈ గమనికను తొలగించాలనుకుంటున్నారా?</string>
+  <string name="stat_title">గణాంకాలు</string>
+  <string name="stat_call_statistics">కాల్ గణాంకాలు</string>
+  <string name="stat_message_statistics">సందేశ గణాంకాలు</string>
+  <string name="stat_total_calls">మొత్తం కాల్లు</string>
+  <string name="stat_total_messages">మొత్తం సందేశాలు</string>
+  <string name="stat_total_duration">మొత్తం వ్యవధి</string>
+  <string name="stat_average_duration">సగటు వ్యవధి</string>
+  <string name="stat_incoming">వచ్చే</string>
+  <string name="stat_outgoing">వెళ్ళే</string>
+  <string name="stat_missed">మిస్</string>
+  <string name="stat_received">అందుకున్న</string>
+  <string name="stat_sent">పంపిన</string>
+  <string name="stat_blocked">బ్లాక్ చేయబడిన</string>
+  <string name="stat_frequent_contacts">ఎక్కువ కాల్ చేసే సంప్రదింపులు</string>
+  <string name="stat_contact_calls_duration">%1$d కాల్లు • %2$s</string>
+</resources>

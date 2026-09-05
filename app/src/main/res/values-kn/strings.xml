@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="nav_back">ಹಿಂದೆ</string>
+  <string name="add_contact_choose_method">ಸಂಪರ್ಕ ಸೇರಿಸಿ</string>
+  <string name="add_contact_manual">ಕೈಯಿಂದ ಸೇರಿಸಿ</string>
+  <string name="add_contact_via_qr">QR ಕೋಡ್ ಮೂಲಕ ಸೇರಿಸಿ</string>
+  <string name="dialer_active_call_title">ಸಕ್ರಿಯ ಕರೆ</string>
+  <string name="dialer_active_call_expand">ಪೂರ್ಣ ಪರದೆ</string>
+  <string name="dialer_recent">ಇತ್ತೀಚಿನ</string>
+  <string name="dialer_no_recent">ಇತ್ತೀಚಿನ ಚಟುವಟಿಕೆ ಇಲ್ಲ</string>
+  <string name="dialer_results">ಫಲಿತಾಂಶಗಳು</string>
+  <string name="incall_mute">ಮೌನ</string>
+  <string name="incall_speaker">ಸ್ಪೀಕರ್</string>
+  <string name="my_card_title">ನನ್ನ ಕಾರ್ಡ್</string>
+  <string name="my_card_desc">ನಿಮ್ಮ ವೈಯಕ್ತಿಕ ಕಾರ್ಡ್ ಅನ್ನು ರಚಿಸಿ ಮತ್ತು ಯಾರೊಂದಿಗಾದರೂ ಹಂಚಿಕೊಳ್ಳಿ</string>
+  <string name="my_card_edit">ಸಂಪಾದಿಸಿ</string>
+  <string name="my_card_saved">ಕಾರ್ಡ್ ಉಳಿಸಲಾಗಿದೆ</string>
+  <string name="my_card_share">ಹಂಚಿಕೊಳ್ಳಿ</string>
+  <string name="qr_scan_title">ಸಂಪರ್ಕ ಕೋಡ್ ಸ್ಕ್ಯಾನ್ ಮಾಡಿ</string>
+  <string name="qr_camera_permission">ಕೋಡ್ ಸ್ಕ್ಯಾನ್ ಮಾಡಲು ಕ್ಯಾಮೆರಾ ಅನುಮತಿ ಅಗತ್ಯ</string>
+  <string name="invalid_qr_code">ಅಮಾನ್ಯ QR ಕೋಡ್</string>
+  <string name="call_blocking_block_unknown">ಅಜ್ಞಾತ / ಖಾಸಗಿ ನಂಬರ್‌ಗಳನ್ನು ತಡೆಯಿರಿ</string>
+  <string name="call_blocking_block_unknown_desc">ಸಂಪರ್ಕಗಳಲ್ಲಿ ಇಲ್ಲದ ನಂಬರ್‌ಗಳಿಂದ ಬರುವ ಕರೆಗಳನ್ನು ತಿರಸ್ಕರಿಸಿ</string>
+  <string name="call_blocking_whitelist_only">ಬಿಳಿ ಪಟ್ಟಿ ಮೋಡ್ ಮಾತ್ರ</string>
+  <string name="call_blocking_whitelist_only_desc">ಬಿಳಿ ಪಟ್ಟಿಯಲ್ಲಿರುವ ನಂಬರ್‌ಗಳನ್ನು ಹೊರತುಪಡಿಸಿ ಎಲ್ಲವನ್ನೂ ತಡೆಯಿರಿ</string>
+  <string name="call_blocking_whitelist_only_warning">⚠ ನಿಮ್ಮ ಬಿಳಿ ಪಟ್ಟಿಯಲ್ಲಿ ಇಲ್ಲದ ಪ್ರತಿ ಕರೆಯನ್ನು ತಡೆಯಲಾಗುತ್ತದೆ!</string>
+  <string name="notification_ongoing_call_channel">ಮುಂದುವರಿಯುವ ಕರೆ</string>
+  <string name="notification_ongoing_call_channel_desc">ಸ್ಕ್ರೀನ್ ಮುಚ್ಚಿದಾಗ ಸಕ್ರಿಯ ಕರೆಗಾಗಿ ಶಾಶ್ವತ ಅಧಿಸೂಚನೆ</string>
+  <string name="notification_ongoing_call_title">ಮುಂದುವರಿಯುವ ಕರೆ</string>
+  <string name="delete_note_title">ಟಿಪ್ಪಣಿ ಅಳಿಸಿ</string>
+  <string name="delete_note_message">ಈ ಟಿಪ್ಪಣಿಯನ್ನು ಅಳಿಸಲು ನೀವು ಬಯಸುವಿರಾ?</string>
+  <string name="stat_title">ಅಂಕಿಅಂಶಗಳು</string>
+  <string name="stat_call_statistics">ಕರೆ ಅಂಕಿಅಂಶಗಳು</string>
+  <string name="stat_message_statistics">ಸಂದೇಶ ಅಂಕಿಅಂಶಗಳು</string>
+  <string name="stat_total_calls">ಒಟ್ಟು ಕರೆಗಳು</string>
+  <string name="stat_total_messages">ಒಟ್ಟು ಸಂದೇಶಗಳು</string>
+  <string name="stat_total_duration">ಒಟ್ಟು ಅವಧಿ</string>
+  <string name="stat_average_duration">ಸರಾಸರಿ ಅವಧಿ</string>
+  <string name="stat_incoming">ಬರುತ್ತಿರುವ</string>
+  <string name="stat_outgoing">ಹೋಗುತ್ತಿರುವ</string>
+  <string name="stat_missed">ತಪ್ಪಿದ</string>
+  <string name="stat_received">ಪಡೆದ</string>
+  <string name="stat_sent">ಕಳುಹಿಸಿದ</string>
+  <string name="stat_blocked">ತಡೆಯಲಾಗಿದೆ</string>
+  <string name="stat_frequent_contacts">ಹೆಚ್ಚಾಗಿ ಕರೆ ಮಾಡುವ ಸಂಪರ್ಕಗಳು</string>
+  <string name="stat_contact_calls_duration">%1$d ಕರೆಗಳು • %2$s</string>
+</resources>

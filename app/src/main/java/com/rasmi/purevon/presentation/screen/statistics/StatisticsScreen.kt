@@ -9,8 +9,10 @@ import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.rasmi.purevon.presentation.theme.Spacing
@@ -28,16 +30,16 @@ fun StatisticsScreen(
     onNavigateBack: () -> Unit,
     viewModel: StatisticsViewModel = hiltViewModel()
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     
     Scaffold(
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
         topBar = {
             TopAppBar(
-                title = { Text("Statistics") },
+                title = { Text(stringResource(com.rasmi.purevon.R.string.stat_title)) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, stringResource(com.rasmi.purevon.R.string.nav_back))
                     }
                 }
             )
@@ -53,7 +55,7 @@ fun StatisticsScreen(
             // Call Statistics
             item {
                 Text(
-                    text = "Call Statistics",
+                    text = stringResource(com.rasmi.purevon.R.string.stat_call_statistics),
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.primary
                 )
@@ -69,28 +71,28 @@ fun StatisticsScreen(
                         ) {
                             StatRow(
                                 icon = Icons.Default.Phone,
-                                label = "Total Calls",
+                                label = stringResource(com.rasmi.purevon.R.string.stat_total_calls),
                                 value = stats.totalCalls.toString()
                             )
                             StatRow(
                                 icon = Icons.Filled.CallReceived,
-                                label = "Incoming",
+                                label = stringResource(com.rasmi.purevon.R.string.stat_incoming),
                                 value = stats.incomingCalls.toString()
                             )
                             StatRow(
                                 icon = Icons.Filled.CallMade,
-                                label = "Outgoing",
+                                label = stringResource(com.rasmi.purevon.R.string.stat_outgoing),
                                 value = stats.outgoingCalls.toString()
                             )
                             StatRow(
                                 icon = Icons.Filled.PhoneMissed,
-                                label = "Missed",
+                                label = stringResource(com.rasmi.purevon.R.string.stat_missed),
                                 value = stats.missedCalls.toString()
                             )
                             if (stats.blockedCalls > 0) {
                                 StatRow(
                                     icon = Icons.Default.Block,
-                                    label = "Blocked",
+                                    label = stringResource(com.rasmi.purevon.R.string.stat_blocked),
                                     value = stats.blockedCalls.toString()
                                 )
                             }
@@ -99,12 +101,12 @@ fun StatisticsScreen(
                             
                             StatRow(
                                 icon = Icons.Default.Timer,
-                                label = "Total Duration",
+                                label = stringResource(com.rasmi.purevon.R.string.stat_total_duration),
                                 value = formatDuration(stats.totalDuration)
                             )
                             StatRow(
                                 icon = Icons.Default.AvTimer,
-                                label = "Average Duration",
+                                label = stringResource(com.rasmi.purevon.R.string.stat_average_duration),
                                 value = formatDuration(stats.averageDuration)
                             )
                         }
@@ -116,7 +118,7 @@ fun StatisticsScreen(
             item {
                 Spacer(modifier = Modifier.height(Spacing.medium))
                 Text(
-                    text = "Most Frequent Contacts",
+                    text = stringResource(com.rasmi.purevon.R.string.stat_frequent_contacts),
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.primary
                 )
@@ -130,7 +132,7 @@ fun StatisticsScreen(
             item {
                 Spacer(modifier = Modifier.height(Spacing.medium))
                 Text(
-                    text = "Message Statistics",
+                    text = stringResource(com.rasmi.purevon.R.string.stat_message_statistics),
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.primary
                 )
@@ -145,17 +147,17 @@ fun StatisticsScreen(
                     ) {
                         StatRow(
                             icon = Icons.Filled.Message,
-                            label = "Total Messages",
+                            label = stringResource(com.rasmi.purevon.R.string.stat_total_messages),
                             value = uiState.totalMessages.toString()
                         )
                         StatRow(
                             icon = Icons.Default.Inbox,
-                            label = "Received",
+                            label = stringResource(com.rasmi.purevon.R.string.stat_received),
                             value = uiState.receivedMessages.toString()
                         )
                         StatRow(
                             icon = Icons.AutoMirrored.Filled.Send,
-                            label = "Sent",
+                            label = stringResource(com.rasmi.purevon.R.string.stat_sent),
                             value = uiState.sentMessages.toString()
                         )
                     }
@@ -216,7 +218,7 @@ private fun FrequentContactCard(contact: ContactFrequency) {
                     style = MaterialTheme.typography.titleMedium
                 )
                 Text(
-                    text = "${contact.callCount} calls • ${formatDuration(contact.totalDuration)}",
+                    text = stringResource(com.rasmi.purevon.R.string.stat_contact_calls_duration, contact.callCount, formatDuration(contact.totalDuration)),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -237,6 +239,6 @@ private fun formatDuration(seconds: Long): String {
     return when {
         hours > 0 -> String.format(java.util.Locale.getDefault(), "%d:%02d:%02d", hours, minutes, secs)
         minutes > 0 -> String.format(java.util.Locale.getDefault(), "%d:%02d", minutes, secs)
-        else -> "${secs}s"
+        else -> String.format(java.util.Locale.getDefault(), "%ds", secs)
     }
 }

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="nav_back">شاته</string>
+  <string name="add_contact_choose_method">lungi اضافه کړئ</string>
+  <string name="add_contact_manual">لاسي اضافه کړئ</string>
+  <string name="add_contact_via_qr">د QR کوډ له لارې اضافه کړئ</string>
+  <string name="dialer_active_call_title">فعال زنګ</string>
+  <string name="dialer_active_call_expand">完整 ښکاره</string>
+  <string name="dialer_recent">وروستي</string>
+  <string name="dialer_no_recent">وروستي چلند نشته</string>
+  <string name="dialer_results">نتیجه</string>
+  <string name="incall_mute">بې صدا</string>
+  <string name="incall_speaker">سپیکر</string>
+  <string name="my_card_title">زما کارت</string>
+  <string name="my_card_desc">خپل شخصي کارت جوړ کړئ او هر څلور ته شریک کړئ</string>
+  <string name="my_card_edit">سمون</string>
+  <string name="my_card_saved">کارت خوندي شو</string>
+  <string name="my_card_share">شریک کړئ</string>
+  <string name="qr_scan_title">lungi کوډ اسکن کړئ</string>
+  <string name="qr_camera_permission">د کوډ اسکن لپې کمره اجازه ته اړېږي</string>
+  <string name="invalid_qr_code">ناسم QR کوډ</string>
+  <string name="call_blocking_block_unknown">نامعلوم / شخصي شمېرې بند کړئ</string>
+  <string name="call_blocking_block_unknown_desc">د لانګي په ګټه نه راتلونکې زنګې رد کړئ</string>
+  <string name="call_blocking_whitelist_only">سپین لیست حالت</string>
+  <string name="call_blocking_whitelist_only_desc">سپین لیست کې شمېرې پرته ټول بند کړئ</string>
+  <string name="call_blocking_whitelist_only_warning">⚠ تاسو د سپین لیست پرته هر زنګ بند شي!</string>
+  <string name="notification_ongoing_call_channel">تداوم زنګ</string>
+  <string name="notification_ongoing_call_channel_desc">د ښکاره زنګ لپې پایلې اعلان کله چې سکرین بند شي</string>
+  <string name="notification_ongoing_call_title">تداوم زنګ</string>
+  <string name="delete_note_title">یادداشت حذف کړئ</string>
+  <string name="delete_note_message">آیا تاسو دغه یادداشت حذف غواړئ؟</string>
+  <string name="stat_title">احصایه</string>
+  <string name="stat_call_statistics">د زنګ احصایه</string>
+  <string name="stat_message_statistics">د پیغام احصایه</string>
+  <string name="stat_total_calls">ټول زنګې</string>
+  <string name="stat_total_messages">ټول پیغامونه</string>
+  <string name="stat_total_duration">ټول موده</string>
+  <string name="stat_average_duration">اوسط موده</string>
+  <string name="stat_incoming">را تلونکې</string>
+  <string name="stat_outgoing">را ولونکې</string>
+  <string name="stat_missed">هېواد شوې</string>
+  <string name="stat_received"> Counties</string>
+  <string name="stat_sent">استول شوې</string>
+  <string name="stat_blocked">بند شوې</string>
+  <string name="stat_frequent_contacts">تکرار زنګونکې لانګي</string>
+  <string name="stat_contact_calls_duration">%1$d زنګې • %2$s</string>
+</resources>

@@ -21,7 +21,6 @@ internal class MessageReadStatusDelegate(
 ) {
     companion object {
         private const val TAG = "MessageRepository"
-        private const val MMS_ID_OFFSET = 2_000_000_000L
     }
 
     /**

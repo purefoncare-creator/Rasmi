@@ -5,7 +5,7 @@ import android.net.Uri
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
@@ -91,9 +91,10 @@ internal fun ContactHeader(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        com.rasmi.purevon.presentation.component.UnifiedContactAvatar(
+        com.rasmi.purevon.presentation.component.FavoriteContactAvatar(
             size = 100.dp,
-            photoUri = contact.photoUri
+            photoUri = contact.photoUri,
+            isFavorite = contact.isFavorite
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -284,7 +285,7 @@ internal fun SectionCard(
     modifier: Modifier = Modifier,
     content: @Composable ColumnScope.() -> Unit
 ) {
-    val isLightTheme = !isSystemInDarkTheme()
+    val isLightTheme = false
     Column(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(8.dp)

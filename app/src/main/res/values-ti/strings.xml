@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="nav_back">ቀላይ</string>
+  <string name="add_contact_choose_method">ተጓዦ ጨመር</string>
+  <string name="add_contact_manual">በእጅ ጨመር</string>
+  <string name="add_contact_via_qr">በQR ኮዱ ጨመር</string>
+  <string name="dialer_active_call_title">ንቁ ጥሪ</string>
+  <string name="dialer_active_call_expand">ሙሉ ስክሪን</string>
+  <string name="dialer_recent">ናይ ቀረባ</string>
+  <string name="dialer_no_recent">ናይ ቀረባ ዕምላ የለን</string>
+  <string name="dialer_results">ውጽኢት</string>
+  <string name="incall_mute">መንገድ</string>
+  <string name="incall_speaker">ስፒከር</string>
+  <string name="my_card_title">ካርድ ናይ</string>
+  <string name="my_card_desc">Προσωπικό κάρτα ሰĻጽ እንዳ ምስ ማን ደhare</string>
+  <string name="my_card_edit">ሰ.getDrawable</string>
+  <string name="my_card_saved">ካርድ ተሀንጶ</string>
+  <string name="my_card_share">berra</string>
+  <string name="qr_scan_title">QR ኮዱ ሰ潇湘</string>
+  <string name="qr_camera_permission">QR ኮዱ ለመሰረዝ ካሜራ ፈቃድ ያስፈልጋል</string>
+  <string name="invalid_qr_code">QR ኮዱ የማይሰጥ</string>
+  <string name="call_blocking_block_unknown">ያልታወቀ / የግል ቁጥር አግድ</string>
+  <string name="call_blocking_block_unknown_desc">መተግበሪያ ማሳያ ከመጡ ጥሪዎችን አ갸ይ</string>
+  <string name="call_blocking_whitelist_only">ጥቂት ዝርዝር ሁነታ</string>
+  <string name="call_blocking_whitelist_only_desc">ጥቂት ዝርዝር ባልሆኑ ሁሉ አግድ</string>
+  <string name="call_blocking_whitelist_only_warning">⚠ ከጥቂት ዝርዝር ውጪ ያሉ ሁሉ ጥሪዎች ይገድላሉ!</string>
+  <string name="notification_ongoing_call_channel">ቀጥታ ጥሪ</string>
+  <string name="notification_ongoing_call_channel_desc">ስክሪን በተዘጋ ላይ ሲሆን ለንቁ ጥሪ ዘላቂ ማሳወቂያ</string>
+  <string name="notification_ongoing_call_title">ቀጥታ ጥሪ</string>
+  <string name="delete_note_title">ማስታወሻ ሰርዝ</string>
+  <string name="delete_note_message">ይህን ማስታወሻ መሰረዝ ይፈልጋሉ?</string>
+  <string name="stat_title">ስታቲስቲክ</string>
+  <string name="stat_call_statistics">ጥሪ ስታቲስቲክ</string>
+  <string name="stat_message_statistics">መልዕክት ስታቲስቲክ</string>
+  <string name="stat_total_calls">ጠቅላላ ጥሪዎች</string>
+  <string name="stat_total_messages">ጠቅላላ መልዕክቶች</string>
+  <string name="stat_total_duration">ጠቅላላ ጊዜ</string>
+  <string name="stat_average_duration">መካከለኛ ጊዜ</string>
+  <string name="stat_incoming">የሚመጣ</string>
+  <string name="stat_outgoing">የሚሄድ</string>
+  <string name="stat_missed">ተሳስቶ</string>
+  <string name="stat_received">ተቀባ</string>
+  <string name="stat_sent">ተልኳል</string>
+  <string name="stat_blocked">አግድሏል</string>
+  <string name="stat_frequent_contacts">ብ相聚 የሚጠሩ ግንኙነቶች</string>
+  <string name="stat_contact_calls_duration">%1$d ጥሪዎች • %2$s</string>
+</resources>

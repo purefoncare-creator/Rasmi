@@ -31,6 +31,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.rasmi.purevon.R
+import com.rasmi.purevon.presentation.theme.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -74,30 +75,30 @@ fun ContactMessageBubble(
         ?: fileName.replace(".vcf", "").replace(".vcard", "").replace("_", " ")
     val contactPhone = vCardInfo?.second
 
-    val backgroundColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)
-    val contentColor = MaterialTheme.colorScheme.onSurface
+    val backgroundColor = PurevonSurfaceMuted
+    val contentColor = PurevonTextPrimary
 
     Column(
         modifier = modifier
-            .clip(RoundedCornerShape(12.dp))
+            .clip(RoundedCornerShape(MessagingDimensions.corner10x))
             .background(backgroundColor)
-            .padding(12.dp)
+            .padding(MessagingDimensions.spacing12x)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
+            horizontalArrangement = Arrangement.spacedBy(MessagingDimensions.spacing12x)
         ) {
             Box(
                 modifier = Modifier
                     .size(48.dp)
                     .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.primaryContainer),
+                    .background(PurevonPrimary.copy(alpha = 0.15f)),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     Icons.Default.Person,
                     contentDescription = null,
-                    tint = if (isOutgoing) Color.White else MaterialTheme.colorScheme.onPrimaryContainer,
+                    tint = PurevonPrimary,
                     modifier = Modifier.size(24.dp)
                 )
             }
@@ -183,8 +184,8 @@ fun ContactMessageBubble(
                 contentPadding = PaddingValues(horizontal = 12.dp, vertical = 0.dp),
                 modifier = Modifier.height(32.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = if (isOutgoing) Color.White else MaterialTheme.colorScheme.primary,
-                    contentColor = if (isOutgoing) MaterialTheme.colorScheme.primary else Color.White
+                    containerColor = if (isOutgoing) PurevonBubbleSentText else PurevonPrimary,
+                    contentColor = if (isOutgoing) PurevonPrimary else PurevonBubbleSentText
                 )
             ) {
                 Text(text = stringResource(R.string.action_add_contact), fontSize = 12.sp)

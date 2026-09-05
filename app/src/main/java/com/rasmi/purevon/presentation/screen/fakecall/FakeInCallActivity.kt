@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import androidx.compose.animation.core.FastOutSlowInEasing
@@ -109,12 +109,12 @@ class FakeInCallActivity : AppCompatActivity() {
         startFakeRinging()
 
         setContent {
-            val appLanguage by settingsDataStore.appLanguage.collectAsState(initial = "system")
+            val appLanguage by settingsDataStore.appLanguage.collectAsStateWithLifecycle(initialValue = "system")
             val systemLocale = androidx.core.os.ConfigurationCompat.getLocales(androidx.compose.ui.platform.LocalConfiguration.current).get(0)
             val activeLanguage = if (appLanguage == "system") (systemLocale?.language ?: "en") else appLanguage
             val isRtl = activeLanguage == "ar" || activeLanguage == "fa" || activeLanguage == "ur" || activeLanguage == "he"
             
-            PurevonTheme(darkTheme = true) {
+            PurevonTheme {
                 androidx.compose.runtime.CompositionLocalProvider(
                     androidx.compose.ui.platform.LocalLayoutDirection provides
                         if (isRtl) androidx.compose.ui.unit.LayoutDirection.Rtl

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="nav_back">Yn @l</string>
+  <string name="add_contact_choose_method">Ychwanegu Cyswllt</string>
+  <string name="add_contact_manual">Ychwanegu @ Llaw</string>
+  <string name="add_contact_via_qr">Ychwanegu drwy Cod QR</string>
+  <string name="dialer_active_call_title">Ffoniad Syml</string>
+  <string name="dialer_active_call_expand">Sgrin Llawn</string>
+  <string name="dialer_recent">Diweddar</string>
+  <string name="dialer_no_recent">Dim gweithgarwch diweddar</string>
+  <string name="dialer_results">Canlyniadau</string>
+  <string name="incall_mute">Tawel</string>
+  <string name="incall_speaker">Siaradwr</string>
+  <string name="my_card_title">Fy Ngerdyn</string>
+  <string name="my_card_desc">Creu eich cerdyn personol a rhannu ag unrhyw un</string>
+  <string name="my_card_edit">Golygu</string>
+  <string name="my_card_saved">Cerdyn wedi ei gadw</string>
+  <string name="my_card_share">Rhannu</string>
+  <string name="qr_scan_title">Sganio cod cyswllt</string>
+  <string name="qr_camera_permission">Mae angen caniatâd camerâ i sganio cod</string>
+  <string name="invalid_qr_code">Cod QR annilys</string>
+  <string name="call_blocking_block_unknown">Rhwystro númeroedd anhysbys / preifat</string>
+  <string name="call_blocking_block_unknown_desc">Gwrthod galwadau o númeroedd nad ydynt mewn cysylltiadau</string>
+  <string name="call_blocking_whitelist_only">Modd rhestr wyn yn unig</string>
+  <string name="call_blocking_whitelist_only_desc">Rhwystro popeth heblaw númeroedd ar y rhestr wyn</string>
+  <string name="call_blocking_whitelist_only_warning">⚠ Bydd pob galwad nad yw ar eich rhestr wyn yn cael ei rwystro!</string>
+  <string name="notification_ongoing_call_channel">Galwad Barhaus</string>
+  <string name="notification_ongoing_call_channel_desc">Hysbysiad parhaol ar gyfer galwad weithredol pan mae sgrin ar gau</string>
+  <string name="notification_ongoing_call_title">Galwad Barhaus</string>
+  <string name="delete_note_title">Dileu Nodiad</string>
+  <string name="delete_note_message">Ydych chi am ddileu y nodiad hwn?</string>
+  <string name="stat_title">Ystadegau</string>
+  <string name="stat_call_statistics">Ystadegau Galwadau</string>
+  <string name="stat_message_statistics">Ystadegau Negeseuon</string>
+  <string name="stat_total_calls">Galwadau Cyfanswm</string>
+  <string name="stat_total_messages">Negeseuon Cyfanswm</string>
+  <string name="stat_total_duration">Hyd Cyfanswm</string>
+  <string name="stat_average_duration">Hyd Cyfartalog</string>
+  <string name="stat_incoming">I mewn</string>
+  <string name="stat_outgoing">Allan</string>
+  <string name="stat_missed">Heb eu hateb</string>
+  <string name="stat_received">Wedi eu derbyn</string>
+  <string name="stat_sent">Wedi eu hanfod</string>
+  <string name="stat_blocked">Wedi eu rhwystro</string>
+  <string name="stat_frequent_contacts">Cysylltiadau mwyaf cyffredin</string>
+  <string name="stat_contact_calls_duration">%1 galwad • %2</string>
+</resources>

@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.sp
 import com.rasmi.purevon.R
 import com.rasmi.purevon.data.local.entity.CallType
 import com.rasmi.purevon.presentation.component.ContactAvatar
-import com.rasmi.purevon.presentation.theme.missedCallColor
+import com.rasmi.purevon.presentation.theme.PurevonCallMissed
 import com.rasmi.purevon.util.PhoneUtil
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -90,9 +90,11 @@ internal fun CompactGroupedCallRow(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Box {
-                ContactAvatar(
-                    name = displayName,
+                com.rasmi.purevon.presentation.component.FavoriteContactAvatar(
+                    size = 48.dp,
                     photoUri = group.contactPhotoUri,
+                    isFavorite = group.isFavorite,
+                    showBadge = false,
                     modifier = Modifier.size(48.dp)
                 )
                 Box(
@@ -122,7 +124,7 @@ internal fun CompactGroupedCallRow(
                         style = MaterialTheme.typography.bodyMedium,
                         fontWeight = FontWeight.SemiBold,
                         color = if (log.callType == CallType.MISSED) {
-                            missedCallColor()
+                            PurevonCallMissed
                         } else {
                             MaterialTheme.colorScheme.onSurface
                         },
@@ -178,7 +180,7 @@ internal fun CompactGroupedCallRow(
                         Text(
                             text = pluralStringResource(R.plurals.history_calls, group.callCount, group.callCount),
                             style = MaterialTheme.typography.labelSmall,
-                            color = if (log.callType == CallType.MISSED) missedCallColor()
+                            color = if (log.callType == CallType.MISSED) PurevonCallMissed
                             else MaterialTheme.colorScheme.onSurfaceVariant,
                             fontSize = 11.sp,
                             fontWeight = FontWeight.Medium,

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="nav_back">പിന്നോട്ട്</string>
+  <string name="add_contact_choose_method">ബന്ധം ചേർക്കുക</string>
+  <string name="add_contact_manual">കൈകൊണ്ട് ചേർക്കുക</string>
+  <string name="add_contact_via_qr">QR കോഡ് വഴി ചേർക്കുക</string>
+  <string name="dialer_active_call_title">സജീവ കോൾ</string>
+  <string name="dialer_active_call_expand">പൂർണ്ണ സ്ക്രീൻ</string>
+  <string name="dialer_recent">സമീപകാല</string>
+  <string name="dialer_no_recent">സമീപകാല പ്രവർത്തനമില്ല</string>
+  <string name="dialer_results">ഫലങ്ങൾ</string>
+  <string name="incall_mute">നിശബ്ദം</string>
+  <string name="incall_speaker">സ്പീക്കർ</string>
+  <string name="my_card_title">എന്റെ കാർഡ്</string>
+  <string name="my_card_desc">നിങ്ങളുടെ വ്യക്തിഗത കാർഡ് സൃഷ്ടിക്കുകയും ആർക്കും പങ്കിടുകയും ചെയ്യുക</string>
+  <string name="my_card_edit">തിരുത്തുക</string>
+  <string name="my_card_saved">കാർഡ് സംരക്ഷിച്ചു</string>
+  <string name="my_card_share">പങ്കിടുക</string>
+  <string name="qr_scan_title">ബന്ധ കോഡ് സ്കാൻ ചെയ്യുക</string>
+  <string name="qr_camera_permission">കോഡ് സ്കാൻ ചെയ്യാൻ ക്യാമറ അനുമതി ആവശ്യമാണ്</string>
+  <string name="invalid_qr_code">അസാധു QR കോഡ്</string>
+  <string name="call_blocking_block_unknown">അജ്ഞാത / സ്വകാര്യ നമ്പറുകൾ തടയുക</string>
+  <string name="call_blocking_block_unknown_desc">ബന്ധങ്ങളിൽ ഇല്ലാത്ത നമ്പറുകളിൽ നിന്നുള്ള കോളുകൾ നിരസിക്കുക</string>
+  <string name="call_blocking_whitelist_only">വെളുത്ത പട്ടിക മോഡ് മാത്രം</string>
+  <string name="call_blocking_whitelist_only_desc">വെളുത്ത പട്ടികയിലുള്ള നമ്പറുകൾ ഒഴികെ എല്ലാം തടയുക</string>
+  <string name="call_blocking_whitelist_only_warning">⚠ നിങ്ങളുടെ വെളുത്ത പട്ടികയിൽ ഇല്ലാത്ത ഏതൊരു കോളും തടയപ്പെടും!</string>
+  <string name="notification_ongoing_call_channel">തുടരുന്ന കോൾ</string>
+  <string name="notification_ongoing_call_channel_desc">സ്ക്രീൻ അടയ്ക്കുമ്പോൾ സജീവ കോളിനുള്ള സ്ഥിരമായ അറിയിപ്പ്</string>
+  <string name="notification_ongoing_call_title">തുടരുന്ന കോൾ</string>
+  <string name="delete_note_title">കുറിപ്പ് ഇല്ലാതാക്കുക</string>
+  <string name="delete_note_message">ഈ കുറിപ്പ് ഇല്ലാതാക്കണോ?</string>
+  <string name="stat_title">സ്ഥിതിവിവരം</string>
+  <string name="stat_call_statistics">കോൾ സ്ഥിതിവിവരം</string>
+  <string name="stat_message_statistics">സന്ദേശ സ്ഥിതിവിവരം</string>
+  <string name="stat_total_calls">ആകെ കോളുകൾ</string>
+  <string name="stat_total_messages">ആകെ സന്ദേശങ്ങൾ</string>
+  <string name="stat_total_duration">ആകെ ദൈർഘ്യം</string>
+  <string name="stat_average_duration">ശരാശരി ദൈർഘ്യം</string>
+  <string name="stat_incoming">വരുന്ന</string>
+  <string name="stat_outgoing">പോകുന്ന</string>
+  <string name="stat_missed">നഷ്ടപ്പെട്ട</string>
+  <string name="stat_received">ലഭിച്ച</string>
+  <string name="stat_sent">അയച്ച</string>
+  <string name="stat_blocked">തടഞ്ഞ</string>
+  <string name="stat_frequent_contacts">കൂടുതൽ വിളിക്കുന്ന ബന്ധങ്ങൾ</string>
+  <string name="stat_contact_calls_duration">%1$d കോളുകൾ • %2$s</string>
+</resources>

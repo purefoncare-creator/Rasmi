@@ -19,8 +19,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.rasmi.purevon.R
-import com.rasmi.purevon.presentation.theme.errorColor
-import com.rasmi.purevon.presentation.theme.warningColor
+import com.rasmi.purevon.presentation.theme.PurevonError
+import com.rasmi.purevon.presentation.theme.PurevonWarning
 
 @Composable
 internal fun HistorySelectionTopBar(
@@ -99,14 +99,14 @@ internal fun HistorySelectionBottomBar(
             HistoryBottomBarAction(
                 icon = Icons.Outlined.Block,
                 label = stringResource(R.string.history_action_block),
-                color = warningColor(),
+                color = PurevonWarning,
                 onClick = onBlock
             )
 
             HistoryBottomBarAction(
                 icon = Icons.Outlined.Delete,
                 label = stringResource(R.string.history_action_delete),
-                color = errorColor(),
+                color = PurevonError,
                 onClick = { showDeleteDialog = true }
             )
         }

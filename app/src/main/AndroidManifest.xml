@@ -107,7 +107,7 @@
         android:localeConfig="@xml/locales_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Purevon"
+        android:theme="@style/Theme.Rasmi"
         tools:targetApi="33">
         
         <!-- ✅ FileProvider for voice recordings & sharing (single unified provider) -->
@@ -125,7 +125,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.Purevon"
+            android:theme="@style/Theme.Rasmi"
             android:windowSoftInputMode="adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -222,15 +222,16 @@
             android:name=".presentation.screen.incall.InCallActivity"
             android:exported="true"
             android:enabled="true"
-            android:theme="@style/Theme.Purevon"
+            android:theme="@style/Theme.Rasmi"
             android:launchMode="singleTask"
             android:excludeFromRecents="true"
             android:taskAffinity=""
             android:showWhenLocked="true"
             android:turnScreenOn="true"
             android:noHistory="false"
+            android:supportsPictureInPicture="true"
             android:resizeableActivity="true"
-            android:configChanges="orientation|screenSize|keyboardHidden">
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden">
             <intent-filter>
                 <action android:name="android.intent.action.ANSWER" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -242,7 +243,7 @@
             android:name=".presentation.screen.fakecall.FakeInCallActivity"
             android:exported="false"
             android:enabled="true"
-            android:theme="@style/Theme.Purevon"
+            android:theme="@style/Theme.Rasmi"
             android:launchMode="singleTask"
             android:excludeFromRecents="true"
             android:taskAffinity=""
@@ -256,7 +257,7 @@
             android:name=".presentation.screen.callbackreminder.CallbackReminderActivity"
             android:exported="false"
             android:enabled="true"
-            android:theme="@style/Theme.Purevon"
+            android:theme="@style/Theme.Rasmi"
             android:launchMode="singleTask"
             android:excludeFromRecents="true"
             android:taskAffinity=""
@@ -285,6 +286,9 @@
             <intent-filter>
                 <action android:name="com.rasmi.purevon.ACTION_ANSWER" />
                 <action android:name="com.rasmi.purevon.ACTION_DECLINE" />
+                <action android:name="com.rasmi.purevon.ACTION_END_CALL" />
+                <action android:name="com.rasmi.purevon.ACTION_TOGGLE_MUTE" />
+                <action android:name="com.rasmi.purevon.ACTION_TOGGLE_SPEAKER" />
             </intent-filter>
         </receiver>
         
@@ -446,13 +450,6 @@
                 android:value="true" />
         </service>
         
-        <!-- ✅ Floating Call Overlay Service - شريط عائم للمكالمات النشطة -->
-        <service
-            android:name=".service.FloatingCallService"
-            android:exported="false"
-            android:enabled="true"
-            android:foregroundServiceType="phoneCall" />
-            
         <!-- Support per-app language storage for Android 12 and below -->
         <service
             android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"
@@ -474,9 +471,21 @@
             </intent-filter>
         </service>
         
+        <!-- ✅ FIX M38: Blocked Call Bubble Service — كان غير مسجل هنا فتفشل startForegroundService بصمت -->
+        <service
+            android:name=".service.BlockedCallBubbleService"
+            android:exported="false"
+            android:foregroundServiceType="shortService" />
+
         <!-- Floating OTP Bubble Service -->
         <service
             android:name=".service.FloatingOtpBubbleService"
+            android:exported="false"
+            android:foregroundServiceType="shortService" />
+
+        <!-- ✅ Incoming Call Overlay Service — بطاقة علوية للمكالمة الواردة أثناء استخدام التطبيق -->
+        <service
+            android:name=".service.IncomingCallOverlayService"
             android:exported="false"
             android:foregroundServiceType="shortService" />
 

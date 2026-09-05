@@ -3,6 +3,7 @@ package com.rasmi.purevon.util.message
 import android.content.Context
 import android.util.Log
 import androidx.work.*
+import com.rasmi.purevon.util.security.DataEncryptionManager
 import com.rasmi.purevon.worker.DelayedMessageWorker
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.util.concurrent.TimeUnit
@@ -22,7 +23,8 @@ import javax.inject.Singleton
 @Singleton
 class DelayedSendManager @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val workManager: WorkManager
+    private val workManager: WorkManager,
+    private val dataEncryptionManager: DataEncryptionManager
 ) {
     
     companion object {
@@ -48,9 +50,17 @@ class DelayedSendManager @Inject constructor(
         simSlot: Int? = null
     ): String {
         
+        val encryptedText = try {
+            dataEncryptionManager.encryptForDatabase(messageText)
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to encrypt delayed message text — scheduling aborted", e)
+            return ""
+        }
+
         val inputData = workDataOf(
             DelayedMessageWorker.KEY_PHONE_NUMBER to phoneNumber,
-            DelayedMessageWorker.KEY_MESSAGE_TEXT to messageText,
+            DelayedMessageWorker.KEY_MESSAGE_TEXT to encryptedText,
+            DelayedMessageWorker.KEY_MESSAGE_TEXT_ENCRYPTED to true,
             DelayedMessageWorker.KEY_ATTACHMENT_URIS to attachmentUris?.toTypedArray(),
             DelayedMessageWorker.KEY_SIM_SLOT to (simSlot ?: -1)
         )

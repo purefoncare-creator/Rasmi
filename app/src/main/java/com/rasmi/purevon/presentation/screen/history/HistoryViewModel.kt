@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rasmi.purevon.data.local.entity.CallType
 import com.rasmi.purevon.domain.model.CallLog
+import com.rasmi.purevon.domain.model.Contact
 import com.rasmi.purevon.domain.usecase.block.BlockNumberUseCase
 import com.rasmi.purevon.domain.usecase.call.DeleteCallLogsByNumberUseCase
 import com.rasmi.purevon.domain.usecase.call.DeleteCallLogsByNumbersUseCase
@@ -110,7 +111,7 @@ class HistoryViewModel @Inject constructor(
                 }
                 
                 _uiState.update { state ->
-                    val grouped = groupLogsByContact(finalLogs)
+                    val grouped = groupLogsByContact(finalLogs, state.contacts)
                     state.copy(
                         callLogs = finalLogs,
                         groupedContactCalls = grouped,
@@ -431,11 +432,13 @@ class HistoryViewModel @Inject constructor(
         }.sortedByDescending { it.timestamp }
     }
 
-    private fun groupLogsByContact(logs: List<CallLog>): List<GroupedContactCalls> {
+    private fun groupLogsByContact(logs: List<CallLog>, contacts: List<Contact> = emptyList()): List<GroupedContactCalls> {
         val groupedCalls = mutableListOf<GroupedContactCalls>()
         var currentBatch = mutableListOf<CallLog>()
         var currentNumberKey: String? = null
         var currentCallType: CallType? = null
+
+        val favoriteNumbers = rememberContactPhones(contacts)
 
         fun flushCurrentBatch() {
             if (currentBatch.isEmpty()) return
@@ -452,7 +455,8 @@ class HistoryViewModel @Inject constructor(
                 latestCall = latestCall,
                 callCount = currentBatch.size,
                 missedCount = missedCount,
-                lastTimestamp = latestCall.timestamp
+                lastTimestamp = latestCall.timestamp,
+                isFavorite = normalizePhoneNumber(latestCall.phoneNumber) in favoriteNumbers
             )
         }
 
@@ -485,6 +489,15 @@ class HistoryViewModel @Inject constructor(
         // Use last 9 digits for matching (handles different country codes)
         return if (cleaned.length > 9) cleaned.takeLast(9) else cleaned
     }
+
+    private fun rememberContactPhones(contacts: List<Contact>): Set<String> =
+        if (contacts.isEmpty()) {
+            emptySet()
+        } else {
+            contacts
+                .filter { it.isFavorite }
+                .mapTo(mutableSetOf()) { normalizePhoneNumber(it.phoneNumber) }
+        }
     
     /**
      * ✅ Load notes for a specific phone number

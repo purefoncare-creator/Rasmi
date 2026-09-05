@@ -30,8 +30,6 @@ class MessagePagingSource @AssistedInject constructor(
         private const val TAG = "MessagePagingSource"
         private const val PAGE_SIZE = 50
         private const val PREFETCH_DISTANCE = 10
-        // Offset MMS IDs to avoid collision with SMS IDs (both use independent auto-increment)
-        const val MMS_ID_OFFSET = 2_000_000_000L
     }
     
     override suspend fun load(params: LoadParams<Long>): LoadResult<Long, Message> {
@@ -254,7 +252,7 @@ class MessagePagingSource @AssistedInject constructor(
                     
                     messages.add(
                         Message(
-                            id = mmsId + MMS_ID_OFFSET,  // ✅ FIX M2: Offset MMS IDs to avoid collision with SMS IDs
+                            id = mmsId + com.rasmi.purevon.data.repository.MMS_ID_OFFSET,  // ✅ FIX M2: Offset MMS IDs to avoid collision with SMS IDs
                             threadId = cursor.getLong(threadIdIndex),
                             phoneNumber = address ?: "Unknown",
                             contactName = null,

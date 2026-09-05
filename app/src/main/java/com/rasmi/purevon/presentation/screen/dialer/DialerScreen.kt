@@ -1,32 +1,41 @@
 package com.rasmi.purevon.presentation.screen.dialer
 
 import android.Manifest
+import android.content.res.Configuration
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.VolumeUp
+import androidx.compose.material.icons.filled.CallEnd
+import androidx.compose.material.icons.filled.Fullscreen
+import androidx.compose.material.icons.filled.Mic
+import androidx.compose.material.icons.filled.MicOff
 import androidx.compose.material.icons.filled.ContentPaste
 import androidx.compose.material.icons.filled.PersonAdd
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.TextStyle
@@ -49,26 +58,22 @@ import com.rasmi.purevon.util.T9SearchUtil
 import kotlinx.coroutines.flow.receiveAsFlow
 
 /**
- * Dialer Screen - Smart dialer with T9 search
+ * Dialer Screen - Smart dialer with T9 search, redesigned two-column layout
  */
 @Composable
 fun DialerScreen(
     viewModel: DialerViewModel = hiltViewModel(),
     initialPhoneNumber: String? = null,
-    shouldClearInput: Boolean = false, // ✅ Clear input when navigating from InCall
+    shouldClearInput: Boolean = false,
     onAddToContacts: ((String) -> Unit)? = null
 ) {
     val context = LocalContext.current
-    val uiState by viewModel.uiState.collectAsState()
-    
-    // ✅ State للتحكم في إظهار حوار الاتصال الوهمي
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
     var showFakeCallDialog by remember { mutableStateOf(false) }
-    
-    // ✅ State لحوار اختيار الشريحة (وضع ASK)
     var showSimPickerDialog by remember { mutableStateOf(false) }
     var pendingCallNumber by remember { mutableStateOf("") }
-    
-    // ✅ تحديث الاقتراحات عند العودة للشاشة (مثل بعد انتهاء مكالمة أو التنقل بين التبويبات)
+
     val lifecycleOwner = androidx.lifecycle.compose.LocalLifecycleOwner.current
     DisposableEffect(lifecycleOwner) {
         val observer = androidx.lifecycle.LifecycleEventObserver { _, event ->
@@ -79,15 +84,13 @@ fun DialerScreen(
         lifecycleOwner.lifecycle.addObserver(observer)
         onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
     }
-    
-    // ✅ Clear input if requested (when navigating from InCall)
+
     LaunchedEffect(shouldClearInput) {
         if (shouldClearInput) {
             viewModel.onEvent(DialerUiEvent.ClearInput)
         }
     }
-    
-    // Set initial phone number if provided (from external tel: intent)
+
     LaunchedEffect(initialPhoneNumber) {
         initialPhoneNumber?.let { number ->
             if (number.isNotBlank()) {
@@ -95,15 +98,13 @@ fun DialerScreen(
             }
         }
     }
-    
-    // Permission launcher
+
     val permissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission()
     ) { isGranted ->
-        // After permission result, try to make call again
         viewModel.onEvent(DialerUiEvent.InitiateCall(isGranted))
     }
-    
+
     LaunchedEffect(Unit) {
         viewModel.uiAction.receiveAsFlow().collect { action: DialerUiAction ->
             when (action) {
@@ -125,148 +126,48 @@ fun DialerScreen(
             }
         }
     }
-    
-    // Error snackbar
+
     val snackbarHostState = remember { SnackbarHostState() }
-    
+
     LaunchedEffect(uiState.error) {
         uiState.error?.let { error ->
             snackbarHostState.showSnackbar(error)
             viewModel.onEvent(DialerUiEvent.DismissError)
         }
     }
-    
+
+    val configuration = LocalConfiguration.current
+    val isWide = configuration.screenWidthDp >= 600
+
     Scaffold(
         snackbarHost = { SnackbarHost(snackbarHostState) },
         contentWindowInsets = WindowInsets(0, 0, 0, 0)
     ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .background(MaterialTheme.colorScheme.background)
-        ) {
-            // Top section with dialed number
-            val isNumberInContacts = uiState.searchResults.any { contact ->
-                contact.phoneNumber.replace(NonDigitRegex, "") ==
-                uiState.dialedNumber.replace(NonDigitRegex, "")
-            }
-            val showAddToContacts = uiState.dialedNumber.length >= 3 &&
-                onAddToContacts != null &&
-                !uiState.isContactSelected &&
-                !isNumberInContacts
-
-            DialerNumberDisplay(
-                dialedNumber = uiState.dialedNumber,
-                selectedContactName = uiState.selectedContactName,
-                onNumberChanged = { newNumber ->
-                    viewModel.onEvent(DialerUiEvent.NumberChanged(newNumber))
-                },
-                showAddToContacts = showAddToContacts,
-                onAddToContacts = if (onAddToContacts != null) {{
-                    onAddToContacts(uiState.dialedNumber)
-                }} else null,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = Spacing.large, vertical = Spacing.default)
+        if (isWide) {
+            DialerWideLayout(
+                uiState = uiState,
+                viewModel = viewModel,
+                context = context,
+                onAddToContacts = onAddToContacts,
+                onStarLongPressed = { showFakeCallDialog = true },
+                paddingValues = paddingValues
             )
-
-            // Search results or recent contacts
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
-            ) {
-                
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(1f)
-                ) {
-                    when {
-                        uiState.isLoading -> {
-                            CircularProgressIndicator(
-                                modifier = Modifier.align(Alignment.Center)
-                            )
-                        }
-                        
-                        uiState.searchResults.isNotEmpty() -> {
-                            SearchResultsList(
-                                contacts = uiState.searchResults,
-                                query = uiState.dialedNumber,
-                                onContactSelected = { contact ->
-                                    viewModel.onEvent(DialerUiEvent.ContactSelected(contact))
-                                },
-                                modifier = Modifier.fillMaxSize()
-                            )
-                        }
-                        
-                        uiState.dialedNumber.isEmpty() && uiState.recentContacts.isNotEmpty() -> {
-                            RecentContactsList(
-                                contacts = uiState.recentContacts,
-                                onContactSelected = { contact ->
-                                    viewModel.onEvent(DialerUiEvent.ContactSelected(contact))
-                                },
-                                modifier = Modifier.fillMaxSize()
-                            )
-                        }
-                }
-            }
-
-            // Dialpad
-            IOSDialpad(
-                onDigitPressed = { digit ->
-                    viewModel.onEvent(DialerUiEvent.DigitPressed(digit))
-                },
-                onBackspacePressed = {
-                    viewModel.onEvent(DialerUiEvent.BackspacePressed)
-                },
-                onBackspaceLongPressed = {
-                    viewModel.onEvent(DialerUiEvent.BackspaceLongPressed)
-                },
-                onCallPressed = { 
-                    viewModel.onEvent(
-                        DialerUiEvent.InitiateCall(
-                            hasPermission = PhoneUtil.hasCallPermission(context)
-                        )
-                    )
-                },
-                onPastePressed = {
-                    // Paste from clipboard
-                    val clipboardManager = context.getSystemService(android.content.Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
-                    clipboardManager.primaryClip?.getItemAt(0)?.text?.toString()?.let { clipText ->
-                        val numbersOnly = clipText.filter { it.isDigit() || it == '+' }
-                        if (numbersOnly.isNotEmpty()) {
-                            viewModel.onEvent(DialerUiEvent.NumberChanged(uiState.dialedNumber + numbersOnly))
-                        }
-                    }
-                },
-                onSimSwitchPressed = {
-                    viewModel.onEvent(DialerUiEvent.SimSwitchPressed)
-                },
-                onStarLongPressed = {
-                    showFakeCallDialog = true
-                },
-                currentSimLabel = uiState.currentSimLabel,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        start = Spacing.small,
-                        end = Spacing.small,
-                        bottom = Spacing.large
-                    )
+        } else {
+            DialerCompactLayout(
+                uiState = uiState,
+                viewModel = viewModel,
+                context = context,
+                onAddToContacts = onAddToContacts,
+                onStarLongPressed = { showFakeCallDialog = true },
+                paddingValues = paddingValues
             )
         }
     }
-    
-    // ✅ حوار الاتصال الوهمي
+
     if (showFakeCallDialog) {
-        FakeCallDialog(
-            onDismiss = { showFakeCallDialog = false }
-        )
+        FakeCallDialog(onDismiss = { showFakeCallDialog = false })
     }
-    
-    // ✅ حوار اختيار الشريحة (ASK mode)
+
     if (showSimPickerDialog) {
         SimSelectorDialog(
             availableSims = uiState.availableSims,
@@ -285,9 +186,245 @@ fun DialerScreen(
                 showSimPickerDialog = false
                 pendingCallNumber = ""
             }
-         )
-     }
- }
+        )
+    }
+}
+
+@Composable
+private fun DialerWideLayout(
+    uiState: DialerUiState,
+    viewModel: DialerViewModel,
+    context: android.content.Context,
+    onAddToContacts: ((String) -> Unit)?,
+    onStarLongPressed: () -> Unit = {},
+    paddingValues: PaddingValues
+) {
+    val isNumberInContacts = uiState.searchResults.any { contact ->
+        contact.phoneNumber.replace(NonDigitRegex, "") ==
+                uiState.dialedNumber.replace(NonDigitRegex, "")
+    }
+    val showAddToContacts = uiState.dialedNumber.length >= 3 &&
+            onAddToContacts != null &&
+            !uiState.isContactSelected &&
+            !isNumberInContacts
+
+    Row(
+        modifier = Modifier
+            .fillMaxSize()
+            .statusBarsPadding()
+            .padding(paddingValues)
+    ) {
+        // ── Dialer column ──
+        Column(
+            modifier = Modifier
+                .weight(1.4f)
+                .fillMaxHeight()
+                .background(PurevonBackground),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            DialerNumberDisplay(
+                dialedNumber = uiState.dialedNumber,
+                selectedContactName = uiState.selectedContactName,
+                onNumberChanged = { viewModel.onEvent(DialerUiEvent.NumberChanged(it)) },
+                showAddToContacts = showAddToContacts,
+                onAddToContacts = if (onAddToContacts != null) {{
+                    onAddToContacts(uiState.dialedNumber)
+                }} else null,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = Spacing.xl, vertical = Spacing.lg)
+            )
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            IOSDialpad(
+                onDigitPressed = { viewModel.onEvent(DialerUiEvent.DigitPressed(it)) },
+                onBackspacePressed = { viewModel.onEvent(DialerUiEvent.BackspacePressed) },
+                onBackspaceLongPressed = { viewModel.onEvent(DialerUiEvent.BackspaceLongPressed) },
+                onCallPressed = {
+                    viewModel.onEvent(
+                        DialerUiEvent.InitiateCall(hasPermission = PhoneUtil.hasCallPermission(context))
+                    )
+                },
+                onPastePressed = {
+                    val clipboardManager = context.getSystemService(android.content.Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
+                    clipboardManager.primaryClip?.getItemAt(0)?.text?.toString()?.let { clipText ->
+                        val numbersOnly = clipText.filter { it.isDigit() || it == '+' }
+                        if (numbersOnly.isNotEmpty()) {
+                            viewModel.onEvent(DialerUiEvent.NumberChanged(uiState.dialedNumber + numbersOnly))
+                        }
+                    }
+                },
+                onSimSwitchPressed = { viewModel.onEvent(DialerUiEvent.SimSwitchPressed) },
+                onStarLongPressed = onStarLongPressed,
+                currentSimLabel = uiState.currentSimLabel,
+                modifier = Modifier
+                    .fillMaxWidth(0.92f)
+                    .padding(bottom = Spacing.xl)
+            )
+        }
+
+        VerticalDivider(
+            modifier = Modifier.fillMaxHeight().width(1.dp),
+            color = PurevonBorder
+        )
+
+        // ── Side panel: recents / suggestions ──
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxHeight()
+                .background(PurevonSurfaceAlt)
+                .padding(horizontal = Spacing.lg, vertical = Spacing.lg)
+        ) {
+            Text(
+                text = if (uiState.dialedNumber.isNotEmpty())
+                    stringResource(R.string.dialer_results) else stringResource(R.string.dialer_recent),
+                style = MaterialTheme.typography.titleMedium,
+                color = PurevonTextPrimary,
+                modifier = Modifier.padding(bottom = Spacing.md, start = Spacing.sm)
+            )
+
+            Box(modifier = Modifier.fillMaxSize()) {
+                when {
+                    uiState.activeCall.isActive -> {
+                        ActiveCallCard(
+                            call = uiState.activeCall,
+                            viewModel = viewModel,
+                            modifier = Modifier.fillMaxSize()
+                        )
+                    }
+                    uiState.isLoading -> {
+                        CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                    }
+                    uiState.searchResults.isNotEmpty() -> {
+                        SearchResultsList(
+                            contacts = uiState.searchResults,
+                            query = uiState.dialedNumber,
+                            onContactSelected = { viewModel.onEvent(DialerUiEvent.ContactSelected(it)) },
+                            modifier = Modifier.fillMaxSize()
+                        )
+                    }
+                    uiState.dialedNumber.isEmpty() && uiState.recentContacts.isNotEmpty() -> {
+                        RecentContactsList(
+                            contacts = uiState.recentContacts,
+                            onContactSelected = { viewModel.onEvent(DialerUiEvent.ContactSelected(it)) },
+                            modifier = Modifier.fillMaxSize()
+                        )
+                    }
+                    else -> {
+                        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                            Text(
+                                text = stringResource(R.string.dialer_no_recent),
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = PurevonTextTertiary
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun DialerCompactLayout(
+    uiState: DialerUiState,
+    viewModel: DialerViewModel,
+    context: android.content.Context,
+    onAddToContacts: ((String) -> Unit)?,
+    onStarLongPressed: () -> Unit = {},
+    paddingValues: PaddingValues
+) {
+    val isNumberInContacts = uiState.searchResults.any { contact ->
+        contact.phoneNumber.replace(NonDigitRegex, "") ==
+                uiState.dialedNumber.replace(NonDigitRegex, "")
+    }
+    val showAddToContacts = uiState.dialedNumber.length >= 3 &&
+            onAddToContacts != null &&
+            !uiState.isContactSelected &&
+            !isNumberInContacts
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .statusBarsPadding()
+            .padding(paddingValues)
+            .background(PurevonBackground)
+    ) {
+        DialerNumberDisplay(
+            dialedNumber = uiState.dialedNumber,
+            selectedContactName = uiState.selectedContactName,
+            onNumberChanged = { viewModel.onEvent(DialerUiEvent.NumberChanged(it)) },
+            showAddToContacts = showAddToContacts,
+            onAddToContacts = if (onAddToContacts != null) {{
+                onAddToContacts(uiState.dialedNumber)
+            }} else null,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = Spacing.lg, vertical = Spacing.md)
+        )
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+        ) {
+            when {
+                uiState.activeCall.isActive -> {
+                    ActiveCallCard(
+                        call = uiState.activeCall,
+                        viewModel = viewModel,
+                        modifier = Modifier.fillMaxSize()
+                    )
+                }
+                uiState.isLoading -> {
+                    CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                }
+                uiState.searchResults.isNotEmpty() -> {
+                    SearchResultsList(
+                        contacts = uiState.searchResults,
+                        query = uiState.dialedNumber,
+                        onContactSelected = { viewModel.onEvent(DialerUiEvent.ContactSelected(it)) },
+                        modifier = Modifier.fillMaxSize()
+                    )
+                }
+                uiState.dialedNumber.isEmpty() && uiState.recentContacts.isNotEmpty() -> {
+                    RecentContactsList(
+                        contacts = uiState.recentContacts,
+                        onContactSelected = { viewModel.onEvent(DialerUiEvent.ContactSelected(it)) },
+                        modifier = Modifier.fillMaxSize()
+                    )
+                }
+            }
+        }
+
+        IOSDialpad(
+            onDigitPressed = { viewModel.onEvent(DialerUiEvent.DigitPressed(it)) },
+            onBackspacePressed = { viewModel.onEvent(DialerUiEvent.BackspacePressed) },
+            onBackspaceLongPressed = { viewModel.onEvent(DialerUiEvent.BackspaceLongPressed) },
+            onCallPressed = {
+                viewModel.onEvent(
+                    DialerUiEvent.InitiateCall(hasPermission = PhoneUtil.hasCallPermission(context))
+                )
+            },
+            onPastePressed = {
+                val clipboardManager = context.getSystemService(android.content.Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
+                clipboardManager.primaryClip?.getItemAt(0)?.text?.toString()?.let { clipText ->
+                    val numbersOnly = clipText.filter { it.isDigit() || it == '+' }
+                    if (numbersOnly.isNotEmpty()) {
+                        viewModel.onEvent(DialerUiEvent.NumberChanged(uiState.dialedNumber + numbersOnly))
+                    }
+                }
+            },
+            onSimSwitchPressed = { viewModel.onEvent(DialerUiEvent.SimSwitchPressed) },
+            onStarLongPressed = onStarLongPressed,
+            currentSimLabel = uiState.currentSimLabel,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = Spacing.sm, end = Spacing.sm, bottom = Spacing.lg)
+        )
+    }
 }
 
 @Composable
@@ -300,8 +437,7 @@ private fun DialerNumberDisplay(
     onAddToContacts: (() -> Unit)? = null
 ) {
     var textFieldValue by remember { mutableStateOf(TextFieldValue(dialedNumber, selection = TextRange(dialedNumber.length))) }
-    
-    // Sync textFieldValue with dialedNumber
+
     LaunchedEffect(dialedNumber) {
         if (textFieldValue.text != dialedNumber) {
             textFieldValue = TextFieldValue(
@@ -310,33 +446,36 @@ private fun DialerNumberDisplay(
             )
         }
     }
-    
-    // Dynamic font size based on number length
+
     val fontSize = when {
         dialedNumber.length > 15 -> 24.sp
         dialedNumber.length > 12 -> 28.sp
         dialedNumber.length > 9 -> 32.sp
         else -> 38.sp
     }
-    
+
     CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
         Column(
-            modifier = modifier.padding(top = 4.dp, bottom = 4.dp),
+            modifier = modifier
+                .padding(top = 4.dp, bottom = 4.dp)
+                .animateContentSize(spring()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // اسم جهة الاتصال المختارة
-            if (!selectedContactName.isNullOrBlank()) {
+            AnimatedVisibility(
+                visible = !selectedContactName.isNullOrBlank(),
+                enter = fadeIn() + slideInVertically { -20 },
+                exit = fadeOut()
+            ) {
                 Text(
-                    text = selectedContactName,
+                    text = selectedContactName ?: "",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.SemiBold,
-                    color = MaterialTheme.colorScheme.primary,
+                    color = PurevonPrimary,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(horizontal = 24.dp, vertical = 4.dp)
                 )
             }
 
-            // صف الرقم: مساحة موازنة + الرقم في المنتصف + أيقونة الإضافة
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -344,10 +483,8 @@ private fun DialerNumberDisplay(
                     .padding(horizontal = 12.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                // مساحة يسار بحجم الأيقونة لتوسيط الرقم بصرياً
                 Spacer(modifier = Modifier.size(40.dp))
 
-                // حقل الرقم
                 BasicTextField(
                     value = textFieldValue,
                     onValueChange = { newValue ->
@@ -359,15 +496,11 @@ private fun DialerNumberDisplay(
                         fontSize = fontSize,
                         fontWeight = FontWeight.W300,
                         color = if (dialedNumber.isEmpty())
-                            MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
-                        else
-                            MaterialTheme.colorScheme.onSurface,
+                            PurevonTextTertiary else PurevonTextPrimary,
                         textAlign = TextAlign.Center,
                         letterSpacing = 2.sp
                     ),
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Phone
-                    ),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
                     readOnly = true,
                     singleLine = true,
                     modifier = Modifier.weight(1f),
@@ -381,7 +514,7 @@ private fun DialerNumberDisplay(
                                     text = stringResource(R.string.dialer_enter_number),
                                     fontSize = 28.sp,
                                     fontWeight = FontWeight.W300,
-                                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f),
+                                    color = PurevonTextTertiary,
                                     textAlign = TextAlign.Center,
                                     letterSpacing = 1.sp
                                 )
@@ -391,17 +524,21 @@ private fun DialerNumberDisplay(
                     }
                 )
 
-                // أيقونة إضافة جهة اتصال — تظهر فقط عند الحاجة
                 if (showAddToContacts && onAddToContacts != null) {
-                    IconButton(
-                        onClick = onAddToContacts,
-                        modifier = Modifier.size(40.dp)
+                    Surface(
+                        modifier = Modifier
+                            .size(40.dp)
+                            .clip(CircleShape)
+                            .clickable(onClick = onAddToContacts),
+                        color = PurevonPrimaryContainer
                     ) {
                         Icon(
                             imageVector = Icons.Default.PersonAdd,
                             contentDescription = stringResource(R.string.dialer_add_to_contacts),
-                            tint = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.size(22.dp)
+                            tint = PurevonPrimary,
+                            modifier = Modifier
+                                .size(22.dp)
+                                .wrapContentSize(Alignment.Center)
                         )
                     }
                 } else {
@@ -421,7 +558,7 @@ private fun SearchResultsList(
 ) {
     LazyColumn(
         modifier = modifier,
-        contentPadding = PaddingValues(vertical = Spacing.small)
+        contentPadding = PaddingValues(vertical = Spacing.sm)
     ) {
         itemsIndexed(
             items = contacts,
@@ -429,17 +566,17 @@ private fun SearchResultsList(
         ) { _, contact ->
             val highlightedName = T9SearchUtil.getHighlightedText(contact.name, query)
             val highlightedNumber = T9SearchUtil.getHighlightedText(contact.phoneNumber, query)
-            
+
             ContactSearchItem(
                 contact = contact,
                 highlightedName = highlightedName,
                 highlightedNumber = highlightedNumber,
                 onClick = { onContactSelected(contact) }
             )
-            
+
             HorizontalDivider(
                 modifier = Modifier.padding(horizontal = 72.dp),
-                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
+                color = PurevonBorder
             )
         }
     }
@@ -451,29 +588,231 @@ private fun RecentContactsList(
     onContactSelected: (Contact) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(
-        modifier = modifier.fillMaxSize()
+    LazyColumn(
+        modifier = modifier.fillMaxSize(),
+        contentPadding = PaddingValues(vertical = Spacing.extraSmall)
     ) {
-        LazyColumn(
-            contentPadding = PaddingValues(vertical = Spacing.extraSmall)
+        itemsIndexed(
+            items = contacts,
+            key = { _, contact -> "${contact.id}_${contact.phoneNumber}" }
+        ) { _, contact ->
+            ContactSearchItem(
+                contact = contact,
+                highlightedName = contact.name,
+                highlightedNumber = contact.phoneNumber,
+                onClick = { onContactSelected(contact) }
+            )
+
+            HorizontalDivider(
+                modifier = Modifier.padding(horizontal = 72.dp),
+                color = PurevonBorder
+            )
+        }
+    }
+}
+
+private val NonDigitRegex = Regex("[^0-9+]")
+
+// ═══════════════════════════════════════════════════════════════
+// Active Call Card — بطاقة المكالمة النشطة أعلى اقتراحات جهات الاتصال
+// ═══════════════════════════════════════════════════════════════
+
+/**
+ * بطاقة المكالمة النشطة تظهر مكان اقتراحات جهات الاتصال عندما تكون هناك
+ * مكالمة جارية. تحتوي على صورة المتصل، الاسم، مؤقّت المكالمة، وأزرار
+ * تحكم (مكبر الصوت / الكتم / إنهاء المكالمة / التوسعة للشاشة الكاملة).
+ */
+@Composable
+private fun ActiveCallCard(
+    call: ActiveCallInfo,
+    viewModel: DialerViewModel,
+    modifier: Modifier = Modifier
+) {
+    val context = LocalContext.current
+
+    // مؤقّت المكالمة — يتحدّث كل ثانية
+    var elapsedSecs by remember { mutableStateOf(0L) }
+    LaunchedEffect(call.isActive) {
+        if (!call.isActive) {
+            elapsedSecs = 0L
+            return@LaunchedEffect
+        }
+        elapsedSecs = ((android.os.SystemClock.elapsedRealtime() - viewModel.getActiveCallStartTime()) / 1000)
+            .coerceAtLeast(0L)
+        while (true) {
+            kotlinx.coroutines.delay(1000)
+            elapsedSecs = ((android.os.SystemClock.elapsedRealtime() - viewModel.getActiveCallStartTime()) / 1000)
+                .coerceAtLeast(0L)
+        }
+    }
+
+    Surface(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = Spacing.lg, vertical = Spacing.md),
+        shape = RoundedCornerShape(24.dp),
+        color = PurevonSurface,
+        shadowElevation = 1.dp,
+        border = androidx.compose.foundation.BorderStroke(1.dp, PurevonBorder)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(Spacing.lg),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            itemsIndexed(
-                items = contacts,
-                key = { _, contact -> "${contact.id}_${contact.phoneNumber}" }
-            ) { _, contact ->
-                ContactListItem(
-                    contact = contact,
-                    onClick = { onContactSelected(contact) },
-                    subtitle = contact.phoneNumber
+            Text(
+                text = stringResource(R.string.dialer_active_call_title),
+                style = MaterialTheme.typography.labelMedium,
+                color = PurevonPrimary,
+                fontWeight = FontWeight.SemiBold
+            )
+
+            Spacer(modifier = Modifier.height(Spacing.md))
+
+            UnifiedContactAvatar(
+                size = 72.dp,
+                photoUri = call.photoUri,
+                modifier = Modifier.clip(CircleShape)
+            )
+
+            Spacer(modifier = Modifier.height(Spacing.md))
+
+            Text(
+                text = call.contactName ?: call.phoneNumber ?: "",
+                style = MaterialTheme.typography.titleMedium,
+                color = PurevonTextPrimary,
+                textAlign = TextAlign.Center,
+                maxLines = 1,
+                overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
+            )
+
+            Spacer(modifier = Modifier.height(Spacing.sm))
+
+            Text(
+                text = formatCallDuration(elapsedSecs),
+                style = MaterialTheme.typography.titleLarge,
+                color = PurevonTextSecondary,
+                fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace
+            )
+
+            Spacer(modifier = Modifier.height(Spacing.lg))
+
+            // صف أزرار التحكم
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                ActiveCallActionButton(
+                    icon = { tint ->
+                        Icon(
+                            imageVector = if (call.isSpeakerOn) Icons.AutoMirrored.Filled.VolumeUp
+                            else Icons.AutoMirrored.Filled.VolumeUp,
+                            contentDescription = stringResource(R.string.incall_speaker),
+                            tint = tint
+                        )
+                    },
+                    label = stringResource(R.string.incall_speaker),
+                    active = call.isSpeakerOn,
+                    onClick = { viewModel.onEvent(DialerUiEvent.ToggleSpeakerCall) }
                 )
-                
-                HorizontalDivider(
-                    modifier = Modifier.padding(horizontal = 72.dp),
-                    color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
+
+                ActiveCallActionButton(
+                    icon = { tint ->
+                        Icon(
+                            imageVector = if (call.isMuted) Icons.Default.MicOff else Icons.Default.Mic,
+                            contentDescription = stringResource(R.string.incall_mute),
+                            tint = tint
+                        )
+                    },
+                    label = stringResource(R.string.incall_mute),
+                    active = call.isMuted,
+                    onClick = { viewModel.onEvent(DialerUiEvent.ToggleMuteCall) }
+                )
+
+                ActiveCallActionButton(
+                    icon = { tint ->
+                        Icon(
+                            imageVector = Icons.Default.CallEnd,
+                            contentDescription = stringResource(R.string.incall_end_call),
+                            tint = tint
+                        )
+                    },
+                    label = stringResource(R.string.incall_end_call),
+                    active = false,
+                    destructive = true,
+                    onClick = { viewModel.onEvent(DialerUiEvent.EndActiveCall) }
+                )
+
+                ActiveCallActionButton(
+                    icon = { tint ->
+                        Icon(
+                            imageVector = Icons.Default.Fullscreen,
+                            contentDescription = stringResource(R.string.dialer_active_call_expand),
+                            tint = tint
+                        )
+                    },
+                    label = stringResource(R.string.dialer_active_call_expand),
+                    active = false,
+                    onClick = {
+                        val intent = android.content.Intent(context, com.rasmi.purevon.presentation.screen.incall.InCallActivity::class.java).apply {
+                            flags = android.content.Intent.FLAG_ACTIVITY_NEW_TASK or
+                                    android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP or
+                                    android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP or
+                                    android.content.Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
+                        }
+                        context.startActivity(intent)
+                    }
                 )
             }
         }
     }
 }
 
-private val NonDigitRegex = Regex("[^0-9+]")
+@Composable
+private fun ActiveCallActionButton(
+    icon: @Composable (androidx.compose.ui.graphics.Color) -> Unit,
+    label: String,
+    active: Boolean,
+    destructive: Boolean = false,
+    onClick: () -> Unit
+) {
+    val container = when {
+        destructive -> PurevonErrorContainer
+        active -> PurevonPrimaryContainer
+        else -> PurevonSurfaceAlt
+    }
+    Box(
+        modifier = Modifier
+            .clip(CircleShape)
+            .background(container)
+            .clickable(onClick = onClick)
+            .padding(12.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Box(
+            modifier = Modifier.size(40.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            icon(
+                when {
+                    destructive -> PurevonError
+                    active -> PurevonPrimary
+                    else -> PurevonTextSecondary
+                }
+            )
+        }
+    }
+}
+
+private fun formatCallDuration(seconds: Long): String {
+    val hours = seconds / 3600
+    val minutes = (seconds % 3600) / 60
+    val secs = seconds % 60
+    return if (hours > 0) {
+        String.format(java.util.Locale.getDefault(), "%02d:%02d:%02d", hours, minutes, secs)
+    } else {
+        String.format(java.util.Locale.getDefault(), "%02d:%02d", minutes, secs)
+    }
+}

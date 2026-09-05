@@ -71,7 +71,7 @@ class MmsDownloadedReceiver : BroadcastReceiver() {
                     when (resultCode) {
                         Activity.RESULT_OK -> {
                             DebugLogger.diagnostic(TAG, "✅ [RESULT] Download SUCCESS! Proceeding to handleSuccessfulDownload...")
-                            handleSuccessfulDownload(context, filePath, transactionId, subscriptionId)
+                            handleSuccessfulDownload(context, filePath, transactionId, subscriptionId, contentLocation)
                         }
                         else -> {
                             val errorMessage = MmsUtils.getMmsErrorMessage(resultCode)
@@ -79,6 +79,11 @@ class MmsDownloadedReceiver : BroadcastReceiver() {
                             DebugLogger.diagnostic(TAG, "   Error: $errorMessage")
                             DebugLogger.diagnostic(TAG, "   Result code: $resultCode")
                             DebugLogger.diagnostic(TAG, "   This means the system could not download the MMS from MMSC")
+                            // ✅ FIX M29 (pattern 1): permanent HTTP failures mean the message
+                            // is gone from the MMSC forever — clean up any stale NotificationInd
+                            // so nothing keeps re-pushing or retrying it.
+                            val httpStatus = intent.getIntExtra(android.telephony.SmsManager.EXTRA_MMS_HTTP_STATUS, 0)
+                            handleFailedDownload(context, httpStatus, contentLocation)
                         }
                     }
                 } // withTimeout
@@ -104,21 +109,32 @@ class MmsDownloadedReceiver : BroadcastReceiver() {
      * Handle successful MMS download
      */
     private suspend fun handleSuccessfulDownload(
-        context: Context, 
-        filePath: String, 
+        context: Context,
+        filePath: String,
         transactionId: String,
-        subscriptionId: Int
+        subscriptionId: Int,
+        contentLocation: String
     ) {
         DebugLogger.diagnostic(TAG, "╔═══════════════════════════════════════════════════════╗")
         DebugLogger.diagnostic(TAG, "║  📥 handleSuccessfulDownload() START                 ║")
         DebugLogger.diagnostic(TAG, "╚═══════════════════════════════════════════════════════╝")
         try {
+            // ✅ FIX M20 (Layer A): same tr_id already persisted → notify, never re-insert
             if (transactionId.isNotBlank()) {
-                findMmsByTransactionId(context, transactionId)?.let { existingId ->
+                com.rasmi.purevon.util.mms.MmsDownloadDedup.findByTransactionId(context, transactionId)?.let { existingId ->
                     DebugLogger.diagnostic(TAG, "MMS transaction already persisted: $transactionId")
                     notifyNewMms(context, existingId)
+                    // ✅ FIX M29: still close the transaction so the MMSC stops re-pushing.
+                    sendNotifyResponse(context, transactionId, subscriptionId, contentLocation)
                     return
                 }
+            }
+
+            // ✅ FIX M20 (Layer B): carriers that rotate tr_id per re-push (or pushes
+            // whose PDU failed to parse) share the SAME Content-Location URL.
+            if (com.rasmi.purevon.util.mms.MmsDownloadDedup.wasLocationProcessed(context, contentLocation)) {
+                DebugLogger.diagnostic(TAG, "⏭️ [DEDUP] Content-Location processed within TTL — skipping persist")
+                return
             }
 
             val downloadFile = java.io.File(filePath)
@@ -131,6 +147,10 @@ class MmsDownloadedReceiver : BroadcastReceiver() {
             
             if (!downloadFile.exists() || downloadFile.length() == 0L) {
                 DebugLogger.diagnostic(TAG, "❌ [HANDLE STEP 1] Downloaded file is EMPTY or MISSING!")
+                // ✅ FIX M29 (pattern 2): download finished but produced no data —
+                // mark the NotificationInd's retrieve-status as terminal error so
+                // nothing treats it as pending retrieval anymore.
+                markRetrieveStatusTerminal(context, contentLocation)
                 DebugLogger.diagnostic(TAG, "   Falling back to processSystemMms()...")
                 processSystemMms(context, transactionId)
                 return
@@ -158,7 +178,19 @@ class MmsDownloadedReceiver : BroadcastReceiver() {
                     if (com.rasmi.purevon.BuildConfig.ENABLE_LOGGING) {
                         DebugLogger.diagnostic(TAG, "   Body parts: ${retrieveConf.body?.partsNum ?: 0}")
                     }
-                    
+
+                    // ✅ FIX M29 (Layer D): the M-Message-ID header is identical across every
+                    // redelivery of the same message, even when tr_id AND Content-Location
+                    // both rotate. Strongest duplicate identity available.
+                    val midHeader = retrieveConf.messageId?.toString(Charsets.UTF_8)?.trim().orEmpty()
+                    val existingByMid = com.rasmi.purevon.util.mms.MmsDownloadDedup.findByMessageId(context, midHeader)
+                    if (existingByMid != null || com.rasmi.purevon.util.mms.MmsDownloadDedup.wasMessageIdProcessed(context, midHeader)) {
+                        DebugLogger.diagnostic(TAG, "⏭️ [DEDUP Layer D] Message-ID ${midHeader.take(8)}… already processed — skipping persist")
+                        existingByMid?.let { notifyNewMms(context, it) }
+                        sendNotifyResponse(context, transactionId, subscriptionId, contentLocation)
+                        return
+                    }
+
                     // Persist to system MMS database
                     DebugLogger.diagnostic(TAG, "📊 [HANDLE STEP 5] Persisting to system DB...")
                     DebugLogger.diagnostic(TAG, "   Target URI: ${Telephony.Mms.Inbox.CONTENT_URI}")
@@ -187,6 +219,13 @@ class MmsDownloadedReceiver : BroadcastReceiver() {
                         }
                         context.contentResolver.update(messageUri, values, null, null)
                         DebugLogger.diagnostic(TAG, "📊 [HANDLE STEP 6] Updated READ=0, SEEN=0")
+
+                        // ✅ FIX M20 (Layer B): remember this URL so later re-pushes
+                        // (even with rotated tr_id) can't insert a duplicate row
+                        com.rasmi.purevon.util.mms.MmsDownloadDedup.markLocationProcessed(context, contentLocation)
+                        // ✅ FIX M29 (Layer D): remember the Message-ID too — survives
+                        // carriers that rotate BOTH tr_id and Content-Location on re-push
+                        com.rasmi.purevon.util.mms.MmsDownloadDedup.markMessageIdProcessed(context, midHeader)
                         
                         // Extract MMS info for notification
                         val messageId = messageUri.lastPathSegment?.toLongOrNull() ?: 0L
@@ -210,8 +249,12 @@ class MmsDownloadedReceiver : BroadcastReceiver() {
                 processSystemMms(context, transactionId)
             }
             
-            // Send acknowledgement (M-Acknowledge.ind) to MMSC
-            sendAcknowledgement(context, transactionId, subscriptionId)
+            // ✅ FIX M19: Send M-NotifyResp.ind (status=Retrieved) — NOT M-Acknowledge.ind.
+            // The MMSC keeps re-pushing the WAP notification (→ every re-push downloads
+            // and inserts ANOTHER copy of the message) until it receives a NotifyRespInd
+            // with status Retrieved. AcknowledgeInd alone never closes the transaction,
+            // which caused 30+ duplicate copies of one sent image on the receiver.
+            sendNotifyResponse(context, transactionId, subscriptionId, contentLocation)
             
         } catch (e: Exception) {
             DebugLogger.diagnostic(TAG, "Error handling downloaded MMS", e)
@@ -219,26 +262,62 @@ class MmsDownloadedReceiver : BroadcastReceiver() {
     }
     
     /**
+     * ✅ FIX M29 (pattern 1): permanent download failures.
+     *
+     * HTTP 400/404 means the message no longer exists on the MMSC (expired or already
+     * retrieved) — per QKSMS/AOSP practice we DELETE the stale NotificationInd row so
+     * neither our Layer-C guard nor any OEM retry logic keeps acting on it.
+     * Any other failure is treated as transient: logged only, nothing mutated.
+     */
+    private fun handleFailedDownload(context: Context, httpStatus: Int, contentLocation: String) {
+        try {
+            if (contentLocation.isBlank()) return
+            if (httpStatus == 400 || httpStatus == 404) {
+                val selection = "${Telephony.Mms.MESSAGE_TYPE} = ? AND ${Telephony.Mms.CONTENT_LOCATION} = ?"
+                val args = arrayOf(
+                    com.google.android.mms.pdu_alt.PduHeaders.MESSAGE_TYPE_NOTIFICATION_IND.toString(),
+                    contentLocation
+                )
+                val deleted = context.contentResolver.delete(Telephony.Mms.CONTENT_URI, selection, args)
+                DebugLogger.diagnostic(TAG, "🧹 [FIX M29] HTTP $httpStatus → deleted $deleted stale NotificationInd row(s)")
+            } else {
+                DebugLogger.diagnostic(TAG, "⏳ [FIX M29] Transient failure (http=$httpStatus) — NotificationInd left untouched")
+            }
+        } catch (e: Exception) {
+            DebugLogger.diagnostic(TAG, "handleFailedDownload cleanup failed (non-critical)", e)
+        }
+    }
+
+    /**
+     * ✅ FIX M29 (pattern 2): mark the NotificationInd's retrieve-status as a terminal
+     * error (RETRIEVE_STATUS_ERROR_END = 0xFF), mirroring AOSP DownloadRequest.persist
+     * behavior for empty responses. Prevents the row from looking like a pending
+     * retrieval to OEM stacks that scan pending messages.
+     */
+    private fun markRetrieveStatusTerminal(context: Context, contentLocation: String) {
+        try {
+            if (contentLocation.isBlank()) return
+            val values = android.content.ContentValues().apply {
+                put(Telephony.Mms.RETRIEVE_STATUS, com.google.android.mms.pdu_alt.PduHeaders.RETRIEVE_STATUS_ERROR_END)
+            }
+            val selection = "${Telephony.Mms.MESSAGE_TYPE} = ? AND ${Telephony.Mms.CONTENT_LOCATION} = ?"
+            val args = arrayOf(
+                com.google.android.mms.pdu_alt.PduHeaders.MESSAGE_TYPE_NOTIFICATION_IND.toString(),
+                contentLocation
+            )
+            val updated = context.contentResolver.update(Telephony.Mms.CONTENT_URI, values, selection, args)
+            DebugLogger.diagnostic(TAG, "🏁 [FIX M29] Marked $updated NotificationInd row(s) retrieve-status = ERROR_END")
+        } catch (e: Exception) {
+            DebugLogger.diagnostic(TAG, "markRetrieveStatusTerminal failed (non-critical)", e)
+        }
+    }
+
+    /**
      * Process the latest MMS from system database
      * Used as fallback when PDU parsing fails (system may have already saved it).
      * First tries to match by transactionId (most reliable), then falls back
      * to recency-based lookup with a wider time window.
      */
-    private fun findMmsByTransactionId(context: Context, transactionId: String): Long? {
-        return context.contentResolver.query(
-            Telephony.Mms.CONTENT_URI,
-            arrayOf(Telephony.Mms._ID),
-            "${Telephony.Mms.TRANSACTION_ID} = ?",
-            arrayOf(transactionId),
-            "${Telephony.Mms.DATE} DESC LIMIT 1"
-        )?.use { cursor ->
-            if (cursor.moveToFirst()) {
-                cursor.getLong(cursor.getColumnIndexOrThrow(Telephony.Mms._ID))
-            } else {
-                null
-            }
-        }
-    }
 
     private suspend fun processSystemMms(context: Context, transactionId: String = "") {
         try {
@@ -342,69 +421,88 @@ class MmsDownloadedReceiver : BroadcastReceiver() {
     }
     
     /**
-     * Send M-Acknowledge.ind to MMSC to confirm receipt
+     * ✅ FIX M19: Send M-NotifyResp.ind (status=Retrieved) to close the MMS transaction.
+     *
+     * Per OMA-MMS-ENC the response to a successful retrieval of a NotificationInd is
+     * NotifyRespInd with status Retrieved (132). The previous implementation sent
+     * AcknowledgeInd (M-Acknowledge.ind) — only valid in deferred-retrieval AFTER a
+     * NotifyResp — and posted it with locationUrl=null, i.e. to the default MMSC send
+     * endpoint instead of the message's own Content-Location. The MMSC therefore never
+     * marked the notification as retrieved and kept re-pushing it, so every push
+     * triggered another download+persist cycle (the 30+ duplicates bug).
      */
-    private fun sendAcknowledgement(context: Context, transactionId: String, subscriptionId: Int) {
+    private fun sendNotifyResponse(
+        context: Context,
+        transactionId: String,
+        subscriptionId: Int,
+        contentLocation: String
+    ) {
         try {
             if (transactionId.isBlank()) {
-                DebugLogger.diagnostic(TAG, "No transaction ID for acknowledgement")
+                DebugLogger.diagnostic(TAG, "No transaction ID for notify response")
                 return
             }
-            
-            // Build acknowledge indication PDU
-            val acknowledgeInd = com.google.android.mms.pdu_alt.AcknowledgeInd(
+
+            // Build M-NotifyResp.ind with status = Retrieved (132)
+            val notifyRespInd = com.google.android.mms.pdu_alt.NotifyRespInd(
                 com.google.android.mms.pdu_alt.PduHeaders.CURRENT_MMS_VERSION,
-                transactionId.toByteArray()
+                transactionId.toByteArray(),
+                com.google.android.mms.pdu_alt.PduHeaders.STATUS_RETRIEVED
             )
-            
-            val pduBytes = com.google.android.mms.pdu_alt.PduComposer(context, acknowledgeInd).make()
-            
+
+            val pduBytes = com.google.android.mms.pdu_alt.PduComposer(context, notifyRespInd).make()
+
             if (pduBytes != null && pduBytes.isNotEmpty()) {
                 // Write to temp file
-                val ackFile = java.io.File(context.cacheDir, "mms_ack_${System.currentTimeMillis()}.dat")
-                ackFile.writeBytes(pduBytes)
-                
-                val ackUri = androidx.core.content.FileProvider.getUriForFile(
+                val mmsDir = java.io.File(context.cacheDir, "mms").apply { mkdirs() }
+                val respFile = java.io.File(mmsDir, "mms_notify_resp_${System.currentTimeMillis()}.dat")
+                respFile.writeBytes(pduBytes)
+
+                val respUri = androidx.core.content.FileProvider.getUriForFile(
                     context,
                     "${context.packageName}.fileprovider",
-                    ackFile
+                    respFile
                 )
-                
+
                 // Grant permissions
                 context.grantUriPermission(
                     "com.android.phone",
-                    ackUri,
+                    respUri,
                     Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_READ_URI_PERMISSION
                 )
-                
-                // Send acknowledgement
+
+                // Post the NotifyRespInd. Prefer the message's own Content-Location as
+                // the target URL; fall back to null (= platform default MMSC URL).
+                val locationUrl = contentLocation.trim().takeIf { it.isNotBlank() && it.startsWith("http") }
                 val smsManager = MmsUtils.getSmsManagerForSub(context, subscriptionId)
                 smsManager.sendMultimediaMessage(
                     context,
-                    ackUri,
+                    respUri,
+                    locationUrl,
                     null,
-                    null,
-                    null // No need to track ack result
+                    null // No need to track notify-resp result
                 )
-                
-                DebugLogger.diagnostic(TAG, "✅ MMS acknowledgement sent (transaction: $transactionId)")
-                
-                // Clean up ack file after a short delay to allow sendMultimediaMessage to read it.
+
+                DebugLogger.diagnostic(TAG, "✅ MMS NotifyRespInd (Retrieved) sent (transaction: $transactionId, url: ${locationUrl ?: "default MMSC"})")
+
+                // Clean up response file after a short delay to allow sendMultimediaMessage to read it.
                 // Intentionally uses an independent scope: the cleanup needs to outlive the
                 // receiver's goAsync() timeout (25s) since sendMultimediaMessage may still
                 // be reading the file. The file lives in cacheDir so it is reclaimed on reboot.
                 kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.Dispatchers.IO).launch {
                     kotlinx.coroutines.delay(30_000L)
                     try {
-                        if (ackFile.exists()) ackFile.delete()
+                        if (respFile.exists()) respFile.delete()
                     } catch (_: Exception) {}
                 }
             } else {
-                DebugLogger.diagnostic(TAG, "Failed to compose acknowledgement PDU")
+                DebugLogger.diagnostic(TAG, "Failed to compose NotifyRespInd PDU")
             }
         } catch (e: Exception) {
-            DebugLogger.diagnostic(TAG, "Error sending MMS acknowledgement (non-critical)", e)
-            // Ack failure is non-critical - MMS is already received
+            DebugLogger.diagnostic(TAG, "Error sending MMS notify response (non-critical)", e)
+            // NotifyResp failure is non-critical for local persistence - MMS is already received.
+            // NOTE: if this keeps failing on some carriers the MMSC may re-push the
+            // notification; the dedup guard added in FIX M20 prevents duplicate rows then.
         }
     }
     

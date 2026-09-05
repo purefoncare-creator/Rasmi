@@ -11,8 +11,7 @@ import com.rasmi.purevon.util.sim.SimInfo
  * UI State for Settings Screen
  */
 data class SettingsUiState(
-    val isDarkMode: Boolean = false,
-    val autoTheme: Boolean = true,
+    // ✅ FIX M40: أزيل isDarkMode/autoTheme — الهوية موحدة داكنة
     val isRtlEnabled: Boolean = false,
     val appLanguage: String = "system",
     val showLanguageSelectorDialog: Boolean = false,
@@ -30,10 +29,19 @@ data class SettingsUiState(
     val callBlockingEnabled: Boolean = false,
     val callBlockingSimSubscriptionId: Int = -1, // -1 = All SIMs
     val showCallBlockingSimSelectorDialog: Boolean = false,
-    // Incoming Call UI
-    val incomingCallBannerOnly: Boolean = false,
+    // ✅ FIX M32b: خيارات الحظر المتقدمة + نافذة إعدادات مع Save
+    val blockUnknownNumbers: Boolean = false,
+    val whitelistOnlyMode: Boolean = false,
+    val showCallBlockingSettingsDialog: Boolean = false,
     // OTP
     val otpEnabled: Boolean = true,
+    // ✅ VIRAL #4: بطاقتي
+    val showMyCardDialog: Boolean = false,
+    val myCardFirstName: String = "",
+    val myCardLastName: String = "",
+    val myCardPhone: String = "",
+    val myCardEmail: String = "",
+    val myCardCompany: String = "",
     val showBlockedListDialog: Boolean = false,
     val showWhitelistDialog: Boolean = false,
     val blockedNumbers: List<String> = emptyList(),
@@ -105,8 +113,7 @@ data class RecentCallItem(
  * UI Events for Settings Screen
  */
 sealed class SettingsUiEvent {
-    data class ThemeChanged(val isDark: Boolean) : SettingsUiEvent()
-    data class AutoThemeToggled(val enabled: Boolean) : SettingsUiEvent()
+    // ✅ FIX M40: أزيل ThemeChanged/AutoThemeToggled — لا تخصيص ثيم بعد الآن
     // Layout Direction (RTL)
     data class RtlToggled(val enabled: Boolean) : SettingsUiEvent()
     // Call SIM Events
@@ -129,9 +136,27 @@ sealed class SettingsUiEvent {
     data class CallBlockingSimChanged(val subscriptionId: Int) : SettingsUiEvent()
     data object ShowCallBlockingSimSelector : SettingsUiEvent()
     data object HideCallBlockingSimSelector : SettingsUiEvent()
-    data class IncomingCallBannerOnlyToggled(val enabled: Boolean) : SettingsUiEvent()
+    // ✅ FIX M32b: نافذة إعدادات الحظر — تغييرات مؤجلة حتى Save
+    data object ShowCallBlockingSettings : SettingsUiEvent()
+    data object HideCallBlockingSettings : SettingsUiEvent()
+    data class SaveCallBlockingSettings(
+        val enabled: Boolean,
+        val blockUnknown: Boolean,
+        val whitelistOnly: Boolean,
+        val simSubscriptionId: Int
+    ) : SettingsUiEvent()
     // OTP
     data class OtpToggled(val enabled: Boolean) : SettingsUiEvent()
+    // ✅ VIRAL #4: بطاقتي
+    data object ShowMyCardDialog : SettingsUiEvent()
+    data object HideMyCardDialog : SettingsUiEvent()
+    data class SaveMyCard(
+        val firstName: String,
+        val lastName: String,
+        val phone: String,
+        val email: String,
+        val company: String
+    ) : SettingsUiEvent()
     data object ShowBlockedList : SettingsUiEvent()
     data object HideBlockedList : SettingsUiEvent()
     data object ShowWhitelist : SettingsUiEvent()

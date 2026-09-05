@@ -15,7 +15,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.rasmi.purevon.presentation.screen.contacts.ContactFilter
-import com.rasmi.purevon.presentation.theme.iOSBlue
+import com.rasmi.purevon.presentation.theme.PurevonTertiary
 
 /**
  * iOS-style Filter Chip
@@ -28,7 +28,7 @@ fun ContactFilterChip(
     modifier: Modifier = Modifier
 ) {
     val backgroundColor by animateColorAsState(
-        targetValue = if (isSelected) iOSBlue else MaterialTheme.colorScheme.surfaceVariant,
+        targetValue = if (isSelected) PurevonTertiary else MaterialTheme.colorScheme.surfaceVariant,
         label = "chip_background"
     )
     

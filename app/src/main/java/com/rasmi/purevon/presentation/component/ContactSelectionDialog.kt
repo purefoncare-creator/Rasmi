@@ -249,9 +249,10 @@ private fun ContactSelectionItem(
             verticalAlignment = Alignment.CenterVertically
         ) {
             // Avatar
-            UnifiedContactAvatar(
+            FavoriteContactAvatar(
                 size = 48.dp,
-                photoUri = contact.photoUri
+                photoUri = contact.photoUri,
+                isFavorite = contact.isFavorite
             )
             
             // Contact Info

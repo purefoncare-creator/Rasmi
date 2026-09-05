@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="nav_back">Tebek</string>
+  <string name="add_contact_choose_method">Kontakt Tafoegje</string>
+  <string name="add_contact_manual">Mei Hân Tafoegje</string>
+  <string name="add_contact_via_qr">Mei QR Kôde Tafoegje</string>
+  <string name="dialer_active_call_title">Aktive Kealle</string>
+  <string name="dialer_active_call_expand">Folslein Skerm</string>
+  <string name="dialer_recent">Laatste</string>
+  <string name="dialer_no_recent">Gjin aktiveatigkeit lêst</string>
+  <string name="dialer_results">Resultaten</string>
+  <string name="incall_mute">Swijg</string>
+  <string name="incall_speaker">Lûdsprekker</string>
+  <string name="my_card_title">Myn Kaart</string>
+  <string name="my_card_desc">Meitsje jo persoanlike kaart en diel him mei hokkerien</string>
+  <string name="my_card_edit">Bewurkje</string>
+  <string name="my_card_saved">Kaart bewarre</string>
+  <string name="my_card_share">Dielje</string>
+  <string name="qr_scan_title">Skurje kontaktkôde</string>
+  <string name="qr_camera_permission">Kameroatastimming needich om kôde te skurjen</string>
+  <string name="invalid_qr_code">Ûnjildige QR Kôde</string>
+  <string name="call_blocking_block_unknown">Blokkearje ûnbekende / privee nûmers</string>
+  <string name="call_blocking_block_unknown_desc">Wegerje keallen fan nûmers dy\'t net yn kontakt stiene</string>
+  <string name="call_blocking_whitelist_only">Allinnich hiale list moed</string>
+  <string name="call_blocking_whitelist_only_desc">Blokkearje alles útsein hiale list nûmers</string>
+  <string name="call_blocking_whitelist_only_warning">⚠ Elke kealle dy\'t net op jo hiale list stiet sil blokkearre wurde!</string>
+  <string name="notification_ongoing_call_channel">Trochgeande kealle</string>
+  <string name="notification_ongoing_call_channel_desc">Permanente melding foar aktive kealle wannear de skerm ticht giet</string>
+  <string name="notification_ongoing_call_title">Trochgeande kealle</string>
+  <string name="delete_note_title">Notitje wiskje</string>
+  <string name="delete_note_message">Wolle jo dizze notitje wiskje?</string>
+  <string name="stat_title">Statistyk</string>
+  <string name="stat_call_statistics">Kealle Statistyk</string>
+  <string name="stat_message_statistics">Berjocht Statistyk</string>
+  <string name="stat_total_messages">Totaal Berjochten</string>
+  <string name="stat_total_calls">Totaal Keallen</string>
+  <string name="stat_total_duration">Totaal Duer</string>
+  <string name="stat_average_duration">Gemiddelde Duer</string>
+  <string name="stat_incoming">Ynkommend</string>
+  <string name="stat_outgoing">Útkommend</string>
+  <string name="stat_missed">Mist</string>
+  <string name="stat_received">Untfongen</string>
+  <string name="stat_sent">Ferstjoerd</string>
+  <string name="stat_blocked">Blokkearre</string>
+  <string name="stat_frequent_contacts">Kontakten mei inoar kealle</string>
+  <string name="stat_contact_calls_duration">%1$d keallen • %2$s</string>
+</resources>

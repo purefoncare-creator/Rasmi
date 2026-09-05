@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="nav_back">Mappedeur</string>
+  <string name="add_contact_choose_method">Tambihkeun Kontak</string>
+  <string name="add_contact_manual">Tambihkeun Secara Manual</string>
+  <string name="add_contact_via_qr">Tambihkeun ngalangkungan Kode QR</string>
+  <string name="dialer_active_call_title">Giwang Aktip</string>
+  <string name="dialer_active_call_expand">Layar Lengkap</string>
+  <string name="dialer_recent">Anyar</string>
+  <string name="dialer_no_recent">Henteu aya kagiatan anyar</string>
+  <string name="dialer_results">Hasil</string>
+  <string name="incall_mute">Senyap</string>
+  <string name="incall_speaker">Speaker</string>
+  <string name="my_card_title">Kartos Abdi</string>
+  <string name="my_card_desc">Nyieun kartos pribadi anjeun sareng babagi sareng saha waé</string>
+  <string name="my_card_edit">Éditi</string>
+  <string name="my_card_saved">Kartos disimpen</string>
+  <string name="my_card_share">Bagikeun</string>
+  <string name="qr_scan_title">Pindai kode kontak</string>
+  <string name="qr_camera_permission">Izin kamera diperyogikeun pikeun ngapindai kode</string>
+  <string name="invalid_qr_code">Kode QR teu valid</string>
+  <string name="call_blocking_block_unknown">Block nomer teu dipikanyaho / pribadi</string>
+  <string name="call_blocking_block_unknown_desc">Nolak tiwawan ti nomer anu aya dina kontak</string>
+  <string name="call_blocking_whitelist_only">Moud daptar bodas waé</string>
+  <string name="call_blocking_whitelist_only_desc">Block sadayana sapartos nomer dina daptar bodas</string>
+  <string name="call_blocking_whitelist_only_warning">⚠ Sadaya tiwawan anu henteu dina daptar bodas anjeun bakal diblokir!</string>
+  <string name="notification_ongoing_call_channel">Giwang Continue</string>
+  <string name="notification_ongoing_call_channel_desc">Tinjauan tetep pikeun giwang aktip nalika layar ditutup</string>
+  <string name="notification_ongoing_call_title">Giwang Continue</string>
+  <string name="delete_note_title">Hapus Catetan</string>
+  <string name="delete_note_message">Naha anjeun hoyong ngahapus catetan ieu?</string>
+  <string name="stat_title">Statistik</string>
+  <string name="stat_call_statistics">Statistik Tiwawan</string>
+  <string name="stat_message_statistics">Statistik Pesen</string>
+  <string name="stat_total_calls">Total Tiwawan</string>
+  <string name="stat_total_messages">Total Pesen</string>
+  <string name="stat_total_duration">Total Waktos</string>
+  <string name="stat_average_duration">Rata-rata Waktos</string>
+  <string name="stat_incoming">Asup</string>
+  <string name="stat_outgoing">Kaluar</string>
+  <string name="stat_missed">Léung</string>
+  <string name="stat_received">Ditampi</string>
+  <string name="stat_sent">Dikirim</string>
+  <string name="stat_blocked">Diblokir</string>
+  <string name="stat_frequent_contacts">Kontak anu sering diwawarhan</string>
+  <string name="stat_contact_calls_duration">%1$d tiwawan • %2$s</string>
+</resources>

@@ -1,6 +1,7 @@
 package com.rasmi.purevon.data.local.entity
 
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import androidx.room.ColumnInfo
 
@@ -13,7 +14,15 @@ import androidx.room.ColumnInfo
  * - "وصلت 👍"
  * - "بكلمك لاحقاً 📞"
  */
-@Entity(tableName = "message_templates")
+@Entity(
+    tableName = "message_templates",
+    // ✅ FIX M25: declare the indices MIGRATION_6_7 creates so Room schema
+    // validation passes for migrated installs and fresh installs match
+    indices = [
+        Index(value = ["category"]),
+        Index(value = ["is_favorite"])
+    ]
+)
 data class MessageTemplateEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,

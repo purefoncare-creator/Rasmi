@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="nav_back">Atrás</string>
+  <string name="add_contact_choose_method">Engadir Contacto</string>
+  <string name="add_contact_manual">Engadir Á Man</string>
+  <string name="add_contact_via_qr">Engadir mediante Código QR</string>
+  <string name="dialer_active_call_title">Chamada Activa</string>
+  <string name="dialer_active_call_expand">Pantalla Completa</string>
+  <string name="dialer_recent">Recentes</string>
+  <string name="dialer_no_recent">Sen actividade recente</string>
+  <string name="dialer_results">Resultados</string>
+  <string name="incall_mute">Silencio</string>
+  <string name="incall_speaker">Altavoz</string>
+  <string name="my_card_title">A Miña Tarxeta</string>
+  <string name="my_card_desc">Crea a túa tarxeta persoal e comparte con quen queiras</string>
+  <string name="my_card_edit">Editar</string>
+  <string name="my_card_saved">Tarxeta gardada</string>
+  <string name="my_card_share">Compartir</string>
+  <string name="qr_scan_title">Escanear código de contacto</string>
+  <string name="qr_camera_permission">Precisa permiso de cámara para escanear código</string>
+  <string name="invalid_qr_code">Código QR non válido</string>
+  <string name="call_blocking_block_unknown">Bloquear números descoñecidos / privados</string>
+  <string name="call_blocking_block_unknown_desc">Rexeitar chamadas de números que non estean nos contactos</string>
+  <string name="call_blocking_whitelist_only">Modo sólamente lista branca</string>
+  <string name="call_blocking_whitelist_only_desc">Bloquear todo excepto números da lista branca</string>
+  <string name="call_blocking_whitelist_only_warning">⚠ Todas as chamadas que non estean na túa lista branca serán bloqueadas!</string>
+  <string name="notification_ongoing_call_channel">Chamada Continua</string>
+  <string name="notification_ongoing_call_channel_desc">Notificación persistente para chamada activa cando a pantalla está pechada</string>
+  <string name="notification_ongoing_call_title">Chamada Continua</string>
+  <string name="delete_note_title">Eliminar Nota</string>
+  <string name="delete_note_message">Queres eliminar esta nota?</string>
+  <string name="stat_title">Estatísticas</string>
+  <string name="stat_call_statistics">Estatísticas de Chamadas</string>
+  <string name="stat_message_statistics">Estatísticas de Mensaxes</string>
+  <string name="stat_total_calls">Total de Chamadas</string>
+  <string name="stat_total_messages">Total de Mensaxes</string>
+  <string name="stat_total_duration">Duración Total</string>
+  <string name="stat_average_duration">Duración Media</string>
+  <string name="stat_incoming">Entrantes</string>
+  <string name="stat_outgoing">Saíntes</string>
+  <string name="stat_missed">Perdidas</string>
+  <string name="stat_received">Recibidas</string>
+  <string name="stat_sent">Enviadas</string>
+  <string name="stat_blocked">Bloqueadas</string>
+  <string name="stat_frequent_contacts">Contactos máis chamados</string>
+  <string name="stat_contact_calls_duration">%1 chamadas • %2</string>
+</resources>

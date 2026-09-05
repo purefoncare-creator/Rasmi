@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="nav_back">ត្រឡប់ក្រោយ</string>
+  <string name="add_contact_choose_method">បន្ថែមទំនាក់ទំនង</string>
+  <string name="add_contact_manual">បន្ថែមដោយដៃ</string>
+  <string name="add_contact_via_qr">បន្ថែមតាមរយៈកូដ QR</string>
+  <string name="dialer_active_call_title">ការហៅសកម្ម</string>
+  <string name="dialer_active_call_expand">អេក្រុងពេញ</string>
+  <string name="dialer_recent">ថ្មីៗ</string>
+  <string name="dialer_no_recent">មិនមានសកម្មភាពថ្មីៗទេ</string>
+  <string name="dialer_results">លទ្ធផល</string>
+  <string name="incall_mute">សម្ងាត់</string>
+  <string name="incall_speaker">ឧបករណ៍បញ្ចេញសំឡេង</string>
+  <string name="my_card_title">កាតរបស់ខ្ញុំ</string>
+  <string name="my_card_desc">បង្កើតកាតផ្ទាល់ខ្លួនរបស់អ្នកហើយចែករំលែកជាមនុស្សណាម្នាក់</string>
+  <string name="my_card_edit">កែសម្រួល</string>
+  <string name="my_card_saved">កាតត្រូវបានរក្សាទុក</string>
+  <string name="my_card_share">ចែករំលែក</string>
+  <string name="qr_scan_title">ស្កេនកូដទំនាក់ទំនង</string>
+  <string name="qr_camera_permission">ត្រូវការសិទ្ធិកាមេរ៉ាដើម្បីស្កេនកូដ</string>
+  <string name="invalid_qr_code">កូដ QR មិនត្រឹមត្រូវ</string>
+  <string name="call_blocking_block_unknown">បាំងលេខមិនស្គាល់ / ឯកជន</string>
+  <string name="call_blocking_block_unknown_desc">បដិសេ�ការហៅពីលេខដែលមិនមានក្នុងទំនាក់ទំនង</string>
+  <string name="call_blocking_whitelist_only">របៀបបញ្ជីស</string>
+  <string name="call_blocking_whitelist_only_desc">បាំងទាំងអស់លើកលែងតែលេខក្នុងបញ្ជីស</string>
+  <string name="call_blocking_whitelist_only_warning">⚠ រាល់ការហៅដែលមិនមានក្នុងបញ្ជីសរបស់អ្នកនឹងត្រូវបាំង!</string>
+  <string name="notification_ongoing_call_channel">ការហៅបន្ត</string>
+  <string name="notification_ongoing_call_channel_desc">សេចក្តីជូនដំណឹងអចិន្ត្រៃយ៍សម្រាប់ការហៅសកម្មនៅពេលអេក្រុងបិទ</string>
+  <string name="notification_ongoing_call_title">ការហៅបន្ត</string>
+  <string name="delete_note_title">លុបចំណាំ</string>
+  <string name="delete_note_message">តើអ្នកចង់លុបចំណាំនេះទេ?</string>
+  <string name="stat_title">ស្ថិតិ</string>
+  <string name="stat_call_statistics">ស្ថិតិការហៅ</string>
+  <string name="stat_message_statistics">ស្ថិតិសារ</string>
+  <string name="stat_total_calls">ការហៅសរុប</string>
+  <string name="stat_total_messages">សារសរុប</string>
+  <string name="stat_total_duration">រយៈពេលសរុប</string>
+  <string name="stat_average_duration">រយៈពេលជាមធ្យម</string>
+  <string name="stat_incoming">មកដល់</string>
+  <string name="stat_outgoing">ចេញ</string>
+  <string name="stat_missed">ខកខាន</string>
+  <string name="stat_received">បានទទួល</string>
+  <string name="stat_sent">បានផ្ញើ</string>
+  <string name="stat_blocked">បាំង</string>
+  <string name="stat_frequent_contacts">ទំនាក់ទំនងដែលហៅញឹកញាប់</string>
+  <string name="stat_contact_calls_duration">%1$d ការហៅ • %2$s</string>
+</resources>

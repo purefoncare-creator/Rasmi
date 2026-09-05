@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    Network security configuration for Purevon.
+    Network security configuration for Rasmi.
     Cleartext (HTTP) is allowed ONLY for MMS/MMSC traffic.
     All other traffic must use HTTPS.
 -->

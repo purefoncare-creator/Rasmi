@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="nav_back">பின்</string>
+  <string name="add_contact_choose_method">தொடர்பு சேர்</string>
+  <string name="add_contact_manual">கைமுறையாக சேர்</string>
+  <string name="add_contact_via_qr">QR குறியீடு மூலம் சேர்</string>
+  <string name="dialer_active_call_title">செயலில் அழைப்பு</string>
+  <string name="dialer_active_call_expand">முழுத்திரை</string>
+  <string name="dialer_recent">சமீபத்திய</string>
+  <string name="dialer_no_recent">சமீபத்திய செயல் இல்லை</string>
+  <string name="dialer_results">முடிவுகள்</string>
+  <string name="incall_mute">ஒசிக்க</string>
+  <string name="incall_speaker">சப்போகர்</string>
+  <string name="my_card_title">என் அட்டை</string>
+  <string name="my_card_desc">உங்கள் தனிப்பட்ட அட்டையை உருவாக்கி யாருடனும் பகிரலாம்</string>
+  <string name="my_card_edit">திருத்து</string>
+  <string name="my_card_saved">அட்டை சேமிக்கப்பட்டது</string>
+  <string name="my_card_share">பகிர்</string>
+  <string name="qr_scan_title">தொடர்பு குறியீடை ஸ்கேன் செய்யுங்கள்</string>
+  <string name="qr_camera_permission">குறியீடை ஸ்கேன் செய்ய கேமரா அனுமதி தேவை</string>
+  <string name="invalid_qr_code">தவறான QR குறியீடு</string>
+  <string name="call_blocking_block_unknown">அறியப்படாத / தனியார் எண்களை தடு</string>
+  <string name="call_blocking_block_unknown_desc">தொடர்புகளில் இல்லாத எண்களில் இருந்து வரும் அழைப்புகளை நிராகரி</string>
+  <string name="call_blocking_whitelist_only">சிவப்பு பட்டியல் பயன்முறை</string>
+  <string name="call_blocking_whitelist_only_desc">சிவப்பு பட்டியலில் உள்ள எண்கள் தவிர அனைத்தையும் தடு</string>
+  <string name="call_blocking_whitelist_only_warning">⚠ உங்கள் சிவப்பு பட்டியலில் இல்லாத ஒவ்வொரு அழைப்பும் தடுக்கப்படும்!</string>
+  <string name="notification_ongoing_call_channel">தொடரும் அழைப்பு</string>
+  <string name="notification_ongoing_call_channel_desc">திரை மூடப்படும் போது செயலில் அழைப்புக்கான நிரந்தர அறிவிப்பு</string>
+  <string name="notification_ongoing_call_title">தொடரும் அழைப்பு</string>
+  <string name="delete_note_title">குறிப்பை நீக்கு</string>
+  <string name="delete_note_message">இந்த குறிப்பை நீக்க விரும்புகிறீர்களா?</string>
+  <string name="stat_title">புள்ளிவிவரங்கள்</string>
+  <string name="stat_call_statistics">அழைப்பு புள்ளிவிவரங்கள்</string>
+  <string name="stat_message_statistics">செய்தி புள்ளிவிவரங்கள்</string>
+  <string name="stat_total_calls">மொத்த அழைப்புகள்</string>
+  <string name="stat_total_messages">மொத்த செய்திகள்</string>
+  <string name="stat_total_duration">மொத்த காலம்</string>
+  <string name="stat_average_duration">சராசரி காலம்</string>
+  <string name="stat_incoming">வருவது</string>
+  <string name="stat_outgoing">செல்வது</string>
+  <string name="stat_missed">தவறிய</string>
+  <string name="stat_received">பெற்ற</string>
+  <string name="stat_sent">அனுப்பிய</string>
+  <string name="stat_blocked">தடுக்கப்பட்ட</string>
+  <string name="stat_frequent_contacts">அதிகம் அழைக்கும் தொடர்புகள்</string>
+  <string name="stat_contact_calls_duration">%1$d அழைப்புகள் • %2$s</string>
+</resources>

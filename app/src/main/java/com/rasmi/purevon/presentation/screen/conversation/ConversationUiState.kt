@@ -9,7 +9,8 @@ data class RecipientSuggestion(
     val contactName: String,
     val phoneNumber: String,
     val photoUri: String? = null,
-    val existingThreadId: Long? = null
+    val existingThreadId: Long? = null,
+    val isFavorite: Boolean = false
 )
 
 /**

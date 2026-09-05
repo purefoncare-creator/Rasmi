@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="nav_back">Hoki</string>
+  <string name="add_contact_choose_method">Tāpiri Houānga</string>
+  <string name="add_contact_manual">Tāpiri ā-ringa</string>
+  <string name="add_contact_via_qr">Tāpiri mā QR Code</string>
+  <string name="dialer_active_call_title">Waea Enehana</string>
+  <string name="dialer_active_call_expand">Paerewa Kātoa</string>
+  <string name="dialer_recent">Tatau</string>
+  <string name="dialer_no_recent">Kāore he mahi tatau</string>
+  <string name="dialer_results">Hua</string>
+  <string name="incall_mute">Whakangaro</string>
+  <string name="incall_speaker">Kaiwawao</string>
+  <string name="my_card_title">Tāku Āputa</string>
+  <string name="my_card_desc">Hangaia tō āputa whaiaro ā tākina me tētahi</string>
+  <string name="my_card_edit">Whakatika</string>
+  <string name="my_card_saved">Kua tiakina te āputa</string>
+  <string name="my_card_share">Tākina</string>
+  <string name="qr_scan_title">Whakamāmata te kōdihanga</string>
+  <string name="qr_camera_permission">E hiahia ana te taea pūkoro mō te whakamāmata kōdi</string>
+  <string name="invalid_qr_code">QR Code Kāore e taea</string>
+  <string name="call_blocking_block_unknown">Whakatini pouri / whaiaro</string>
+  <string name="call_blocking_block_unknown_desc">Whakāokia ngā waea mai i ngā pouri kāore e roto i ngā hononga</string>
+  <string name="call_blocking_whitelist_only">Ture Papa Pango Anake</string>
+  <string name="call_blocking_whitelist_only_desc">Whakatini katoa atu i ngā pouri i roto i te papa pango</string>
+  <string name="call_blocking_whitelist_only_warning">⚠ Ka whakatinatia ngā waea katoa kāore i roto i tō papa pango!</string>
+  <string name="notification_ongoing_call_channel">Waea Haere Tonu</string>
+  <string name="notification_ongoing_call_channel_desc">Pānui ā-tau i te waea e tū ana i te wā ka katia te paerewa</string>
+  <string name="notification_ongoing_call_title">Waea Haere Tonu</string>
+  <string name="delete_note_title">Mukua Tuhipoka</string>
+  <string name="delete_note_message">E hiahia ana koe ki te mukua tēnei tuhipoka?</string>
+  <string name="stat_title">Tatauranga</string>
+  <string name="stat_call_statistics">Tatauranga Waea</string>
+  <string name="stat_message_statistics">Tatauranga Āpourongo</string>
+  <string name="stat_total_calls">Waea Katoa</string>
+  <string name="stat_total_messages">Āpourongo Katoa</string>
+  <string name="stat_total_duration">Wā Katoa</string>
+  <string name="stat_average_duration">Wā Āhua</string>
+  <string name="stat_incoming">Kei te haere mai</string>
+  <string name="stat_outgoing">Kei te haere atu</string>
+  <string name="stat_missed">Kua ngaro</string>
+  <string name="stat_received">Kua riro</string>
+  <string name="stat_sent">Kua tuku</string>
+  <string name="stat_blocked">Kua whakatini</string>
+  <string name="stat_frequent_contacts">Ngā hononga waea tino</string>
+  <string name="stat_contact_calls_duration">%1$d waea • %2$s</string>
+</resources>

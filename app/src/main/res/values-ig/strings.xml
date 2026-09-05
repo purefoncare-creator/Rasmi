@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="nav_back">Azụ</string>
+  <string name="add_contact_choose_method">Mee Njikọta</string>
+  <string name="add_contact_manual">Mee n\'aka</string>
+  <string name="add_contact_via_qr">Mee site QR code</string>
+  <string name="dialer_active_call_title">Ọkpọrọ Nrọ</string>
+  <string name="dialer_active_call_expand">Screen zuru oke</string>
+  <string name="dialer_recent">Nke n\'ikpeazụ</string>
+  <string name="dialer_no_recent">Enweghi omume nke n\'ikpeazụ</string>
+  <string name="dialer_results">Nsonaazụ</string>
+  <string name="incall_mute">Kwụsị ụda</string>
+  <string name="incall_speaker">Speaker</string>
+  <string name="my_card_title">Kaadị M</string>
+  <string name="my_card_desc">Mee kaadị gị nke personal ma were rụọ onye ọbụla</string>
+  <string name="my_card_edit">Dezọta</string>
+  <string name="my_card_saved">Echekwala kaadị</string>
+  <string name="my_card_share">Nyekwa</string>
+  <string name="qr_scan_title">Nyochaa code nke njikọta</string>
+  <string name="qr_camera_permission">A chọrọ ikwe aka kamera iji nyochaa code</string>
+  <string name="invalid_qr_code">Code QR adịghị mma</string>
+  <string name="call_blocking_block_unknown">Block ọnụ ọgụgụ / nke personal</string>
+  <string name="call_blocking_block_unknown_desc">Jụ ọkpọrọ site n\'ọnụ ọgụgụ ndị abụghị n\'ime njikọta</string>
+  <string name="call_blocking_whitelist_only">Mode osisi ọcha naanị</string>
+  <string name="call_blocking_whitelist_only_desc">Block niileọbụghị ndị n\'ime osisi ọcha</string>
+  <string name="call_blocking_whitelist_only_warning">⚠ Ọkpọrọ ọbụla nke abụghị n\'ime osisi ọcha gị ga-abụ blocked!</string>
+  <string name="notification_ongoing_call_channel">Ọkpọrọ na-aga n\'ihu</string>
+  <string name="notification_ongoing_call_channel_desc">Ọkwa mgbatịọ aka nke na-adịbeghị maka ọkpọrọ na-arụ ọrụ mgbe screen mechiri</string>
+  <string name="notification_ongoing_call_title">Ọkpọrọ na-aga n\'ihu</string>
+  <string name="delete_note_title">Hichapụ Echikwa</string>
+  <string name="delete_note_message">Ị chọrọ ihichapụ echikwa a?</string>
+  <string name="stat_title">Ntọala</string>
+  <string name="stat_call_statistics">Ntọala ọkpọrọ</string>
+  <string name="stat_message_statistics">Ntọala ozi</string>
+  <string name="stat_total_calls">Nchebe ọkpọrọ niile</string>
+  <string name="stat_total_messages">Nchebe ozi niile</string>
+  <string name="stat_total_duration">Oge niile</string>
+  <string name="stat_average_duration">Oge ọkara</string>
+  <string name="stat_incoming">Na-abịa</string>
+  <string name="stat_outgoing">Na-apụ</string>
+  <string name="stat_missed">Gbagwooro</string>
+  <string name="stat_received">Natala</string>
+  <string name="stat_sent">Ezigara</string>
+  <string name="stat_blocked">Ejikọtara</string>
+  <string name="stat_frequent_contacts">Njikọta ndị a na-akpọkarịrị</string>
+  <string name="stat_contact_calls_duration">%1$d ọkpọrọ • %2$s</string>
+</resources>

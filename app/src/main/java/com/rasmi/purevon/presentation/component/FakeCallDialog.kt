@@ -14,7 +14,6 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -70,7 +69,7 @@ fun FakeCallDialog(
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
     
-    val isLightTheme = !isSystemInDarkTheme()
+    val isLightTheme = false
     
     // طلب Focus تلقائياً عند الفتح
     LaunchedEffect(Unit) {
@@ -310,7 +309,7 @@ private fun DelayChip(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val isLightTheme = !isSystemInDarkTheme()
+    val isLightTheme = false
     
     Surface(
         modifier = modifier

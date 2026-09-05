@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="nav_back">पछाडि</string>
+  <string name="add_contact_choose_method">सम्पर्क थप्नुहोस्</string>
+  <string name="add_contact_manual">हस्तलिखित थप्नुहोस्</string>
+  <string name="add_contact_via_qr">QR कोड मार्फत थप्नुहोस्</string>
+  <string name="dialer_active_call_title">सक्रिय कल</string>
+  <string name="dialer_active_call_expand">पूर्ण स्क्रिन</string>
+  <string name="dialer_recent">हालैका</string>
+  <string name="dialer_no_recent">हालैका गतिविधि छैन</string>
+  <string name="dialer_results">परिणामहरू</string>
+  <string name="incall_mute">म्युट</string>
+  <string name="incall_speaker">स्पिकर</string>
+  <string name="my_card_title">मेरो कार्ड</string>
+  <string name="my_card_desc">आफ्नो व्यक्तिगत कार्ड बनाउनुहोस् र कसैसँग पनि साझा गर्नुहोस्</string>
+  <string name="my_card_edit">सम्पादन</string>
+  <string name="my_card_saved">कार्ड सुरक्षित भयो</string>
+  <string name="my_card_share">साझा गर्नुहोस्</string>
+  <string name="qr_scan_title">सम्पर्क कोड स्क्यान गर्नुहोस्</string>
+  <string name="qr_camera_permission">कोड स्क्यान गर्न क्यामेरा अनुमति चाहिन्छ</string>
+  <string name="invalid_qr_code">अमान्य QR कोड</string>
+  <string name="call_blocking_block_unknown">अज्ञात / निजी नम्बरहरू ब्लक गर्नुहोस्</string>
+  <string name="call_blocking_block_unknown_desc">सम्पर्कमा नभएका नम्बरबाट आउने कलहरू अस्वीकार गर्नुहोस्</string>
+  <string name="call_blocking_whitelist_only">श्वेतसूची मोड मात्र</string>
+  <string name="call_blocking_whitelist_only_desc">श्वेतसूचीमा भएका नम्बर बाहेक सबै ब्लक गर्नुहोस्</string>
+  <string name="call_blocking_whitelist_only_warning">⚠ तपाईंको श्वेतसूचीमा नभएको हरेक कल ब्लक हुनेछ!</string>
+  <string name="notification_ongoing_call_channel">चलिरहेको कल</string>
+  <string name="notification_ongoing_call_channel_desc">स्क्रिन बन्द हुँदा सक्रिय कलको लागि स्थायी सूचना</string>
+  <string name="notification_ongoing_call_title">चलिरहेको कल</string>
+  <string name="delete_note_title">नोट मेटाउनुहोस्</string>
+  <string name="delete_note_message">यो नोट मेटाउन चाहनुहुन्छ?</string>
+  <string name="stat_title">तथ्यांक</string>
+  <string name="stat_call_statistics">कल तथ्यांक</string>
+  <string name="stat_message_statistics">सन्देश तथ्यांक</string>
+  <string name="stat_total_calls">जम्मा कलहरू</string>
+  <string name="stat_total_messages">जम्मा सन्देशहरू</string>
+  <string name="stat_total_duration">जम्मा अवधि</string>
+  <string name="stat_average_duration">औसत अवधि</string>
+  <string name="stat_incoming">आउने</string>
+  <string name="stat_outgoing">जाने</string>
+  <string name="stat_missed">छुटेका</string>
+  <string name="stat_received">प्राप्त</string>
+  <string name="stat_sent">पठाइएका</string>
+  <string name="stat_blocked">ब्लक</string>
+  <string name="stat_frequent_contacts">बारम्बार कल गर्ने सम्पर्कहरू</string>
+  <string name="stat_contact_calls_duration">%1$d कलहरू • %2$s</string>
+</resources>

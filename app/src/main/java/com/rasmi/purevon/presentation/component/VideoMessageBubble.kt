@@ -37,7 +37,7 @@ import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.PlayerView
-import com.rasmi.purevon.presentation.theme.iOSBlue
+import com.rasmi.purevon.presentation.theme.*
 import com.rasmi.purevon.util.video.VideoUtils
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -160,18 +160,17 @@ fun VideoMessageBubble(
     }
     
     val backgroundColor = when {
-        isOutgoing -> MaterialTheme.colorScheme.primary
-        else -> MaterialTheme.colorScheme.surfaceVariant
+        isOutgoing -> PurevonBubbleSent
+        else -> PurevonBubbleReceived
     }
     
-    val contentColor = if (isOutgoing) Color.White else MaterialTheme.colorScheme.onSurfaceVariant
+    val contentColor = if (isOutgoing) PurevonBubbleSentText else PurevonBubbleReceivedText
     
     Surface(
-        modifier = modifier
-            .widthIn(min = 240.dp, max = 300.dp)
-            .heightIn(min = 180.dp, max = 400.dp),
+        modifier = modifier.widthIn(min = 240.dp, max = 240.dp)
+            .heightIn(min = 220.dp, max = 310.dp),
         color = Color.Black,
-        shape = RoundedCornerShape(18.dp)
+        shape = RoundedCornerShape(MessagingDimensions.corner10x)
     ) {
         Box(
             modifier = Modifier
@@ -290,7 +289,7 @@ fun VideoMessageBubble(
                                 .fillMaxWidth()
                                 .height(3.dp)
                                 .clip(RoundedCornerShape(2.dp)),
-                            color = iOSBlue,
+                            color = PurevonTertiary,
                             trackColor = Color.White.copy(alpha = 0.3f)
                         )
                     }

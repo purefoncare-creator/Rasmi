@@ -5,7 +5,6 @@ import android.view.HapticFeedbackConstants
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -57,7 +56,7 @@ fun DialpadButton(
     contentColor: Color = MaterialTheme.colorScheme.onSurface,
     icon: ImageVector? = null
 ) {
-    val isLightTheme = !androidx.compose.foundation.isSystemInDarkTheme()
+    val isLightTheme = false
     var isPressed by remember { mutableStateOf(false) }
     val haptic = LocalHapticFeedback.current
     
@@ -555,7 +554,7 @@ fun IOSDialpad(
     
     val layoutDirection = LocalLayoutDirection.current
     val isRtl = layoutDirection == LayoutDirection.Rtl
-    val isLightTheme = !isSystemInDarkTheme()
+    val isLightTheme = false
     
     // Wrap everything in a Surface card
     Surface(

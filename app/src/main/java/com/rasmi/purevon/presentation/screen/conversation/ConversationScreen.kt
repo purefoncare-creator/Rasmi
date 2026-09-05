@@ -6,7 +6,7 @@ import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.isSystemInDarkTheme
+
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -24,6 +24,7 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.ui.window.PopupProperties
 import androidx.compose.runtime.*
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -40,6 +41,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.imePadding
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -52,12 +54,14 @@ import com.rasmi.purevon.R
 import com.rasmi.purevon.presentation.component.AudioPreviewPlayer
 import com.rasmi.purevon.presentation.component.ContactSelectionDialog
 import com.rasmi.purevon.presentation.component.MessageBubble
+import com.rasmi.purevon.presentation.component.MessageActionsSheet
 import com.rasmi.purevon.presentation.component.ImageViewerDialog
 import com.rasmi.purevon.presentation.component.MessageDateSeparator
 import com.rasmi.purevon.presentation.component.EditScheduledMessageDialog
 import com.rasmi.purevon.presentation.component.ScheduleMessageDialog
 import com.rasmi.purevon.presentation.component.SimSelectorDialog
 import com.rasmi.purevon.presentation.component.TemplatePickerDialog
+import com.rasmi.purevon.presentation.component.UnifiedContactAvatar
 import com.rasmi.purevon.presentation.theme.*
 import kotlinx.coroutines.launch
 
@@ -74,7 +78,7 @@ fun ConversationScreen(
     onNavigateBack: () -> Unit,
     viewModel: ConversationViewModel = hiltViewModel()
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val listState = rememberLazyListState()
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -230,8 +234,9 @@ fun ConversationScreen(
     ) { granted ->
         if (granted) {
             // Permission granted, launch camera
+            val cameraDir = java.io.File(context.cacheDir, "camera").apply { mkdirs() }
             val photoFile = java.io.File(
-                context.cacheDir,
+                cameraDir,
                 "camera_${System.currentTimeMillis()}.jpg"
             )
             cameraPhotoUri = androidx.core.content.FileProvider.getUriForFile(
@@ -245,8 +250,9 @@ fun ConversationScreen(
 
     // Helper to launch camera with permission check
     val launchCameraWithPermission: () -> Unit = {
+        val cameraDir = java.io.File(context.cacheDir, "camera").apply { mkdirs() }
         val photoFile = java.io.File(
-            context.cacheDir,
+            cameraDir,
             "camera_${System.currentTimeMillis()}.jpg"
         )
         cameraPhotoUri = androidx.core.content.FileProvider.getUriForFile(
@@ -282,9 +288,9 @@ fun ConversationScreen(
                 snackbarHostState.showSnackbar(
                     message = context.getString(R.string.location_permission_denied),
                     duration = SnackbarDuration.Long
-                )
-            }
-        }
+                                    )
+                                }
+                            }
     }
     
     // ✅ Audio permission launcher
@@ -385,108 +391,107 @@ fun ConversationScreen(
     }
     
     val navBarPadding = getNavigationBarPadding()
-    
-    val isDarkTheme = isSystemInDarkTheme()
-    val barColor = if (isDarkTheme) MaterialTheme.colorScheme.background else MaterialTheme.colorScheme.surface
 
-    // ✅ Box خارجي - يحتوي على المحتوى + الحقل العائم
+    val barColor = PurevonSurface
+
     Box(modifier = Modifier
         .fillMaxSize()
-        .background(barColor) // ✅ يملأ الفراغ السفلي بلون الحقل
-        .padding(bottom = navBarPadding) // ✅ يتجنب أزرار التنقل فقط (وليس الإيماءات)
-        .imePadding()            // ✅ يرفع المحتوى فوق الكيبورد عند ظهوره
+        .background(PurevonMessageBackground)
+        .padding(bottom = navBarPadding)
+        .imePadding()
     ) {
         Scaffold(
             contentWindowInsets = WindowInsets(0.dp),
             snackbarHost = { },
             topBar = {
-            // iOS-style Navigation Bar
-            Surface(
-                modifier = Modifier.fillMaxWidth(),
-                color = barColor,
-                shadowElevation = 0.5.dp
-            ) {
-                Column {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(56.dp)
-                            .padding(horizontal = 4.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        // Back Button - iOS style (icon only)
-                        IconButton(
-                            onClick = onNavigateBack,
-                            modifier = Modifier.size(44.dp)
+                Surface(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .statusBarsPadding(),
+                    color = barColor,
+                    shadowElevation = 4.dp
+                ) {
+                    Column {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(64.dp)
+                                .padding(horizontal = 4.dp),
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Icon(
-                                Icons.AutoMirrored.Filled.ArrowBack,
-                                contentDescription = "Back",
-                                tint = iOSBlue,
-                                modifier = Modifier.size(24.dp)
+                            IconButton(
+                                onClick = onNavigateBack,
+                                modifier = Modifier.size(48.dp)
+                            ) {
+                                Icon(
+                                    Icons.AutoMirrored.Filled.ArrowBack,
+                                    contentDescription = "Back",
+                                    tint = PurevonTextPrimary,
+                                    modifier = Modifier.size(24.dp)
+                                )
+                            }
+
+                            Spacer(modifier = Modifier.width(4.dp))
+
+                            UnifiedContactAvatar(
+                                size = 36.dp,
+                                photoUri = null
                             )
-                        }
-                        
-                        Spacer(modifier = Modifier.width(8.dp))
-                        
-                        // Contact Info - Left aligned after back button
-                        Column(
-                            horizontalAlignment = Alignment.Start,
-                            modifier = Modifier.weight(1f)
-                        ) {
-                            Text(
-                                text = uiState.contactName ?: uiState.phoneNumber ?: "",
-                                style = MaterialTheme.typography.titleMedium,
-                                fontWeight = FontWeight.SemiBold,
-                                maxLines = 1
-                            )
-                            val phoneNumber = uiState.phoneNumber
-                            if (uiState.contactName != null && phoneNumber != null) {
-                                CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
+
+                            Spacer(modifier = Modifier.width(12.dp))
+
+                            Column(
+                                horizontalAlignment = Alignment.Start,
+                                modifier = Modifier.weight(1f)
+                            ) {
+                                Text(
+                                    text = uiState.contactName ?: uiState.phoneNumber ?: "",
+                                    style = MessagingTypography.body02,
+                                    color = PurevonTextPrimary,
+                                    maxLines = 1
+                                )
+                                val phoneNumber = uiState.phoneNumber
+                                if (uiState.contactName != null && phoneNumber != null) {
+                                    CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
+                                        Text(
+                                            text = phoneNumber,
+                                            style = MessagingTypography.subline01,
+                                            color = PurevonTextSecondary
+                                        )
+                                    }
+                                }
+                            }
+
+                            if (uiState.availableSims.size >= 2) {
+                                Surface(
+                                    onClick = { viewModel.onEvent(ConversationUiEvent.SwitchSmsSim) },
+                                    shape = RoundedCornerShape(MessagingDimensions.corner100x),
+                                    color = PurevonPrimary.copy(alpha = 0.12f),
+                                    modifier = Modifier.padding(end = 8.dp)
+                                ) {
                                     Text(
-                                        text = phoneNumber,
-                                        style = MaterialTheme.typography.bodySmall,
-                                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
-                                        fontSize = 12.sp
+                                        text = uiState.smsSimLabel,
+                                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp),
+                                        style = MessagingTypography.label01,
+                                        color = PurevonPrimary
                                     )
                                 }
                             }
                         }
 
-                        // SIM chip — tap to cycle through SIMs
-                        if (uiState.availableSims.size >= 2) {
-                            Surface(
-                                onClick = { viewModel.onEvent(ConversationUiEvent.SwitchSmsSim) },
-                                shape = RoundedCornerShape(50),
-                                color = MaterialTheme.colorScheme.primary.copy(alpha = 0.12f),
-                                modifier = Modifier.padding(end = 8.dp)
-                            ) {
-                                Text(
-                                    text = uiState.smsSimLabel,
-                                    modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp),
-                                    style = MaterialTheme.typography.labelSmall,
-                                    color = MaterialTheme.colorScheme.primary,
-                                    fontWeight = FontWeight.Medium
-                                )
-                            }
-                        }
+                        HorizontalDivider(
+                            color = PurevonBorder,
+                            thickness = 0.5.dp
+                        )
                     }
-                    
-                    // Subtle divider
-                    HorizontalDivider(
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.08f),
-                        thickness = 0.5.dp
-                    )
                 }
             }
-        }
-    ) { padding ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)
-
-        ) {
+        ) { padding ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(padding)
+            ) {
             // ✅ حقل "To:" للمحادثات الجديدة مع اقتراحات تلقائية
             if (uiState.isNewConversation) {
                 Surface(
@@ -644,7 +649,7 @@ fun ConversationScreen(
             
             // Template Picker Dialog
             if (uiState.showTemplateDialog) {
-                val templates by viewModel.templates.collectAsState(initial = emptyList())
+                val templates by viewModel.templates.collectAsStateWithLifecycle(initialValue = emptyList())
                 TemplatePickerDialog(
                     templates = templates,
                     onDismiss = { viewModel.onEvent(ConversationUiEvent.HideTemplateDialog) },
@@ -675,7 +680,7 @@ fun ConversationScreen(
             
             // ✅ P2: Forward Dialog
             if (uiState.showForwardDialog && uiState.messageToForward != null) {
-                val contacts by viewModel.contacts.collectAsState()
+                val contacts by viewModel.contacts.collectAsStateWithLifecycle()
                 ContactSelectionDialog(
                     contacts = contacts,
                     onContactsSelected = { selectedContacts ->
@@ -687,7 +692,7 @@ fun ConversationScreen(
             
             // ✅ Recipient Picker Dialog (for new conversation "To:" field)
             if (uiState.showRecipientPickerDialog) {
-                val contacts by viewModel.contacts.collectAsState()
+                val contacts by viewModel.contacts.collectAsStateWithLifecycle()
                 com.rasmi.purevon.presentation.screen.incall.ContactPickerDialog(
                     title = stringResource(R.string.new_conversation_pick),
                     contacts = contacts,
@@ -702,7 +707,7 @@ fun ConversationScreen(
 
             // ✅ Contact Picker Dialog (for sharing contact)
             if (uiState.showContactPickerDialog) {
-                val contacts by viewModel.contacts.collectAsState()
+                val contacts by viewModel.contacts.collectAsStateWithLifecycle()
                 com.rasmi.purevon.presentation.screen.incall.ContactPickerDialog(
                     title = stringResource(R.string.contact_share_title),
                     contacts = contacts,
@@ -751,18 +756,44 @@ fun ConversationScreen(
                 )
             }
 
+            // ✅ Wire-style Message Actions Bottom Sheet (long-press)
+            uiState.selectedMessageForActions?.let { actionsMessage ->
+                if (uiState.showMessageActions) {
+                    MessageActionsSheet(
+                        message = actionsMessage,
+                        onDismiss = { viewModel.onEvent(ConversationUiEvent.HideMessageActions) },
+                        onReply = {
+                            viewModel.onEvent(ConversationUiEvent.ReplyToMessage(actionsMessage))
+                        },
+                        onForward = {
+                            viewModel.onEvent(ConversationUiEvent.ShowForwardDialog(actionsMessage))
+                        },
+                        onCopy = {
+                            viewModel.onEvent(ConversationUiEvent.CopyMessage(actionsMessage))
+                        },
+                        onFavorite = {
+                            viewModel.onEvent(ConversationUiEvent.ToggleMessageFavorite(actionsMessage))
+                        },
+                        onDelete = {
+                            viewModel.onEvent(ConversationUiEvent.DeleteMessage(actionsMessage))
+                        },
+                    onReact = { emoji ->
+                        viewModel.onEvent(ConversationUiEvent.AddReaction(actionsMessage, emoji))
+                    },
+                    onMessageDetails = {
+                        // TODO: Show message details
+                    }
+                )
+                }
+            }
+
+            // ✅ Wire-style Emoji Picker Bottom Sheet (from long-press → more emojis)
+
             Box(
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxWidth()
-                    .background(
-                        Brush.verticalGradient(
-                            colors = listOf(
-                                MaterialTheme.colorScheme.surface,
-                                MaterialTheme.colorScheme.background
-                            )
-                        )
-                    )
+                    .background(PurevonMessageBackground)
             ) {
                 // ✅ INSPIRED BY QUIK-MASTER: No loading indicator!
                 // Data returns instantly from cache, just like Realm's live queries
@@ -779,17 +810,17 @@ fun ConversationScreen(
                                 Icons.Default.Sms,
                                 contentDescription = null,
                                 modifier = Modifier.size(64.dp),
-                                tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
+                                tint = PurevonTextTertiary
                             )
                             Text(
                                 text = stringResource(R.string.conversation_no_messages),
-                                style = MaterialTheme.typography.titleMedium,
-                                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
+                                style = MessagingTypography.title02,
+                                color = PurevonTextSecondary
                             )
                             Text(
                                 text = stringResource(R.string.conversation_start_hint),
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
+                                style = MessagingTypography.subline01,
+                                color = PurevonTextTertiary
                             )
                         }
                     }
@@ -810,12 +841,12 @@ fun ConversationScreen(
                             modifier = Modifier.fillMaxSize(),
                             reverseLayout = true,
                             contentPadding = PaddingValues(
-                                start = 10.dp,
-                                end = 10.dp,
-                                top = 12.dp,
-                                bottom = totalBottomPadding // ✅ يرتفع تلقائياً حسب المحتوى
+                                start = MessagingDimensions.spacing4x,
+                                end = MessagingDimensions.spacing4x,
+                                top = MessagingDimensions.spacing8x,
+                                bottom = totalBottomPadding
                             ),
-                            verticalArrangement = Arrangement.spacedBy(4.dp)
+                            verticalArrangement = Arrangement.spacedBy(MessagingDimensions.spacing1x)
                         ) {
                             // Reversed list to show newest at bottom
                             // Use composite key to avoid SMS/MMS ID collision
@@ -827,10 +858,21 @@ fun ConversationScreen(
                                     "msg_${message.timestamp}_${message.body?.hashCode() ?: 0}"
                                 }
 
+                                // Wire-style: showAuthor only for first message in consecutive group from same sender
+                                val prevMessage = reversedMessages.getOrNull(index - 1)
+                                val nextMessageInGroup = reversedMessages.getOrNull(index + 1)
+                                val isFirstInGroup = prevMessage == null ||
+                                        prevMessage.type != message.type ||
+                                        !isSameDay(prevMessage.timestamp, message.timestamp)
+                                val isLastInGroup = nextMessageInGroup == null ||
+                                        nextMessageInGroup.type != message.type ||
+                                        !isSameDay(message.timestamp, nextMessageInGroup.timestamp)
+
                                 item(key = messageKey) {
                                     MessageBubble(
                                         message = message,
                                         modifier = Modifier.animateItem(),
+                                        showAuthor = isFirstInGroup,
                                         onFavoriteClick = { msg ->
                                             viewModel.onEvent(ConversationUiEvent.ToggleMessageFavorite(msg))
                                         },
@@ -851,21 +893,38 @@ fun ConversationScreen(
                                         },
                                         onEditScheduled = { msg ->
                                             viewModel.onEvent(ConversationUiEvent.EditScheduledMessage(msg))
+                                        },
+                                        onLongClick = { msg ->
+                                            viewModel.onEvent(ConversationUiEvent.ShowMessageActions(msg))
                                         }
                                     )
                                 }
 
-                                // ✅ Date separator between different days
-                                val nextMessage = reversedMessages.getOrNull(index + 1)
-                                if (nextMessage == null || !isSameDay(message.timestamp, nextMessage.timestamp)) {
-                                    item(key = "date_sep_${messageKey}") {
-                                        MessageDateSeparator(
-                                            date = formatDateLabel(
-                                                timestamp = message.timestamp,
-                                                todayLabel = stringResource(R.string.msg_date_today),
-                                                yesterdayLabel = stringResource(R.string.msg_date_yesterday)
+                                // Wire-style: Date divider between different days
+                                val nextMsg = reversedMessages.getOrNull(index + 1)
+                                if (nextMsg == null || !isSameDay(message.timestamp, nextMsg.timestamp)) {
+                                    item(key = "date_div_${messageKey}") {
+                                        Row(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(horizontal = 16.dp, vertical = 8.dp),
+                                            verticalAlignment = Alignment.CenterVertically
+                                        ) {
+                                            HorizontalDivider(
+                                                modifier = Modifier.weight(1f),
+                                                color = PurevonBorder
                                             )
-                                        )
+                                            Text(
+                                                text = formatDateLabelWire(message.timestamp),
+                                                style = MessagingTypography.label02,
+                                                color = PurevonTextSecondary,
+                                                modifier = Modifier.padding(horizontal = 8.dp)
+                                            )
+                                            HorizontalDivider(
+                                                modifier = Modifier.weight(1f),
+                                                color = PurevonBorder
+                                            )
+                                        }
                                     }
                                 }
                             }
@@ -886,18 +945,19 @@ fun ConversationScreen(
                                         listState.animateScrollToItem(0)
                                     }
                                 },
-                                containerColor = MaterialTheme.colorScheme.primary,
-                                contentColor = Color.White,
+                                containerColor = PurevonSurface,
+                                contentColor = PurevonTextPrimary,
                                 elevation = FloatingActionButtonDefaults.elevation(
-                                    defaultElevation = 6.dp,
-                                    pressedElevation = 2.dp
+                                    defaultElevation = 4.dp,
+                                    pressedElevation = 1.dp
                                 ),
-                                modifier = Modifier.size(46.dp)
+                                modifier = Modifier.size(40.dp)
                             ) {
                                 Icon(
                                     Icons.Default.KeyboardArrowDown,
                                     contentDescription = "Scroll to bottom",
-                                    modifier = Modifier.size(24.dp)
+                                    modifier = Modifier.size(20.dp),
+                                    tint = PurevonTextPrimary
                                 )
                             }
                         }

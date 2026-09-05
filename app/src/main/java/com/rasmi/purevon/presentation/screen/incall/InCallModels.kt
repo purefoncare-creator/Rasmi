@@ -106,6 +106,8 @@ sealed class InCallUiEvent {
     data class SendQuickMessage(val message: String) : InCallUiEvent()
     data class UpdateCallNotes(val notes: String) : InCallUiEvent()
     data object SaveCallNote : InCallUiEvent()
+    // ✅ FIX M34: حذف ملاحظة من شاشة المكالمة
+    data class DeleteCallNote(val noteId: Long) : InCallUiEvent()
     data object ShowNewNoteInput : InCallUiEvent()
     data object HideNewNoteInput : InCallUiEvent()
     data class SetCallbackReminder(val minutes: Int) : InCallUiEvent()

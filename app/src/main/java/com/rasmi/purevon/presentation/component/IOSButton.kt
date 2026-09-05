@@ -24,7 +24,7 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
-import com.rasmi.purevon.presentation.theme.ButtonHeight
+import com.rasmi.purevon.presentation.theme.ButtonSize
 import com.rasmi.purevon.presentation.theme.CornerRadius
 import com.rasmi.purevon.presentation.theme.Spacing
 
@@ -39,8 +39,8 @@ fun IOSPrimaryButton(
     enabled: Boolean = true,
     backgroundColor: Color = MaterialTheme.colorScheme.primary,
     contentColor: Color = MaterialTheme.colorScheme.onPrimary,
-    height: Dp = ButtonHeight.Medium,
-    cornerRadius: Dp = CornerRadius.Medium
+    height: Dp = ButtonSize.height,
+    cornerRadius: Dp = CornerRadius.md
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
@@ -68,7 +68,7 @@ fun IOSPrimaryButton(
                 enabled = enabled,
                 onClick = onClick
             )
-            .padding(horizontal = Spacing.default, vertical = Spacing.medium),
+            .padding(horizontal = Spacing.lg, vertical = Spacing.md),
         contentAlignment = Alignment.Center
     ) {
         Text(
@@ -90,8 +90,8 @@ fun IOSSecondaryButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     contentColor: Color = MaterialTheme.colorScheme.primary,
-    height: Dp = ButtonHeight.Medium,
-    cornerRadius: Dp = CornerRadius.Medium
+    height: Dp = ButtonSize.height,
+    cornerRadius: Dp = CornerRadius.md
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
@@ -119,7 +119,7 @@ fun IOSSecondaryButton(
                 enabled = enabled,
                 onClick = onClick
             )
-            .padding(horizontal = Spacing.default, vertical = Spacing.medium),
+            .padding(horizontal = Spacing.lg, vertical = Spacing.md),
         contentAlignment = Alignment.Center
     ) {
         Text(
@@ -163,7 +163,7 @@ fun IOSTextButton(
                 enabled = enabled,
                 onClick = onClick
             )
-            .padding(horizontal = Spacing.default, vertical = Spacing.medium),
+            .padding(horizontal = Spacing.lg, vertical = Spacing.md),
         contentAlignment = Alignment.Center
     ) {
         Text(

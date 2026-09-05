@@ -25,6 +25,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.lazy.LazyColumn
@@ -63,13 +64,14 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.ripple
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -78,7 +80,9 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.hapticfeedback.HapticFeedback
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.pluralStringResource
@@ -94,9 +98,17 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.rasmi.purevon.R
 import com.rasmi.purevon.domain.model.Conversation
 import com.rasmi.purevon.presentation.component.ConversationItem
+import com.rasmi.purevon.presentation.screen.conversation.ConversationScreen
 import com.rasmi.purevon.presentation.theme.Spacing
-import com.rasmi.purevon.presentation.theme.iOSRed
-import com.rasmi.purevon.presentation.theme.iOSYellow
+import com.rasmi.purevon.presentation.theme.PurevonError
+import com.rasmi.purevon.presentation.theme.PurevonWarning
+import com.rasmi.purevon.presentation.theme.PurevonBackground
+import com.rasmi.purevon.presentation.theme.PurevonSurfaceAlt
+import com.rasmi.purevon.presentation.theme.PurevonBorder
+import com.rasmi.purevon.presentation.theme.PurevonTextPrimary
+import com.rasmi.purevon.presentation.theme.PurevonTextSecondary
+import com.rasmi.purevon.presentation.theme.PurevonTextTertiary
+import com.rasmi.purevon.presentation.theme.PurevonPrimary
 import com.rasmi.purevon.util.DateTimeUtils
 
 /**
@@ -111,18 +123,25 @@ fun MessagesScreen(
     onScheduledMessagesClick: () -> Unit = {}, // ✅ Fix #5: Navigate to scheduled messages
     viewModel: MessagesViewModel = hiltViewModel()
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     
     // ✅ FINAL FIX: Use direct Flow like Realm's live queries
     // Data stays in memory and updates automatically via ContentObserver
     // No loading indicators on return - instant display!
     val conversations by remember(viewModel) {
         viewModel.conversationsFlow
-    }.collectAsState(initial = emptyList())
+    }.collectAsStateWithLifecycle(initialValue = emptyList())
     
     // Error snackbar
     val snackbarHostState = remember { SnackbarHostState() }
     val haptic = LocalHapticFeedback.current
+
+    // ✅ NEW: master/detail selection state for wide screens
+    var selectedConversationId by remember { mutableStateOf<Long?>(null) }
+
+    // ✅ NEW: responsive layout switch
+    val configuration = LocalConfiguration.current
+    val isWide = configuration.screenWidthDp >= 600
     
     LaunchedEffect(uiState.error) {
         uiState.error?.let { error ->
@@ -169,168 +188,372 @@ fun MessagesScreen(
             }
         },
         floatingActionButton = {
-            AnimatedVisibility(
-                visible = !uiState.isSelectionMode,
-                enter = scaleIn() + fadeIn(),
-                exit = scaleOut() + fadeOut()
-            ) {
-                FloatingActionButton(
-                    onClick = onNewMessageClick,
-                    containerColor = MaterialTheme.colorScheme.primary
+            // FAB lives at scaffold level only on compact screens.
+            // On wide screens it sits inside the left master pane.
+            if (!isWide) {
+                AnimatedVisibility(
+                    visible = !uiState.isSelectionMode,
+                    enter = scaleIn() + fadeIn(),
+                    exit = scaleOut() + fadeOut()
                 ) {
-                    Icon(Icons.Default.Add, contentDescription = "New Message")
+                    FloatingActionButton(
+                        onClick = onNewMessageClick,
+                        containerColor = MaterialTheme.colorScheme.primary
+                    ) {
+                        Icon(Icons.Default.Add, contentDescription = "New Message")
+                    }
                 }
             }
         }
     ) { paddingValues ->
+        if (isWide) {
+            MessagesWideLayout(
+                uiState = uiState,
+                conversations = conversations,
+                haptic = haptic,
+                selectedConversationId = selectedConversationId,
+                onSelectConversation = { selectedConversationId = it },
+                viewModel = viewModel,
+                onQueryChange = { viewModel.onEvent(MessagesUiEvent.SearchQueryChanged(it)) },
+                onTabSelected = { viewModel.onEvent(MessagesUiEvent.TabChanged(it)) },
+                onScheduledMessagesClick = onScheduledMessagesClick,
+                onStarredMessageClick = onStarredMessageClick,
+                onNewMessageClick = onNewMessageClick,
+                paddingValues = paddingValues
+            )
+        } else {
+            MessagesCompactLayout(
+                uiState = uiState,
+                conversations = conversations,
+                haptic = haptic,
+                onConversationClick = onConversationClick,
+                viewModel = viewModel,
+                onQueryChange = { viewModel.onEvent(MessagesUiEvent.SearchQueryChanged(it)) },
+                onTabSelected = { viewModel.onEvent(MessagesUiEvent.TabChanged(it)) },
+                onScheduledMessagesClick = onScheduledMessagesClick,
+                onStarredMessageClick = onStarredMessageClick,
+                paddingValues = paddingValues
+            )
+        }
+    }
+}
+
+/**
+ * ✅ NEW: Two-column master/detail layout for wide screens (>= 600dp).
+ * Left pane: conversation list (+ search + FAB). Right pane: inline thread.
+ */
+@Composable
+private fun MessagesWideLayout(
+    uiState: MessagesUiState,
+    conversations: List<Conversation>,
+    haptic: HapticFeedback,
+    selectedConversationId: Long?,
+    onSelectConversation: (Long) -> Unit,
+    viewModel: MessagesViewModel,
+    onQueryChange: (String) -> Unit,
+    onTabSelected: (MessageTab) -> Unit,
+    onScheduledMessagesClick: () -> Unit,
+    onStarredMessageClick: (Long, Long) -> Unit,
+    onNewMessageClick: () -> Unit,
+    paddingValues: PaddingValues
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(paddingValues)
+    ) {
+        // ── Left pane: master list ──
         Column(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
+                .weight(1.1f)
+                .fillMaxHeight()
+                .background(PurevonBackground)
         ) {
-            // Search Bar with Menu (at the top)
-            MessagesSearchBarWithMenu(
-                query = uiState.searchQuery,
-                onQueryChange = { viewModel.onEvent(MessagesUiEvent.SearchQueryChanged(it)) },
-                selectedTab = uiState.selectedTab,
-                onTabSelected = { viewModel.onEvent(MessagesUiEvent.TabChanged(it)) },
-                unreadCount = uiState.unreadCount,
+            MessagesContent(
+                uiState = uiState,
+                conversations = conversations,
+                haptic = haptic,
+                viewModel = viewModel,
+                onQueryChange = onQueryChange,
+                onTabSelected = onTabSelected,
                 onScheduledMessagesClick = onScheduledMessagesClick,
+                onConversationItemClick = onSelectConversation,
+                onStarredMessageClick = onStarredMessageClick,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 12.dp, vertical = 8.dp)
+                    .weight(1f)
             )
-            
-            // Content - auto-updates via ContentObserver like Realm
-            // Pull-to-refresh for manual sync
-            PullToRefreshBox(
-                isRefreshing = uiState.isRefreshing,
-                onRefresh = { viewModel.onEvent(MessagesUiEvent.RefreshConversations) },
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.background)
+        }
+
+        VerticalDivider(
+            modifier = Modifier.fillMaxHeight().width(1.dp),
+            color = PurevonBorder
+        )
+
+        // ── Right pane: detail thread ──
+        Column(
+            modifier = Modifier
+                .weight(1.4f)
+                .fillMaxHeight()
+                .background(PurevonSurfaceAlt)
+        ) {
+            if (selectedConversationId != null) {
+                ConversationScreen(
+                    conversationId = selectedConversationId,
+                    onNavigateBack = {}
+                )
+            } else {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        Icon(
+                            Icons.Default.MoreVert,
+                            contentDescription = null,
+                            modifier = Modifier.size(56.dp),
+                            tint = PurevonTextTertiary
+                        )
+                        Text(
+                            text = "Select a conversation",
+                            style = MaterialTheme.typography.titleMedium,
+                            color = PurevonTextTertiary
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    // FAB overlaid on the left master pane
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(paddingValues)
+    ) {
+        AnimatedVisibility(
+            visible = !uiState.isSelectionMode,
+            enter = scaleIn() + fadeIn(),
+            exit = scaleOut() + fadeOut(),
+            modifier = Modifier
+                .align(Alignment.BottomStart)
+                .padding(start = 16.dp, bottom = 16.dp)
+        ) {
+            FloatingActionButton(
+                onClick = onNewMessageClick,
+                containerColor = MaterialTheme.colorScheme.primary
             ) {
-                when (uiState.selectedTab) {
-                    MessageTab.ALL -> {
-                        // ✅ FIX #13: Show loading spinner until first data emission
-                        if (uiState.isLoading) {
-                            Box(
-                                modifier = Modifier.fillMaxSize(),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                CircularProgressIndicator()
-                            }
-                        } else if (conversations.isEmpty()) {
-                            Box(
-                                modifier = Modifier.fillMaxSize(),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                if (uiState.searchQuery.isBlank()) {
-                                    EmptyMessagesState()
-                                } else {
-                                    EmptySearchState(query = uiState.searchQuery)
-                                }
-                            }
-                        } else {
-                            LazyColumn(
-                                modifier = Modifier.fillMaxSize(),
-                                contentPadding = PaddingValues(bottom = 80.dp)
-                            ) {
-                                itemsIndexed(
-                                    items = conversations,
-                                    key = { _, conversation -> "thread_${conversation.threadId}" }
-                                ) { index, conversation ->
-                                    ConversationItem(
-                                        conversation = conversation,
-                                        isSelectionMode = uiState.isSelectionMode,
-                                        isSelected = conversation.threadId in uiState.selectedConversationIds,
-                                        showBottomDivider = index < conversations.lastIndex,
-                                        onClick = {
-                                            if (uiState.isSelectionMode) {
-                                                viewModel.onEvent(MessagesUiEvent.ToggleConversationSelection(conversation.threadId))
-                                            } else {
-                                                onConversationClick(conversation.threadId)
-                                            }
-                                        },
-                                        onLongClick = {
-                                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                                            viewModel.onEvent(MessagesUiEvent.ConversationLongPressed(conversation.threadId))
-                                        }
-                                    )
-                                }
+                Icon(Icons.Default.Add, contentDescription = "New Message")
+            }
+        }
+    }
+}
+
+/**
+ * ✅ NEW: Single-column layout for compact screens (< 600dp).
+ * List + navigate on item click via onConversationClick.
+ */
+@Composable
+private fun MessagesCompactLayout(
+    uiState: MessagesUiState,
+    conversations: List<Conversation>,
+    haptic: HapticFeedback,
+    onConversationClick: (Long) -> Unit,
+    viewModel: MessagesViewModel,
+    onQueryChange: (String) -> Unit,
+    onTabSelected: (MessageTab) -> Unit,
+    onScheduledMessagesClick: () -> Unit,
+    onStarredMessageClick: (Long, Long) -> Unit,
+    paddingValues: PaddingValues
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(paddingValues)
+            .background(PurevonBackground)
+    ) {
+        MessagesContent(
+            uiState = uiState,
+            conversations = conversations,
+            haptic = haptic,
+            viewModel = viewModel,
+            onQueryChange = onQueryChange,
+            onTabSelected = onTabSelected,
+            onScheduledMessagesClick = onScheduledMessagesClick,
+            onConversationItemClick = onConversationClick,
+            onStarredMessageClick = onStarredMessageClick,
+            modifier = Modifier.fillMaxWidth()
+        )
+    }
+}
+
+/**
+ * ✅ NEW: Shared conversation list + search content used by both layouts.
+ * `onConversationItemClick` differs per layout (select on wide, navigate on compact).
+ */
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun MessagesContent(
+    uiState: MessagesUiState,
+    conversations: List<Conversation>,
+    haptic: HapticFeedback,
+    viewModel: MessagesViewModel,
+    onQueryChange: (String) -> Unit,
+    onTabSelected: (MessageTab) -> Unit,
+    onScheduledMessagesClick: () -> Unit,
+    onConversationItemClick: (Long) -> Unit,
+    onStarredMessageClick: (Long, Long) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .statusBarsPadding()
+    ) {
+        // Search Bar with Menu (at the top)
+        MessagesSearchBarWithMenu(
+            query = uiState.searchQuery,
+            onQueryChange = onQueryChange,
+            selectedTab = uiState.selectedTab,
+            onTabSelected = onTabSelected,
+            unreadCount = uiState.unreadCount,
+            onScheduledMessagesClick = onScheduledMessagesClick,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp, vertical = 8.dp)
+        )
+
+        // Content - auto-updates via ContentObserver like Realm
+        // Pull-to-refresh for manual sync
+        PullToRefreshBox(
+            isRefreshing = uiState.isRefreshing,
+            onRefresh = { viewModel.onEvent(MessagesUiEvent.RefreshConversations) },
+            modifier = Modifier
+                .fillMaxSize()
+                .background(PurevonBackground)
+        ) {
+            when (uiState.selectedTab) {
+                MessageTab.ALL -> {
+                    // ✅ FIX #13: Show loading spinner until first data emission
+                    if (uiState.isLoading) {
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            CircularProgressIndicator()
+                        }
+                    } else if (conversations.isEmpty()) {
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            if (uiState.searchQuery.isBlank()) {
+                                EmptyMessagesState()
+                            } else {
+                                EmptySearchState(query = uiState.searchQuery)
                             }
                         }
-                    }
-                    
-                    MessageTab.STARRED -> {
-                        if (uiState.starredMessages.isEmpty()) {
-                            Box(
-                                modifier = Modifier.fillMaxSize(),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                EmptyStarredState()
-                            }
-                        } else {
-                            LazyColumn(
-                                modifier = Modifier.fillMaxSize(),
-                                contentPadding = PaddingValues(bottom = 80.dp)
-                            ) {
-                                items(
-                                    items = uiState.starredMessages,
-                                    key = { message -> 
-                                        // SMS and MMS can have same ID, use type prefix
-                                        // NEVER allow empty key - use timestamp as fallback
-                                        if (message.id != 0L) {
-                                            "${if (message.isMms) "mms" else "sms"}_${message.id}"
+                    } else {
+                        LazyColumn(
+                            modifier = Modifier.fillMaxSize(),
+                            contentPadding = PaddingValues(bottom = 80.dp)
+                        ) {
+                            itemsIndexed(
+                                items = conversations,
+                                key = { _, conversation -> "thread_${conversation.threadId}" }
+                            ) { index, conversation ->
+                                ConversationItem(
+                                    conversation = conversation,
+                                    isSelectionMode = uiState.isSelectionMode,
+                                    isSelected = conversation.threadId in uiState.selectedConversationIds,
+                                    showBottomDivider = index < conversations.lastIndex,
+                                    onClick = {
+                                        if (uiState.isSelectionMode) {
+                                            viewModel.onEvent(MessagesUiEvent.ToggleConversationSelection(conversation.threadId))
                                         } else {
-                                            "msg_${message.timestamp}_${message.body?.hashCode() ?: 0}"
+                                            onConversationItemClick(conversation.threadId)
                                         }
+                                    },
+                                    onLongClick = {
+                                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                                        viewModel.onEvent(MessagesUiEvent.ConversationLongPressed(conversation.threadId))
                                     }
-                                ) { message ->
-                                    StarredMessageItem(
-                                        message = message,
-                                        onClick = { onStarredMessageClick(message.threadId, message.id) }
-                                    )
-                                }
+                                )
                             }
                         }
                     }
-                    
-                    MessageTab.ARCHIVED -> {
-                        if (uiState.archivedConversations.isEmpty()) {
-                            Box(
-                                modifier = Modifier.fillMaxSize(),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                EmptyArchivedState()
-                            }
-                        } else {
-                            LazyColumn(
-                                modifier = Modifier.fillMaxSize(),
-                                contentPadding = PaddingValues(bottom = 80.dp)
-                            ) {
-                                itemsIndexed(
-                                    items = uiState.archivedConversations,
-                                    key = { _, conversation -> "archived_${conversation.threadId}" }
-                                ) { index, conversation ->
-                                    ConversationItem(
-                                        conversation = conversation,
-                                        isSelectionMode = uiState.isSelectionMode,
-                                        isSelected = conversation.threadId in uiState.selectedConversationIds,
-                                        showBottomDivider = index < uiState.archivedConversations.lastIndex,
-                                        onClick = {
-                                            if (uiState.isSelectionMode) {
-                                                viewModel.onEvent(MessagesUiEvent.ToggleConversationSelection(conversation.threadId))
-                                            } else {
-                                                onConversationClick(conversation.threadId)
-                                            }
-                                        },
-                                        onLongClick = {
-                                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                                            viewModel.onEvent(MessagesUiEvent.ConversationLongPressed(conversation.threadId))
-                                        }
-                                    )
+                }
+
+                MessageTab.STARRED -> {
+                    if (uiState.starredMessages.isEmpty()) {
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            EmptyStarredState()
+                        }
+                    } else {
+                        LazyColumn(
+                            modifier = Modifier.fillMaxSize(),
+                            contentPadding = PaddingValues(bottom = 80.dp)
+                        ) {
+                            items(
+                                items = uiState.starredMessages,
+                                key = { message ->
+                                    // SMS and MMS can have same ID, use type prefix
+                                    // NEVER allow empty key - use timestamp as fallback
+                                    if (message.id != 0L) {
+                                        "${if (message.isMms) "mms" else "sms"}_${message.id}"
+                                    } else {
+                                        "msg_${message.timestamp}_${message.body?.hashCode() ?: 0}"
+                                    }
                                 }
+                            ) { message ->
+                                StarredMessageItem(
+                                    message = message,
+                                    onClick = { onStarredMessageClick(message.threadId, message.id) }
+                                )
+                            }
+                        }
+                    }
+                }
+
+                MessageTab.ARCHIVED -> {
+                    if (uiState.archivedConversations.isEmpty()) {
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            EmptyArchivedState()
+                        }
+                    } else {
+                        LazyColumn(
+                            modifier = Modifier.fillMaxSize(),
+                            contentPadding = PaddingValues(bottom = 80.dp)
+                        ) {
+                            itemsIndexed(
+                                items = uiState.archivedConversations,
+                                key = { _, conversation -> "archived_${conversation.threadId}" }
+                            ) { index, conversation ->
+                                ConversationItem(
+                                    conversation = conversation,
+                                    isSelectionMode = uiState.isSelectionMode,
+                                    isSelected = conversation.threadId in uiState.selectedConversationIds,
+                                    showBottomDivider = index < uiState.archivedConversations.lastIndex,
+                                    onClick = {
+                                        if (uiState.isSelectionMode) {
+                                            viewModel.onEvent(MessagesUiEvent.ToggleConversationSelection(conversation.threadId))
+                                        } else {
+                                            onConversationItemClick(conversation.threadId)
+                                        }
+                                    },
+                                    onLongClick = {
+                                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                                        viewModel.onEvent(MessagesUiEvent.ConversationLongPressed(conversation.threadId))
+                                    }
+                                )
                             }
                         }
                     }
@@ -436,7 +659,7 @@ private fun MessagesSelectionBottomBar(
             MessagesBottomBarAction(
                 icon = Icons.Outlined.Delete,
                 label = stringResource(R.string.messages_delete_conversation),
-                color = iOSRed,
+                color = PurevonError,
                 onClick = { showDeleteDialog = true }
             )
         }
@@ -606,7 +829,7 @@ private fun StarredMessageItem(
                 Icons.Default.Star,
                 contentDescription = "Starred",
                 modifier = Modifier.size(18.dp),
-                tint = iOSYellow
+                                    tint = PurevonWarning
             )
             
             Column(modifier = Modifier.weight(1f)) {
@@ -721,7 +944,7 @@ private fun MessagesSearchBarWithMenu(
                                     Icons.Default.Star,
                                     contentDescription = null,
                                     modifier = Modifier.size(16.dp),
-                                    tint = iOSYellow
+                tint = PurevonWarning
                                 )
                                 Text(stringResource(R.string.messages_starred_tab))
                             }

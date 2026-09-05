@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="nav_back">Tounen</string>
+  <string name="add_contact_choose_method">Ajoute Kontak</string>
+  <string name="add_contact_manual">Ajoute Manyèl</string>
+  <string name="add_contact_via_qr">Ajoute avèk Kòd QR</string>
+  <string name="dialer_active_call_title">Rele Aktif</string>
+  <string name="dialer_active_call_expand">Ékran Plen</string>
+  <string name="dialer_recent">Dènye</string>
+  <string name="dialer_no_recent">Pa gen aktivite dènye</string>
+  <string name="dialer_results">Rezilta</string>
+  <string name="incall_mute">Pa Pale</string>
+  <string name="incall_speaker">Spekè</string>
+  <string name="my_card_title">Kat Mwen</string>
+  <string name="my_card_desc">Kreye kat pèsonèl ou epi pataje ak nenpòt ki moun</string>
+  <string name="my_card_edit">Modifye</string>
+  <string name="my_card_saved">Kat sove</string>
+  <string name="my_card_share">Pataje</string>
+  <string name="qr_scan_title">Skan kòd kontak</string>
+  <string name="qr_camera_permission">Pèmisyon kamera nésesè pou skan kòd</string>
+  <string name="invalid_qr_code">Kòd QR envalid</string>
+  <string name="call_blocking_block_unknown">Bloke nimèr enkoni / prive</string>
+  <string name="call_blocking_block_unknown_desc">Rejte rele ki soti nan nimèr ki pa nan kontak yo</string>
+  <string name="call_blocking_whitelist_only">Mòd lis blan sèlman</string>
+  <string name="call_blocking_whitelist_only_desc">Bloke tout sa ki pa nan lis blan an</string>
+  <string name="call_blocking_whitelist_only_warning">⚠ Tout rele ki pa nan lis blan ou a ap bloke!</string>
+  <string name="notification_ongoing_call_channel">Rele ki Kontinye</string>
+  <string name="notification_ongoing_call_channel_desc">Notifikasyon pémanan pou rele aktif lè ekran an fèrme</string>
+  <string name="notification_ongoing_call_title">Rele ki Kontinye</string>
+  <string name="delete_note_title">Efase Nòt</string>
+  <string name="delete_note_message">Ou vle efase nòt sa a?</string>
+  <string name="stat_title">Toujou Gen</string>
+  <string name="stat_call_statistics">Toujou Gen Rele</string>
+  <string name="stat_message_statistics">Toujou Gen Mesaj</string>
+  <string name="stat_total_calls">Tout Rele</string>
+  <string name="stat_total_messages">Tout Mesaj</string>
+  <string name="stat_total_duration">Tout Tan</string>
+  <string name="stat_average_duration">Tan Mwayèn</string>
+  <string name="stat_incoming">Ap Vini</string>
+  <string name="stat_outgoing">Ap Ale</string>
+  <string name="stat_missed">Rate</string>
+  <string name="stat_received">Resi</string>
+  <string name="stat_sent">Voye</string>
+  <string name="stat_blocked">Bloke</string>
+  <string name="stat_frequent_contacts">Kontak ki Rele Souvan</string>
+  <string name="stat_contact_calls_duration">%1 rele • %2</string>
+</resources>

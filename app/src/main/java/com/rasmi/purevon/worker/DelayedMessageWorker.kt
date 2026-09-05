@@ -14,6 +14,7 @@ import androidx.work.WorkerParameters
 import com.rasmi.purevon.R
 import com.rasmi.purevon.data.preferences.SettingsDataStore
 import com.rasmi.purevon.domain.repository.MessageRepository
+import com.rasmi.purevon.util.security.DataEncryptionManager
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.first
@@ -28,7 +29,8 @@ class DelayedMessageWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted workerParams: WorkerParameters,
     private val messageRepository: MessageRepository,
-    private val settingsDataStore: SettingsDataStore
+    private val settingsDataStore: SettingsDataStore,
+    private val dataEncryptionManager: DataEncryptionManager
 ) : CoroutineWorker(context, workerParams) {
     
     companion object {
@@ -36,6 +38,7 @@ class DelayedMessageWorker @AssistedInject constructor(
         private const val MAX_RETRIES = 3
         const val KEY_PHONE_NUMBER = "phone_number"
         const val KEY_MESSAGE_TEXT = "message_text"
+        const val KEY_MESSAGE_TEXT_ENCRYPTED = "message_text_encrypted"
         const val KEY_ATTACHMENT_URIS = "attachment_uris"
         const val KEY_SIM_SLOT = "sim_slot"
     }
@@ -45,8 +48,7 @@ class DelayedMessageWorker @AssistedInject constructor(
         if (runAttemptCount >= MAX_RETRIES) {
             Log.e(TAG, "❌ Delayed message failed after $MAX_RETRIES attempts, giving up")
             val phoneNumber = inputData.getString(KEY_PHONE_NUMBER) ?: "unknown"
-            val messageText = inputData.getString(KEY_MESSAGE_TEXT) ?: ""
-            try { showFailureNotification(phoneNumber, messageText) } catch (_: Exception) {}
+            try { showFailureNotification(phoneNumber) } catch (_: Exception) {}
             return Result.failure()
         }
         
@@ -54,8 +56,19 @@ class DelayedMessageWorker @AssistedInject constructor(
             val phoneNumber = inputData.getString(KEY_PHONE_NUMBER)
                 ?: return Result.failure()
             
-            val messageText = inputData.getString(KEY_MESSAGE_TEXT)
+            val encryptedText = inputData.getString(KEY_MESSAGE_TEXT)
                 ?: return Result.failure()
+            
+            val messageText = if (inputData.getBoolean(KEY_MESSAGE_TEXT_ENCRYPTED, false)) {
+                try {
+                    dataEncryptionManager.decryptFromDatabase(encryptedText)
+                } catch (e: Exception) {
+                    Log.e(TAG, "Failed to decrypt delayed message text", e)
+                    return Result.failure()
+                }
+            } else {
+                encryptedText
+            }
             
             val attachmentUris = inputData.getStringArray(KEY_ATTACHMENT_URIS)?.toList()
             
@@ -100,7 +113,7 @@ class DelayedMessageWorker @AssistedInject constructor(
         }
     }
     
-    private fun showFailureNotification(phoneNumber: String, messageText: String) {
+    private fun showFailureNotification(phoneNumber: String) {
         val notificationManager =
             applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
@@ -130,7 +143,7 @@ class DelayedMessageWorker @AssistedInject constructor(
                 applicationContext.getString(
                     R.string.scheduled_message_failed_body,
                     phoneNumber,
-                    messageText.take(50)
+                    "•••"
                 )
             )
             .setPriority(NotificationCompat.PRIORITY_HIGH)

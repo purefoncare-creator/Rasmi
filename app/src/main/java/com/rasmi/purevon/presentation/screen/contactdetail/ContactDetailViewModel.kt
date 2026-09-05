@@ -30,7 +30,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ContactDetailViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle,
+    private val savedStateHandle: SavedStateHandle,
     @ApplicationContext private val context: Context,
     private val contactRepository: ContactRepository,
     private val contactNoteDao: ContactNoteDao,
@@ -42,7 +42,7 @@ class ContactDetailViewModel @Inject constructor(
     private val simCallRouter: SimCallRouter // ✅ لحل شريحة الاتصال
 ) : ViewModel() {
     
-    private val contactId: Long = try {
+    private var contactId: Long = try {
         savedStateHandle.toRoute<Screen.ContactDetail>().contactId
     } catch (_: Exception) {
         // Fallback: try raw Long extraction from SavedStateHandle
@@ -53,6 +53,14 @@ class ContactDetailViewModel @Inject constructor(
     val uiState: StateFlow<ContactDetailUiState> = _uiState.asStateFlow()
     
     init {
+        loadContact()
+    }
+
+    /** After an edit-save, the contact's aggregate id can change; reload with the fresh id. */
+    fun refreshWithId(newContactId: Long) {
+        if (newContactId <= 0 || newContactId == contactId) return
+        contactId = newContactId
+        savedStateHandle["contactId"] = newContactId
         loadContact()
     }
     

@@ -3,7 +3,7 @@ package com.rasmi.purevon.presentation.screen.settings
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -22,35 +22,38 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.rasmi.purevon.presentation.theme.Indigo400
+import com.rasmi.purevon.presentation.theme.*
 
 @Composable
 internal fun SettingsCard(
-    title: String,
+    // ✅ FIX M41: العنوان اختياري — الهوية موحدة فلا حاجة لعناوين البطاقات
+    title: String? = null,
     content: @Composable ColumnScope.() -> Unit
 ) {
-    val isLightTheme = !isSystemInDarkTheme()
+    val isLightTheme = false
     Column(
         modifier = Modifier.padding(horizontal = 16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        Text(
-            text = title,
-            style = MaterialTheme.typography.labelLarge,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            fontWeight = FontWeight.SemiBold,
-            modifier = Modifier.padding(start = 4.dp)
-        )
+        if (title != null) {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.labelLarge,
+                color = PurevonTextSecondary,
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier.padding(start = 4.dp)
+            )
+        }
         Card(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(22.dp),
             colors = CardDefaults.cardColors(
-                containerColor = if (isLightTheme) MaterialTheme.colorScheme.surface
-                else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.34f)
+                containerColor = if (isLightTheme) PurevonSurfaceAlt
+                else PurevonSurfaceMuted
             ),
             border = BorderStroke(
                 width = 1.dp,
-                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = if (isLightTheme) 0.42f else 0.28f)
+                color = PurevonBorder
             ),
             elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
         ) {
@@ -65,7 +68,7 @@ internal fun SettingsCard(
 internal fun CardItemDivider() {
     HorizontalDivider(
         modifier = Modifier.padding(start = 72.dp, end = 18.dp),
-        color = MaterialTheme.colorScheme.outline.copy(alpha = 0.10f)
+        color = PurevonBorder
     )
 }
 
@@ -107,14 +110,14 @@ internal fun SwitchSettingItem(
                 text = title,
                 style = MaterialTheme.typography.bodyLarge,
                 fontWeight = FontWeight.Medium,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = alpha)
+                color = PurevonTextPrimary.copy(alpha = alpha)
             )
             if (subtitle.isNotBlank()) {
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(
                     text = subtitle,
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.78f * alpha)
+                    color = PurevonTextSecondary.copy(alpha = 0.78f * alpha)
                 )
             }
         }
@@ -163,21 +166,21 @@ internal fun ClickableSettingItem(
                 text = title,
                 style = MaterialTheme.typography.bodyLarge,
                 fontWeight = FontWeight.Medium,
-                color = tint ?: MaterialTheme.colorScheme.onSurface
+                color = tint ?: PurevonTextPrimary
             )
             if (subtitle.isNotBlank()) {
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(
                     text = subtitle,
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.78f)
+                    color = PurevonTextSecondary.copy(alpha = 0.78f)
                 )
             }
         }
         Icon(
             imageVector = Icons.Default.ChevronRight,
             contentDescription = "Navigate",
-            tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.35f)
+            tint = PurevonTextTertiary
         )
     }
 }
@@ -188,7 +191,7 @@ internal fun ContactPickerItem(
     phoneNumber: String,
     isSelected: Boolean,
     selectedIcon: ImageVector = Icons.Default.Check,
-    selectedColor: Color = MaterialTheme.colorScheme.primary,
+    selectedColor: Color = PurevonPrimary,
     callTypeIcon: ImageVector? = null,
     onClick: () -> Unit
 ) {
@@ -197,7 +200,7 @@ internal fun ContactPickerItem(
             .fillMaxWidth()
             .clickable(enabled = !isSelected, onClick = onClick)
             .alpha(if (isSelected) 0.5f else 1f),
-        color = if (isSelected) selectedColor.copy(alpha = 0.1f) else MaterialTheme.colorScheme.surface
+        color = if (isSelected) selectedColor.copy(alpha = 0.1f) else PurevonSurfaceAlt
     ) {
         Row(
             modifier = Modifier
@@ -209,7 +212,7 @@ internal fun ContactPickerItem(
                 modifier = Modifier.size(40.dp),
                 shape = CircleShape,
                 color = if (isSelected) selectedColor.copy(alpha = 0.2f)
-                       else MaterialTheme.colorScheme.secondaryContainer
+                       else PurevonPrimaryContainer
             ) {
                 Box(contentAlignment = Alignment.Center) {
                     if (isSelected) {
@@ -240,22 +243,22 @@ internal fun ContactPickerItem(
                     )
                     if (callTypeIcon != null) {
                         Spacer(modifier = Modifier.width(4.dp))
-                        Icon(
-                            callTypeIcon,
-                            contentDescription = null,
-                            modifier = Modifier.size(14.dp),
-                            tint = when (callTypeIcon) {
-                                Icons.Default.CallMissed -> MaterialTheme.colorScheme.error
-                                else -> MaterialTheme.colorScheme.onSurfaceVariant
-                            }
-                        )
+                    Icon(
+                        callTypeIcon,
+                        contentDescription = null,
+                        modifier = Modifier.size(14.dp),
+                        tint = when (callTypeIcon) {
+                            Icons.Default.CallMissed -> PurevonError
+                            else -> PurevonTextSecondary
+                        }
+                    )
                     }
                 }
                 if (phoneNumber.isNotEmpty()) {
                     Text(
                         text = phoneNumber,
                         style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = PurevonTextSecondary
                     )
                 }
             }
@@ -264,7 +267,7 @@ internal fun ContactPickerItem(
                 Icon(
                     Icons.Default.Add,
                     contentDescription = "Add",
-                    tint = MaterialTheme.colorScheme.primary
+                    tint = PurevonPrimary
                 )
             }
         }

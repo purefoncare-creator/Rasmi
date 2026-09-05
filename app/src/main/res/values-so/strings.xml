@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="nav_back">Dib u dhig</string>
+  <string name="add_contact_choose_method">Ku dar Xidhiidh</string>
+  <string name="add_contact_manual">Ku dar gacanta</string>
+  <string name="add_contact_via_qr">Ku dar QR code</string>
+  <string name="dialer_active_call_title">Wicitaan Firfircoon</string>
+  <string name="dialer_active_call_expand">Screen buuxa</string>
+  <string name="dialer_recent">Dambe</string>
+  <string name="dialer_no_recent">Maamul dambe ma jiro</string>
+  <string name="dialer_results">Natiijooyin</string>
+  <string name="incall_mute">Aamusi</string>
+  <string name="incall_speaker">Mistiir</string>
+  <string name="my_card_title">Kartadayda</string>
+  <string name="my_card_desc">Samee kartadaada gaarka ah oo la wadaag qof kasta</string>
+  <string name="my_card_edit">Wax ka beddel</string>
+  <string name="my_card_saved">Kartada waa la keydiyey</string>
+  <string name="my_card_share">Wadaag</string>
+  <string name="qr_scan_title">Soo xirii code xiriirka</string>
+  <string name="qr_camera_permission">Rukhsad kameero ah ayaa loo baahan yahay in la baaro code</string>
+  <string name="invalid_qr_code">Code QR aan sax ahayn</string>
+  <string name="call_blocking_block_unknown">Xannib lambarrada aan la aqoon / gaarka ah</string>
+  <string name="call_blocking_block_unknown_desc">Diido wicitaannada ka yimid lambarrada aan ku jirin xiriirrada</string>
+  <string name="call_blocking_whitelist_only">Hab liiska cad keliya</string>
+  <string name="call_blocking_whitelist_only_desc">Xannib dhammaan kuwa aan ku jirin liiska cad</string>
+  <string name="call_blocking_whitelist_only_warning">⚠ Wicitaan kasta oo aan ku jirin liiskaaga cad waa la xannibi doonaa!</string>
+  <string name="notification_ongoing_call_channel">Wicitaan socda</string>
+  <string name="notification_ongoing_call_channel_desc">Ogeysiis joogta ah wicitaan firfircoon marka screen la xiro</string>
+  <string name="notification_ongoing_call_title">Wicitaan socda</string>
+  <string name="delete_note_title">Tiraa_xusuusta</string>
+  <string name="delete_note_message">Ma rabtaa inaad tirtaa xusuustan?</string>
+  <string name="stat_title">Tirakoob</string>
+  <string name="stat_call_statistics">Tirakoob wicitaan</string>
+  <string name="stat_message_statistics">Tirakoob farriin</string>
+  <string name="stat_total_calls">Wicitaanno dhammeystiran</string>
+  <string name="stat_total_messages">Farriimo dhammeystiran</string>
+  <string name="stat_total_duration">Muddo dhammeystiran</string>
+  <string name="stat_average_duration">Muddo celcelis ah</string>
+  <string name="stat_incoming">Imanaysa</string>
+  <string name="stat_outgoing">Adeegaysa</string>
+  <string name="stat_missed">Lumay</string>
+  <string name="stat_received">La helay</string>
+  <string name="stat_sent">La diray</string>
+  <string name="stat_blocked">La xannibay</string>
+  <string name="stat_frequent_contacts">Xiriirrada inta badan wicitaanka</string>
+  <string name="stat_contact_calls_duration">%1$d wicitaanno • %2$s</string>
+</resources>

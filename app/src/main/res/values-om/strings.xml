@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="nav_back">Duuba</string>
+  <string name="add_contact_choose_method">Qunnamtii Dabalii</string>
+  <string name="add_contact_manual">Harkaa Dabalii</string>
+  <string name="add_contact_via_qr">Koodii QR Dabalii</string>
+  <string name="dialer_active_call_title">Wajjiira呼出</string>
+  <string name="dialer_active_call_expand">Iskiriini Guutuu</string>
+  <string name="dialer_recent">Boonaa</string>
+  <string name="dialer_no_recent">Faalamaa boonaa hin jiru</string>
+  <string name="dialer_results">Bu\'aa</string>
+  <string name="incall_mute">Cinisii</string>
+  <string name="incall_speaker">Isipaakaraa</string>
+  <string name="my_card_title">Kaardii Koo</string>
+  <string name="my_card_desc">Kaardii dhuunfaa kee uumii keessatti haquu</string>
+  <string name="my_card_edit">Gulaali</string>
+  <string name="my_card_saved">Kaardii kaa\'ame</string>
+  <string name="my_card_share">Haquu</string>
+  <string name="qr_scan_title">Koodii qunnamtii scan godhuu</string>
+  <string name="qr_camera_permission">Koodii scan guutuuf kaameeraa hayyamni barbaachisa</string>
+  <string name="invalid_qr_code">Koodii QR sirrii hin taane</string>
+  <string name="call_blocking_block_unknown">Bilchaamaa / dhuunfaa cufi</string>
+  <string name="call_blocking_block_unknown_desc">Qunnamtii keessatti hin jirrefffff呼出红示</string>
+  <string name="call_blocking_whitelist_only">Tarja Adda Binaa Only Mode</string>
+  <string name="call_blocking_whitelist_only_desc">Tarja Adda Binaa keessatti hin jirruu hunda cufi</string>
+  <string name="call_blocking_whitelist_only_warning">⚠ Wajjii guutuu tarja adda binaa keessatti hin jirre cufa!</string>
+  <string name="notification_ongoing_call_channel">Wajjii Iddoo</string>
+  <string name="notification_ongoing_call_channel_desc">Iskiriini quufa wajjii fayyaa iddoon苟且偷生Notification</string>
+  <string name="notification_ongoing_call_title">Wajjii Iddoo</string>
+  <string name="delete_note_title">Kaabii Haqi</string>
+  <string name="delete_note_message">Kaabii kana haquu barbaaddaa?</string>
+  <string name="stat_title">Istaatistikii</string>
+  <string name="stat_call_statistics">Istaatistikii wajjii</string>
+  <string name="stat_message_statistics">Istaatistikii ergaa</string>
+  <string name="stat_total_calls">Wajjii hunda</string>
+  <string name="stat_total_messages">Ergaa hunda</string>
+  <string name="stat_total_duration">Yeroo hunda</string>
+  <string name="stat_average_duration">Yeroo gidduu galeessa</string>
+  <string name="stat_incoming">Abbaatuufi</string>
+  <string name="stat_outgoing">Utultiif</string>
+  <string name="stat_missed">Hcaffee</string>
+  <string name="stat_received">Fudhatame</string>
+  <string name="stat_sent">Ergame</string>
+  <string name="stat_blocked">Cufame</string>
+  <string name="stat_frequent_contacts">Wajjii baay\'ee hayyamaan</string>
+  <string name="stat_contact_calls_duration">%1$d wajjii • %2$s</string>
+</resources>

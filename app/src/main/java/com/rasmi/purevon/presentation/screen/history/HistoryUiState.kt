@@ -22,7 +22,8 @@ data class GroupedContactCalls(
     val latestCall: CallLog,
     val callCount: Int,
     val missedCount: Int,
-    val lastTimestamp: Long
+    val lastTimestamp: Long,
+    val isFavorite: Boolean = false
 )
 
 /**

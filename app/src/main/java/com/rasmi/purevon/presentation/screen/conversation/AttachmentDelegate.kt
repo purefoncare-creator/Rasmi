@@ -143,7 +143,8 @@ internal class AttachmentDelegate(
                     .trim()
                     .ifBlank { "contact_${System.currentTimeMillis()}" }
                 val fileName = "$safeName.vcf"
-                val file = File(context.cacheDir, fileName)
+                val contactsDir = File(context.cacheDir, "contacts").apply { mkdirs() }
+                val file = File(contactsDir, fileName)
                 file.writeText(vCardContent, Charsets.UTF_8)
 
                 val uri = FileProvider.getUriForFile(

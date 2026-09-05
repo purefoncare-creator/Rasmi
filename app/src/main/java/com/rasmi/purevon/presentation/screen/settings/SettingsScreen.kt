@@ -1,8 +1,11 @@
 package com.rasmi.purevon.presentation.screen.settings
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -15,12 +18,14 @@ import androidx.compose.material.icons.automirrored.filled.Reply
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -39,7 +44,7 @@ fun SettingsScreen(
     viewModel: SettingsViewModel = hiltViewModel(),
     onNavigateToAbout: () -> Unit = {}
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
     
     // Show success/error messages
@@ -68,154 +73,175 @@ fun SettingsScreen(
         contentWindowInsets = WindowInsets(0, 0, 0, 0)
     ) { paddingValues ->
     // ✅ FIX: Respect user's theme preference instead of only system setting
-    val isLightTheme = if (uiState.autoTheme) !isSystemInDarkTheme() else !uiState.isDarkMode
+    val isLightTheme = false
+    val configuration = LocalConfiguration.current
+    val isWide = configuration.screenWidthDp >= 600
+
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(if (isLightTheme) LightBackgroundAlt else MaterialTheme.colorScheme.background)
-            .padding(paddingValues)
+            .statusBarsPadding() // ✅ FIX M42: إزاحة المحتوى أسفل شريط حالة النظام
+            .background(if (isLightTheme) PurevonBackground else LightBackgroundAlt)
+            .padding(paddingValues),
+        horizontalAlignment = if (isWide) Alignment.CenterHorizontally else Alignment.Start
     ) {
         LazyColumn(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .then(if (isWide) Modifier.fillMaxWidth(0.72f) else Modifier),
             contentPadding = PaddingValues(top = 18.dp, bottom = 32.dp),
             verticalArrangement = Arrangement.spacedBy(14.dp)
         ) {
             // ── Card 1: Appearance ──
             item {
-                SettingsCard(title = stringResource(R.string.settings_appearance)) {
-                    SwitchSettingItem(
-                        icon = Icons.Default.DarkMode,
-                        title = stringResource(R.string.settings_theme_dark),
-                        checked = uiState.isDarkMode,
-                        enabled = !uiState.autoTheme,
-                        onCheckedChange = { viewModel.onEvent(SettingsUiEvent.ThemeChanged(it)) },
-                        iconTint = DeepPurpleAccent
-                    )
-                    CardItemDivider()
-                    SwitchSettingItem(
-                        icon = Icons.Default.Brightness4,
-                        title = stringResource(R.string.settings_theme_system),
-                        checked = uiState.autoTheme,
-                        onCheckedChange = { viewModel.onEvent(SettingsUiEvent.AutoThemeToggled(it)) },
-                        iconTint = MaterialOrange
-                    )
-                    CardItemDivider()
-                    ClickableSettingItem(
-                        icon = Icons.Default.Language,
-                        title = stringResource(R.string.settings_language),
-                        subtitle = when (uiState.appLanguage) {
-                            "system" -> stringResource(R.string.language_system)
-                            else -> LanguageConfig.getDisplayName(uiState.appLanguage)
-                        },
-                        onClick = { viewModel.onEvent(SettingsUiEvent.ShowLanguageSelector) },
-                        iconTint = MaterialBlue400
-                    )
-                }
-            }
-            
-            // ── Card 2: Calls & Security ──
-            item {
-                SettingsCard(title = stringResource(R.string.call_blocking_title)) {
-                    SwitchSettingItem(
-                        icon = Icons.Default.Block,
-                        title = stringResource(R.string.call_blocking_enable),
-                        subtitle = if (uiState.callBlockingEnabled && uiState.availableSims.size > 1 && uiState.callBlockingSimSubscriptionId != -1) {
-                                       val simName = uiState.availableSims.find { it.subscriptionId == uiState.callBlockingSimSubscriptionId }?.displayName ?: ""
-                                       stringResource(R.string.sim_slot_format, simName)
-                                   } else "", // Empty string instead of null
-                        checked = uiState.callBlockingEnabled,
-                        onCheckedChange = { viewModel.onEvent(SettingsUiEvent.CallBlockingToggled(it)) },
-                        iconTint = MaterialRed400
-                    )
-                    if (uiState.callBlockingEnabled && uiState.availableSims.size > 1) {
-                        CardItemDivider()
+                AnimatedSettingGroup(index = 0) {
+                    // ✅ FIX M41: بلا عنوان — الهوية موحدة
+                    SettingsCard {
+                        // ✅ FIX M39: أزيل خيارا «داكن/افتراضي النظام» — الهوية موحدة (داكنة) للتطبيق
                         ClickableSettingItem(
-                            icon = Icons.Default.SimCard,
-                            title = stringResource(R.string.sim_select_for_blocking),
-                            subtitle = if (uiState.callBlockingSimSubscriptionId == -1) 
-                                           stringResource(R.string.sim_all) 
-                                       else uiState.availableSims.find { it.subscriptionId == uiState.callBlockingSimSubscriptionId }?.displayName ?: stringResource(R.string.sim_all),
-                            onClick = { viewModel.onEvent(SettingsUiEvent.ShowCallBlockingSimSelector) },
-                            iconTint = MaterialRed400
+                            icon = Icons.Default.Language,
+                            title = stringResource(R.string.settings_language),
+                            subtitle = when (uiState.appLanguage) {
+                                "system" -> stringResource(R.string.language_system)
+                                else -> LanguageConfig.getDisplayName(uiState.appLanguage)
+                            },
+                            onClick = { viewModel.onEvent(SettingsUiEvent.ShowLanguageSelector) },
+                            iconTint = MaterialBlue400
                         )
                     }
-                    CardItemDivider()
-                    ClickableSettingItem(
-                        icon = Icons.Default.Block,
-                        title = stringResource(R.string.call_blocking_blocked_list),
-                        onClick = { viewModel.onEvent(SettingsUiEvent.ShowBlockedList) },
-                        iconTint = MaterialRed400
-                    )
-                    CardItemDivider()
-                    ClickableSettingItem(
-                        icon = Icons.Default.VerifiedUser,
-                        title = stringResource(R.string.call_blocking_whitelist),
-                        onClick = { viewModel.onEvent(SettingsUiEvent.ShowWhitelist) },
-                        iconTint = MaterialBlue400
-                    )
-                    CardItemDivider()
-                    SwitchSettingItem(
-                        icon = Icons.Default.Password,
-                        title = stringResource(R.string.otp_settings_title),
-                        checked = uiState.otpEnabled,
-                        onCheckedChange = { viewModel.onEvent(SettingsUiEvent.OtpToggled(it)) },
-                        iconTint = MaterialGreen400
-                    )
-                    CardItemDivider()
-                    SwitchSettingItem(
-                        icon = Icons.Default.Notifications,
-                        title = stringResource(R.string.settings_incoming_call_banner),
-                        subtitle = stringResource(R.string.settings_incoming_call_banner_desc),
-                        checked = uiState.incomingCallBannerOnly,
-                        onCheckedChange = { viewModel.onEvent(SettingsUiEvent.IncomingCallBannerOnlyToggled(it)) },
-                        iconTint = MaterialCyan400
-                    )
                 }
             }
-            
+
+            // ── Card 2: Calls & Security ──
+            item {
+                AnimatedSettingGroup(index = 1) {
+                    SettingsCard {
+                        // ✅ FIX M32b: يفتح حوار الإعدادات بدل التفعيل الفوري بالضغط
+                        ClickableSettingItem(
+                            icon = Icons.Default.Block,
+                            title = stringResource(R.string.call_blocking_enable),
+                            subtitle = when {
+                                !uiState.callBlockingEnabled -> ""
+                                uiState.availableSims.size > 1 && uiState.callBlockingSimSubscriptionId != -1 -> {
+                                    val simName = uiState.availableSims.find { it.subscriptionId == uiState.callBlockingSimSubscriptionId }?.displayName ?: ""
+                                    stringResource(R.string.sim_slot_format, simName)
+                                }
+                                else -> "✓"
+                            },
+                            onClick = { viewModel.onEvent(SettingsUiEvent.ShowCallBlockingSettings) },
+                            iconTint = MaterialRed400
+                        )
+                        CardItemDivider()
+                        ClickableSettingItem(
+                            icon = Icons.Default.Block,
+                            title = stringResource(R.string.call_blocking_blocked_list),
+                            onClick = { viewModel.onEvent(SettingsUiEvent.ShowBlockedList) },
+                            iconTint = MaterialRed400
+                        )
+                        CardItemDivider()
+                        ClickableSettingItem(
+                            icon = Icons.Default.VerifiedUser,
+                            title = stringResource(R.string.call_blocking_whitelist),
+                            onClick = { viewModel.onEvent(SettingsUiEvent.ShowWhitelist) },
+                            iconTint = MaterialBlue400
+                        )
+                        CardItemDivider()
+                        SwitchSettingItem(
+                            icon = Icons.Default.Password,
+                            title = stringResource(R.string.otp_settings_title),
+                            checked = uiState.otpEnabled,
+                            onCheckedChange = { viewModel.onEvent(SettingsUiEvent.OtpToggled(it)) },
+                            iconTint = MaterialGreen400
+                        )
+                    }
+                }
+            }
+
             // ── Card 3: Privacy & About ──
             item {
-                SettingsCard(title = stringResource(R.string.spam_privacy_title)) {
-                    SwitchSettingItem(
-                        icon = Icons.Default.VisibilityOff,
-                        title = stringResource(R.string.privacy_hide_notifications),
-                        checked = uiState.hideSensitiveNotifications,
-                        onCheckedChange = { viewModel.onEvent(SettingsUiEvent.HideSensitiveNotificationsToggled(it)) },
-                        iconTint = MaterialPurple400
-                    )
-                    CardItemDivider()
-                    // ✅ عنصر إدارة الاتصالات الوهمية المجدولة
-                    ClickableSettingItem(
-                        icon = Icons.Default.PhoneCallback,
-                        title = stringResource(R.string.fake_call_manage_title),
-                        subtitle = if (uiState.scheduledFakeCalls.isEmpty()) ""
-                                   else pluralStringResource(R.plurals.fake_call_active_count, uiState.scheduledFakeCalls.size, uiState.scheduledFakeCalls.size),
-                        onClick = { viewModel.onEvent(SettingsUiEvent.ShowFakeCalls) },
-                        iconTint = MaterialCyan400
-                    )
-                    CardItemDivider()
-                    // ✅ إدارة تذكيرات إعادة الاتصال المجدولة
-                    ClickableSettingItem(
-                        icon = Icons.Default.Alarm,
-                        title = stringResource(R.string.callback_reminders_manage_title),
-                        subtitle = if (uiState.scheduledCallbackReminders.isEmpty()) ""
-                                   else pluralStringResource(R.plurals.callback_reminder_active_count, uiState.scheduledCallbackReminders.size, uiState.scheduledCallbackReminders.size),
-                        onClick = { viewModel.onEvent(SettingsUiEvent.ShowCallbackReminders) },
-                        iconTint = MaterialOrange
-                    )
-                    CardItemDivider()
-                    ClickableSettingItem(
-                        icon = Icons.Default.Info,
-                        title = stringResource(R.string.about_title),
-                        onClick = onNavigateToAbout,
-                        iconTint = BlueGrey400
-                    )
+                AnimatedSettingGroup(index = 2) {
+                    SettingsCard {
+                        // ✅ VIRAL #4: بطاقتي
+                        ClickableSettingItem(
+                            icon = Icons.Default.Badge,
+                            title = stringResource(R.string.my_card_title),
+                            subtitle = stringResource(R.string.my_card_desc),
+                            onClick = { viewModel.onEvent(SettingsUiEvent.ShowMyCardDialog) },
+                            iconTint = MaterialGreen400
+                        )
+                        CardItemDivider()
+                        SwitchSettingItem(
+                            icon = Icons.Default.VisibilityOff,
+                            title = stringResource(R.string.privacy_hide_notifications),
+                            checked = uiState.hideSensitiveNotifications,
+                            onCheckedChange = { viewModel.onEvent(SettingsUiEvent.HideSensitiveNotificationsToggled(it)) },
+                            iconTint = MaterialPurple400
+                        )
+                        CardItemDivider()
+                        // ✅ عنصر إدارة الاتصالات الوهمية المجدولة
+                        ClickableSettingItem(
+                            icon = Icons.Default.PhoneCallback,
+                            title = stringResource(R.string.fake_call_manage_title),
+                            subtitle = if (uiState.scheduledFakeCalls.isEmpty()) ""
+                                        else pluralStringResource(R.plurals.fake_call_active_count, uiState.scheduledFakeCalls.size, uiState.scheduledFakeCalls.size),
+                            onClick = { viewModel.onEvent(SettingsUiEvent.ShowFakeCalls) },
+                            iconTint = MaterialCyan400
+                        )
+                        CardItemDivider()
+                        // ✅ إدارة تذكيرات إعادة الاتصال المجدولة
+                        ClickableSettingItem(
+                            icon = Icons.Default.Alarm,
+                            title = stringResource(R.string.callback_reminders_manage_title),
+                            subtitle = if (uiState.scheduledCallbackReminders.isEmpty()) ""
+                                        else pluralStringResource(R.plurals.callback_reminder_active_count, uiState.scheduledCallbackReminders.size, uiState.scheduledCallbackReminders.size),
+                            onClick = { viewModel.onEvent(SettingsUiEvent.ShowCallbackReminders) },
+                            iconTint = MaterialOrange
+                        )
+                        CardItemDivider()
+                        ClickableSettingItem(
+                            icon = Icons.Default.Info,
+                            title = stringResource(R.string.about_title),
+                            onClick = onNavigateToAbout,
+                            iconTint = BlueGrey400
+                        )
+                    }
                 }
             }
         }
     }
     } // End Scaffold
-    
+
+
+    // ✅ FIX M32b: حوار إعدادات الحظر — التغييرات لا تُطبق إلا بـSave
+    if (uiState.showCallBlockingSettingsDialog) {
+        CallBlockingSettingsDialog(
+            callBlockingEnabled = uiState.callBlockingEnabled,
+            blockUnknownNumbers = uiState.blockUnknownNumbers,
+            whitelistOnlyMode = uiState.whitelistOnlyMode,
+            simSubscriptionId = uiState.callBlockingSimSubscriptionId,
+            availableSims = uiState.availableSims,
+            onSave = { enabled, blockUnknown, whitelistOnly, simSubId ->
+                viewModel.onEvent(SettingsUiEvent.SaveCallBlockingSettings(enabled, blockUnknown, whitelistOnly, simSubId))
+            },
+            onDismiss = { viewModel.onEvent(SettingsUiEvent.HideCallBlockingSettings) }
+        )
+    }
+
+    // ✅ VIRAL #4: بطاقتي
+    if (uiState.showMyCardDialog) {
+        MyCardSheet(
+            initialFirstName = uiState.myCardFirstName,
+            initialLastName = uiState.myCardLastName,
+            initialPhone = uiState.myCardPhone,
+            initialEmail = uiState.myCardEmail,
+            initialCompany = uiState.myCardCompany,
+            onSave = { first, last, phone, email, company ->
+                viewModel.onEvent(SettingsUiEvent.SaveMyCard(first, last, phone, email, company))
+            },
+            onDismiss = { viewModel.onEvent(SettingsUiEvent.HideMyCardDialog) }
+        )
+    }
+
     // Blocked List Dialog
     if (uiState.showBlockedListDialog) {
         BlockedListDialog(
@@ -312,6 +338,23 @@ fun SettingsScreen(
         )
     }
 
+    }
+
+
+@Composable
+private fun AnimatedSettingGroup(
+    index: Int,
+    content: @Composable () -> Unit
+) {
+    var visible by remember { mutableStateOf(false) }
+    LaunchedEffect(Unit) { visible = true }
+    AnimatedVisibility(
+        visible = visible,
+        enter = fadeIn(initialAlpha = 0.4f) +
+                slideInVertically(initialOffsetY = { 24 * (index + 1) }),
+    ) {
+        content()
+    }
 }
 
 

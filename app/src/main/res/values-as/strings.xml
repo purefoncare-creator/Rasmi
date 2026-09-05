@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="nav_back">পিছলৈ</string>
+  <string name="add_contact_choose_method">সম্পৰ্ক যোগ কৰক</string>
+  <string name="add_contact_manual">হাতে যোগ কৰক</string>
+  <string name="add_contact_via_qr">QR ক\'ডৰ জৰিয়তে যোগ কৰক</string>
+  <string name="dialer_active_call_title">সক্ৰিয় কল</string>
+  <string name="dialer_active_call_expand">সম্পূৰ্ণ স্ক্ৰিন</string>
+  <string name="dialer_recent">শেহতীয়া</string>
+  <string name="dialer_no_recent">শেহতীয়া কাৰ্যকলাপ নাই</string>
+  <string name="dialer_results">ফলাফল</string>
+  <string name="incall_mute">নীৰব</string>
+  <string name="incall_speaker">স্পিকাৰ</string>
+  <string name="my_card_title">মোৰ কাৰ্ড</string>
+  <string name="my_card_desc">আপোনাৰ ব্যক্তিগত কাৰ্ড সৃষ্টি কৰক আৰু যিকোনো ব্যক্তিৰ লগত শ্বেয়াৰ কৰক</string>
+  <string name="my_card_edit">সম্পাদনা</string>
+  <string name="my_card_saved">কাৰ্ড সংৰক্ষিত</string>
+  <string name="my_card_share">শ্বেয়াৰ</string>
+  <string name="qr_scan_title">সম্পৰ্ক ক\'ড স্কেন কৰক</string>
+  <string name="qr_camera_permission">ক\'ড স্কেন কৰিবলৈ কেমেৰা অনুমতি লাগে</string>
+  <string name="invalid_qr_code">অবৈধ QR ক\'ড</string>
+  <string name="call_blocking_block_unknown">অজ্ঞাত / ব্যক্তিগত নম্বৰ ব্লক কৰক</string>
+  <string name="call_blocking_block_unknown_desc">সম্পৰ্কত নোহোৱা নম্বৰৰ পৰা আহা কল অস্বীকাৰ কৰক</string>
+  <string name="call_blocking_whitelist_only">কেৱল ধূপৰ তালিকা ম\'ড</string>
+  <string name="call_blocking_whitelist_only_desc">ধূপৰ তালিকাত থকা নম্বৰ বাদে সকলো ব্লক কৰক</string>
+  <string name="call_blocking_whitelist_only_warning">⚠ আপোনাৰ ধূপৰ তালিকাত নোহোৱা প্ৰতিটো কল ব্লক হ\'ব!</string>
+  <string name="notification_ongoing_call_channel">চলি থকা কল</string>
+  <string name="notification_ongoing_call_channel_desc">স্ক্ৰিন বন্ধ হ\'লে সক্ৰিয় কলৰ বাবে স্থায়ী অৱগতি</string>
+  <string name="notification_ongoing_call_title">চলি থকা কল</string>
+  <string name="delete_note_title">টোকা মচক</string>
+  <string name="delete_note_message">আপুনি এই টোকা মচিব খোজে নেকি?</string>
+  <string name="stat_title">পৰিসংখ্যান</string>
+  <string name="stat_call_statistics">কল পৰিসংখ্যান</string>
+  <string name="stat_message_statistics">বাৰ্তা পৰিসংখ্যান</string>
+  <string name="stat_total_calls">মুঠ কল</string>
+  <string name="stat_total_messages">মুঠ বাৰ্তা</string>
+  <string name="stat_total_duration">মুঠ সময়</string>
+  <string name="stat_average_duration">গড় সময়</string>
+  <string name="stat_incoming">আহি থকা</string>
+  <string name="stat_outgoing">যোৱা</string>
+  <string name="stat_missed">চকা</string>
+  <string name="stat_received">পোৱা</string>
+  <string name="stat_sent">পঠোৱা</string>
+  <string name="stat_blocked">ব্লক</string>
+  <string name="stat_frequent_contacts">বেছিয়া কল কৰা সম্পৰ্ক</string>
+  <string name="stat_contact_calls_duration">%1$d কল • %2$s</string>
+</resources>

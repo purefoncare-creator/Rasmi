@@ -240,3 +240,65 @@
     native <methods>;
 }
 -dontwarn net.zetetic.**
+
+# ─────────────────────────────────────────────────────────────
+# CameraX + Compose PreviewView — keep bind internals under R8.
+# The obfuscated stack showed an NPE inside Compose's layer tracking
+# (ChildLayerDependenciesTracker) plus kotlin.jvm.functions.Function1
+# when PreviewView bound to the lifecycle in a minified build. These
+# rules prevent R8/`-repackageclasses` from breaking the view↔Compose
+# holder glue and the CameraX / ML Kit scanning entry points.
+# ─────────────────────────────────────────────────────────────
+
+# PreviewView relies on reflection-created holders bound to Compose layers;
+# keep its static surface-holder companion and lifecycle wiring signatures.
+-keep class androidx.camera.view.** { *; }
+
+# Keep every CameraX bound class + the transform/surface internals that
+# bindToLifecycle instantiates at runtime via generated factories.
+-keep class androidx.camera.core.** { *; }
+-keep class androidx.camera.lifecycle.** { *; }
+-keep class androidx.camera.camera2.** { *; }
+
+# ML Kit barcode scanning is a JNI-loaded model; keep names/methods that
+# the native runtime resolves and the public scanner API the analyzer uses.
+-keep class com.google.mlkit.vision.barcode.** { *; }
+-keep class com.google.mlkit.vision.common.** { *; }
+-keepnames class com.google.android.datatransport.** { *; }
+
+# ML Kit's MlKitInitProvider builds its component graph at startup via
+# reflection over com.google.mlkit.common.sdkinternal.* (DI). R8 obfuscates/
+# drops members R8 cannot see used reflectively, producing
+# "Unsatisfied dependency for component ... MlKitInitProvider.onCreate".
+# Because this project enables -repackageclasses 'a' + -allowaccessmodification,
+# R8 repackages and rewrites these reflection-based components, which ML Kit
+# then cannot locate. Pin the entire ML Kit tree (all namespaces) so R8 leaves
+# the reflective DI name/signature contracts intact.
+-keep class com.google.mlkit.** { *; }
+-keep class com.google.firebase.ml.** { *; }
+-keep class com.google.android.gms.internal.mlkit_vision_barcode.** { *; }
+-keep class com.google.android.gms.internal.mlkit_vision_common.** { *; }
+-keep class com.google.android.gms.internal.mlkit_vision_barcode_bundled.** { *; }
+-keepclassmembers class * extends com.google.android.gms.internal.mlkit_vision_barcode_bundled.zzeh {
+    <fields>;
+}
+-keep @com.google.android.apps.common.proguard.UsedBy* class * { <init>(); }
+-keepclassmembers class * {
+    @com.google.android.apps.common.proguard.UsedBy* *;
+}
+-keepattributes RuntimeVisible*Annotation*
+-keep @interface com.google.android.apps.common.proguard.UsedBy*
+
+# Compose: keep the AndroidView/PreviewView composition holder factory so the
+# runtime view interop and layer-tracking helpers survive minification.
+-keep class androidx.compose.ui.viewinterop.** { *; }
+-keep class androidx.compose.ui.platform.AndroidCompositionLocalsKt { *; }
+
+# kotlin.jvm.functions.Function1 was the visible NPE frame; kotlin stdlib
+# functions are kept by default, but this guards the generic bridge frames.
+-keep class kotlin.jvm.functions.** { *; }
+
+-dontwarn androidx.camera.**
+-dontwarn androidx.compose.ui.viewinterop.**
+-dontwarn com.google.mlkit.vision.**
+-dontwarn com.google.android.datatransport.**

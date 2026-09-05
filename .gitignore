@@ -17,3 +17,5 @@ keystore.properties.enc
 *.jks
 *.keystore
 fix.md
+.kotlin
+project-keys-backup-v*.enc

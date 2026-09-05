@@ -1,37 +1,22 @@
 package com.rasmi.purevon.presentation.theme
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
-/**
- * Extension functions for Color manipulation and theme-aware colors
- * Helps maintain consistent color usage across the app
- */
-
-/**
- * Apply alpha to any color in a consistent way
- */
 fun Color.withAlpha(alpha: Float): Color {
     return this.copy(alpha = alpha.coerceIn(0f, 1f))
 }
 
-/**
- * Predefined alpha levels for consistency
- */
 object AlphaLevels {
-    const val Disabled = 0.38f      // Material Design disabled state
-    const val Medium = 0.50f         // Semi-transparent elements
-    const val High = 0.70f           // Slightly transparent
-    const val Subtle = 0.12f         // Very subtle backgrounds
-    const val Divider = 0.12f        // Divider lines
-    const val Hover = 0.08f          // Hover state backgrounds
+    const val Disabled = 0.38f
+    const val Medium = 0.50f
+    const val High = 0.70f
+    const val Subtle = 0.12f
+    const val Divider = 0.12f
+    const val Hover = 0.08f
 }
 
-/**
- * Common theme-aware color extensions
- */
 @Composable
 fun surfaceVariantAlpha(alpha: Float = AlphaLevels.Subtle): Color {
     return MaterialTheme.colorScheme.surfaceVariant.withAlpha(alpha)
@@ -52,97 +37,56 @@ fun onPrimaryAlpha(alpha: Float = AlphaLevels.Medium): Color {
     return MaterialTheme.colorScheme.onPrimary.withAlpha(alpha)
 }
 
-/**
- * Get disabled version of any color
- */
 @Composable
 fun disabledColor(): Color {
     return MaterialTheme.colorScheme.onSurface.withAlpha(AlphaLevels.Disabled)
 }
 
-/**
- * Get divider color
- */
 @Composable
 fun dividerColor(): Color {
     return MaterialTheme.colorScheme.onSurface.withAlpha(AlphaLevels.Divider)
 }
 
-/**
- * Get subtle background color for hover/pressed states
- */
 @Composable
 fun subtleBackgroundColor(): Color {
     return MaterialTheme.colorScheme.onSurface.withAlpha(AlphaLevels.Subtle)
 }
 
-/**
- * Status colors (using adaptive iOS colors for dark mode support)
- */
+// Status colors — fixed, no dark/light switching
 @Composable
-fun successColor(): Color {
-    return if (isSystemInDarkTheme()) iOSGreenDark else iOSGreen
-}
+fun successColor(): Color = PurevonSuccess
 
 @Composable
-fun errorColor(): Color {
-    return if (isSystemInDarkTheme()) iOSRedDark else iOSRed
-}
+fun errorColor(): Color = PurevonError
 
 @Composable
-fun warningColor(): Color {
-    return if (isSystemInDarkTheme()) iOSOrangeDark else iOSOrange
-}
+fun warningColor(): Color = PurevonWarning
 
 @Composable
-fun infoColor(): Color {
-    return if (isSystemInDarkTheme()) iOSBlueDark else iOSBlue
-}
+fun infoColor(): Color = PurevonInfo
 
-/**
- * Call status colors (using adaptive iOS colors for dark mode support)
- */
+// Call status colors — fixed
 @Composable
-fun incomingCallColor(): Color {
-    return if (isSystemInDarkTheme()) iOSGreenDark else iOSGreen
-}
+fun incomingCallColor(): Color = PurevonCallIncoming
 
 @Composable
-fun outgoingCallColor(): Color {
-    return if (isSystemInDarkTheme()) iOSBlueDark else iOSBlue
-}
+fun outgoingCallColor(): Color = PurevonCallOutgoing
 
 @Composable
-fun missedCallColor(): Color {
-    return if (isSystemInDarkTheme()) iOSRedDark else iOSRed
-}
+fun missedCallColor(): Color = PurevonCallMissed
 
 @Composable
-fun rejectedCallColor(): Color {
-    return if (isSystemInDarkTheme()) iOSOrangeDark else iOSOrange
-}
+fun rejectedCallColor(): Color = PurevonCallRejected
 
-/**
- * Message status colors
- */
+// Message status colors
 @Composable
-fun sentMessageColor(): Color {
-    return MaterialTheme.colorScheme.primaryContainer
-}
+fun sentMessageColor(): Color = PurevonBubbleSent
 
 @Composable
-fun receivedMessageColor(): Color {
-    return MaterialTheme.colorScheme.secondaryContainer
-}
+fun receivedMessageColor(): Color = PurevonBubbleReceived
 
 @Composable
-fun pendingMessageColor(): Color {
-    return MaterialTheme.colorScheme.surfaceVariant
-}
+fun pendingMessageColor(): Color = PurevonSurfaceMuted
 
 @Composable
-fun failedMessageColor(): Color {
-    return MaterialTheme.colorScheme.errorContainer
-}
-
-
+fun failedMessageColor(): Color = PurevonErrorContainer

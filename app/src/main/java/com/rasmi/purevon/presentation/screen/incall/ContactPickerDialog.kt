@@ -234,9 +234,10 @@ private fun ContactPickerItem(
             verticalAlignment = Alignment.CenterVertically
         ) {
             // Avatar
-            com.rasmi.purevon.presentation.component.UnifiedContactAvatar(
+            com.rasmi.purevon.presentation.component.FavoriteContactAvatar(
                 size = 48.dp,
-                photoUri = contact.photoUri
+                photoUri = contact.photoUri,
+                isFavorite = contact.isFavorite
             )
             
             Spacer(modifier = Modifier.width(16.dp))

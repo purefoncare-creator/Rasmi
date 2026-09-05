@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="nav_back">Baya</string>
+  <string name="add_contact_choose_method">Ƙara Lamba</string>
+  <string name="add_contact_manual">Ƙara da Akwai</string>
+  <string name="add_contact_via_qr">Ƙara ta Hanyar QR</string>
+  <string name="dialer_active_call_title">Kira mai Aiki</string>
+  <string name="dialer_active_call_expand">Duka Tambarin</string>
+  <string name="dialer_recent">Na ƙarshe</string>
+  <string name="dialer_no_recent">Babu ayyuka na ƙarshe</string>
+  <string name="dialer_results">Sakamako</string>
+  <string name="incall_mute">Rage Murya</string>
+  <string name="incall_speaker">Mai Magana</string>
+  <string name="my_card_title">Katin Na</string>
+  <string name="my_card_desc">Yi katin kanka kuma raba da kowace</string>
+  <string name="my_card_edit">Gyara</string>
+  <string name="my_card_saved">An Ajiye Katin</string>
+  <string name="my_card_share">Raba</string>
+  <string name="qr_scan_title">Duba Lamba</string>
+  <string name="qr_camera_permission">Ana buƙatar Izinin Kamera don Dubawa</string>
+  <string name="invalid_qr_code">Lambar QR Ba ta Dace</string>
+  <string name="call_blocking_block_unknown">Hà 和 Lamba / Sirri</string>
+  <string name="call_blocking_block_unknown_desc">Ki Ƙi kiran daga lamboci da ba su cikin lamboci ba</string>
+  <string name="call_blocking_whitelist_only">Yanayin Jerin Farin</string>
+  <string name="call_blocking_whitelist_only_desc">Ƙoƙo Ko Duka Daga Lambocin Jerin Farin</string>
+  <string name="call_blocking_whitelist_only_warning">⚠ Kowane Kira da ba ya cikin Jerin Farin zai yi ƙoƙo!</string>
+  <string name="notification_ongoing_call_channel">Kira mai Ci Gaba</string>
+  <string name="notification_ongoing_call_channel_desc">Sanarwa na dindindin don kira mai aiki lokacin da taga ya rufe</string>
+  <string name="notification_ongoing_call_title">Kira mai Ci Gaba</string>
+  <string name="delete_note_title">Share Karamin Bayani</string>
+  <string name="delete_note_message">Kuna son Share Wannan Karamin Bayani?</string>
+  <string name="stat_title">Taƙaitaccen Bayani</string>
+  <string name="stat_call_statistics">Taƙaitaccen Bayanin Kira</string>
+  <string name="stat_message_statistics">Taƙaitaccen Bayanin Saƙo</string>
+  <string name="stat_total_calls">Jimlar Kira</string>
+  <string name="stat_total_messages">Jimlar Saƙo</string>
+  <string name="stat_total_duration">Jimlar Lokaci</string>
+  <string name="stat_average_duration">Matsakaicin Lokaci</string>
+  <string name="stat_incoming">Mai zuwa</string>
+  <string name="stat_outgoing">Mai tafiya</string>
+  <string name="stat_missed">An Rasa</string>
+  <string name="stat_received">An Karɓi</string>
+  <string name="stat_sent">An Aika</string>
+  <string name="stat_blocked">An Rufe</string>
+  <string name="stat_frequent_contacts">Lamboci da ake yi da su</string>
+  <string name="stat_contact_calls_duration">%1$d Kira • %2$s</string>
+</resources>

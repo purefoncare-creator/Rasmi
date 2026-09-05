@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="nav_back">Padà</string>
+  <string name="add_contact_choose_method">Fi Ọrọ̀</string>
+  <string name="add_contact_manual">Fi Lẹ́hìn</string>
+  <string name="add_contact_via_qr">Fi Nípasẹ̀ QR</string>
+  <string name="dialer_active_call_title">Irapọ̀ Sílẹ̀</string>
+  <string name="dialer_active_call_expand">Apótí Kọ̀ọ̀</string>
+  <string name="dialer_recent">Àkọ́kọ́</string>
+  <string name="dialer_no_recent">Kò sí iṣẹ́ àkọ́kọ́</string>
+  <string name="dialer_results">Àbájáde</string>
+  <string name="incall_mute">Dáramú</string>
+  <string name="incall_speaker">Amplifier</string>
+  <string name="my_card_title">Káàdì Mi</string>
+  <string name="my_card_desc">Ṣẹ̀dá káàdì rẹ kí o pín pẹ̀lú ènìyàn kankan</string>
+  <string name="my_card_edit">Ṣàtúnṣe</string>
+  <string name="my_card_saved">Káàdì Ti Dè</string>
+  <string name="my_card_share">Pín</string>
+  <string name="qr_scan_title">Ṣàwárí Kóòdù Ọrọ̀</string>
+  <string name="qr_camera_permission">A ní ìfọ̀rọ̀wánilẹnufun Kámẹ́rà láti ṣàwárí kóòdù</string>
+  <string name="invalid_qr_code">Kóòdù QR Kò Tọ́</string>
+  <string name="call_blocking_block_unknown">Fura Ọ̀pọ̀lọpọ̀ / Ìdánimọ̀</string>
+  <string name="call_blocking_block_unknown_desc">Kọ̀ Lílọ̀ láti ọ̀pọ̀lọpọ̀ tí kò sí nínú àwọn ọrọ̀</string>
+  <string name="call_blocking_whitelist_only">Iṣàkóso Àtọ́wọ́dá Wọ́n Nìkan</string>
+  <string name="call_blocking_whitelist_only_desc">Fura gbogbo àtọ́wọ́dá tí kò sí nínú àtọ́wọ́dá</string>
+  <string name="call_blocking_whitelist_only_warning">⚠ Gbogbo ìrántí tí kò sí nínú àtọ́wọ́dá yóò jà!</string>
+  <string name="notification_ongoing_call_channel">Ìrántí Tí ń Lọ</string>
+  <string name="notification_ongoing_call_channel_desc">Ìkéde ìfarapasẹ̀ fún ìrántí tí ń ṣiṣẹ́ nígbà tí apótí tí parí</string>
+  <string name="notification_ongoing_call_title">Ìrántí Tí ń Lọ</string>
+  <string name="delete_note_title">Parẹ̀ Àkọsílẹ̀</string>
+  <string name="delete_note_message">Ṣé o fẹ́ parẹ̀ Àkọsílẹ̀ yìí?</string>
+  <string name="stat_title">Àpapọ̀</string>
+  <string name="stat_call_statistics">Àpapọ̀ Ìrántí</string>
+  <string name="stat_message_statistics">Àpapọ̀ Ìròyìn</string>
+  <string name="stat_total_calls">Gbogbo Ìrántí</string>
+  <string name="stat_total_messages">Gbogbo Ìròyìn</string>
+  <string name="stat_total_duration">Gbogbo Àkókò</string>
+  <string name="stat_average_duration">Àárín Àkókò</string>
+  <string name="stat_incoming">Tí ń Wọlé</string>
+  <string name="stat_outgoing">Tí ń Jade</string>
+  <string name="stat_missed">Kò Rí</string>
+  <string name="stat_received">Gbà</string>
+  <string name="stat_sent">Ránṣẹ́</string>
+  <string name="stat_blocked">Pa</string>
+  <string name="stat_frequent_contacts">Ọrọ̀ tí a máa fi ń rántí</string>
+  <string name="stat_contact_calls_duration">%1$d Ìrántí • %2$s</string>
+</resources>

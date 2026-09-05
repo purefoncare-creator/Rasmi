@@ -9,7 +9,6 @@ import android.net.Uri
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -18,6 +17,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Message
 import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -95,7 +95,8 @@ internal fun MiddleCardContent(
                 onNotesChange = { onEvent(InCallUiEvent.UpdateCallNotes(it)) },
                 onSaveNote = { onEvent(InCallUiEvent.SaveCallNote) },
                 onShowNewNoteInput = { onEvent(InCallUiEvent.ShowNewNoteInput) },
-                onHideNewNoteInput = { onEvent(InCallUiEvent.HideNewNoteInput) }
+                onHideNewNoteInput = { onEvent(InCallUiEvent.HideNewNoteInput) },
+                onDeleteNote = { noteId -> onEvent(InCallUiEvent.DeleteCallNote(noteId)) }
             )
             1 -> LastCallTab(
                 lastCallStatus = uiState.lastCallStatus,
@@ -123,13 +124,15 @@ private fun NotesTab(
     onNotesChange: (String) -> Unit,
     onSaveNote: () -> Unit,
     onShowNewNoteInput: () -> Unit,
-    onHideNewNoteInput: () -> Unit
+    onHideNewNoteInput: () -> Unit,
+    onDeleteNote: (Long) -> Unit = {}
 ) {
     if (existingNotes.isNotEmpty() && !showNewNoteInput) {
         // عرض الملاحظات السابقة
         ExistingNotesView(
             notes = existingNotes,
-            onAddNew = onShowNewNoteInput
+            onAddNew = onShowNewNoteInput,
+            onDeleteNote = onDeleteNote
         )
     } else {
         // حقل إدخال ملاحظة جديدة
@@ -146,8 +149,13 @@ private fun NotesTab(
 @Composable
 private fun ExistingNotesView(
     notes: List<ContactNoteEntity>,
-    onAddNew: () -> Unit
+    onAddNew: () -> Unit,
+    onDeleteNote: (Long) -> Unit
 ) {
+    // ✅ FIX M34: حالة تأكيد الحذف
+    var showDeleteConfirm by remember { mutableStateOf(false) }
+    var deletedNoteId by remember { mutableStateOf<Long?>(null) }
+
     Box(modifier = Modifier.fillMaxSize()) {
         LazyColumn(
             modifier = Modifier
@@ -156,8 +164,36 @@ private fun ExistingNotesView(
             verticalArrangement = Arrangement.spacedBy(6.dp)
         ) {
             items(notes, key = { it.id }) { note ->
-                NoteItem(note = note)
+                // ✅ FIX M34: زر حذف لكل ملاحظة
+                NoteItem(
+                    note = note,
+                    onDelete = {
+                        deletedNoteId = note.id
+                        showDeleteConfirm = true
+                    }
+                )
             }
+        }
+
+        if (showDeleteConfirm) {
+            AlertDialog(
+                onDismissRequest = { showDeleteConfirm = false },
+                title = { Text(stringResource(R.string.delete_note_title)) },
+                text = { Text(stringResource(R.string.delete_note_message)) },
+                confirmButton = {
+                    TextButton(onClick = {
+                        deletedNoteId?.let(onDeleteNote)
+                        showDeleteConfirm = false
+                    }) {
+                        Text(stringResource(R.string.action_delete), color = MaterialTheme.colorScheme.error)
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = { showDeleteConfirm = false }) {
+                        Text(stringResource(R.string.cancel))
+                    }
+                }
+            )
         }
 
         // زر + في الزاوية السفلية
@@ -179,29 +215,52 @@ private fun ExistingNotesView(
 }
 
 @Composable
-private fun NoteItem(note: ContactNoteEntity) {
+private fun NoteItem(
+    note: ContactNoteEntity,
+    onDelete: (() -> Unit)? = null
+) {
     Surface(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(8.dp),
         color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.6f),
         tonalElevation = 1.dp
     ) {
-        Column(
-            modifier = Modifier.padding(horizontal = 10.dp, vertical = 8.dp)
+        Row(
+            verticalAlignment = Alignment.Top
         ) {
-            Text(
-                text = note.note,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurface,
-                maxLines = 4,
-                overflow = TextOverflow.Ellipsis
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = formatCallTime(note.createdAt),
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
-            )
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(start = 10.dp, end = 4.dp, top = 8.dp, bottom = 8.dp)
+            ) {
+                Text(
+                    text = note.note,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    maxLines = 4,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = formatCallTime(note.createdAt),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
+                )
+            }
+            // ✅ FIX M34: زر حذف الملاحظة
+            if (onDelete != null) {
+                IconButton(
+                    onClick = onDelete,
+                    modifier = Modifier.size(32.dp).padding(top = 2.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.Delete,
+                        contentDescription = stringResource(R.string.action_delete),
+                        tint = MaterialTheme.colorScheme.error.copy(alpha = 0.7f),
+                        modifier = Modifier.size(16.dp)
+                    )
+                }
+            }
         }
     }
 }
@@ -363,7 +422,7 @@ private fun ActionsTab(
     onEvent: (InCallUiEvent) -> Unit
 ) {
     val context = LocalContext.current
-    val isLightTheme = !isSystemInDarkTheme()
+    val isLightTheme = false
     
     // التحقق من تثبيت واتساب وتيليجرام
     val whatsAppInstalled = remember(context) {

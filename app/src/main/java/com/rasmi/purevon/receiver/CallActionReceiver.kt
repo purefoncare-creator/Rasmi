@@ -24,6 +24,9 @@ class CallActionReceiver : BroadcastReceiver() {
     companion object {
         const val ACTION_ANSWER = "com.rasmi.purevon.ACTION_ANSWER"
         const val ACTION_DECLINE = "com.rasmi.purevon.ACTION_DECLINE"
+        const val ACTION_END_CALL = "com.rasmi.purevon.ACTION_END_CALL"
+        const val ACTION_TOGGLE_MUTE = "com.rasmi.purevon.ACTION_TOGGLE_MUTE"
+        const val ACTION_TOGGLE_SPEAKER = "com.rasmi.purevon.ACTION_TOGGLE_SPEAKER"
         const val EXTRA_CALL_ID = "EXTRA_CALL_ID"
         private const val TAG = "CallActionReceiver"
     }
@@ -78,6 +81,31 @@ class CallActionReceiver : BroadcastReceiver() {
                     call.reject(false, null)
                 }
                 Log.d(TAG, "✅ Call declined")
+            }
+            ACTION_END_CALL -> {
+                Log.d(TAG, "Ending call from notification: ${DebugLogger.maskPhoneNumber(call.details?.handle?.schemeSpecificPart ?: "")}")
+                runCatching {
+                    call.disconnect()
+                }.onFailure { e ->
+                    Log.e(TAG, "Error ending call from notification", e)
+                }
+                Log.d(TAG, "✅ Call disconnect requested")
+            }
+            ACTION_TOGGLE_MUTE -> {
+                Log.d(TAG, "Toggling mute from PiP")
+                runCatching {
+                    inCallServiceBridge.toggleMute()
+                }.onFailure { e ->
+                    Log.e(TAG, "Error toggling mute", e)
+                }
+            }
+            ACTION_TOGGLE_SPEAKER -> {
+                Log.d(TAG, "Toggling speaker from PiP")
+                runCatching {
+                    inCallServiceBridge.toggleSpeaker()
+                }.onFailure { e ->
+                    Log.e(TAG, "Error toggling speaker", e)
+                }
             }
         }
     }

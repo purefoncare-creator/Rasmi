@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="nav_back">ກັບຄືນ</string>
+  <string name="add_contact_choose_method">ເພີ່ມຜູ້ຕິດຕໍ່</string>
+  <string name="add_contact_manual">ເພີ່ມດ້ວຍມື</string>
+  <string name="add_contact_via_qr">ເພີ່ມຜ່ານ QR ຄຼິບ</string>
+  <string name="dialer_active_call_title">ໂທລະສັບທີ່ກຳລັງດຳເນີນງານ</string>
+  <string name="dialer_active_call_expand">ຈໍສະແດງເຕັມ</string>
+  <string name="dialer_recent">ຫຼ້າສຸດ</string>
+  <string name="dialer_no_recent">ບໍ່ມີການເຄື່ອນໄຫວຫຼ້າສຸດ</string>
+  <string name="dialer_results">ຜົນໄດ້ຮັບ</string>
+  <string name="incall_mute">ປິດສຽງ</string>
+  <string name="incall_speaker">ລຳໂພງ</string>
+  <string name="my_card_title">ບັດຂອງຂ້ອຍ</string>
+  <string name="my_card_desc">ສ້າງບັດສ່ວນຕົວຂອງທ່ານແລະແບ່ງປັນກັບໃຜກໍໄດ້</string>
+  <string name="my_card_edit">ແກ້ໄຂ</string>
+  <string name="my_card_saved">ບັດຖືກບັນທຶກ</string>
+  <string name="my_card_share">ແບ່ງປັນ</string>
+  <string name="qr_scan_title">ສະແກນລະຫັດຜູ້ຕິດຕໍ່</string>
+  <string name="qr_camera_permission">ຕ້ອງການອະນຸຍາດກ້ອງເພື່ອສະແກນລະຫັດ</string>
+  <string name="invalid_qr_code">ລະຫັດ QR ບໍ່ຖືກຕ້ອງ</string>
+  <string name="call_blocking_block_unknown">ບລັອກເບີທີ່ບໍ່ຮູ້ຈັກ / ເອກະຊົນ</string>
+  <string name="call_blocking_block_unknown_desc">ປະຕິເສດການໂທຈາກເບີທີ່ບໍ່ຢູ່ໃນຜູ້ຕິດຕໍ່</string>
+  <string name="call_blocking_whitelist_only">ໂປຣແກຣມລາຍຊື່ຂາວເທົ່ານັ້ນ</string>
+  <string name="call_blocking_whitelist_only_desc">ບລັອກທຸກຢ່າງນອກເໜືອເບີໃນລາຍຊື່ຂາວ</string>
+  <string name="call_blocking_whitelist_only_warning">⚠ ທຸກການໂທທີ່ບໍ່ຢູ່ໃນລາຍຊື່ຂາວຂອງທ່ານຈະຖືກບລັອກ!</string>
+  <string name="notification_ongoing_call_channel">ການໂທຕໍ່ເນື່ອງ</string>
+  <string name="notification_ongoing_call_channel_desc">ການແຈ້ງເຕືອນຕະຫຼອດສຳລັບການໂທທີ່ກຳລັງດຳເນີນງານເມື່ອຈໍປິດ</string>
+  <string name="notification_ongoing_call_title">ການໂທຕໍ່ເນື່ອງ</string>
+  <string name="delete_note_title">ລຶບບັນທຶກ</string>
+  <string name="delete_note_message">ທ່ານຢາກລຶບບັນທຶກນີ້ບໍ?</string>
+  <string name="stat_title">ສະຖິຕິ</string>
+  <string name="stat_call_statistics">ສະຖິຕິການໂທ</string>
+  <string name="stat_message_statistics">ສະຖິຕິຂໍ້ຄວາມ</string>
+  <string name="stat_total_calls">ຈຳນວນການໂທທັງໝົດ</string>
+  <string name="stat_total_messages">ຈຳນວນຂໍ້ຄວາມທັງໝົດ</string>
+  <string name="stat_total_duration">ໄລຍະເວລາທັງໝົດ</string>
+  <string name="stat_average_duration">ໄລຍະເວລາສະເລ່ຍ</string>
+  <string name="stat_incoming">ເຂົ້າ</string>
+  <string name="stat_outgoing">ອອກ</string>
+  <string name="stat_missed">ພາດ</string>
+  <string name="stat_received">ໄດ້ຮັບ</string>
+  <string name="stat_sent">ສົ່ງແລ້ວ</string>
+  <string name="stat_blocked">ບລັອກ</string>
+  <string name="stat_frequent_contacts">ຜູ້ຕິດຕໍ່ທີ່ໂທຫຼາຍ</string>
+  <string name="stat_contact_calls_duration">%1$d ການໂທ • %2$s</string>
+</resources>

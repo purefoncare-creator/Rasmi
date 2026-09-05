@@ -77,7 +77,7 @@ internal fun LocationMapCard(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(12.dp))
+            .clip(RoundedCornerShape(10.dp))
             .clickable(
                 onClickLabel = context.getString(R.string.msg_cd_open_location)
             ) {

@@ -31,7 +31,6 @@ import androidx.compose.ui.window.DialogProperties
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.size.Size
-import com.rasmi.purevon.presentation.theme.iOSBlue
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 

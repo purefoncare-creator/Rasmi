@@ -421,3 +421,27 @@ val MIGRATION_13_14 = object : Migration(13, 14) {
         }
     }
 }
+
+/**
+ * ✅ FIX M25: Migration from version 14 to 15
+ *
+ * The entities conversation_settings, whitelist and message_templates previously
+ * did NOT declare their indices in @Entity, while older migrations created them.
+ * Consequences before this fix:
+ *  - Fresh installs had no indices at all (slow queries)
+ *  - Installs that migrated through v2/v3/v6 carried indices the entity schema
+ *    didn't declare → Room schema validation mismatch risk
+ * Now the indices are declared in @Entity; this migration adds them for existing
+ * fresh-install users upgrading to v15. IF NOT EXISTS makes it a no-op on
+ * installs that already created them via the old migration chain.
+ */
+val MIGRATION_14_15 = object : Migration(14, 15) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL("CREATE INDEX IF NOT EXISTS index_conversation_settings_isPinned ON conversation_settings(isPinned)")
+        db.execSQL("CREATE INDEX IF NOT EXISTS index_conversation_settings_isMuted ON conversation_settings(isMuted)")
+        db.execSQL("CREATE INDEX IF NOT EXISTS index_conversation_settings_isArchived ON conversation_settings(isArchived)")
+        db.execSQL("CREATE INDEX IF NOT EXISTS index_whitelist_phoneNumber ON whitelist(phoneNumber)")
+        db.execSQL("CREATE INDEX IF NOT EXISTS index_message_templates_category ON message_templates(category)")
+        db.execSQL("CREATE INDEX IF NOT EXISTS index_message_templates_is_favorite ON message_templates(is_favorite)")
+    }
+}

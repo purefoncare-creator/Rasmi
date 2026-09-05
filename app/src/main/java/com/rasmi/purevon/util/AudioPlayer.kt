@@ -15,20 +15,15 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-/**
- * Audio Player utility for playing voice messages
- * Supports both local files and content URIs
- */
 class AudioPlayer(private val context: Context) {
-    
+
     companion object {
         private const val TAG = "AudioPlayer"
     }
-    
+
     private var mediaPlayer: MediaPlayer? = null
     private var currentUri: String? = null
-    
-    // ✅ FIX #33: Audio Focus management
+
     private val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
     private val audioAttributes = AudioAttributes.Builder()
         .setUsage(AudioAttributes.USAGE_MEDIA)
@@ -36,8 +31,7 @@ class AudioPlayer(private val context: Context) {
         .build()
     private var audioFocusRequest: AudioFocusRequest? = null
     private var hasAudioFocus = false
-    
-    // ✅ FIX #33: Pause on headphone disconnect
+
     private val noisyReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (intent?.action == AudioManager.ACTION_AUDIO_BECOMING_NOISY) {
@@ -46,47 +40,36 @@ class AudioPlayer(private val context: Context) {
         }
     }
     private var noisyReceiverRegistered = false
-    
+
     private val audioFocusChangeListener = AudioManager.OnAudioFocusChangeListener { focusChange ->
         when (focusChange) {
             AudioManager.AUDIOFOCUS_LOSS -> {
-                // Permanent loss — stop
                 stop()
                 hasAudioFocus = false
             }
-            AudioManager.AUDIOFOCUS_LOSS_TRANSIENT -> {
-                // Temporary loss (e.g. phone call) — pause
-                pause()
-            }
-            AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> {
-                // Could duck, but for voice messages just pause
-                pause()
-            }
-            AudioManager.AUDIOFOCUS_GAIN -> {
-                // Regained focus — resume if was playing
-                resume()
-            }
+            AudioManager.AUDIOFOCUS_LOSS_TRANSIENT -> pause()
+            AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> pause()
+            AudioManager.AUDIOFOCUS_GAIN -> resume()
         }
     }
-    
+
     private val _isPlaying = MutableStateFlow(false)
     val isPlaying: StateFlow<Boolean> = _isPlaying.asStateFlow()
-    
+
     private val _currentPosition = MutableStateFlow(0)
     val currentPosition: StateFlow<Int> = _currentPosition.asStateFlow()
-    
+
     private val _duration = MutableStateFlow(0)
     val duration: StateFlow<Int> = _duration.asStateFlow()
-    
+
     private val _currentPlayingUri = MutableStateFlow<String?>(null)
     val currentPlayingUri: StateFlow<String?> = _currentPlayingUri.asStateFlow()
-    
-    /**
-     * Play audio from URI (file:// or content://)
-     */
-    fun play(uri: String) {
+
+    private val _playbackSpeed = MutableStateFlow(1f)
+    val playbackSpeed: StateFlow<Float> = _playbackSpeed.asStateFlow()
+
+    fun play(uri: String, startAtPosition: Int = 0) {
         try {
-            // If already playing this URI, just toggle pause/resume
             if (currentUri == uri && mediaPlayer != null) {
                 if (_isPlaying.value) {
                     pause()
@@ -95,25 +78,26 @@ class AudioPlayer(private val context: Context) {
                 }
                 return
             }
-            
-            // ✅ FIX #33: Request audio focus before playing
+
             if (!requestAudioFocus()) {
                 Log.w(TAG, "Could not gain audio focus, playing anyway")
             }
-            
-            // Stop any existing playback
+
             stop()
-            
+
             currentUri = uri
             _currentPlayingUri.value = uri
-            
+
             mediaPlayer = MediaPlayer().apply {
-                // ✅ FIX #33: Set audio attributes
                 setAudioAttributes(audioAttributes)
                 setDataSource(context, Uri.parse(uri))
                 setOnPreparedListener { mp ->
                     _duration.value = mp.duration
+                    if (startAtPosition > 0) {
+                        mp.seekTo(startAtPosition.toLong(), MediaPlayer.SEEK_CLOSEST_SYNC)
+                    }
                     mp.start()
+                    applySpeed()
                     _isPlaying.value = true
                     registerNoisyReceiver()
                     Log.d(TAG, "Started playing: $uri, duration: ${mp.duration}ms")
@@ -140,10 +124,7 @@ class AudioPlayer(private val context: Context) {
             abandonAudioFocus()
         }
     }
-    
-    /**
-     * Pause playback
-     */
+
     fun pause() {
         try {
             mediaPlayer?.let {
@@ -158,15 +139,13 @@ class AudioPlayer(private val context: Context) {
             Log.e(TAG, "Error pausing", e)
         }
     }
-    
-    /**
-     * Resume playback
-     */
+
     fun resume() {
         try {
             mediaPlayer?.let {
                 if (!it.isPlaying) {
                     it.start()
+                    applySpeed()
                     _isPlaying.value = true
                     Log.d(TAG, "Resumed playback")
                 }
@@ -175,23 +154,50 @@ class AudioPlayer(private val context: Context) {
             Log.e(TAG, "Error resuming", e)
         }
     }
-    
-    /**
-     * Seek to position
-     */
+
     fun seekTo(positionMs: Int) {
         try {
-            mediaPlayer?.seekTo(positionMs)
+            mediaPlayer?.seekTo(positionMs.toLong(), MediaPlayer.SEEK_CLOSEST_SYNC)
             _currentPosition.value = positionMs
             Log.d(TAG, "Seeked to: $positionMs")
         } catch (e: Exception) {
             Log.e(TAG, "Error seeking", e)
         }
     }
-    
-    /**
-     * Update current position
-     */
+
+    fun setSpeed(speed: Float) {
+        val previous = _playbackSpeed.value
+        _playbackSpeed.value = speed
+        if (!applySpeed()) {
+            _playbackSpeed.value = previous
+        }
+    }
+
+    fun cycleSpeed(): Float {
+        val next = when (_playbackSpeed.value) {
+            1f -> 1.5f
+            1.5f -> 2f
+            else -> 1f
+        }
+        setSpeed(next)
+        return _playbackSpeed.value
+    }
+
+    private fun applySpeed(): Boolean {
+        return try {
+            mediaPlayer?.let { mp ->
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    val params = mp.playbackParams
+                    mp.playbackParams = params.setSpeed(_playbackSpeed.value)
+                }
+            }
+            true
+        } catch (e: Exception) {
+            Log.e(TAG, "Error setting speed", e)
+            false
+        }
+    }
+
     fun updatePosition() {
         try {
             mediaPlayer?.let {
@@ -199,14 +205,10 @@ class AudioPlayer(private val context: Context) {
                     _currentPosition.value = it.currentPosition
                 }
             }
-        } catch (e: Exception) {
-            // Ignore
+        } catch (_: Exception) {
         }
     }
-    
-    /**
-     * Stop playback
-     */
+
     fun stop() {
         try {
             mediaPlayer?.let {
@@ -221,6 +223,7 @@ class AudioPlayer(private val context: Context) {
             _isPlaying.value = false
             _currentPosition.value = 0
             _currentPlayingUri.value = null
+            _playbackSpeed.value = 1f
             abandonAudioFocus()
             unregisterNoisyReceiver()
             Log.d(TAG, "Stopped playback")
@@ -228,15 +231,11 @@ class AudioPlayer(private val context: Context) {
             Log.e(TAG, "Error stopping", e)
         }
     }
-    
-    /**
-     * Release resources
-     */
+
     fun release() {
         stop()
     }
-    
-    // ✅ FIX #33: Audio focus management helpers
+
     private fun requestAudioFocus(): Boolean {
         val request = AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_EXCLUSIVE)
             .setAudioAttributes(audioAttributes)
@@ -247,13 +246,13 @@ class AudioPlayer(private val context: Context) {
         hasAudioFocus = (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED)
         return hasAudioFocus
     }
-    
+
     private fun abandonAudioFocus() {
         audioFocusRequest?.let { audioManager.abandonAudioFocusRequest(it) }
         audioFocusRequest = null
         hasAudioFocus = false
     }
-    
+
     private fun registerNoisyReceiver() {
         if (!noisyReceiverRegistered) {
             val filter = IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY)
@@ -265,17 +264,17 @@ class AudioPlayer(private val context: Context) {
             noisyReceiverRegistered = true
         }
     }
-    
+
     private fun unregisterNoisyReceiver() {
         if (noisyReceiverRegistered) {
-            try { context.unregisterReceiver(noisyReceiver) } catch (_: Exception) {}
+            try {
+                context.unregisterReceiver(noisyReceiver)
+            } catch (_: Exception) {
+            }
             noisyReceiverRegistered = false
         }
     }
-    
-    /**
-     * Get audio duration from URI
-     */
+
     fun getDuration(uri: String): Long {
         return try {
             val mp = MediaPlayer().apply {
@@ -290,12 +289,8 @@ class AudioPlayer(private val context: Context) {
             0L
         }
     }
-    
-    /**
-     * Check if currently playing a specific URI
-     */
+
     fun isPlayingUri(uri: String): Boolean {
         return _isPlaying.value && currentUri == uri
     }
 }
-

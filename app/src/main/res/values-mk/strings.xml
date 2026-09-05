@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="nav_back">Назад</string>
+  <string name="add_contact_choose_method">Додај Контакт</string>
+  <string name="add_contact_manual">Додај Рачно</string>
+  <string name="add_contact_via_qr">Додај преку QR Код</string>
+  <string name="dialer_active_call_title">Активен Повик</string>
+  <string name="dialer_active_call_expand">Цел Екран</string>
+  <string name="dialer_recent">Последни</string>
+  <string name="dialer_no_recent">Нема последна активност</string>
+  <string name="dialer_results">Резултати</string>
+  <string name="incall_mute">Тивко</string>
+  <string name="incall_speaker">Звучник</string>
+  <string name="my_card_title">Мојата Картичка</string>
+  <string name="my_card_desc">Креирај ја својата лична картичка и сподели со било кој</string>
+  <string name="my_card_edit">Уреди</string>
+  <string name="my_card_saved">Картичката е зачувана</string>
+  <string name="my_card_share">Сподели</string>
+  <string name="qr_scan_title">Скенирај код за контакт</string>
+  <string name="qr_camera_permission">Потребна е дозвола за камера за скенирање на кодот</string>
+  <string name="invalid_qr_code">Неважечки QR Код</string>
+  <string name="call_blocking_block_unknown">Блокирај непознати / приватни броеви</string>
+  <string name="call_blocking_block_unknown_desc">Оdbиј повици од броеви кои не се во контактите</string>
+  <string name="call_blocking_whitelist_only">Само режим бела листа</string>
+  <string name="call_blocking_whitelist_only_desc">Блокирај се освен броеви од белата листа</string>
+  <string name="call_blocking_whitelist_only_warning">⚠ Секој повик кој не е на вашата бела листа ќе биде блокиран!</string>
+  <string name="notification_ongoing_call_channel">Тековен повик</string>
+  <string name="notification_ongoing_call_channel_desc">Трајно известување за активен повик кога екранот е затворен</string>
+  <string name="notification_ongoing_call_title">Тековен повик</string>
+  <string name="delete_note_title">Избриши Белешка</string>
+  <string name="delete_note_message">Дали сте сигурни дека сакате да ја избришете оваа белешка?</string>
+  <string name="stat_title">Статистика</string>
+  <string name="stat_call_statistics">Статистика на повици</string>
+  <string name="stat_message_statistics">Статистика на пораки</string>
+  <string name="stat_total_calls">Вкупно повици</string>
+  <string name="stat_total_messages">Вкупно пораки</string>
+  <string name="stat_total_duration">Вкупно траење</string>
+  <string name="stat_average_duration">Просечно траење</string>
+  <string name="stat_incoming">Дојдовни</string>
+  <string name="stat_outgoing">Одјавни</string>
+  <string name="stat_missed">Пропуштени</string>
+  <string name="stat_received">Примени</string>
+  <string name="stat_sent">Испратени</string>
+  <string name="stat_blocked">Блокирани</string>
+  <string name="stat_frequent_contacts">Најчести контакти за повици</string>
+  <string name="stat_contact_calls_duration">%1$d повици • %2$s</string>
+</resources>

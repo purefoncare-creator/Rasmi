@@ -580,7 +580,8 @@ internal class MmsSender(
                 // STRATEGY 2: System SmsManager (fallback)
                 if (!attemptDirectSuccess) {
                     Log.d(TAG, "🔄 STRATEGY 2: System sendMultimediaMessage() fallback...")
-                    val sendFile = java.io.File(context.cacheDir, "send.${System.currentTimeMillis()}.dat")
+                    val mmsDir = java.io.File(context.cacheDir, "mms").apply { mkdirs() }
+                    val sendFile = java.io.File(mmsDir, "send.${System.currentTimeMillis()}.dat")
                     try {
                         java.io.FileOutputStream(sendFile).use { it.write(pduBytes) }
 

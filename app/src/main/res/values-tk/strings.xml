@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="nav_back">Yzyna</string>
+  <string name="add_contact_choose_method">Habarlaşyk goş</string>
+  <string name="add_contact_manual">El bilen goş</string>
+  <string name="add_contact_via_qr">QR kod arkaly goş</string>
+  <string name="dialer_active_call_title">Işjeň jaňlama</string>
+  <string name="dialer_active_call_expand">Doly ekran</string>
+  <string name="dialer_recent">Soňky</string>
+  <string name="dialer_no_recent">Soňky işjeňlik ýok</string>
+  <string name="dialer_results">Netijeler</string>
+  <string name="incall_mute">Urnuk</string>
+  <string name="incall_speaker">Goňşyraýyş</string>
+  <string name="my_card_title">Meniň kartam</string>
+  <string name="my_card_desc">Şahsy kartamy dörediň we haýran女子 bilen paýlaşyň</string>
+  <string name="my_card_edit">Saýla</string>
+  <string name="my_card_saved">Karta saklandy</string>
+  <string name="my_card_share">Paýlaş</string>
+  <string name="qr_scan_title">Habarlaşyk kody tarama</string>
+  <string name="qr_camera_permission">Kod taramak üçin kamera ruhsaty gerek</string>
+  <string name="invalid_qr_code">Nädogry QR kod</string>
+  <string name="call_blocking_block_unknown">Näbelli / şahsy nomerleri blokla</string>
+  <string name="call_blocking_block_unknown_desc">Habarlaşyklarda bolmadyk nomerlerden gelen jaňlamalary giňiş</string>
+  <string name="call_blocking_whitelist_only">Diýse atlaýyşklar sanawynyň tertibi</string>
+  <string name="call_blocking_whitelist_only_desc">Atlaýyşklar sanawynda bolmadyk hemme nomerleri blokla</string>
+  <string name="call_blocking_whitelist_only_warning">⚠ Siziň atlaýyşklar sanawyñyzda bolmadyk her jaňlama bloklanar!</string>
+  <string name="notification_ongoing_call_channel">Dowam edýän jaňlama</string>
+  <string name="notification_ongoing_call_channel_desc">Ekrany ýapyldygmada işjeň jaňlama üçin Ýurdak ýaňlys</string>
+  <string name="notification_ongoing_call_title">Dowam edýän jaňlama</string>
+  <string name="delete_note_title">Bellikleri poke</string>
+  <string name="delete_note_message">Bu belligi pozmak isleýärsiňiz?</string>
+  <string name="stat_title">Statistika</string>
+  <string name="stat_call_statistics">Jaňlama statistikasy</string>
+  <string name="stat_message_statistics">Hat statistics</string>
+  <string name="stat_total_calls">Jemi jaňlamalar</string>
+  <string name="stat_total_messages">Jemi hatlar</string>
+  <string name="stat_total_duration">Jemi wagt</string>
+  <string name="stat_average_duration">Ortaca wagt</string>
+  <string name="stat_incoming">Gelen</string>
+  <string name="stat_outgoing">Giden</string>
+  <string name="stat_missed">Gowakdy</string>
+  <string name="stat_received">Alyndy</string>
+  <string name="stat_sent">Iberildi</string>
+  <string name="stat_blocked">Bloklandy</string>
+  <string name="stat_frequent_contacts">Sik yetýän habarlaşyklar</string>
+  <string name="stat_contact_calls_duration">%1$d jaňlama • %2$s</string>
+</resources>

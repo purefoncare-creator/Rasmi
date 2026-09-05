@@ -10,7 +10,7 @@ import androidx.compose.animation.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -24,6 +24,7 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -52,11 +53,12 @@ import java.util.Calendar
 @Composable
 fun AddContactScreen(
     onNavigateBack: () -> Unit,
-    onContactSaved: () -> Unit,
+    onContactSaved: (Long) -> Unit,
     modifier: Modifier = Modifier,
     initialPhoneNumber: String? = null,
     initialName: String? = null,
     initialEmail: String? = null,
+    initialCompany: String? = null,
     contactId: Long? = null,
     viewModel: AddContactViewModel = hiltViewModel()
 ) {
@@ -65,12 +67,12 @@ fun AddContactScreen(
     val keyboardController = LocalSoftwareKeyboardController.current
     val snackbarHostState = remember { SnackbarHostState() }
 
-    LaunchedEffect(Unit) { viewModel.initialize(initialPhoneNumber, initialName, initialEmail, contactId) }
+    LaunchedEffect(Unit) { viewModel.initialize(initialPhoneNumber, initialName, initialEmail, initialCompany, contactId) }
 
     LaunchedEffect(Unit) {
         viewModel.events.collect { event ->
             when (event) {
-                is AddContactEvent.ContactSaved -> onContactSaved()
+                is AddContactEvent.ContactSaved -> onContactSaved(event.newContactId)
                 is AddContactEvent.ShowSnackbar -> {
                     val msg = when (event.message) {
                         "permission_denied" -> context.getString(R.string.add_contact_failed)
@@ -83,7 +85,7 @@ fun AddContactScreen(
         }
     }
 
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     // Re-evaluate validation whenever uiState changes; a one-time derivedStateOf
     // would keep the initial disabled value because the ViewModel property is not
     // itself Compose state.
@@ -122,7 +124,7 @@ fun AddContactScreen(
         }
     }
 
-    val isLightTheme = !isSystemInDarkTheme()
+    val isLightTheme = false
     val cardColor = if (isLightTheme) Color.White else MaterialTheme.colorScheme.background
 
     if (showAvatarDialog) {
@@ -143,7 +145,7 @@ fun AddContactScreen(
                         Icon(Icons.Default.CameraAlt, null, modifier = Modifier.padding(end = 8.dp))
                         Text(stringResource(R.string.add_contact_take_photo))
                     }
-                    if (uiState.selectedPhotoUri != null || uiState.selectedPhotoBitmap != null) {
+                    if (uiState.selectedPhotoUri != null || uiState.selectedPhotoBitmap != null || uiState.existingPhotoUri != null) {
                         TextButton(onClick = { viewModel.clearPhoto(); showAvatarDialog = false }, modifier = Modifier.fillMaxWidth()) {
                             Icon(Icons.Default.Delete, null, tint = MaterialTheme.colorScheme.error, modifier = Modifier.padding(end = 8.dp))
                             Text(stringResource(R.string.add_contact_remove_photo), color = MaterialTheme.colorScheme.error)

@@ -4,8 +4,9 @@ import android.net.Uri
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.isSystemInDarkTheme
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -60,26 +61,15 @@ fun MessageInputBar(
     isFetchingLocation: Boolean = false
 ) {
 
-    // ✅ حالة إظهار لوحة المرفقات
     var showAttachmentPanel by remember { mutableStateOf(false) }
-    
-    val isDarkTheme = isSystemInDarkTheme()
-    val barColor = if (isDarkTheme) {
-        MaterialTheme.colorScheme.surface.copy(alpha = 0.98f)
-    } else {
-        MaterialTheme.colorScheme.surface.copy(alpha = 0.96f)
-    }
 
-    // ✅ Input Bar - يلتصق مباشرة بالكيبورد
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .background(barColor)
-            // ✅ لا imePadding ولا navigationBarsPadding - Box الخارجي يتحكم بالكل
+            .background(PurevonComposerBackground)
     ) {
-        // Subtle top divider
         HorizontalDivider(
-            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.22f),
+            color = PurevonBorder,
             thickness = 0.5.dp
         )
         
@@ -88,9 +78,10 @@ fun MessageInputBar(
             Surface(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 8.dp, vertical = 8.dp),
-                color = MaterialTheme.colorScheme.surfaceVariant,
-                shape = RoundedCornerShape(24.dp)
+                    .padding(horizontal = MessagingDimensions.spacing8x, vertical = MessagingDimensions.spacing8x),
+                color = PurevonSurface,
+                shape = RoundedCornerShape(MessagingDimensions.corner12x),
+                border = androidx.compose.foundation.BorderStroke(MessagingDimensions.spacing1x, PurevonBorder)
             ) {
                 Row(
                     modifier = Modifier
@@ -205,9 +196,10 @@ fun MessageInputBar(
             Surface(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 8.dp, vertical = 8.dp),
-                color = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.3f),
-                shape = RoundedCornerShape(16.dp)
+                    .padding(horizontal = MessagingDimensions.spacing8x, vertical = MessagingDimensions.spacing8x),
+                color = PurevonSurface,
+                shape = RoundedCornerShape(MessagingDimensions.corner12x),
+                border = androidx.compose.foundation.BorderStroke(MessagingDimensions.spacing1x, PurevonBorder)
             ) {
                 Row(
                     modifier = Modifier
@@ -263,16 +255,17 @@ fun MessageInputBar(
                 modifier = Modifier
                     .fillMaxWidth()
                     .horizontalScroll(rememberScrollState())
-                    .padding(horizontal = 8.dp, vertical = 8.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    .padding(horizontal = MessagingDimensions.spacing8x, vertical = MessagingDimensions.spacing8x),
+                horizontalArrangement = Arrangement.spacedBy(MessagingDimensions.spacing8x)
             ) {
                 attachments.forEach { attachment ->
                     Surface(
                         modifier = Modifier
                             .width(100.dp)
                             .height(100.dp),
-                        color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.2f),
-                        shape = RoundedCornerShape(12.dp)
+                        color = PurevonSurfaceMuted,
+                        shape = RoundedCornerShape(MessagingDimensions.corner10x),
+                        border = androidx.compose.foundation.BorderStroke(MessagingDimensions.spacing1x, PurevonBorder)
                     ) {
                         Box(modifier = Modifier.fillMaxSize()) {
                             if (attachment.isImage) {
@@ -572,58 +565,49 @@ fun MessageInputBar(
             }
         }
         
-        // Main Input Row
-        // Hide when recording is active or audio preview is showing
         if (!isRecording && audioRecordingFile == null) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 10.dp, vertical = 8.dp),
+                .padding(horizontal = MessagingDimensions.spacing8x, vertical = MessagingDimensions.spacing8x),
             verticalAlignment = Alignment.Bottom,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            horizontalArrangement = Arrangement.spacedBy(MessagingDimensions.spacing8x)
         ) {
-            
-            // Text Field Container - Telegram rounded style
+            IconButton(
+                onClick = { showAttachmentPanel = !showAttachmentPanel },
+                modifier = Modifier.size(40.dp)
+            ) {
+                Icon(
+                    if (showAttachmentPanel) Icons.Default.Close else Icons.Default.Add,
+                    contentDescription = stringResource(R.string.msg_cd_attachments),
+                    tint = PurevonTextSecondary,
+                    modifier = Modifier.size(22.dp)
+                )
+            }
+
             Surface(
                 modifier = Modifier
                     .weight(1f)
-                    .defaultMinSize(minHeight = 46.dp),
-                shape = RoundedCornerShape(24.dp),
-                color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = if (isDarkTheme) 0.58f else 0.82f),
-                shadowElevation = 0.dp
+                    .defaultMinSize(minHeight = 48.dp),
+                shape = RoundedCornerShape(MessagingDimensions.corner16x),
+                color = PurevonSurface,
+                border = androidx.compose.foundation.BorderStroke(MessagingDimensions.spacing1x, PurevonBorder)
             ) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(start = 4.dp, end = 0.dp),
+                        .padding(start = 12.dp, end = 4.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    // 📎 Attachment button (left side inside text field)
-                    IconButton(
-                        onClick = { showAttachmentPanel = !showAttachmentPanel },
-                        modifier = Modifier.size(40.dp)
-                    ) {
-                        Icon(
-                            if (showAttachmentPanel) Icons.Default.Close else Icons.Default.Add,
-                            contentDescription = stringResource(R.string.msg_cd_attachments),
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.size(21.dp)
-                        )
-                    }
-                    
-                    // Text Input
                     BasicTextField(
                         value = text,
                         onValueChange = onTextChange,
                         modifier = Modifier
                             .weight(1f)
-                            .padding(horizontal = 4.dp, vertical = 12.dp),
+                            .defaultMinSize(minHeight = 48.dp)
+                            .padding(vertical = 12.dp),
                         enabled = enabled,
-                        textStyle = MaterialTheme.typography.bodyLarge.copy(
-                            fontSize = 16.sp,
-                            lineHeight = 20.sp,
-                            color = MaterialTheme.colorScheme.onSurface
-                        ),
+                        textStyle = MessagingTypography.body01.copy(color = PurevonTextPrimary),
                         keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(
                             imeAction = androidx.compose.ui.text.input.ImeAction.Send
                         ),
@@ -631,21 +615,15 @@ fun MessageInputBar(
                             onSend = {
                                 if (text.isNotBlank()) {
                                     onSend()
-                                    // ✅ FIX #48: Keep keyboard open for fast messaging
                                 }
                             }
                         ),
                         decorationBox = { innerTextField ->
-                            Box(
-                                contentAlignment = Alignment.CenterStart
-                            ) {
+                            Box(contentAlignment = Alignment.CenterStart) {
                                 if (text.isEmpty()) {
                                     Text(
                                         text = stringResource(R.string.conversation_message_hint),
-                                        style = MaterialTheme.typography.bodyLarge.copy(
-                                            fontSize = 16.sp,
-                                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
-                                        )
+                                        style = MessagingTypography.body01.copy(color = PurevonTextTertiary)
                                     )
                                 }
                                 innerTextField()
@@ -653,76 +631,61 @@ fun MessageInputBar(
                         },
                         maxLines = 7
                     )
-                    
-                    // 📅 Schedule button
+
                     IconButton(
                         onClick = onScheduleClick,
-                        modifier = Modifier.size(36.dp)
+                        modifier = Modifier.size(32.dp)
                     ) {
                         Icon(
                             Icons.Default.Schedule,
                             contentDescription = stringResource(R.string.msg_cd_schedule),
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
-                            modifier = Modifier.size(20.dp)
+                            tint = PurevonTextTertiary,
+                            modifier = Modifier.size(18.dp)
                         )
                     }
-                    
-                    // 📝 Template button
+
                     IconButton(
                         onClick = onTemplateClick,
-                        modifier = Modifier.size(36.dp)
+                        modifier = Modifier.size(32.dp)
                     ) {
                         Icon(
                             Icons.AutoMirrored.Filled.Notes,
                             contentDescription = stringResource(R.string.msg_cd_templates),
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
-                            modifier = Modifier.size(20.dp)
+                            tint = PurevonTextTertiary,
+                            modifier = Modifier.size(18.dp)
                         )
                     }
                 }
             }
-            
-            // 🎙️ Mic / Send button — simple tap to start recording
+
             if (text.isBlank() && attachments.isEmpty()) {
                 IconButton(
                     onClick = onStartRecording,
                     modifier = Modifier
-                        .size(46.dp)
-                        .background(
-                            color = MaterialTheme.colorScheme.primary,
-                            shape = CircleShape
-                        ),
-                    colors = IconButtonDefaults.iconButtonColors(
-                        containerColor = Color.Transparent
-                    )
+                        .size(40.dp)
+                        .background(PurevonSurface, CircleShape)
+                        .border(MessagingDimensions.spacing1x, PurevonBorder, CircleShape),
+                    colors = IconButtonDefaults.iconButtonColors(containerColor = Color.Transparent)
                 ) {
                     Icon(
                         Icons.Default.Mic,
                         contentDescription = stringResource(R.string.msg_cd_voice_recording),
-                        tint = Color.White,
-                        modifier = Modifier.size(21.dp)
+                        tint = PurevonTextSecondary,
+                        modifier = Modifier.size(20.dp)
                     )
                 }
             } else {
-                // Show send button when there's text or attachments
                 IconButton(
-                    onClick = {
-                        onSend()
-                        // ✅ FIX #48: Keep keyboard open for fast messaging
-                    },
+                    onClick = { onSend() },
                     enabled = enabled && (text.isNotBlank() || attachments.isNotEmpty()),
                     modifier = Modifier
-                        .size(46.dp)
+                        .size(40.dp)
                         .background(
                             color = if (enabled && (text.isNotBlank() || attachments.isNotEmpty()))
-                                MaterialTheme.colorScheme.primary
-                            else
-                                MaterialTheme.colorScheme.primary.copy(alpha = 0.3f),
+                                PurevonPrimary else PurevonPrimary.copy(alpha = 0.3f),
                             shape = CircleShape
                         ),
-                    colors = IconButtonDefaults.iconButtonColors(
-                        containerColor = Color.Transparent
-                    )
+                    colors = IconButtonDefaults.iconButtonColors(containerColor = Color.Transparent)
                 ) {
                     if (!enabled) {
                         CircularProgressIndicator(
@@ -735,13 +698,13 @@ fun MessageInputBar(
                             Icons.AutoMirrored.Filled.Send,
                             contentDescription = stringResource(R.string.msg_cd_send),
                             tint = Color.White,
-                            modifier = Modifier.size(21.dp)
+                            modifier = Modifier.size(20.dp)
                         )
                     }
                 }
             }
         }
-        } // end if (!isRecording && audioRecordingFile == null)
+        }
         
         // ✅ جديد: SMS Character Counter (displayed only when needed)
         smsCharacterCounter?.let { counter ->

@@ -11,27 +11,20 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Reply
+import androidx.compose.material.icons.automirrored.filled.Reply
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.rasmi.purevon.domain.model.Message
 import com.rasmi.purevon.data.local.entity.MessageType
 import com.rasmi.purevon.R
-import com.rasmi.purevon.presentation.theme.iOSBlue
+import com.rasmi.purevon.presentation.theme.*
 import androidx.compose.ui.res.stringResource
 
-/**
- * Reply Preview Component
- * Shows the message being replied to (above input bar)
- */
 @Composable
 fun ReplyPreview(
     replyToMessage: Message,
@@ -40,66 +33,50 @@ fun ReplyPreview(
 ) {
     Surface(
         modifier = modifier.fillMaxWidth(),
-        color = MaterialTheme.colorScheme.surfaceVariant,
-        shadowElevation = 2.dp
+        color = PurevonComposerBackground
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 12.dp, vertical = 10.dp),
-            horizontalArrangement = Arrangement.spacedBy(10.dp),
+                .padding(horizontal = MessagingDimensions.spacing16x, vertical = MessagingDimensions.spacing10x),
+            horizontalArrangement = Arrangement.spacedBy(MessagingDimensions.spacing10x),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Reply icon
             Icon(
-                Icons.Default.Reply,
+                Icons.AutoMirrored.Filled.Reply,
                 contentDescription = null,
-                tint = iOSBlue,
-                modifier = Modifier.size(20.dp)
+                tint = PurevonPrimary,
+                modifier = Modifier.size(10.dp)
             )
-            
-            // Divider line
             Box(
                 modifier = Modifier
-                    .width(3.dp)
+                    .width(1.dp)
                     .height(36.dp)
-                    .clip(RoundedCornerShape(2.dp))
-                    .background(iOSBlue)
+                    .clip(RoundedCornerShape(1.dp))
+                    .background(PurevonPrimary)
             )
-            
-            // Message preview
             Column(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(2.dp)
             ) {
                 Text(
-                    // ✅ FIX #8/#27: Use MessageType enum and string resource
                     text = if (replyToMessage.type == MessageType.SENT.value) stringResource(R.string.msg_you) else (replyToMessage.contactName ?: replyToMessage.phoneNumber),
-                    style = MaterialTheme.typography.labelMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = iOSBlue,
-                    fontSize = 13.sp
+                    style = MessagingTypography.subline01,
+                    color = PurevonPrimary
                 )
-                
                 Text(
                     text = replyToMessage.body ?: "Attachment",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis,
-                    fontSize = 12.sp
+                    style = MessagingTypography.subline01,
+                    color = PurevonTextSecondary,
+                    maxLines = 7,
+                    overflow = TextOverflow.Ellipsis
                 )
             }
-            
-            // Cancel button
-            IconButton(
-                onClick = onCancelReply,
-                modifier = Modifier.size(32.dp)
-            ) {
+            IconButton(onClick = onCancelReply, modifier = Modifier.size(32.dp)) {
                 Icon(
                     Icons.Default.Close,
                     contentDescription = "Cancel reply",
-                    tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                    tint = PurevonTextSecondary,
                     modifier = Modifier.size(18.dp)
                 )
             }
@@ -107,10 +84,6 @@ fun ReplyPreview(
     }
 }
 
-/**
- * Reply indicator shown in message bubble
- * Shows which message this is replying to
- */
 @Composable
 fun ReplyIndicator(
     replyToMessage: Message,
@@ -121,53 +94,42 @@ fun ReplyIndicator(
         modifier = modifier
             .fillMaxWidth()
             .clickable(onClick = onReplyClick),
-        color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f),
-        shape = RoundedCornerShape(8.dp)
+        color = PurevonSurfaceMuted,
+        shape = RoundedCornerShape(MessagingDimensions.corner12x)
     ) {
         Row(
-            modifier = Modifier.padding(8.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier.padding(MessagingDimensions.spacing8x),
+            horizontalArrangement = Arrangement.spacedBy(MessagingDimensions.spacing8x),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Vertical line
             Box(
                 modifier = Modifier
-                    .width(3.dp)
+                    .width(1.dp)
                     .height(32.dp)
-                    .clip(RoundedCornerShape(2.dp))
-                    .background(iOSBlue)
+                    .clip(RoundedCornerShape(1.dp))
+                    .background(PurevonPrimary)
             )
-            
-            // Reply content
             Column(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.spacedBy(2.dp)
             ) {
                 Text(
-                    // ✅ FIX #8/#27: Use MessageType enum and string resource
                     text = if (replyToMessage.type == MessageType.SENT.value) stringResource(R.string.msg_you) else (replyToMessage.contactName ?: replyToMessage.phoneNumber),
-                    style = MaterialTheme.typography.labelSmall,
-                    fontWeight = FontWeight.Bold,
-                    color = iOSBlue,
-                    fontSize = 11.sp
+                    style = MessagingTypography.subline01,
+                    color = PurevonPrimary
                 )
-                
                 Text(
                     text = replyToMessage.body ?: "Attachment",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                    style = MessagingTypography.subline01,
+                    color = PurevonTextSecondary,
                     maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    fontSize = 11.sp
+                    overflow = TextOverflow.Ellipsis
                 )
             }
         }
     }
 }
 
-/**
- * Animated Reply Preview with slide animation
- */
 @Composable
 fun AnimatedReplyPreview(
     replyToMessage: Message?,
@@ -176,19 +138,12 @@ fun AnimatedReplyPreview(
 ) {
     AnimatedVisibility(
         visible = replyToMessage != null,
-        enter = slideInVertically(
-            initialOffsetY = { it }
-        ) + fadeIn(),
-        exit = slideOutVertically(
-            targetOffsetY = { it }
-        ) + fadeOut(),
+        enter = slideInVertically { it } + fadeIn(),
+        exit = slideOutVertically { it } + fadeOut(),
         modifier = modifier
     ) {
         if (replyToMessage != null) {
-            ReplyPreview(
-                replyToMessage = replyToMessage,
-                onCancelReply = onCancelReply
-            )
+            ReplyPreview(replyToMessage = replyToMessage, onCancelReply = onCancelReply)
         }
     }
 }

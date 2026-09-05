@@ -31,7 +31,9 @@ class ContactsViewModel @Inject constructor(
     private val toggleFavoriteUseCase: ToggleFavoriteUseCase,
     private val deleteContactUseCase: com.rasmi.purevon.domain.usecase.contact.DeleteContactUseCase,
     private val blockNumberUseCase: BlockNumberUseCase,
-    private val unblockNumberUseCase: UnblockNumberUseCase
+    private val unblockNumberUseCase: UnblockNumberUseCase,
+    // ✅ FIX M34: ملاحظات المعاينة العريضة
+    private val contactNoteDao: com.rasmi.purevon.data.local.dao.ContactNoteDao
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ContactsUiState())
@@ -46,6 +48,51 @@ class ContactsViewModel @Inject constructor(
     init {
         observeContacts()
         observeSearch()
+    }
+
+    /** ✅ FIX M34: معرف جهة الاتصال في المعاينة العريضة */
+    private var previewContactId: Long? = null
+
+    /** ✅ FIX M34: تحميل ملاحظات جهة الاتصال للمعاينة العريضة */
+    private fun loadPreviewNotes(contactId: Long?) {
+        previewContactId = contactId
+        if (contactId == null) {
+            _uiState.update { it.copy(selectedContactNotes = emptyList()) }
+            return
+        }
+        viewModelScope.launch {
+            try {
+                val contacts = getAllContactsUseCase().first()
+                val phone = contacts.find { it.id == contactId }?.phoneNumber
+                    ?.replace(Regex("[^0-9]"), "")?.takeLast(10)
+                val notes = if (phone.isNullOrBlank()) emptyList()
+                            else contactNoteDao.getNotesByPhoneNumberSync(phone)
+                // ✅ تحويل Entity → نموذج النطاق كما في ContactDetailViewModel
+                val mapped = notes.map { entity ->
+                    com.rasmi.purevon.domain.model.ContactNote(
+                        id = entity.id,
+                        phoneNumber = entity.phoneNumber,
+                        note = entity.note,
+                        callDuration = entity.callDuration,
+                        isIncoming = entity.isIncoming,
+                        createdAt = entity.createdAt
+                    )
+                }
+                _uiState.update { it.copy(selectedContactNotes = mapped) }
+            } catch (e: Exception) {
+                _uiState.update { it.copy(selectedContactNotes = emptyList()) }
+            }
+        }
+    }
+
+    /** ✅ FIX M34: حذف ملاحظة من المعاينة العريضة */
+    private fun deletePreviewNote(noteId: Long) {
+        viewModelScope.launch {
+            try {
+                contactNoteDao.deleteNote(noteId)
+                loadPreviewNotes(previewContactId)
+            } catch (_: Exception) { }
+        }
     }
 
     private fun observeContacts() {
@@ -158,8 +205,10 @@ class ContactsViewModel @Inject constructor(
                 _uiState.update { it.copy(selectedContactIds = allIds) }
             }
             
-            is ContactsUiEvent.DeselectAll -> {
-                _uiState.update { 
+            // ✅ FIX M34: ملاحظات المعاينة العريضة
+            is ContactsUiEvent.ContactPreviewSelected -> loadPreviewNotes(event.contactId)
+            is ContactsUiEvent.DeletePreviewNote -> deletePreviewNote(event.noteId)
+            is ContactsUiEvent.DeselectAll -> {                _uiState.update { 
                     it.copy(
                         isSelectionMode = false,
                         selectedContactIds = emptySet()
@@ -432,7 +481,11 @@ class ContactsViewModel @Inject constructor(
         filter: ContactFilter
     ): List<Contact> {
         return when (filter) {
-            ContactFilter.ALL -> allContacts.sortedBy { it.displayName.trim() }
+            // ✅ FIX M35: المفضلة أولاً ثم أبجدياً
+            ContactFilter.ALL -> allContacts.sortedWith(
+                compareByDescending<Contact> { it.isFavorite }
+                    .thenBy { it.displayName.trim() }
+            )
             ContactFilter.FAVORITES -> favorites.sortedBy { it.displayName.trim() }
             ContactFilter.BLOCKED -> allContacts.filter { it.isBlocked }
         }

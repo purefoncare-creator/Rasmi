@@ -19,6 +19,9 @@ import com.rasmi.purevon.presentation.util.getLocalizedMessage
 import com.rasmi.purevon.presentation.util.getLocalizedSuggestion
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ProcessLifecycleOwner
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.async
@@ -180,6 +183,7 @@ class ConversationViewModel @Inject constructor(
     
     init {
         observeSmsSim()
+        observeLifecycle()
         // Observe SMS events using EventBus
         viewModelScope.launch {
             EventBus.events.collect { event ->
@@ -301,6 +305,9 @@ class ConversationViewModel @Inject constructor(
     
     override fun onCleared() {
         super.onCleared()
+        // ✅ FIX M21: detach the app-lifecycle observer to release the ViewModel graph
+        removeLifecycleObserver()
+
         // ✅ FIX #13: audioRecordingDelegate is the only delegate with owned resources (MediaRecorder).
         // Other delegates use viewModelScope which is auto-cancelled by super.onCleared().
         audioRecordingDelegate.onCleared()
@@ -763,7 +770,29 @@ class ConversationViewModel @Inject constructor(
     // ═══════════════════════════════════════════════════════════════════════
     // SIM Management
     // ═══════════════════════════════════════════════════════════════════════
-    
+
+    // ✅ FIX M21: keep a reference so onCleared() can remove the observer —
+    // ProcessLifecycleOwner is app-scoped, an anonymous observer here would pin
+    // this ViewModel (and its whole delegate graph) in memory forever.
+    private var appLifecycleObserver: DefaultLifecycleObserver? = null
+
+    private fun observeLifecycle() {
+        val observer = object : DefaultLifecycleObserver {
+            override fun onStop(owner: LifecycleOwner) {
+                audioRecordingDelegate.onAppBackgrounded()
+            }
+        }
+        appLifecycleObserver = observer
+        ProcessLifecycleOwner.get().lifecycle.addObserver(observer)
+    }
+
+    private fun removeLifecycleObserver() {
+        appLifecycleObserver?.let {
+            ProcessLifecycleOwner.get().lifecycle.removeObserver(it)
+        }
+        appLifecycleObserver = null
+    }
+
     private fun observeSmsSim() {
         val sims = simManager.getAvailableSims()
         if (sims.isEmpty()) return

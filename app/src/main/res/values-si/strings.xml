@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="nav_back">ආපසු</string>
+  <string name="add_contact_choose_method">සම්බන්ධතාවය එක් කරන්න</string>
+  <string name="add_contact_manual">අතින් එක් කරන්න</string>
+  <string name="add_contact_via_qr">QR කේතය හරහා එක් කරන්න</string>
+  <string name="dialer_active_call_title">සක්‍රීය ඇමතුම</string>
+  <string name="dialer_active_call_expand">සම්පූර්ණ තිරය</string>
+  <string name="dialer_recent">මෑත</string>
+  <string name="dialer_no_recent">මෑත ක්‍රියාකාරකම් නැත</string>
+  <string name="dialer_results">ප්‍රතිඵල</string>
+  <string name="incall_mute">නිහඬ</string>
+  <string name="incall_speaker">ස්පීකරය</string>
+  <string name="my_card_title">මගේ කාඩ්</string>
+  <string name="my_card_desc">ඔබේ පුද්ගලික කාඩ් එක සාදා ඕනෑම කෙනෙකු සමඟ බෙදා ගන්න</string>
+  <string name="my_card_edit">සංස්කරණය</string>
+  <string name="my_card_saved">කාඩ් සුරැකිය</string>
+  <string name="my_card_share">බෙදා ගන්න</string>
+  <string name="qr_scan_title">සම්බන්ධතා කේතය පරිලෝකනය කරන්න</string>
+  <string name="qr_camera_permission">කේතය පරිලෝකනය කිරීමට කැමරා අවසර අවශ්‍යයි</string>
+  <string name="invalid_qr_code">අවලංගු QR කේතය</string>
+  <string name="call_blocking_block_unknown">නොදන්නා / පුද්ගලික අංක අවහිර කරන්න</string>
+  <string name="call_blocking_block_unknown_desc">සම්බන්ධතා තුළ නොමැති අංක වලින් එන ඇමතුම් ප්‍රතික්ෂේප කරන්න</string>
+  <string name="call_blocking_whitelist_only">සුදු ලැයිස්තු පමණක් ආකාරය</string>
+  <string name="call_blocking_whitelist_only_desc">සුදු ලැයිස්තුවේ ඇති අංක හැර සියල්ල අවහිර කරන්න</string>
+  <string name="call_blocking_whitelist_only_warning">⚠ ඔබේ සුදු ලැයිස්තුවේ නැති සෑම ඇමතුමක්ම අවහිර වනු ඇත!</string>
+  <string name="notification_ongoing_call_channel">පවතින ඇමතුම</string>
+  <string name="notification_ongoing_call_channel_desc">තිරය වසන විට සක්‍රීය ඇමතුම සඳහා ස්ථිර දැනුම්දීම</string>
+  <string name="notification_ongoing_call_title">පවතින ඇමතුම</string>
+  <string name="delete_note_title">සටහන මකන්න</string>
+  <string name="delete_note_message">මෙම සටහන මැකීමට ඔබට අවශ්‍යද?</string>
+  <string name="stat_title">සංඛ්‍යාලේඛන</string>
+  <string name="stat_call_statistics">ඇමතුම් සංඛ්‍යාලේඛන</string>
+  <string name="stat_message_statistics">පණිවිඩ සංඛ්‍යාලේඛන</string>
+  <string name="stat_total_calls">මුළු ඇමතුම්</string>
+  <string name="stat_total_messages">මුළු පණිවිඩ</string>
+  <string name="stat_total_duration">මුළු කාලය</string>
+  <string name="stat_average_duration">සාමාන්‍ය කාලය</string>
+  <string name="stat_incoming">පැමිණෙන</string>
+  <string name="stat_outgoing">පිටවන</string>
+  <string name="stat_missed">මඟහැරුණු</string>
+  <string name="stat_received">ලැබුණු</string>
+  <string name="stat_sent">යවන ලද</string>
+  <string name="stat_blocked">අවහිර</string>
+  <string name="stat_frequent_contacts">නිතර ඇමතුම් කරන සම්බන්ධතා</string>
+  <string name="stat_contact_calls_duration">%1$d ඇමතුම් • %2$s</string>
+</resources>

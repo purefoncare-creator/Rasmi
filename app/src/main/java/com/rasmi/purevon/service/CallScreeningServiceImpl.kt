@@ -10,8 +10,10 @@ import com.rasmi.purevon.util.DebugLogger
 import com.rasmi.purevon.data.local.dao.WhitelistDao
 import com.rasmi.purevon.data.preferences.SettingsDataStore
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeoutOrNull
 import javax.inject.Inject
 
@@ -54,30 +56,35 @@ class CallScreeningServiceImpl : CallScreeningService() {
         // The actual decision is made inside checkIfShouldBlock() so that all
         // settings are read from a single place.
 
-        // Check if blocking is enabled and if number should be blocked
-        // Run on the current binder thread (no dispatcher argument) so the runBlocking coroutine
-        // does NOT consume an IO thread.  Inner suspend calls (DataStore, Room) still dispatch
-        // to Dispatchers.IO internally, so there is no deadlock risk.
-        val shouldBlock = try {
-            val phoneAccountHandle = callDetails.accountHandle
-            val incomingSubId = simManager.getSubscriptionIdForPhoneAccount(phoneAccountHandle)
+        // Screening is executed asynchronously on an IO worker so the binder
+        // thread is never blocked. This avoids consuming the binder thread and
+        // prevents the 1.5s runBlocking stall flagged in the review. The decision
+        // is still bounded by SCREENING_TIMEOUT_MS to honour the <5s ANR window,
+        // and respondToCall() is always invoked (block or allow) once decided.
+        CoroutineScope(Dispatchers.IO).launch {
+            val shouldBlock = try {
+                val phoneAccountHandle = callDetails.accountHandle
+                val incomingSubId = simManager.getSubscriptionIdForPhoneAccount(phoneAccountHandle)
 
-            kotlinx.coroutines.runBlocking {
                 withTimeoutOrNull(SCREENING_TIMEOUT_MS) {
                     checkIfShouldBlock(phoneNumber, incomingSubId)
                 } ?: false // If timeout, allow the call
+            } catch (e: Exception) {
+                Log.e(TAG, "Error during call screening, allowing call", e)
+                false
             }
-        } catch (e: Exception) {
-            Log.e(TAG, "Error during call screening, allowing call", e)
-            false
-        }
 
-        if (shouldBlock) {
-            Log.d(TAG, "BLOCKING call from: ${DebugLogger.maskPhoneNumber(phoneNumber ?: "<unknown>")}")
-            respondToCall(callDetails, createBlockResponse())
-        } else {
-            Log.d(TAG, "Allowing call from: ${DebugLogger.maskPhoneNumber(phoneNumber ?: "<unknown>")}")
-            respondToCall(callDetails, createAllowResponse())
+            if (shouldBlock) {
+                Log.d(TAG, "BLOCKING call from: ${DebugLogger.maskPhoneNumber(phoneNumber ?: "<unknown>")}")
+                respondToCall(callDetails, createBlockResponse())
+
+                // ✅ FIX M32a: نافذة عائمة تفاصيل المتصل المحظور (40 ثانية)
+                // تُطلق بعد الرد على النظام مباشرة حتى لا تؤخر الفحص (< 5s ANR limit)
+                showBlockedCallBubble(phoneNumber)
+            } else {
+                Log.d(TAG, "Allowing call from: ${DebugLogger.maskPhoneNumber(phoneNumber ?: "<unknown>")}")
+                respondToCall(callDetails, createAllowResponse())
+            }
         }
     }
     
@@ -185,6 +192,30 @@ class CallScreeningServiceImpl : CallScreeningService() {
         }
     }
     
+    /**
+     * ✅ FIX M32a: إظهار النافذة العائمة للمكالمات المحظورة.
+     * fire-and-forget على IO — لا تحجب onScreenCall ولا تستهلك مهلة الفحص.
+     * تعمل حتى للأرقام غير المعروفة (phoneNumber فارغ).
+     */
+    private fun showBlockedCallBubble(phoneNumber: String?) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val contactName = phoneNumber?.takeIf { it.isNotBlank() }?.let {
+                    com.rasmi.purevon.data.repository.ContactResolver(applicationContext)
+                        .resolveContactName(it)
+                }
+                val shown = BlockedCallBubbleService.show(
+                    context = applicationContext,
+                    phoneNumber = phoneNumber,
+                    contactName = contactName
+                )
+                Log.d(TAG, "Blocked call bubble ${if (shown) "shown" else "NOT shown (no overlay permission?)"} for: ${DebugLogger.maskPhoneNumber(phoneNumber ?: "<unknown>")}")
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to show blocked call bubble", e)
+            }
+        }
+    }
+
     private fun createAllowResponse(): CallResponse {
         return CallResponse.Builder()
             .setDisallowCall(false)

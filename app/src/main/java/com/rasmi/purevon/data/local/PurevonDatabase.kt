@@ -41,7 +41,7 @@ import com.rasmi.purevon.data.local.entity.*
         // Message reactions
         MessageReactionEntity::class
     ],
-    version = 14, // ✅ FIX: Added multipartStatus column to message_metadata
+    version = 15, // ✅ FIX M25: declared missing indices (conversation_settings, whitelist, message_templates)
     exportSchema = true
 )
 @TypeConverters(

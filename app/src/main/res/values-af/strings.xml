@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="nav_back">Terug</string>
+  <string name="add_contact_choose_method">Voeg Kontak By</string>
+  <string name="add_contact_manual">Voeg Handmatig By</string>
+  <string name="add_contact_via_qr">Voeg By via QR Kode</string>
+  <string name="dialer_active_call_title">Aktiewe Oproep</string>
+  <string name="dialer_active_call_expand">Volskerm</string>
+  <string name="dialer_recent">Onlangse</string>
+  <string name="dialer_no_recent">Geen onlangse aktiwiteit nie</string>
+  <string name="dialer_results">Resultate</string>
+  <string name="incall_mute">Stilte</string>
+  <string name="incall_speaker">Luidspreker</string>
+  <string name="my_card_title">My Kaart</string>
+  <string name="my_card_desc">Skep jou persoonlike kaart en deel dit met enigiemand</string>
+  <string name="my_card_edit">Wysig</string>
+  <string name="my_card_saved">Kaart gestoor</string>
+  <string name="my_card_share">Deel</string>
+  <string name="qr_scan_title">Skandeer kontakkode</string>
+  <string name="qr_camera_permission">Kamera toestemming benodig om kode te skandeer</string>
+  <string name="invalid_qr_code">Ongeldige QR Kode</string>
+  <string name="call_blocking_block_unknown">Blokkeer onbekende / privaat nommers</string>
+  <string name="call_blocking_block_unknown_desc">Weier oproepe van nommers wat nie in kontakte is nie</string>
+  <string name="call_blocking_whitelist_only">Slegs lyslys modus</string>
+  <string name="call_blocking_whitelist_only_desc">Blokkeer alles behalwe nommers op die lyslys</string>
+  <string name="call_blocking_whitelist_only_warning">⚠ Alle oproepe wat nie op jou lyslys is nie, sal geblokkeer word!</string>
+  <string name="notification_ongoing_call_channel">Voortgaande Oproep</string>
+  <string name="notification_ongoing_call_channel_desc">Volgehoue kennisgewing vir aktiewe oproep wanneer skerm toe is</string>
+  <string name="notification_ongoing_call_title">Voortgaande Oproep</string>
+  <string name="delete_note_title">Verwyder Nota</string>
+  <string name="delete_note_message">Wil jy hierdie nota verwyder?</string>
+  <string name="stat_title">Statistiek</string>
+  <string name="stat_call_statistics">Oproep Statistiek</string>
+  <string name="stat_message_statistics">Boodskap Statistiek</string>
+  <string name="stat_total_calls">Totale Oproepe</string>
+  <string name="stat_total_messages">Totale Boodskappe</string>
+  <string name="stat_total_duration">Totale Tydsduur</string>
+  <string name="stat_average_duration">Gemiddelde Tydsduur</string>
+  <string name="stat_incoming">Inkomende</string>
+  <string name="stat_outgoing">Uitgaande</string>
+  <string name="stat_missed">Gemis</string>
+  <string name="stat_received">Ontvang</string>
+  <string name="stat_sent">Gestuur</string>
+  <string name="stat_blocked">Geblokkeer</string>
+  <string name="stat_frequent_contacts">Meeste oproepkontakte</string>
+  <string name="stat_contact_calls_duration">%1 oproepe • %2</string>
+</resources>

@@ -3,7 +3,7 @@ package com.rasmi.purevon.presentation.screen.contacts
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.isSystemInDarkTheme
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
@@ -29,6 +29,7 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.ripple
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -39,6 +40,7 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
@@ -54,11 +56,18 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.rasmi.purevon.R
 import com.rasmi.purevon.domain.model.Contact
-import com.rasmi.purevon.presentation.theme.iOSBlue
-import com.rasmi.purevon.presentation.theme.iOSGreen
-import com.rasmi.purevon.presentation.theme.iOSYellow
-import com.rasmi.purevon.presentation.theme.iOSRed
-import com.rasmi.purevon.presentation.theme.iOSOrange
+import com.rasmi.purevon.presentation.theme.PurevonTertiary
+import com.rasmi.purevon.presentation.theme.PurevonWarning
+import com.rasmi.purevon.presentation.theme.PurevonError
+import com.rasmi.purevon.presentation.theme.PurevonBackground
+import com.rasmi.purevon.presentation.theme.PurevonSurfaceAlt
+import com.rasmi.purevon.presentation.theme.PurevonBorder
+import com.rasmi.purevon.presentation.theme.PurevonTextTertiary
+import com.rasmi.purevon.presentation.theme.PurevonPrimary
+import com.rasmi.purevon.presentation.theme.PurevonOnPrimary
+import com.rasmi.purevon.presentation.screen.contactdetail.ContactDetailScreen
+import androidx.compose.material3.VerticalDivider
+import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
@@ -74,15 +83,23 @@ import androidx.compose.foundation.border
 fun ContactsScreen(
     viewModel: ContactsViewModel = hiltViewModel(),
     onContactClick: ((Contact) -> Unit)? = null,
-    onAddContactClick: (() -> Unit)? = null
+    onAddContactClick: (() -> Unit)? = null,
+    // ✅ الماسح الداخلي: إضافة جهة عبر رمز QR
+    onQrScanClick: (() -> Unit)? = null
 ) {
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     // ✅ استخدام displayedContacts مباشرة - ViewModel يرتبها حسب عدد المكالمات
     val displayedContacts = uiState.displayedContacts
     
     val gridState = rememberLazyGridState()
     val snackbarHostState = remember { SnackbarHostState() }
     val haptic = LocalHapticFeedback.current
+
+    // ✅ الماسح الداخلي: اختيار طريقة الإضافة (يدويًا / عبر QR)
+    var showAddMethodChooser by remember { mutableStateOf(false) }
+    val handleAddClick: () -> Unit = {
+        if (onQrScanClick != null) showAddMethodChooser = true else onAddContactClick?.invoke()
+    }
     
     // Handle Snackbar messages
     LaunchedEffect(uiState.snackbarMessage) {
@@ -112,6 +129,83 @@ fun ContactsScreen(
         }
     }
     
+    val isWide = LocalConfiguration.current.screenWidthDp >= 600
+    var selectedContactId by remember { mutableStateOf<Long?>(null) }
+
+    // ✅ FIX M34: تحميل ملاحظات جهة الاتصال المحددة للمعاينة العريضة
+    LaunchedEffect(selectedContactId) {
+        viewModel.onEvent(ContactsUiEvent.ContactPreviewSelected(selectedContactId))
+    }
+
+    val onContactCardClick: (Contact) -> Unit = { contact ->
+        if (uiState.isSelectionMode) {
+            viewModel.onEvent(ContactsUiEvent.ToggleContactSelection(contact.id))
+        } else if (isWide) {
+            selectedContactId = contact.id
+        } else {
+            onContactClick?.invoke(contact)
+        }
+    }
+
+    val contactsFab: @Composable () -> Unit = {
+        AnimatedVisibility(
+            visible = !uiState.isSelectionMode,
+            enter = scaleIn() + fadeIn(),
+            exit = scaleOut() + fadeOut()
+        ) {
+            SmallFloatingActionButton(
+                onClick = handleAddClick,
+                containerColor = PurevonPrimary,
+                contentColor = PurevonOnPrimary,
+                shape = CircleShape,
+                elevation = FloatingActionButtonDefaults.elevation(
+                    defaultElevation = 6.dp,
+                    pressedElevation = 2.dp
+                ),
+                modifier = Modifier.size(52.dp)
+            ) {
+                Icon(
+                    Icons.Default.Add,
+                    contentDescription = stringResource(R.string.contacts_cd_add_contact),
+                    modifier = Modifier.size(22.dp)
+                )
+            }
+        }
+    }
+
+    // ✅ الماسح الداخلي: ورقة اختيار طريقة إضافة جهة الاتصال
+    if (showAddMethodChooser) {
+        ModalBottomSheet(
+            onDismissRequest = { showAddMethodChooser = false },
+            containerColor = MaterialTheme.colorScheme.surface,
+            shape = RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp),
+            dragHandle = { BottomSheetDefaults.DragHandle() }
+        ) {
+            Column(modifier = Modifier.padding(horizontal = 20.dp).padding(bottom = 28.dp)) {
+                Text(
+                    text = stringResource(R.string.add_contact_choose_method),
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.SemiBold,
+                    modifier = Modifier.padding(bottom = 12.dp)
+                )
+                AddMethodRow(
+                    icon = Icons.Default.PersonAdd,
+                    label = stringResource(R.string.add_contact_manual)
+                ) {
+                    showAddMethodChooser = false
+                    onAddContactClick?.invoke()
+                }
+                AddMethodRow(
+                    icon = Icons.Default.QrCodeScanner,
+                    label = stringResource(R.string.add_contact_via_qr)
+                ) {
+                    showAddMethodChooser = false
+                    onQrScanClick?.invoke()
+                }
+            }
+        }
+    }
+
     Scaffold(
         snackbarHost = { SnackbarHost(snackbarHostState) },
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
@@ -144,39 +238,115 @@ fun ContactsScreen(
                 )
             }
         },
-        floatingActionButton = {
-            AnimatedVisibility(
-                visible = !uiState.isSelectionMode,
-                enter = scaleIn() + fadeIn(),
-                exit = scaleOut() + fadeOut()
+        floatingActionButton = { if (!isWide) contactsFab() },
+        containerColor = PurevonBackground
+    ) { paddingValues ->
+        if (isWide) {
+            Row(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .statusBarsPadding()
+                    .padding(paddingValues)
             ) {
-                SmallFloatingActionButton(
-                    onClick = { onAddContactClick?.invoke() },
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.onPrimary,
-                    shape = CircleShape,
-                    elevation = FloatingActionButtonDefaults.elevation(
-                        defaultElevation = 6.dp,
-                        pressedElevation = 2.dp
-                    ),
-                    modifier = Modifier.size(52.dp)
+                // ── LEFT PANE: contact list ──
+                Column(
+                    modifier = Modifier
+                        .weight(1.1f)
+                        .fillMaxHeight()
+                        .background(PurevonBackground)
                 ) {
-                    Icon(
-                        Icons.Default.Add,
-                        contentDescription = stringResource(R.string.contacts_cd_add_contact),
-                        modifier = Modifier.size(22.dp)
+                    ContactsSearchBarWithMenu(
+                        query = uiState.searchQuery,
+                        onQueryChange = { viewModel.onEvent(ContactsUiEvent.SearchQueryChanged(it)) },
+                        selectedFilter = uiState.selectedFilter,
+                        onFilterSelected = { viewModel.onEvent(ContactsUiEvent.FilterSelected(it)) },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 10.dp)
                     )
+
+                    Box(modifier = Modifier.fillMaxSize()) {
+                        ContactsContent(
+                            uiState = uiState,
+                            displayedContacts = displayedContacts,
+                            gridState = gridState,
+                            onContactCardClick = onContactCardClick,
+                            onContactLongPressed = { id ->
+                                viewModel.onEvent(ContactsUiEvent.ContactLongPressed(id))
+                            }
+                        )
+                        Box(
+                            modifier = Modifier
+                                .align(Alignment.BottomEnd)
+                                .padding(16.dp)
+                        ) {
+                            contactsFab()
+                        }
+                    }
+                }
+
+                VerticalDivider(
+                    modifier = Modifier.fillMaxHeight().width(1.dp),
+                    color = PurevonBorder
+                )
+
+                // ── RIGHT PANE: detail / placeholder ──
+                Column(
+                    modifier = Modifier
+                        .weight(1.4f)
+                        .fillMaxHeight()
+                        .background(PurevonSurfaceAlt)
+                ) {
+                    val selectedContact = displayedContacts.find { it.id == selectedContactId }
+                    if (selectedContact != null) {
+                        ContactDetailScreen(
+                            contact = selectedContact,
+                            notes = uiState.selectedContactNotes,
+                            onNavigateBack = {},
+                            onDeleteContact = {},
+                            onToggleFavorite = {},
+                            onSaveContact = { _, _, _, _, _ -> },
+                            onBlockContact = {},
+                            onEditContact = {},
+                            // ✅ FIX M34: حذف حقيقي بدل lambda فارغة
+                            onDeleteNote = { noteId ->
+                                viewModel.onEvent(ContactsUiEvent.DeletePreviewNote(noteId))
+                            },
+                            onCall = {},
+                            onMessage = {}
+                        )
+                    } else {
+                        Column(
+                            modifier = Modifier.fillMaxSize(),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.Center
+                        ) {
+                            Icon(
+                                imageVector = Icons.Outlined.Contacts,
+                                contentDescription = null,
+                                tint = PurevonTextTertiary,
+                                modifier = Modifier
+                                    .size(64.dp)
+                                    .alpha(0.4f)
+                            )
+                            Spacer(modifier = Modifier.height(12.dp))
+                            Text(
+                                text = "Select a contact",
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = PurevonTextTertiary
+                            )
+                        }
+                    }
                 }
             }
-        },
-        containerColor = MaterialTheme.colorScheme.background
-    ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-        ) {
-                // Search bar + three-dot menu (same style as Messages screen)
+        } else {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .statusBarsPadding()
+                    .padding(paddingValues)
+                    .background(PurevonBackground)
+            ) {
                 ContactsSearchBarWithMenu(
                     query = uiState.searchQuery,
                     onQueryChange = { viewModel.onEvent(ContactsUiEvent.SearchQueryChanged(it)) },
@@ -186,72 +356,92 @@ fun ContactsScreen(
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp, vertical = 10.dp)
                 )
-                
-                // Main Content
+
                 Box(modifier = Modifier.fillMaxSize()) {
-                    when {
-                        uiState.isLoading -> {
-                            // Show skeleton loading in grid
-                            LazyVerticalGrid(
-                                columns = GridCells.Fixed(3),
-                                modifier = Modifier.fillMaxSize(),
-                                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 14.dp),
-                                horizontalArrangement = Arrangement.spacedBy(10.dp),
-                                verticalArrangement = Arrangement.spacedBy(18.dp)
-                            ) {
-                                items(12) {
-                                    GridContactItemSkeleton()
-                                }
+                    ContactsContent(
+                        uiState = uiState,
+                        displayedContacts = displayedContacts,
+                        gridState = gridState,
+                        onContactCardClick = onContactCardClick,
+                        onContactLongPressed = { id ->
+                            viewModel.onEvent(ContactsUiEvent.ContactLongPressed(id))
+                        }
+                    )
+                }
+            }
+        }
+    }
+}
+
+
+
+/**
+ * Shared contact list content used by both the wide left pane and the compact layout.
+ * All ViewModel/event wiring is preserved; only the click/long-click handlers are injected.
+ */
+@Composable
+private fun ContactsContent(
+    uiState: ContactsUiState,
+    displayedContacts: List<Contact>,
+    gridState: LazyGridState,
+    onContactCardClick: (Contact) -> Unit,
+    onContactLongPressed: (Long) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val haptic = LocalHapticFeedback.current
+    Box(modifier = modifier.fillMaxSize()) {
+        when {
+            uiState.isLoading -> {
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(3),
+                    modifier = Modifier.fillMaxSize(),
+                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 14.dp),
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    verticalArrangement = Arrangement.spacedBy(18.dp)
+                ) {
+                    items(12) {
+                        GridContactItemSkeleton()
+                    }
+                }
+            }
+
+            uiState.displayedContacts.isEmpty() -> {
+                ModernEmptyState(
+                    filter = uiState.selectedFilter,
+                    searchQuery = uiState.searchQuery,
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            }
+
+            else -> {
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(3),
+                    state = gridState,
+                    modifier = Modifier.fillMaxSize(),
+                    contentPadding = PaddingValues(start = 16.dp, top = 14.dp, end = 16.dp, bottom = 88.dp),
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    verticalArrangement = Arrangement.spacedBy(18.dp)
+                ) {
+                    gridItemsIndexed(
+                        items = displayedContacts,
+                        key = { _, contact -> "contact_${contact.id}" }
+                    ) { _, contact ->
+                        GridContactCard(
+                            contact = contact,
+                            isSelectionMode = uiState.isSelectionMode,
+                            isSelected = contact.id in uiState.selectedContactIds,
+                            onClick = { onContactCardClick(contact) },
+                            onLongClick = {
+                                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                                onContactLongPressed(contact.id)
                             }
-                        }
-                        
-                        uiState.displayedContacts.isEmpty() -> {
-                            ModernEmptyState(
-                                filter = uiState.selectedFilter,
-                                searchQuery = uiState.searchQuery,
-                                modifier = Modifier.align(Alignment.Center)
-                            )
-                        }
-                        
-                        else -> {
-                            LazyVerticalGrid(
-                                columns = GridCells.Fixed(3),
-                                state = gridState,
-                                modifier = Modifier.fillMaxSize(),
-                                contentPadding = PaddingValues(start = 16.dp, top = 14.dp, end = 16.dp, bottom = 88.dp),
-                                horizontalArrangement = Arrangement.spacedBy(10.dp),
-                                verticalArrangement = Arrangement.spacedBy(18.dp)
-                            ) {
-                                // ✅ عرض مباشر بدون تقسيم لمجموعات أو headers
-                                gridItemsIndexed(
-                                    items = displayedContacts,
-                                    key = { _, contact -> "contact_${contact.id}" }
-                                ) { _, contact ->
-                                    GridContactCard(
-                                        contact = contact,
-                                        isSelectionMode = uiState.isSelectionMode,
-                                        isSelected = contact.id in uiState.selectedContactIds,
-                                        onClick = {
-                                            if (uiState.isSelectionMode) {
-                                                viewModel.onEvent(ContactsUiEvent.ToggleContactSelection(contact.id))
-                                            } else {
-                                                onContactClick?.invoke(contact)
-                                            }
-                                        },
-                                        onLongClick = {
-                                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-                                            viewModel.onEvent(ContactsUiEvent.ContactLongPressed(contact.id))
-                                        }
-                                    )
-                                }
-                            }
-                        }
+                        )
                     }
                 }
             }
         }
+    }
 }
-
 
 
 /**
@@ -402,9 +592,9 @@ private fun ContactsSearchBarWithMenu(
  */
 private fun getFilterIconAndColor(filter: ContactFilter): Pair<ImageVector, Color> {
     return when (filter) {
-        ContactFilter.ALL -> Icons.Default.Contacts to iOSBlue
-        ContactFilter.FAVORITES -> Icons.Default.Star to iOSYellow
-        ContactFilter.BLOCKED -> Icons.Default.Block to iOSRed
+        ContactFilter.ALL -> Icons.Default.Contacts to PurevonTertiary
+        ContactFilter.FAVORITES -> Icons.Default.Star to PurevonWarning
+        ContactFilter.BLOCKED -> Icons.Default.Block to PurevonError
     }
 }
 
@@ -452,8 +642,8 @@ private fun GridContactCard(
         Box(contentAlignment = Alignment.Center) {
             val avatarBorder = when {
                 isSelected -> BorderStroke(2.dp, MaterialTheme.colorScheme.primary)
-                contact.isFavorite -> BorderStroke(2.dp, iOSYellow)
-                contact.isBlocked -> BorderStroke(2.dp, iOSRed)
+                contact.isFavorite -> BorderStroke(2.dp, PurevonWarning)
+                contact.isBlocked -> BorderStroke(2.dp, PurevonError)
                 else -> null
             }
 
@@ -507,7 +697,7 @@ private fun GridContactCard(
                         .align(Alignment.BottomEnd)
                         .size(20.dp)
                         .clip(CircleShape)
-                        .background(iOSRed)
+                        .background(PurevonError)
                         .border(1.5.dp, MaterialTheme.colorScheme.surface, CircleShape),
                     contentAlignment = Alignment.Center
                 ) {
@@ -524,7 +714,7 @@ private fun GridContactCard(
                         .align(Alignment.BottomEnd)
                         .size(20.dp)
                         .clip(CircleShape)
-                        .background(iOSYellow)
+                        .background(PurevonWarning)
                         .border(1.5.dp, MaterialTheme.colorScheme.surface, CircleShape),
                     contentAlignment = Alignment.Center
                 ) {
@@ -653,7 +843,7 @@ private fun SelectionModeBottomBar(
             BottomBarAction(
                 icon = Icons.Outlined.StarOutline,
                 label = stringResource(R.string.contacts_action_favorite),
-                color = iOSYellow,
+                color = PurevonWarning,
                 onClick = onAddToFavorites
             )
             
@@ -661,7 +851,7 @@ private fun SelectionModeBottomBar(
             BottomBarAction(
                 icon = Icons.Outlined.Block,
                 label = stringResource(R.string.contacts_action_block),
-                color = iOSOrange,
+                color = PurevonWarning,
                 onClick = onBlock
             )
             
@@ -669,7 +859,7 @@ private fun SelectionModeBottomBar(
             BottomBarAction(
                 icon = Icons.Outlined.Delete,
                 label = stringResource(R.string.contacts_action_delete),
-                color = iOSRed,
+                color = PurevonError,
                 onClick = { showDeleteDialog = true }
             )
         }
@@ -864,6 +1054,36 @@ private fun ModernEmptyState(
             text = message,
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
+        )
+    }
+}
+
+/**
+ * ✅ الماسح الداخلي — صف اختيار طريقة الإضافة (يدويًا / عبر QR)
+ */
+@Composable
+private fun AddMethodRow(
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    label: String,
+    onClick: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(MaterialTheme.shapes.medium)
+            .clickable(onClick = onClick)
+            .padding(vertical = 14.dp, horizontal = 8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = null,
+            tint = PurevonPrimary
+        )
+        Spacer(modifier = Modifier.width(16.dp))
+        Text(
+            text = label,
+            style = MaterialTheme.typography.bodyLarge
         )
     }
 }

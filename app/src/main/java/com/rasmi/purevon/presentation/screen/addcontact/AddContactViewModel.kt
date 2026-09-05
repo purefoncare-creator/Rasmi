@@ -57,6 +57,7 @@ data class AddContactUiState(
     val selectedPhotoUri: Uri? = null,
     val selectedPhotoBitmap: Bitmap? = null,
     val existingPhotoUri: Uri? = null,
+    val removeExistingPhoto: Boolean = false,
     val selectedGroupId: Long? = null,
     val selectedGroupTitle: String? = null,
     val availableGroups: List<Pair<Long, String>> = emptyList(),
@@ -70,7 +71,7 @@ data class AddContactUiState(
 
 sealed class AddContactEvent {
     data class ShowSnackbar(val message: String) : AddContactEvent()
-    object ContactSaved : AddContactEvent()
+    data class ContactSaved(val newContactId: Long) : AddContactEvent()
 }
 
 @HiltViewModel
@@ -88,6 +89,7 @@ class AddContactViewModel @Inject constructor(
         initialPhoneNumber: String?,
         initialName: String?,
         initialEmail: String?,
+        company: String?,
         contactId: Long?
     ) {
         if (_uiState.value.isLoaded) return
@@ -97,6 +99,7 @@ class AddContactViewModel @Inject constructor(
             firstName = initialName ?: "",
             phoneEntries = phones,
             email = initialEmail ?: "",
+            company = company ?: "",
             isLoaded = true
         ) }
 
@@ -145,6 +148,7 @@ class AddContactViewModel @Inject constructor(
                 selectedGroupId = data.groupId,
                 selectedGroupTitle = data.groupTitle,
                 existingPhotoUri = data.photoUri,
+                removeExistingPhoto = false,
                 selectedAccount = matchedAccount ?: it.selectedAccount
             ) }
         }
@@ -207,9 +211,9 @@ class AddContactViewModel @Inject constructor(
     fun updateFavorite(isFavorite: Boolean) { _uiState.update { it.copy(isFavorite = isFavorite) } }
     fun updateGroup(groupId: Long?, groupTitle: String?) { _uiState.update { it.copy(selectedGroupId = groupId, selectedGroupTitle = groupTitle) } }
 
-    fun setSelectedPhotoUri(uri: Uri?) { _uiState.update { it.copy(selectedPhotoUri = uri, selectedPhotoBitmap = null, existingPhotoUri = if (uri != null) null else it.existingPhotoUri) } }
-    fun setSelectedPhotoBitmap(bitmap: Bitmap?) { _uiState.update { it.copy(selectedPhotoBitmap = bitmap, selectedPhotoUri = null, existingPhotoUri = if (bitmap != null) null else it.existingPhotoUri) } }
-    fun clearPhoto() { _uiState.update { it.copy(selectedPhotoUri = null, selectedPhotoBitmap = null, existingPhotoUri = null) } }
+    fun setSelectedPhotoUri(uri: Uri?) { _uiState.update { it.copy(selectedPhotoUri = uri, selectedPhotoBitmap = null, existingPhotoUri = if (uri != null) null else it.existingPhotoUri, removeExistingPhoto = false) } }
+    fun setSelectedPhotoBitmap(bitmap: Bitmap?) { _uiState.update { it.copy(selectedPhotoBitmap = bitmap, selectedPhotoUri = null, existingPhotoUri = if (bitmap != null) null else it.existingPhotoUri, removeExistingPhoto = false) } }
+    fun clearPhoto() { _uiState.update { it.copy(selectedPhotoUri = null, selectedPhotoBitmap = null, existingPhotoUri = null, removeExistingPhoto = true) } }
 
     val isValid: Boolean
         get() {
@@ -237,7 +241,7 @@ class AddContactViewModel @Inject constructor(
                     else -> null
                 }
             }
-            val success = withContext(Dispatchers.IO) {
+            val savedId: Long? = withContext(Dispatchers.IO) {
                 try {
                     val entries = state.phoneEntries.filter { it.number.isNotBlank() }
                     val account = state.selectedAccount
@@ -249,10 +253,11 @@ class AddContactViewModel @Inject constructor(
                             company = state.company.trim().takeIf { it.isNotEmpty() },
                             birthday = state.birthday, groupId = state.selectedGroupId,
                             isFavorite = state.isFavorite, photoBytes = photoBytes,
-                            targetAccountName = account?.name, targetAccountType = account?.type
+                            targetAccountName = account?.name, targetAccountType = account?.type,
+                            removeExistingPhoto = state.removeExistingPhoto
                         )
                     } else {
-                        saveContactToSystem(
+                        val created = saveContactToSystem(
                             context = context, firstName = state.firstName.trim(),
                             phoneEntries = entries,
                             email = state.email.trim().takeIf { it.isNotEmpty() },
@@ -261,12 +266,13 @@ class AddContactViewModel @Inject constructor(
                             isFavorite = state.isFavorite, photoBytes = photoBytes,
                             accountName = account?.name, accountType = account?.type
                         )
+                        if (created) contactId else null
                     }
-                } catch (e: Exception) { Log.e("AddContact", "Error saving", e); false }
+                } catch (e: Exception) { Log.e("AddContact", "Error saving", e); null }
             }
             _uiState.update { it.copy(isSaving = false) }
-            if (success) {
-                _events.tryEmit(AddContactEvent.ContactSaved)
+            if (savedId != null) {
+                _events.tryEmit(AddContactEvent.ContactSaved(savedId))
             } else {
                 _events.tryEmit(AddContactEvent.ShowSnackbar("save_failed"))
             }
@@ -660,8 +666,9 @@ private fun updateContactInSystem(
     context: Context, contactId: Long, firstName: String,
     phoneEntries: List<PhoneEntry>, email: String?, company: String?,
     birthday: String?, groupId: Long?, isFavorite: Boolean, photoBytes: ByteArray?,
-    targetAccountName: String? = null, targetAccountType: String? = null
-): Boolean {
+    targetAccountName: String? = null, targetAccountType: String? = null,
+    removeExistingPhoto: Boolean = false
+): Long? {
     return try {
         val allRawContactIds = mutableListOf<Long>()
         val preferredRawContactIds = mutableListOf<Long>()
@@ -680,7 +687,7 @@ private fun updateContactInSystem(
                 }
             }
         }
-        if (allRawContactIds.isEmpty()) return false
+        if (allRawContactIds.isEmpty()) return null
 
         val rawContactId = preferredRawContactIds.firstOrNull() ?: allRawContactIds.first()
 
@@ -723,7 +730,7 @@ private fun updateContactInSystem(
             add(ContactsContract.CommonDataKinds.Organization.CONTENT_ITEM_TYPE)
             add(ContactsContract.CommonDataKinds.Event.CONTENT_ITEM_TYPE)
             add(ContactsContract.CommonDataKinds.GroupMembership.CONTENT_ITEM_TYPE)
-            if (photoBytes != null) add(ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE)
+            if (photoBytes != null || removeExistingPhoto) add(ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE)
         }
         mimeTypesToDelete.forEach { mime ->
             ops.add(ContentProviderOperation.newDelete(ContactsContract.Data.CONTENT_URI)
@@ -815,11 +822,17 @@ private fun updateContactInSystem(
             )
         }
 
-        Log.d("AddContact", "Contact updated successfully")
-        true
+        val newContactId = context.contentResolver.query(
+            ContactsContract.RawContacts.CONTENT_URI,
+            arrayOf(ContactsContract.RawContacts.CONTACT_ID),
+            "${ContactsContract.RawContacts._ID} = ?", arrayOf(rawContactId.toString()), null
+        )?.use { c -> if (c.moveToFirst()) c.getLong(0) else -1 } ?: -1
+
+        Log.d("AddContact", "Contact updated successfully old=$contactId newAgg=$newContactId raw=$rawContactId")
+        newContactId
     } catch (e: Exception) {
         Log.e("AddContact", "Failed to update contact", e)
-        false
+        null
     }
 }
 

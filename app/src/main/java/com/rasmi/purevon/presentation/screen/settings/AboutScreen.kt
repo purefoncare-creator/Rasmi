@@ -55,7 +55,7 @@ fun AboutScreen(
                 // App Icon
                 Image(
                     painter = painterResource(id = R.drawable.icon1),
-                    contentDescription = "Purevon",
+                    contentDescription = "Rasmi",
                     modifier = Modifier
                         .size(100.dp)
                         .clip(CircleShape)
@@ -64,7 +64,7 @@ fun AboutScreen(
                 Spacer(modifier = Modifier.height(Spacing.medium))
                 
                 Text(
-                    text = "Purevon",
+                    text = "Rasmi",
                     style = MaterialTheme.typography.headlineMedium,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.primary

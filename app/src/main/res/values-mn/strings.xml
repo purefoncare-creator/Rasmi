@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="nav_back">Буцах</string>
+  <string name="add_contact_choose_method">Холбогдох хүн нэмэх</string>
+  <string name="add_contact_manual">Гараар нэмэх</string>
+  <string name="add_contact_via_qr">QR кодоор нэмэх</string>
+  <string name="dialer_active_call_title">Идэвхитэй дуудлага</string>
+  <string name="dialer_active_call_expand">Бүтэн дэлгэц</string>
+  <string name="dialer_recent">Сүүлчийн</string>
+  <string name="dialer_no_recent">Сүүлийн үйл ажиллагаа байхгүй</string>
+  <string name="dialer_results">Үр дүн</string>
+  <string name="incall_mute">Дуу алдах</string>
+  <string name="incall_speaker">Чанга яригч</string>
+  <string name="my_card_title">Миний карт</string>
+  <string name="my_card_desc">Хувийн картаа үүсгэж хэн нэгэнтэй хуваалцах</string>
+  <string name="my_card_edit">Засах</string>
+  <string name="my_card_saved">Карт хадгалагдсан</string>
+  <string name="my_card_share">Хуваалцах</string>
+  <string name="qr_scan_title">Холбогдох кодоос скан хийх</string>
+  <string name="qr_camera_permission">Кодоос скан хийхэд камерын зөвшөөрөл шаардлагатай</string>
+  <string name="invalid_qr_code">Буруу QR код</string>
+  <string name="call_blocking_block_unknown">Танилгүй / хувийн дугаарыг хаах</string>
+  <string name="call_blocking_block_unknown_desc">Холбогдох хүмүүст байхгүй дугаарын дуудлагыг татгалзах</string>
+  <string name="call_blocking_whitelist_only">Цагаан жагсаалтын горим</string>
+  <string name="call_blocking_whitelist_only_desc">Цагаан жагсаалтад байхгүй бүх дугаарыг хаах</string>
+  <string name="call_blocking_whitelist_only_warning">⚠ Таны цагаан жагсаалтад байхгүй бүх дуудлагыг хаах болно!</string>
+  <string name="notification_ongoing_call_channel">Үргэлжлэж буй дуудлага</string>
+  <string name="notification_ongoing_call_channel_desc">Дэлгэц хаагдахад идэвхитэй дуудлагын тухай байнгын мэдэгдэл</string>
+  <string name="notification_ongoing_call_title">Үргэлжлэж буй дуудлага</string>
+  <string name="delete_note_title">Тэмдэглэл устгах</string>
+  <string name="delete_note_message">Энэ тэмдэглэлийг устгахыг хүсч байна уу?</string>
+  <string name="stat_title">Статистик</string>
+  <string name="stat_call_statistics">Дуудлагын статистик</string>
+  <string name="stat_message_statistics">Мессежийн статистик</string>
+  <string name="stat_total_calls">Нийт дуудлага</string>
+  <string name="stat_total_messages">Нийт мессеж</string>
+  <string name="stat_total_duration">Нийт хугацаа</string>
+  <string name="stat_average_duration">Дундаж хугацаа</string>
+  <string name="stat_incoming">Ирж буй</string>
+  <string name="stat_outgoing">Гарч буй</string>
+  <string name="stat_missed">Алдсан</string>
+  <string name="stat_received">Хүлээн авсан</string>
+  <string name="stat_sent">Илгээсэн</string>
+  <string name="stat_blocked">Хаалттай</string>
+  <string name="stat_frequent_contacts">Олон удаа дууддаг холбогдох хүмүүс</string>
+  <string name="stat_contact_calls_duration">%1$d дуудлага • %2$s</string>
+</resources>

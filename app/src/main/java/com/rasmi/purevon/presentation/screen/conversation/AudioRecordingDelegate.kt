@@ -1,6 +1,7 @@
 package com.rasmi.purevon.presentation.screen.conversation
 
 import android.content.Context
+import android.os.PowerManager
 import android.util.Log
 import androidx.core.content.FileProvider
 import com.rasmi.purevon.util.AudioRecorder
@@ -10,12 +11,10 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-/**
- * Handles audio recording lifecycle for voice messages.
- * Extracted from ConversationViewModel to reduce class size.
- */
 internal class AudioRecordingDelegate(
     private val context: Context,
     private val _uiState: MutableStateFlow<ConversationUiState>,
@@ -23,16 +22,18 @@ internal class AudioRecordingDelegate(
     private val onSendMessage: () -> Unit
 ) {
     companion object {
-        private const val TAG = "ConversationViewModel"
-        /** Maximum voice recording duration in ms (5 minutes — MMS size limit) */
+        private const val TAG = "AudioRecordingDelegate"
         const val MAX_RECORDING_DURATION_MS = 5 * 60 * 1000L
     }
 
     private val audioRecorder = AudioRecorder(context)
     private var recordingJob: Job? = null
     private var recordingStartTime = 0L
+    private var wakeLock: PowerManager.WakeLock? = null
+    private var isStopping = false
 
     fun startAudioRecording() {
+        acquireWakeLock()
         val audioFile = audioRecorder.startRecording()
         if (audioFile != null) {
             recordingStartTime = System.currentTimeMillis()
@@ -46,10 +47,9 @@ internal class AudioRecordingDelegate(
                 )
             }
 
-            // Timer: update duration + poll amplitude every 80ms
             recordingJob = viewModelScope.launch {
                 try {
-                    while (_uiState.value.isRecording) {
+                    while (isActive && _uiState.value.isRecording) {
                         delay(80)
                         val duration = System.currentTimeMillis() - recordingStartTime
                         val amp = audioRecorder.pollAmplitude()
@@ -58,23 +58,32 @@ internal class AudioRecordingDelegate(
                             state.copy(recordingDuration = duration, recordingAmplitudes = amps)
                         }
 
-                        // Auto-stop at max duration to avoid huge MMS files
                         if (duration >= MAX_RECORDING_DURATION_MS) {
-                            Log.d(TAG, "Max recording duration reached (${MAX_RECORDING_DURATION_MS / 1000}s), auto-stopping to preview")
-                            stopAudioRecording()
+                            Log.d(TAG, "Max recording duration reached, auto-stopping")
+                            withContext(Dispatchers.Main) {
+                                stopAudioRecording()
+                            }
                             break
                         }
                     }
+                } catch (e: kotlinx.coroutines.CancellationException) {
+                    if (!isStopping) {
+                        Log.d(TAG, "Recording coroutine cancelled (normal stop)")
+                    }
                 } catch (e: Exception) {
-                    // ✅ FIX #53: Don't freeze the UI if pollAmplitude throws
-                    Log.e(TAG, "Recording amplitude poll error, cancelling", e)
-                    cancelAudioRecording()
+                    if (!isStopping) {
+                        Log.e(TAG, "Recording amplitude poll error, cancelling", e)
+                        cancelAudioRecording()
+                    }
                 }
             }
+        } else {
+            releaseWakeLock()
         }
     }
 
     fun stopAudioRecording() {
+        isStopping = true
         recordingJob?.cancel()
         recordingJob = null
         val file = audioRecorder.stopRecording()
@@ -85,13 +94,17 @@ internal class AudioRecordingDelegate(
                 audioRecordingFile = file?.absolutePath ?: it.audioRecordingFile
             )
         }
+        isStopping = false
+        releaseWakeLock()
     }
 
     fun cancelAudioRecording() {
         recordingJob?.cancel()
         recordingJob = null
-        try { audioRecorder.cancelRecording() } catch (e: Exception) {
-            android.util.Log.w("AudioRecordingDelegate", "cancelRecording failed", e)
+        try {
+            audioRecorder.cancelRecording()
+        } catch (e: Exception) {
+            Log.w(TAG, "cancelRecording failed", e)
         }
         _uiState.update {
             it.copy(
@@ -102,12 +115,16 @@ internal class AudioRecordingDelegate(
                 isRecordingLocked = false
             )
         }
+        releaseWakeLock()
     }
 
-    /**
-     * Stop recording and send immediately (hold-to-record release behavior).
-     * Minimum 500ms to avoid accidental taps.
-     */
+    fun onAppBackgrounded() {
+        if (_uiState.value.isRecording) {
+            Log.d(TAG, "App backgrounded during recording, auto-stopping")
+            stopAudioRecording()
+        }
+    }
+
     fun stopAndSendAudioRecording() {
         if (!_uiState.value.isRecording && _uiState.value.audioRecordingFile == null) {
             return
@@ -155,6 +172,7 @@ internal class AudioRecordingDelegate(
         } else {
             cancelAudioRecording()
         }
+        releaseWakeLock()
     }
 
     fun sendAudioMessage() {
@@ -200,10 +218,39 @@ internal class AudioRecordingDelegate(
                 cancelAudioRecording()
             }
         }
+        releaseWakeLock()
     }
 
     fun onCleared() {
         recordingJob?.cancel()
         audioRecorder.cancelRecording()
+        releaseWakeLock()
+    }
+
+    private fun acquireWakeLock() {
+        try {
+            val pm = context.getSystemService(Context.POWER_SERVICE) as PowerManager
+            wakeLock = pm.newWakeLock(
+                PowerManager.PARTIAL_WAKE_LOCK,
+                "rasmi:audio_recording_wakelock"
+            ).apply {
+                acquire(MAX_RECORDING_DURATION_MS + 10_000L)
+            }
+            Log.d(TAG, "WakeLock acquired")
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to acquire WakeLock", e)
+        }
+    }
+
+    private fun releaseWakeLock() {
+        try {
+            wakeLock?.let {
+                if (it.isHeld) it.release()
+            }
+            wakeLock = null
+            Log.d(TAG, "WakeLock released")
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to release WakeLock", e)
+        }
     }
 }

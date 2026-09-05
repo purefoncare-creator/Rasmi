@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="nav_back">ਪਿੱਛੇ</string>
+  <string name="add_contact_choose_method">ਸੰਪਰਕ ਜੋੜੋ</string>
+  <string name="add_contact_manual">ਹੱਥੀਂ ਜੋੜੋ</string>
+  <string name="add_contact_via_qr">QR ਕੋਡ ਰਾਹੀਂ ਜੋੜੋ</string>
+  <string name="dialer_active_call_title">ਸਰਗਰਮ ਕਾਲ</string>
+  <string name="dialer_active_call_expand">ਪੂਰੀ ਸਕ੍ਰੀਨ</string>
+  <string name="dialer_recent">ਹਾਲੀਆ</string>
+  <string name="dialer_no_recent">ਹਾਲੀਆ ਗਤੀਵਿਧੀ ਨਹੀਂ</string>
+  <string name="dialer_results">ਨਤੀਜੇ</string>
+  <string name="incall_mute">ਚੁੱਪ</string>
+  <string name="incall_speaker">ਸਪੀਕਰ</string>
+  <string name="my_card_title">ਮੇਰਾ ਕਾਰਡ</string>
+  <string name="my_card_desc">ਆਪਣਾ ਨਿੱਜੀ ਕਾਰਡ ਬਣਾਓ ਅਤੇ ਕਿਸੇ ਨਾਲ ਸਾਂਝਾ ਕਰੋ</string>
+  <string name="my_card_edit">ਸੋਧੋ</string>
+  <string name="my_card_saved">ਕਾਰਡ ਸੰਭਾਲਿਆ</string>
+  <string name="my_card_share">ਸਾਂਝਾ ਕਰੋ</string>
+  <string name="qr_scan_title">ਸੰਪਰਕ ਕੋਡ ਸਕੈਨ ਕਰੋ</string>
+  <string name="qr_camera_permission">ਕੋਡ ਸਕੈਨ ਕਰਨ ਲਈ ਕੈਮਰਾ ਇਜਾਜ਼ਤ ਲੋੜੀਂਦੀ</string>
+  <string name="invalid_qr_code">ਗਲਤ QR ਕੋਡ</string>
+  <string name="call_blocking_block_unknown">ਅਣਪਛਾਣੇ / ਨਿੱਜੀ ਨੰਬਰ ਬਲਾਕ ਕਰੋ</string>
+  <string name="call_blocking_block_unknown_desc">ਸੰਪਰਕਾਂ ਵਿੱਚ ਨਾ ਹੋਣ ਵਾਲੇ ਨੰਬਰਾਂ ਤੋਂ ਆਉਣ ਵਾਲੀਆਂ ਕਾਲਾਂ ਰੱਦ ਕਰੋ</string>
+  <string name="call_blocking_whitelist_only">ਸਿਰਫ਼ ਚਿੱਟੀ ਸੂਚੀ ਮੋਡ</string>
+  <string name="call_blocking_whitelist_only_desc">ਚਿੱਟੀ ਸੂਚੀ ਵਿੱਚ ਮੌਜੂਦ ਨੰਬਰਾਂ ਤੋਂ ਇਲਾਵਾ ਸਭ ਬਲਾਕ ਕਰੋ</string>
+  <string name="call_blocking_whitelist_only_warning">⚠ ਤੁਹਾਡੀ ਚਿੱਟੀ ਸੂਚੀ ਵਿੱਚ ਨਾ ਹੋਵੇ ਹਰ ਕਾਲ ਬਲਾਕ ਹੋ ਜਾਵੇਗੀ!</string>
+  <string name="notification_ongoing_call_channel">ਚੱਲ ਰਹੀ ਕਾਲ</string>
+  <string name="notification_ongoing_call_channel_desc">ਸਕ੍ਰੀਨ ਬੰਦ ਹੋਣ ਤੇ ਸਰਗਰਮ ਕਾਲ ਲਈ ਸਥਾਈ ਸੂਚਨਾ</string>
+  <string name="notification_ongoing_call_title">ਚੱਲ ਰਹੀ ਕਾਲ</string>
+  <string name="delete_note_title">ਨੋਟ ਮਿਟਾਓ</string>
+  <string name="delete_note_message">ਕੀ ਤੁਸੀਂ ਇਹ ਨੋਟ ਮਿਟਾਉਣਾ ਚਾਹੁੰਦੇ ਹੋ?</string>
+  <string name="stat_title">ਅੰਕੜੇ</string>
+  <string name="stat_call_statistics">ਕਾਲ ਅੰਕੜੇ</string>
+  <string name="stat_message_statistics">ਸੁਨੇਹਾ ਅੰਕੜੇ</string>
+  <string name="stat_total_calls">ਕੁੱਲ ਕਾਲਾਂ</string>
+  <string name="stat_total_messages">ਕੁੱਲ ਸੁਨੇਹੇ</string>
+  <string name="stat_total_duration">ਕੁੱਲ ਸਮਾਂ</string>
+  <string name="stat_average_duration">ਔਸਤ ਸਮਾਂ</string>
+  <string name="stat_incoming">ਆਉਣ ਵਾਲੀਆਂ</string>
+  <string name="stat_outgoing">ਜਾਣ ਵਾਲੀਆਂ</string>
+  <string name="stat_missed">ਛੱਡੀਆਂ</string>
+  <string name="stat_received">ਪ੍ਰਾਪਤ</string>
+  <string name="stat_sent">ਭੇਜੀਆਂ</string>
+  <string name="stat_blocked">ਬਲਾਕ</string>
+  <string name="stat_frequent_contacts">ਅਕਸਰ ਕਾਲ ਕਰਨ ਵਾਲੇ ਸੰਪਰਕ</string>
+  <string name="stat_contact_calls_duration">%1$d ਕਾਲਾਂ • %2$s</string>
+</resources>

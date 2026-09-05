@@ -17,7 +17,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.rasmi.purevon.presentation.theme.iOSBlue
+import com.rasmi.purevon.presentation.theme.PurevonTertiary
 
 /**
  * iOS-style Fast Scroll Index
@@ -77,7 +77,7 @@ fun FastScrollIndex(
                     style = MaterialTheme.typography.labelSmall,
                     fontSize = 10.sp,
                     fontWeight = if (selectedLetter == letter) FontWeight.Bold else FontWeight.Normal,
-                    color = if (selectedLetter == letter) iOSBlue else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                    color = if (selectedLetter == letter) PurevonTertiary else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
                 )
             }
         }
@@ -89,7 +89,7 @@ fun FastScrollIndex(
                     .size(60.dp)
                     .offset(x = (-40).dp)
                     .clip(CircleShape)
-                    .background(iOSBlue),
+                    .background(PurevonTertiary),
                 contentAlignment = Alignment.Center
             ) {
                 Text(

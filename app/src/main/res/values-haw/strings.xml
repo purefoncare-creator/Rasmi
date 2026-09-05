@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="nav_back">Ho\'oki</string>
+  <string name="add_contact_choose_method">Ho\'ohui\'ka\'a Kūkaʻi</string>
+  <string name="add_contact_manual">Hana lima</string>
+  <string name="add_contact_via_qr">No QR Code</string>
+  <string name="dialer_active_call_title">Kālani Ho\'opau</string>
+  <string name="dialer_active_call_expand">Pāpā Ho\'opiha</string>
+  <string name="dialer_recent">Hou</string>
+  <string name="dialer_no_recent">ʻAʻohe hana hou</string>
+  <string name="dialer_results">Hopena</string>
+  <string name="incall_mute">Mālie</string>
+  <string name="incall_speaker">Kani</string>
+  <string name="my_card_title">Kaʻu Kākaʻi</string>
+  <string name="my_card_desc">Hana i kāu kākaʻi ponoʻī a kākoʻo me kekahi</string>
+  <string name="my_card_edit">Loli</string>
+  <string name="my_card_saved">Ua mālama ka kākaʻi</string>
+  <string name="my_card_share">Kākoʻo</string>
+  <string name="qr_scan_title">Scan i ka code kūkaʻi</string>
+  <string name="qr_camera_permission">Pono ka māhealani camera e scan i ka code</string>
+  <string name="invalid_qr_code">QR Code maʻaʻole</string>
+  <string name="call_blocking_block_unknown">Pāpā i nā helu ʻike ʻole / kūikawā</string>
+  <string name="call_blocking_block_unknown_desc">Kāpae i nā kelepona mai nā helu ʻole i nā hoʻolauna</string>
+  <string name="call_blocking_whitelist_only">Pāʻani Papa Keʻokeʻo wale nō</string>
+  <string name="call_blocking_whitelist_only_desc">Pāpā i nā mea a pau ke ʻole o nā helu i ka papa keʻokeʻo</string>
+  <string name="call_blocking_whitelist_only_warning">⚠ E pāpāia kekahi kelepona ʻole i kou papa keʻokeʻo!</string>
+  <string name="notification_ongoing_call_channel">Kelepona Ho\'okele</string>
+  <string name="notification_ongoing_call_channel_desc">Kaʻkaʻi mau no ka kelepona ho\'opau ke kūkākūkā i ka puka i pani</string>
+  <string name="notification_ongoing_call_title">Kelepona Ho\'okele</string>
+  <string name="delete_note_title">Mālama Kiʻi</string>
+  <string name="delete_note_message">Makemake ʻoe e mālama i kēia kiʻi?</string>
+  <string name="stat_title">Nā helu</string>
+  <string name="stat_call_statistics">Nā helu kelepona</string>
+  <string name="stat_message_statistics">Nā helu manaʻo</string>
+  <string name="stat_total_calls">Nā kelepona a pau</string>
+  <string name="stat_total_messages">Nā manaʻo a pau</string>
+  <string name="stat_total_duration">Nā hola a pau</string>
+  <string name="stat_average_duration">Nā hola kākoʻo</string>
+  <string name="stat_incoming">E piʻi ana</string>
+  <string name="stat_outgoing">E haʻalele ana</string>
+  <string name="stat_missed">Ua poina</string>
+  <string name="stat_received">Ua loaʻa</string>
+  <string name="stat_sent">Ua hoʻouna</string>
+  <string name="stat_blocked">Ua pāpā</string>
+  <string name="stat_frequent_contacts">Nā hoʻolauna kālele kelepona</string>
+  <string name="stat_contact_calls_duration">%1$d kelepona • %2$s</string>
+</resources>

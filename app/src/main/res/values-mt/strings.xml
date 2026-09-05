@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="nav_back">Lura</string>
+  <string name="add_contact_choose_method">Zid Kontakt</string>
+  <string name="add_contact_manual">Zid bl-Id</string>
+  <string name="add_contact_via_qr">Zid permezz tal-Kodiħ QR</string>
+  <string name="dialer_active_call_title">Sejèr Attiva</string>
+  <string name="dialer_active_call_expand">Skrin Kollu</string>
+  <string name="dialer_recent">L-Aħħar</string>
+  <string name="dialer_no_recent">L-ebda attività reċenti</string>
+  <string name="dialer_results">Riżultati</string>
+  <string name="incall_mute">Sikk</string>
+  <string name="incall_speaker">Speakers</string>
+  <string name="my_card_title">Il-Karta Tiegħi</string>
+  <string name="my_card_desc">Oħloq il-karta personali tiegħi u aqsmha maħ kulħadd</string>
+  <string name="my_card_edit">Editta</string>
+  <string name="my_card_saved">Karta maŌsbůha</string>
+  <string name="my_card_share">Aqsam</string>
+  <string name="qr_scan_title">Skennja l-kodiħ taħ l-kuntatt</string>
+  <string name="qr_camera_permission">Htiħ webcam biex tiskennja l-kodiħ</string>
+  <string name="invalid_qr_code">Kodiħ QR invalidu</string>
+  <string name="call_blocking_block_unknown">Blokk numri magħrufa / privatġ</string>
+  <string name="call_blocking_block_unknown_desc">Irrimpjħ sejċiet minn numri li mhumix fil-kuntatti</string>
+  <string name="call_blocking_whitelist_only">Modalità lista baiħda biss</string>
+  <string name="call_blocking_whitelist_only_desc">Blokk kollha ħwara lill-numri fil-lista baiħda</string>
+  <string name="call_blocking_whitelist_only_warning">⚠ Kollha sejċiet li mhumiex fil-lista baiħda tiegħi se jkunu blokkati!</string>
+  <string name="notification_ongoing_call_channel">Sejċ Li Jkompli</string>
+  <string name="notification_ongoing_call_channel_desc">Notifika permanenti għal sejċ attiva meta l-iskrin ikun magħluq</string>
+  <string name="notification_ongoing_call_title">Sejċ Li Jkompli</string>
+  <string name="delete_note_title">Neħa Nota</string>
+  <string name="delete_note_message">Tixtieq tneħa din in-nota?</string>
+  <string name="stat_title">Statistika</string>
+  <string name="stat_call_statistics">Statistika tal-Sejċiet</string>
+  <string name="stat_message_statistics">Statistika tal-Messaġi</string>
+  <string name="stat_total_calls">Sejċiet Kollha</string>
+  <string name="stat_total_messages">Messaġi Kollha</string>
+  <string name="stat_total_duration">Ħin Ftal-Kollha</string>
+  <string name="stat_average_duration">Ħin Ftal-Ħarxa</string>
+  <string name="stat_incoming">Dġljin</string>
+  <string name="stat_outgoing">Mbierċra</string>
+  <string name="stat_missed">Mlugghija</string>
+  <string name="stat_received">Rċħuti</string>
+  <string name="stat_sent">Mibgůta</string>
+  <string name="stat_blocked">Blokkati</string>
+  <string name="stat_frequent_contacts">Kuntatti li jsejċħhom taħ spiss</string>
+  <string name="stat_contact_calls_duration">%1 sejċiet • %2</string>
+</resources>

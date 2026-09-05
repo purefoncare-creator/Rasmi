@@ -101,8 +101,10 @@ internal fun ContactPreviewDialog(
                 Spacer(modifier = Modifier.height(16.dp))
 
                 // Contact avatar
-                com.rasmi.purevon.presentation.component.UnifiedContactAvatar(
-                    size = 64.dp
+                com.rasmi.purevon.presentation.component.FavoriteContactAvatar(
+                    size = 64.dp,
+                    photoUri = contact.photoUri,
+                    isFavorite = contact.isFavorite
                 )
                 Spacer(modifier = Modifier.height(12.dp))
 

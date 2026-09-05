@@ -1,60 +1,31 @@
 package com.rasmi.purevon.presentation.component
 
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.automirrored.filled.Send
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonDefaults
-import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableLongStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.rasmi.purevon.R
-import com.rasmi.purevon.presentation.theme.iOSBlue
+import com.rasmi.purevon.presentation.theme.*
 import com.rasmi.purevon.util.AudioPlayer
+import com.rasmi.purevon.util.ActiveAudioManager
 import kotlinx.coroutines.delay
 
-/**
- * Audio Player UI Component for voice messages
- * Used in both message input preview and message bubbles
- */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AudioPlayerComponent(
     audioUri: String,
@@ -65,174 +36,148 @@ fun AudioPlayerComponent(
 ) {
     val context = LocalContext.current
     val audioPlayer = remember(audioUri) { AudioPlayer(context) }
-    
+
     var isPlaying by remember { mutableStateOf(false) }
     var progress by remember { mutableFloatStateOf(0f) }
     var currentPositionMs by remember { mutableLongStateOf(0L) }
-    
-    val animatedProgress by animateFloatAsState(
-        targetValue = progress,
-        animationSpec = tween(100),
-        label = "progress"
-    )
-    
-    // Update progress while playing
+    val speed by audioPlayer.playbackSpeed.collectAsStateWithLifecycle()
+    var isSeeking by remember { mutableStateOf(false) }
+    var seekPosition by remember { mutableFloatStateOf(0f) }
+
     LaunchedEffect(isPlaying) {
         while (isPlaying) {
             audioPlayer.updatePosition()
             val position = audioPlayer.currentPosition.value
             currentPositionMs = position.toLong()
-            progress = if (durationMs > 0) {
-                position.toFloat() / durationMs.toFloat()
-            } else {
-                0f
+            if (!isSeeking) {
+                progress = if (durationMs > 0) {
+                    position.toFloat() / durationMs.toFloat()
+                } else 0f
             }
             delay(100)
         }
     }
-    
-    // Observe player state
+
     LaunchedEffect(audioUri) {
         audioPlayer.isPlaying.collect { playing ->
             isPlaying = playing
-            // ✅ FIX #45: Only reset on completion, not on pause
             if (!playing && durationMs > 0 && audioPlayer.currentPosition.value >= durationMs.toInt() - 100) {
                 progress = 0f
                 currentPositionMs = 0
             }
         }
     }
-    
-    // Cleanup — re-runs when audioUri changes so old player is released
+
     DisposableEffect(audioUri) {
-        onDispose {
-            audioPlayer.release()
-        }
+        onDispose { audioPlayer.release() }
     }
-    
-    val backgroundColor = if (isOutgoing) {
-        Color.White.copy(alpha = 0.2f)
-    } else {
-        iOSBlue.copy(alpha = 0.1f)
-    }
-    
-    val contentColor = if (isOutgoing) Color.White else iOSBlue
-    val secondaryColor = if (isOutgoing) Color.White.copy(alpha = 0.7f) else iOSBlue.copy(alpha = 0.7f)
-    
+
+    val backgroundColor = if (isOutgoing) PurevonBubbleSent else PurevonBubbleReceived
+    val contentColor = if (isOutgoing) PurevonBubbleSentText else PurevonBubbleReceivedText
+    val secondaryColor = if (isOutgoing) PurevonBubbleSentText.copy(alpha = 0.7f) else PurevonTextSecondary
+
     Surface(
         modifier = modifier.fillMaxWidth(),
         color = backgroundColor,
-        shape = RoundedCornerShape(12.dp)
+        shape = RoundedCornerShape(MessagingDimensions.corner10x)
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(if (compact) 8.dp else 12.dp),
-            horizontalArrangement = Arrangement.spacedBy(if (compact) 8.dp else 12.dp),
-            verticalAlignment = Alignment.CenterVertically
+        Column(
+            modifier = Modifier.padding(if (compact) 8.dp else 12.dp),
+            verticalArrangement = Arrangement.spacedBy(6.dp)
         ) {
-            // Play/Pause Button
-            IconButton(
-                onClick = {
-                    if (isPlaying) {
-                        audioPlayer.pause()
-                    } else {
-                        audioPlayer.play(audioUri)
-                    }
-                },
-                modifier = Modifier
-                    .size(if (compact) 32.dp else 40.dp)
-                    .background(contentColor, CircleShape),
-                colors = IconButtonDefaults.iconButtonColors(
-                    containerColor = contentColor
-                )
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(if (compact) 8.dp else 10.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(
-                    imageVector = if (isPlaying) Icons.Default.Pause else Icons.Default.PlayArrow,
-                    contentDescription = if (isPlaying) stringResource(R.string.msg_cd_pause) else stringResource(R.string.msg_cd_play),
-                    tint = if (isOutgoing) iOSBlue else Color.White,
-                    modifier = Modifier.size(if (compact) 18.dp else 24.dp)
-                )
-            }
-            
-            // Waveform / Progress
-            Column(
-                modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(4.dp)
-            ) {
-                // Progress bar (simulating waveform)
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(if (compact) 20.dp else 28.dp)
-                        .clip(RoundedCornerShape(4.dp))
-                        .background(secondaryColor.copy(alpha = 0.2f))
-                ) {
-                    // Waveform visualization (simplified as bars)
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(if (compact) 20.dp else 28.dp)
-                            .padding(horizontal = 4.dp),
-                        horizontalArrangement = Arrangement.spacedBy(2.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        val barCount = if (compact) 20 else 30
-                        repeat(barCount) { index ->
-                            val barProgress = index.toFloat() / barCount.toFloat()
-                            val barHeight = (8 + (index % 5) * 3).dp
-                            val isActive = barProgress <= animatedProgress
-                            
-                            Box(
-                                modifier = Modifier
-                                    .width(2.dp)
-                                    .height(barHeight)
-                                    .clip(RoundedCornerShape(1.dp))
-                                    .background(
-                                        if (isActive) contentColor
-                                        else secondaryColor.copy(alpha = 0.3f)
-                                    )
-                            )
+                IconButton(
+                    onClick = {
+                        if (isPlaying) {
+                            audioPlayer.pause()
+                        } else {
+                            ActiveAudioManager.setActive(audioPlayer)
+                            audioPlayer.play(audioUri)
                         }
-                    }
+                    },
+                    modifier = Modifier
+                        .size(if (compact) 32.dp else 36.dp)
+                        .background(contentColor, CircleShape),
+                    colors = IconButtonDefaults.iconButtonColors(containerColor = contentColor)
+                ) {
+                    Icon(
+                        imageVector = if (isPlaying) Icons.Default.Pause else Icons.Default.PlayArrow,
+                        contentDescription = if (isPlaying) stringResource(R.string.msg_cd_pause) else stringResource(R.string.msg_cd_play),
+                        tint = backgroundColor,
+                        modifier = Modifier.size(if (compact) 18.dp else 20.dp)
+                    )
                 }
-                
-                // Duration text
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
+
+                Slider(
+                    value = if (isSeeking) seekPosition else progress,
+                    onValueChange = { value ->
+                        isSeeking = true
+                        seekPosition = value
+                        progress = value
+                        currentPositionMs = (value * durationMs).toLong()
+                    },
+                    onValueChangeFinished = {
+                        val targetMs = (seekPosition * durationMs).toInt()
+                        audioPlayer.seekTo(targetMs)
+                        currentPositionMs = targetMs.toLong()
+                        isSeeking = false
+                    },
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(24.dp),
+                    colors = SliderDefaults.colors(
+                        thumbColor = contentColor,
+                        activeTrackColor = contentColor,
+                        inactiveTrackColor = secondaryColor.copy(alpha = 0.3f)
+                    ),
+                    thumb = {
+                        Box(
+                            modifier = Modifier
+                                .size(if (compact) 10.dp else 14.dp)
+                                .background(contentColor, CircleShape)
+                        )
+                    }
+                )
+
+                Surface(
+                    onClick = { if (isPlaying) audioPlayer.cycleSpeed() },
+                    shape = RoundedCornerShape(MessagingDimensions.corner4x),
+                    color = if (speed != 1f) contentColor.copy(alpha = 0.2f) else Color.Transparent
                 ) {
                     Text(
-                        text = formatDuration(currentPositionMs),
-                        style = MaterialTheme.typography.labelSmall,
-                        color = secondaryColor,
-                        fontSize = if (compact) 9.sp else 10.sp
-                    )
-                    Text(
-                        text = formatDuration(durationMs),
-                        style = MaterialTheme.typography.labelSmall,
-                        color = secondaryColor,
-                        fontSize = if (compact) 9.sp else 10.sp
+                        text = "${if (speed == speed.toLong().toFloat()) speed.toLong() else speed}x",
+                        style = MessagingTypography.badge01,
+                        color = contentColor,
+                        modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
                     )
                 }
             }
-            
-            if (!compact) {
-                // Mic icon indicator
-                Icon(
-                    Icons.Default.Mic,
-                    contentDescription = null,
-                    tint = secondaryColor,
-                    modifier = Modifier.size(18.dp)
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = formatDuration(currentPositionMs),
+                    style = MessagingTypography.label01,
+                    color = secondaryColor,
+                    fontSize = if (compact) 9.sp else 10.sp
+                )
+                Text(
+                    text = formatDuration(durationMs),
+                    style = MessagingTypography.label01,
+                    color = secondaryColor,
+                    fontSize = if (compact) 9.sp else 10.sp
                 )
             }
         }
     }
 }
 
-/**
- * Simplified audio player for message input preview
- */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AudioPreviewPlayer(
     audioUri: String,
@@ -243,141 +188,159 @@ fun AudioPreviewPlayer(
 ) {
     val context = LocalContext.current
     val audioPlayer = remember(audioUri) { AudioPlayer(context) }
-    
+
     var isPlaying by remember { mutableStateOf(false) }
     var progress by remember { mutableFloatStateOf(0f) }
-    
-    // Observe player state
+    var currentPositionMs by remember { mutableLongStateOf(0L) }
+    var isSeeking by remember { mutableStateOf(false) }
+    var seekPosition by remember { mutableFloatStateOf(0f) }
+
     LaunchedEffect(audioUri) {
         audioPlayer.isPlaying.collect { playing ->
             isPlaying = playing
-            // ✅ FIX #45: Only reset on completion
             if (!playing && audioPlayer.currentPosition.value <= 0) {
                 progress = 0f
             }
         }
     }
-    
-    // Update progress
+
     LaunchedEffect(isPlaying) {
         while (isPlaying) {
             audioPlayer.updatePosition()
             val position = audioPlayer.currentPosition.value
-            progress = if (durationMs > 0) {
-                position.toFloat() / durationMs.toFloat()
-            } else {
-                0f
+            currentPositionMs = position.toLong()
+            if (!isSeeking) {
+                progress = if (durationMs > 0) {
+                    position.toFloat() / durationMs.toFloat()
+                } else 0f
             }
             delay(100)
         }
     }
-    
-    // Cleanup — re-runs when audioUri changes so old player is released
+
     DisposableEffect(audioUri) {
-        onDispose {
-            audioPlayer.release()
-        }
+        onDispose { audioPlayer.release() }
     }
-    
+
     Surface(
         modifier = modifier.fillMaxWidth(),
-        color = iOSBlue.copy(alpha = 0.1f),
-        shape = RoundedCornerShape(12.dp)
+        color = PurevonSurfaceMuted,
+        shape = RoundedCornerShape(MessagingDimensions.corner12x)
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(12.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-            verticalAlignment = Alignment.CenterVertically
+        Column(
+            modifier = Modifier.padding(12.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            // Play/Pause Button
-            IconButton(
-                onClick = {
-                    if (isPlaying) {
-                        audioPlayer.pause()
-                    } else {
-                        audioPlayer.play(audioUri)
-                    }
-                },
-                modifier = Modifier
-                    .size(40.dp)
-                    .background(iOSBlue, CircleShape),
-                colors = IconButtonDefaults.iconButtonColors(
-                    containerColor = iOSBlue
-                )
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(
-                    imageVector = if (isPlaying) Icons.Default.Pause else Icons.Default.PlayArrow,
-                    contentDescription = if (isPlaying) stringResource(R.string.msg_cd_pause) else stringResource(R.string.msg_cd_play),
-                    tint = Color.White,
-                    modifier = Modifier.size(24.dp)
+                IconButton(
+                    onClick = {
+                        if (isPlaying) audioPlayer.pause() else audioPlayer.play(audioUri)
+                    },
+                    modifier = Modifier
+                        .size(36.dp)
+                        .background(PurevonPrimary, CircleShape),
+                    colors = IconButtonDefaults.iconButtonColors(containerColor = PurevonPrimary)
+                ) {
+                    Icon(
+                        imageVector = if (isPlaying) Icons.Default.Pause else Icons.Default.PlayArrow,
+                        contentDescription = if (isPlaying) stringResource(R.string.msg_cd_pause) else stringResource(R.string.msg_cd_play),
+                        tint = Color.White,
+                        modifier = Modifier.size(20.dp)
+                    )
+                }
+
+                Slider(
+                    value = if (isSeeking) seekPosition else progress,
+                    onValueChange = { value ->
+                        isSeeking = true
+                        seekPosition = value
+                        progress = value
+                        currentPositionMs = (value * durationMs).toLong()
+                    },
+                    onValueChangeFinished = {
+                        val targetMs = (seekPosition * durationMs).toInt()
+                        audioPlayer.seekTo(targetMs)
+                        currentPositionMs = targetMs.toLong()
+                        isSeeking = false
+                    },
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(24.dp),
+                    colors = SliderDefaults.colors(
+                        thumbColor = PurevonPrimary,
+                        activeTrackColor = PurevonPrimary,
+                        inactiveTrackColor = PurevonTextSecondary.copy(alpha = 0.3f)
+                    ),
+                    thumb = {
+                        Box(
+                            modifier = Modifier
+                                .size(14.dp)
+                                .background(PurevonPrimary, CircleShape)
+                        )
+                    }
                 )
             }
-            
-            // Progress and info
-            Column(
-                modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(4.dp)
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "رسالة صوتية",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = iOSBlue,
-                    fontWeight = FontWeight.Bold
+                    text = formatDuration(currentPositionMs),
+                    style = MessagingTypography.label01,
+                    color = PurevonTextSecondary,
+                    fontSize = 10.sp
                 )
-                
-                LinearProgressIndicator(
-                    progress = { progress },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(4.dp)
-                        .clip(RoundedCornerShape(2.dp)),
-                    color = iOSBlue,
-                    trackColor = iOSBlue.copy(alpha = 0.2f),
-                )
-                
                 Text(
                     text = formatDuration(durationMs),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = iOSBlue.copy(alpha = 0.7f)
+                    style = MessagingTypography.label01,
+                    color = PurevonTextSecondary,
+                    fontSize = 10.sp
                 )
             }
-            
-            // Cancel button
-            IconButton(
-                onClick = {
-                    audioPlayer.stop()
-                    onCancel()
-                },
-                modifier = Modifier
-                    .size(32.dp)
-                    .background(Color.Red.copy(alpha = 0.1f), CircleShape)
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.End,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(
-                    Icons.Filled.Close,
-                    contentDescription = stringResource(R.string.cancel),
-                    tint = Color.Red,
-                    modifier = Modifier.size(18.dp)
-                )
-            }
-            
-            // Send button
-            IconButton(
-                onClick = {
-                    audioPlayer.stop()
-                    onSend()
-                },
-                modifier = Modifier
-                    .size(32.dp)
-                    .background(iOSBlue, CircleShape)
-            ) {
-                Icon(
-                    Icons.AutoMirrored.Filled.Send,
-                    contentDescription = stringResource(R.string.msg_cd_send),
-                    tint = Color.White,
-                    modifier = Modifier.size(18.dp)
-                )
+                IconButton(
+                    onClick = {
+                        audioPlayer.stop()
+                        onCancel()
+                    },
+                    modifier = Modifier
+                        .size(32.dp)
+                        .background(PurevonError.copy(alpha = 0.1f), CircleShape)
+                ) {
+                    Icon(
+                        Icons.Filled.Close,
+                        contentDescription = stringResource(R.string.cancel),
+                        tint = PurevonError,
+                        modifier = Modifier.size(18.dp)
+                    )
+                }
+                Spacer(modifier = Modifier.width(8.dp))
+                IconButton(
+                    onClick = {
+                        audioPlayer.stop()
+                        onSend()
+                    },
+                    modifier = Modifier
+                        .size(32.dp)
+                        .background(PurevonPrimary, CircleShape)
+                ) {
+                    Icon(
+                        Icons.AutoMirrored.Filled.Send,
+                        contentDescription = stringResource(R.string.msg_cd_send),
+                        tint = Color.White,
+                        modifier = Modifier.size(18.dp)
+                    )
+                }
             }
         }
     }

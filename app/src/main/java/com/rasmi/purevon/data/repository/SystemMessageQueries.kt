@@ -11,6 +11,13 @@ import kotlinx.coroutines.withContext
 
 private const val TAG = "SystemQueryHelper"
 
+/**
+ * ✅ FIX M18: MMS IDs exposed to the UI/cache must carry the same offset applied by
+ * MessagePagingSource and MessageRepositoryImpl — raw telephony _id values collide
+ * with SMS IDs in CachedMessageEntity (PK) causing silent row replacement/loss.
+ */
+internal const val MMS_ID_OFFSET = 2_000_000_000L
+
 // ============================================
 // Message Queries
 // ============================================
@@ -154,7 +161,7 @@ internal suspend fun SystemQueryHelper.queryAllSystemMessages(): List<Message> =
                 val parts  = mmsPartsMap[mmsId]
                 val isFailed = msgBox == 5
                 messages.add(Message(
-                    id          = mmsId,
+                    id          = mmsId + MMS_ID_OFFSET,
                     threadId    = if (thrIdx  >= 0) cursor.getLong(thrIdx)  else 0L,
                     phoneNumber = mmsAddrMap[mmsId] ?: "Unknown",
                     contactName = null,
@@ -389,7 +396,7 @@ internal suspend fun SystemQueryHelper.querySystemMessages(
             val isFailed = msgBox == 5
 
             messages.add(Message(
-                id = mmsId,
+                id = mmsId + MMS_ID_OFFSET,
                 threadId = mmsThreadId,
                 phoneNumber = "Unknown",
                 contactName = null,
@@ -417,9 +424,10 @@ internal suspend fun SystemQueryHelper.querySystemMessages(
 
         messages.replaceAll { message ->
             if (message.isMms) {
-                val (body, attUris, attTypes) = bodyAttachmentMap[message.id] ?: Triple(null, emptyList(), emptyList())
+                val rawSystemId = message.id - MMS_ID_OFFSET
+                val (body, attUris, attTypes) = bodyAttachmentMap[rawSystemId] ?: Triple(null, emptyList(), emptyList())
                 message.copy(
-                    phoneNumber = addressMap[message.id] ?: "Unknown",
+                    phoneNumber = addressMap[rawSystemId] ?: "Unknown",
                     body = body,
                     attachmentUris = attUris,
                     attachmentTypes = attTypes
@@ -437,7 +445,8 @@ internal suspend fun SystemQueryHelper.querySystemMessages(
 
         messages.replaceAll { message ->
             if (message.isMms) {
-                val metadata = mmsMetadataMap[message.id]
+                val rawSystemId = message.id - MMS_ID_OFFSET
+                val metadata = mmsMetadataMap[rawSystemId]
                 val contactName = mmsContactNamesMap[message.phoneNumber]
 
                 if (metadata != null || contactName != null) {
